@@ -29,3 +29,7 @@ These will be copied over from aether-roc-gui in future
 
 ## Other
 Please add in more details and links here as they develop.
+
+Follow this developer workflow, with your own Fork, where Pull Requests should be from your fork to master.
+
+https://docs.onosproject.org/onos-docs/docs/content/developers/contributing/#1-fork-on-github 
