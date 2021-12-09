@@ -1,0 +1,17 @@
+{
+  "name": "aether-enterprise-portal",
+  "version": "0.0.1-dev",
+  "description": "Aether Enterprise Portal",
+  "scripts": {
+    "pretest": "npm install",
+    "test": "echo 'Add a test command' && exit 1;",
+    "prelint": "npm install",
+    "lint": "echo 'Add a lint command' && exit 1;"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onosproject/aether-enterprise-portal.git"
+  },
+  "author": "ONF",
+  "license": "SEE LICENSE IN LicenseRef-ONF-Member-1.0.txt"
+}
