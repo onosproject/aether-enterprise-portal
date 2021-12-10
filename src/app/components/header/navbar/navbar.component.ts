@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'aep-navbar',
   templateUrl: './navbar.component.html',
   styles: [],
 })
-export class NavbarComponent implements OnInit {
-  constructor() {}
-
+export class NavbarComponent {
   // Boolean Triggers
   trigger: boolean = false;
   controlMenuTrigger: boolean = false;
@@ -20,6 +18,4 @@ export class NavbarComponent implements OnInit {
   Layers: number = 30;
   Sites: number = 5;
   SmallCells: number = 234;
-
-  ngOnInit(): void {}
 }

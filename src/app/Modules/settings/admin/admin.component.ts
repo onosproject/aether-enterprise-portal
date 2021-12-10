@@ -1,15 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'aep-admin',
   templateUrl: './admin.component.html',
   styles: [],
 })
-export class AdminComponent implements OnInit {
-  constructor() {}
-
+export class AdminComponent {
   // Boolean Triggers
   AddNew: boolean = false;
-
-  ngOnInit(): void {}
 }
