@@ -1,0 +1,173 @@
+<!-- <p>navbar works!</p> -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light aether-bgColor">
+  <div class="container-fluid aether-bgColor">
+    <!-- <div class="col-1 aether-bgColor">empty</div> -->
+    <div class="col-5 d-flex">
+      <a class="aether-title aether-bgColor" href="#"
+        >Aether 5G
+        <sup class="aether-bgColor"
+          ><sup
+            ><sup>
+              <img src="../../assets/Navbar/spinner-alt.svg" />
+            </sup>
+          </sup> </sup
+      ></a>
+    </div>
+
+    <div class="d-flex" style="margin-left: auto">
+      <div
+        class="nav-item aether-bgColor"
+        [ngClass]="{ 'aether-dropdown-alignment': trigger }"
+      >
+        <img
+          class="aether-bgColor aether-companyTitle"
+          src="../../assets/Navbar/tesla-big.svg"
+          [matMenuTriggerFor]="CompanyMenu"
+          [ngClass]="{
+            'aether-companyTitle-Alignment': trigger,
+            'mr2-5-only': !trigger
+          }"
+        />
+      </div>
+      <div class="">
+        <form
+          class="d-flex aether-SearchBox-Alignment aether-SearchBox-bgColor"
+          *ngIf="trigger"
+        >
+          <img
+            class="ml1-only aether-SearchBox-bgColor"
+            src="../../assets/Navbar/search-in-box.svg"
+          />
+          <input
+            class="
+              form-control
+              me-2
+              aether-SearchBox aether-SearchBox-bgColor
+              pb-2
+            "
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+          <img
+            class="mx-3 aether-SearchBox-bgColor"
+            src="../../assets/Navbar/search-close.svg"
+            (click)="trigger = !trigger"
+          />
+        </form>
+      </div>
+
+      <div>
+        <div class="mx-auto aether-bgColor" (click)="trigger = !trigger">
+          <img
+            src="../../assets/Navbar/search.svg"
+            class="aether-navbar-bg-color"
+            [ngClass]="{ 'ml2-only': !trigger }"
+            *ngIf="!trigger"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="ml-only d-flex col-2">
+      <div class="my-auto" *ngIf="alert">
+        <img src="../../assets/Navbar/notifications.svg" />
+      </div>
+      <div class="my-auto" *ngIf="!alert">
+        <img src="../../assets/Navbar/notifications.svg" /><sup
+          ><sup
+            ><sup
+              ><sup
+                ><img
+                  src="../../assets/Navbar/notification-alert-dot.svg"
+                  style="margin-left: -6px" /></sup></sup></sup
+        ></sup>
+      </div>
+      <div class="mx-auto my-auto">
+        <img src="../../assets/Navbar/profile-pic.svg" />
+      </div>
+      <div class="">
+        <button class="btn btn-primary" [matMenuTriggerFor]="ControlsMenu">
+          Controls
+        </button>
+        <!-- <button class="btn btn-primary" (click)="controlMenuTrigger = !controlMenuTrigger">Controls</button> -->
+      </div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</nav>
+
+<!-- Controls Menu -->
+<mat-menu
+  class="aether-ControlsMenu"
+  #ControlsMenu="matMenu"
+  xPosition="before"
+>
+  <span mat-menu-item>
+    <span class="aether-ControlsMenu-Title">MANAGE</span>
+  </span>
+  <button class="" routerLink="/admin" mat-menu-item>
+    <mat-icon>account_circle</mat-icon>
+    <span>Admin</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>sim_card</mat-icon>
+    <span>Devices / Sim</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>layers</mat-icon>
+    <span>Services</span>
+  </button>
+  <span mat-menu-item>
+    <span class="aether-ControlsMenu-Title">CONFIGURE</span>
+  </span>
+  <button mat-menu-item>
+    <mat-icon>wifi_tethering</mat-icon>
+    <span>Small Cells</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>devices_other</mat-icon>
+    <span>Device Groups</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>filter_none</mat-icon>
+    <span>Slices</span>
+  </button>
+  <span mat-menu-item>
+    <span class="aether-ControlsMenu-Title">REPORTS</span>
+  </span>
+  <button mat-menu-item>
+    <mat-icon>filter_none</mat-icon>
+    <span>Audit</span>
+  </button>
+</mat-menu>
+
+<!-- Company Menu -->
+<mat-menu class="aether-CompanyMenu" #CompanyMenu="matMenu" xPosition="before">
+  <button mat-menu-item>
+    <mat-icon>developer_board</mat-icon>
+    <span>{{ devices }} Devices</span>
+  </button>
+  <button mat-menu-item>
+    <span class="aether-CompanyMenu-UnprovisionedDevices"
+      >{{ unprovisionedDevices }} Unprovisioned</span
+    >
+  </button>
+  <button mat-menu-item>
+    <mat-icon>filter_none</mat-icon>
+    <span>{{ Slices }} Slices</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>layers</mat-icon>
+    <span>{{ Layers }} Layers</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>layers</mat-icon>
+    <span>{{ Sites }} Sites</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>wifi_tethering</mat-icon>
+    <span>{{ SmallCells }} Small Cells</span>
+  </button>
+</mat-menu>

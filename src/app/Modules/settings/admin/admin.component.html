@@ -1,0 +1,107 @@
+<!-- <app-navbar></app-navbar> -->
+
+<!-- <h3>Admin panel works..</h3> -->
+<div class="row container-fluid my-4">
+  <div class="col-1"></div>
+  <mat-card class="aether-sideCol-NavCard col-2">
+    <mat-card-header>
+      <mat-card-title>Select site: </mat-card-title>
+    </mat-card-header>
+    <mat-card-header>
+      <mat-card-title>MANAGE</mat-card-title>
+    </mat-card-header>
+    <img src="../../assets/CommonAssets/ControlMenuLine.svg" />
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <mat-card-title>Admin</mat-card-title>
+    </mat-card-header>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>sim_card</mat-icon>
+      </div>
+      <mat-card-title>Devices / Sims</mat-card-title>
+    </mat-card-header>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>layers</mat-icon>
+      </div>
+      <mat-card-title>Services</mat-card-title>
+    </mat-card-header>
+    <mat-card-header>
+      <mat-card-title>CONFIGURE</mat-card-title>
+    </mat-card-header>
+    <img src="../../assets/CommonAssets/ControlMenuLine.svg" />
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>wifi_tethering</mat-icon>
+      </div>
+      <mat-card-title>Small Cells</mat-card-title>
+    </mat-card-header>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>devices_other</mat-icon>
+      </div>
+      <mat-card-title>Device Groups</mat-card-title>
+    </mat-card-header>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>filter_none</mat-icon>
+      </div>
+      <mat-card-title>Slices</mat-card-title>
+    </mat-card-header>
+    <mat-card-header>
+      <mat-card-title>REPORTS</mat-card-title>
+    </mat-card-header>
+    <img src="../../assets/CommonAssets/ControlMenuLine.svg" />
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>filter_none</mat-icon>
+      </div>
+      <mat-card-title>Audit</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <div class="col container-fluid UsersPanel mx-2">
+    <div class="col aether-UsersPanel-Title my-2 mx-2">Users</div>
+    <div class="my-4 col-12 mx-2">
+      <mat-card class="aether-AddUser-Card col-11 d-flex" *ngIf="!AddNew">
+        <div>
+          <button
+            class="btn col-3 aether-AddUser-btnCenter"
+            (click)="AddNew = !AddNew"
+          >
+            + Add new user
+          </button>
+        </div>
+      </mat-card>
+      <br />
+      <mat-card class="col-11" *ngIf="AddNew">
+        <mat-card-title class="aether-AddNew-Title my-4 mx-4"
+          >Add New User</mat-card-title
+        >
+        <mat-card-content>
+          <div class="aether-AddNew-Form my-4 mx-2">
+            <div class="col-3 mx-2">
+              <div class="aether-AddNew-Form-Profile mx-5 my-5">
+                <img
+                  src="../../assets/AdminPanel/p-pic-outline.svg"
+                  alt="profile-pic-outline"
+                />
+                <br />
+                <button mat-button class="aether-AddNew-Form-Upload my-4 mx-3">
+                  Upload
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button class="" (click)="AddNew = !AddNew">
+            Temp Cancel
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
