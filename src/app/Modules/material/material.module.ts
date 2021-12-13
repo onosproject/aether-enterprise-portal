@@ -4,9 +4,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from "@angular/material/button";
-import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { MatExpansionModule } from "@angular/material/expansion";
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [],
@@ -18,7 +18,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
     MatCardModule,
     MatButtonModule,
     MatButtonToggleModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
 })
 export class MaterialModule {}
