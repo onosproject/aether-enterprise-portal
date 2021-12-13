@@ -53,7 +53,7 @@ deps: # @HELP ensure that the required dependencies are in place
 lint: # @HELP calls "npm run lint" to perform static code analysis
 	npm run lint
 
-test: lint build # @HELP perform a license check on the code and then invokes "npm test"
+test: lint # @HELP perform a license check on the code and then invokes "npm test"
 	npm test
 
 license_check: # @HELP examine and ensure license headers exist
