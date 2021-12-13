@@ -23,6 +23,12 @@ NODE                = docker run --rm --user $$(id -u):$$(id -g) -v ${CURDIR}:/a
 
 .PHONY: build
 
+ifeq ($(shell git ls-files --others --modified --exclude-standard 2>/dev/null | wc -l | sed -e 's/ //g'),0)
+  DOCKER_LABEL_VCS_REF = $(shell git rev-parse HEAD)
+else
+  DOCKER_LABEL_VCS_REF = $(shell git rev-parse HEAD)+dirty
+endif
+
 help:
 	@grep -E '^.*: .* *# *@HELP' $(MAKEFILE_LIST) \
     | sort \
@@ -31,10 +37,23 @@ help:
         {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}; \
 	'
 
+build: # @HELP build the Web GUI and run all validations (on the host machine)
+build:
+	npm run build:prod
+
+build-tools: # @HELP install the build tools if needed
+	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
+
+coverage: # @HELP generate unit test coverage data
+coverage: deps build license_check test
+
+deps: # @HELP ensure that the required dependencies are in place
+	NG_CLI_ANALYTICS=false npm install
+
 lint: # @HELP calls "npm run lint" to perform static code analysis
 	npm run lint
 
-test: # @HELP perform a license check on the code and then invokes "npm test"
+test: lint # @HELP perform a license check on the code and then invokes "npm test"
 	npm test
 
 license_check: # @HELP examine and ensure license headers exist
@@ -47,3 +66,36 @@ jenkins-test: # @HELP target used in Jenkins to run validation (these tests run 
 jenkins-publish: # @HELP target used in Jenkins to publish docker images
 	@echo "Needs to be implemented once a Dockerfile is provided"
 	exit 1
+
+aether-enterprise-portal-docker: # @HELP build aether-enterprise-portal Docker image
+	docker build . -f build/aether-enterprise-portal/Dockerfile \
+        --build-arg LOCAL_ONOSAPPS=$(LOCAL_ONOSAPPS) \
+        --build-arg org_label_schema_version="${VERSION}" \
+        --build-arg org_label_schema_vcs_url="${DOCKER_LABEL_VCS_URL}" \
+        --build-arg org_label_schema_vcs_ref="${DOCKER_LABEL_VCS_REF}" \
+        --build-arg org_label_schema_build_date="${DOCKER_LABEL_BUILD_DATE}" \
+        --build-arg org_opencord_vcs_commit_date="${DOCKER_LABEL_COMMIT_DATE}" \
+		-t ${DOCKER_IMAGENAME}
+
+images: # @HELP build all Docker images (the build happens inside a docker container)
+images: aether-enterprise-portal-docker
+
+docker-build: aether-enterprise-portal-docker
+
+docker-push: # push to docker registy: use DOCKER_REGISTRY, DOCKER_REPOSITORY and DOCKER_TAG to customize
+ifdef DOCKER_USER
+ifdef DOCKER_PASSWORD
+	echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USER} --password-stdin
+else
+	@echo "DOCKER_USER is specified but DOCKER_PASSWORD is missing"
+	@exit 1
+endif
+endif
+	docker push ${DOCKER_IMAGENAME}
+
+kind: # @HELP build Docker images and add them to the currently configured kind cluster
+kind: images
+	@if [ `kind get clusters` = '' ]; then echo "no kind cluster found" && exit 1; fi
+	kind load docker-image ${DOCKER_IMAGENAME}
+
+all: images
