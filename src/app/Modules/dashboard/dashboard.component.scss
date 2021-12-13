@@ -2,7 +2,7 @@
   margin-top: 30px;
   .ctm-container {
     max-width: 90%;
-    .ctm-row{
+    .ctm-row {
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
@@ -15,7 +15,7 @@
       // margin-bottom: 48px;
       box-shadow: none;
       width: 100%;
-      @media only screen and (max-width:600px){
+      @media only screen and (max-width: 600px) {
         margin-bottom: 15px;
       }
       .card-body-bx {
@@ -103,7 +103,7 @@
     .card-chart {
       // min-height: 120px;
       height: 100%;
-      @media only screen and (max-width: 767px){
+      @media only screen and (max-width: 767px) {
         height: auto;
         margin-bottom: 15px;
       }
@@ -138,13 +138,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            @media only screen and (max-width:768px){
+            @media only screen and (max-width: 768px) {
               margin-right: 5px;
             }
           }
-          .card-category{
-            p{
-              @media only screen and (max-width:768px){
+          .card-category {
+            p {
+              @media only screen and (max-width: 768px) {
                 font-size: 12px;
               }
             }
@@ -175,9 +175,9 @@
         align-items: flex-end;
         height: 100%;
         justify-content: flex-end;
-        img{
+        img {
           width: 100%;
-          @media only screen and (max-width:768px) {
+          @media only screen and (max-width: 768px) {
             border-radius: 0 0 12px 12px;
           }
         }
@@ -193,7 +193,7 @@
         h4 {
           font-size: 28px;
           margin-bottom: 0;
-          @media only screen and (max-width:768px){
+          @media only screen and (max-width: 768px) {
             font-size: 20px;
           }
           span {
@@ -208,9 +208,9 @@
       .section-tabs {
         font-size: 14px;
         margin: 20px 0;
-        .section-group-btn{
+        .section-group-btn {
           border: none;
-          .border-none{
+          .border-none {
             border: none;
           }
         }
@@ -221,7 +221,7 @@
           border-radius: 8px;
           min-width: 90px;
           padding: 0px;
-          @media only screen and (max-width:768px){
+          @media only screen and (max-width: 768px) {
             min-width: auto;
           }
         }
@@ -238,7 +238,7 @@
     .pannel-header-bx {
       height: 150px;
       position: relative;
-      @media only screen and (max-width:1200px) {
+      @media only screen and (max-width: 1200px) {
         height: auto;
         padding: 20px;
       }
@@ -267,7 +267,7 @@
         z-index: 1;
         border-radius: 0 8px 8px 0;
       }
-      .expansion-header-row{
+      .expansion-header-row {
         width: 100%;
         align-items: center;
         .accordion-left-bx {
@@ -290,7 +290,7 @@
             transform: translate3d(0, 0.75em, -1em);
             transition: 0.15s cubic-bezier(0, 0, 0.6, 1);
           }
-  
+
           .conected-devices-bx {
             display: flex;
             align-items: center;
@@ -312,7 +312,7 @@
               align-items: center;
               justify-content: center;
             }
-            .red-ellipse{
+            .red-ellipse {
               margin-left: 5px;
             }
           }
@@ -337,7 +337,7 @@
             transform: translate3d(0, 0.75em, -1em);
             transition: 0.15s cubic-bezier(0, 0, 0.6, 1);
           }
-  
+
           .conected-devices-bx {
             display: flex;
             align-items: center;
@@ -359,7 +359,7 @@
               align-items: center;
               justify-content: center;
             }
-            .red-ellipse{
+            .red-ellipse {
               margin-left: 5px;
             }
             .red-circle {
@@ -382,11 +382,11 @@
           width: 750px;
           padding: 0;
           border-radius: 16px;
-          @media only screen and (max-width:1200px){
+          @media only screen and (max-width: 1200px) {
             margin: 20px;
             width: auto;
           }
-          @media only screen and (max-width:767px){
+          @media only screen and (max-width: 767px) {
             width: 100%;
           }
           .graph-header {
@@ -396,10 +396,10 @@
             padding: 15px 30px;
             align-items: center;
             border-radius: 16px 16px 0 0;
-            @media only screen and (max-width:767px){
+            @media only screen and (max-width: 767px) {
               flex-wrap: wrap;
             }
-  
+
             .mat-card-header-text {
               display: none;
             }
@@ -438,7 +438,7 @@
               flex: 2;
               margin: 0 15px;
               justify-content: center;
-              @media only screen and (max-width:767px){
+              @media only screen and (max-width: 767px) {
                 padding: 5px 10px;
                 max-width: max-content;
                 margin: 10px 0;
@@ -449,21 +449,21 @@
             }
             .graph-detail-filter {
               flex: 3;
-              .nav-tabs{
+              .nav-tabs {
                 border: none;
-                .nav-link{
-                  &:hover{
+                .nav-link {
+                  &:hover {
                     border: none;
-                  } 
-                  &:focus{
+                  }
+                  &:focus {
                     border: none;
-                  }                   
+                  }
                 }
                 button {
                   color: #859cbe;
                   padding-bottom: 5px;
-                  border-bottom: 2px solid transparent;  
-                  padding: 6px;                
+                  border-bottom: 2px solid transparent;
+                  padding: 6px;
                 }
                 .active {
                   color: #fff;
@@ -482,7 +482,7 @@
               display: flex;
               padding: 0 20px;
               justify-content: space-around;
-              @media only screen and (max-width:767px){
+              @media only screen and (max-width: 767px) {
                 display: block;
               }
               .accordion-graph-bx {
@@ -503,21 +503,21 @@
         }
       }
     }
-    .expanded-content-bx{
+    .expanded-content-bx {
       justify-content: flex-start;
-      .functionality-bx{
+      .functionality-bx {
         display: flex;
         justify-content: flex-end;
         width: 100%;
-        .edit-bx{
+        .edit-bx {
           display: flex;
           min-width: 55px;
           align-items: center;
           justify-content: space-evenly;
           margin: 0 10px;
         }
-        .minimise-bx{
-          margin: 0 20px
+        .minimise-bx {
+          margin: 0 20px;
         }
       }
     }
@@ -569,9 +569,3 @@
 .mat-expansion-indicator {
   display: none;
 }
-
-
-
-
-
-

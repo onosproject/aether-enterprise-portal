@@ -34,7 +34,7 @@ help:
 lint: # @HELP calls "npm run lint" to perform static code analysis
 	npm run lint
 
-test: license_check # @HELP perform a license check on the code and then invokes "npm test"
+test: # @HELP perform a license check on the code and then invokes "npm test"
 	npm test
 
 license_check: # @HELP examine and ensure license headers exist
