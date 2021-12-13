@@ -3,10 +3,7 @@
   "version": "0.0.1-dev",
   "description": "Aether Enterprise Portal",
   "scripts": {
-    "pretest": "npm install",
     "test": "ng test --browsers=ChromeHeadlessNoSandbox --watch=false",
-    "test:dev": "ng test",
-    "prelint": "npm install",
     "lint": "prettier --check src && ng lint",
     "ng": "ng",
     "start": "ng serve",
