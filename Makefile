@@ -50,22 +50,20 @@ coverage: deps build license_check test
 deps: # @HELP ensure that the required dependencies are in place
 	NG_CLI_ANALYTICS=false npm install
 
-lint: # @HELP calls "npm run lint" to perform static code analysis
+lint: deps # @HELP calls "npm run lint" to perform static code analysis
 	npm run lint
 
-test: lint # @HELP perform a license check on the code and then invokes "npm test"
-	npm test
+test: deps lint # @HELP perform a license check on the code and then invokes "npm test"
 
 license_check: # @HELP examine and ensure license headers exist
 	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
 	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR} --boilerplate LicenseRef-ONF-Member-1.0
 
 jenkins-test: # @HELP target used in Jenkins to run validation (these tests run in a docker container, only use on VM executors)
-	${NODE} bash -c "cd /app && NG_CLI_ANALYTICS=false npm install --cache /tmp/empty-cache && make test"
+	${NODE} bash -c "cd /app && NG_CLI_ANALYTICS=false npm install --cache /tmp/empty-cache && npm run lint && npm test"
 
-jenkins-publish: # @HELP target used in Jenkins to publish docker images
-	@echo "Needs to be implemented once a Dockerfile is provided"
-	exit 1
+jenkins-publish: build-tools docker-build docker-push # @HELP target used in Jenkins to publish docker images
+	../build-tools/release-merge-commit
 
 aether-enterprise-portal-docker: # @HELP build aether-enterprise-portal Docker image
 	docker build . -f build/aether-enterprise-portal/Dockerfile \
