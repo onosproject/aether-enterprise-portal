@@ -1,20 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'aep-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   @ViewChild('sites') sites: any;
   @ViewChild('slices') slices: any;
   isExpand: any = true;
 
   panelOpenState = false;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   parentWillTakeAction(message: any) {
     if (!this.isExpand) {

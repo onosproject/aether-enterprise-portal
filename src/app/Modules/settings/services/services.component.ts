@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 @Component({
-  selector: 'app-services',
+  selector: 'aep-services',
   templateUrl: './services.component.html',
   animations: [
     trigger('inOutAnimation', [
@@ -28,10 +22,8 @@ import {
 export class ServicesComponent implements OnInit {
   //var
   anankiFormGroup: FormGroup;
-  addNewServiceForm: Boolean = false;
+  addNewServiceForm: boolean = false;
   editServiceForm: boolean = false;
-
-  constructor() {}
 
   ngOnInit(): void {
     this.anankiFormGroup = new FormGroup({

@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatIconRegistry } from '@angular/material/icon';
 
 import { Subscription } from 'rxjs';
 
@@ -282,7 +275,7 @@ export class AdminComponent implements OnInit {
 
   onEdit(index: number) {
     console.log(this.userService.getUser(index));
-    let id = this.users[index].id;
+    const id = this.users[index].id;
     const form = this.users[index].form.value;
     const user = this.users[index];
     user.ppic = form.ppic;

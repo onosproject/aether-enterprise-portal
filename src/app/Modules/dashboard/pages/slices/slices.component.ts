@@ -1,19 +1,15 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { slice } from '../../../../shared/classes/dashboard-data';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 
 @Component({
-  selector: 'app-slices',
+  selector: 'aep-slices',
   templateUrl: './slices.component.html',
   styleUrls: ['./slices.component.scss'],
 })
-export class SlicesComponent implements OnInit {
+export class SlicesComponent {
   @Output() informParent = new EventEmitter();
   sliceData: any;
   panelOpenState = false;
@@ -36,8 +32,6 @@ export class SlicesComponent implements OnInit {
     // console.log(this.sliceData.data[1].group[0].cameras.splice(0,1));
     // console.log(this.sliceData.data[0].services[0].group.splice(0,1));
   }
-
-  ngOnInit(): void {}
 
   dragAndDrop(event: CdkDragDrop<string[]>) {
     moveItemInArray(

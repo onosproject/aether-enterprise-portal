@@ -3,7 +3,7 @@
   <div class="row">
     <!--left side section-->
     <div class="col-3">
-      <app-side-navbar></app-side-navbar>
+      <aep-side-navbar></aep-side-navbar>
     </div>
     <!--RIGHT SIDE SECTION-->
     <div class="col-9 right-section">
@@ -16,7 +16,13 @@
         <!--BUTTON FOR ADD NEW SERVICE-->
         <div class="row">
           <mat-card
-            class="add-new-services add-button .button-medium-14 col-12 d-flex my-1"
+            class="
+              add-new-services add-button
+              .button-medium-14
+              col-12
+              d-flex
+              my-1
+            "
             *ngIf="!addNewServiceForm"
           >
             <button
@@ -197,7 +203,13 @@
               Edit
             </div>
             <div
-              class="col-1 card-list-item text-center add-new-service-close close"
+              class="
+                col-1
+                card-list-item
+                text-center
+                add-new-service-close
+                close
+              "
               (click)="editServiceFormClose()"
               *ngIf="editServiceForm"
             >

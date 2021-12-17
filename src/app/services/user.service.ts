@@ -192,8 +192,6 @@ export class UserService {
 
   usersSubject = new BehaviorSubject<User[]>(this.users);
 
-  constructor() {}
-
   getUsers() {
     return this.usersSubject.asObservable();
   }
@@ -254,7 +252,7 @@ export class UserService {
       console.log('loop1');
       city.users.forEach((cuser) => {
         console.log('loop2');
-        var cuserId = cuser.userId;
+        const cuserId = cuser.userId;
         if (cuserId == index) {
           console.log(index);
           console.log(city.users.splice(0, 1));

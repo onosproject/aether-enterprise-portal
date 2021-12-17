@@ -1,7 +1,7 @@
 <div class="main-content">
   <div class="bg-gray">
     <div class="container-fluid ctm-container">
-      <app-sites (informParent)="parentWillTakeAction($event)"></app-sites>
+      <aep-sites (informParent)="parentWillTakeAction($event)"></aep-sites>
     </div>
   </div>
   <div class="container-fluid ctm-container bottom_bx">
@@ -126,10 +126,10 @@
             </mat-button-toggle-group>
           </div>
         </div>
-        <app-slices
+        <aep-slices
           #slices
           (informParent)="parentWillTakeActionSlice($event)"
-        ></app-slices>
+        ></aep-slices>
       </div>
     </div>
   </div>

@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-side-navbar',
+  selector: 'aep-side-navbar',
   templateUrl: './side-navbar.component.html',
   styles: [],
 })
-export class SideNavbarComponent implements OnInit {
+export class SideNavbarComponent {
   imgSrc: string;
 
   menuIcons = {
@@ -48,6 +48,4 @@ export class SideNavbarComponent implements OnInit {
   };
 
   constructor(public router: Router) {}
-
-  ngOnInit(): void {}
 }

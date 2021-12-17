@@ -1,20 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
+import { trigger, style, animate, transition } from '@angular/animations';
 
 import { MatDialog } from '@angular/material/dialog';
 import { SelectDevicesComponent } from '../dialogs/select-devices/select-devices.component';
 import { SelectSimsComponent } from '../dialogs/select-sims/select-sims.component';
 
 @Component({
-  selector: 'app-device-sim',
+  selector: 'aep-device-sim',
   templateUrl: './device-sim.component.html',
   animations: [
     trigger('inOutAnimation', [
@@ -74,7 +68,7 @@ export class DeviceSimComponent implements OnInit {
   }
 
   openDialog(): void {
-    let dialogRef = this.dialog.open(SelectSimsComponent, {
+    const dialogRef = this.dialog.open(SelectSimsComponent, {
       width: '690px',
       data: { name: this.name, animal: this.animal },
     });
@@ -86,7 +80,7 @@ export class DeviceSimComponent implements OnInit {
   }
 
   openDialog1(): void {
-    let dialogRef = this.dialog.open(SelectDevicesComponent, {
+    const dialogRef = this.dialog.open(SelectDevicesComponent, {
       width: '870px',
       data: { name: this.name, animal: this.animal },
     });
