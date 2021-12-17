@@ -10,8 +10,11 @@
     <div class="col-12 p-3">
       <div class="select-sim-container d-flex">
         <div class="select-sim-container-spacings" *ngFor="let sim of sims">
-          <div class="select-sim-container-simHolder" (click)="changeSelection(sim.simNumber)">
-            <div class=" mx-1 d-flex">
+          <div
+            class="select-sim-container-simHolder"
+            (click)="changeSelection(sim.simNumber)"
+          >
+            <div class="mx-1 d-flex">
               <!-- <mat-checkbox type=checkbox [checked]="selectedSim === sim.simNumber"  class="mx-2"></mat-checkbox>
              -->
               <img

@@ -12,7 +12,6 @@ import { SelectDevicesComponent } from './dialogs/select-devices/select-devices.
 import { SelectSimsComponent } from './dialogs/select-sims/select-sims.component';
 import { SideNavbarComponent } from 'src/app/side-navbar/side-navbar.component';
 
-
 @NgModule({
   declarations: [
     SideNavbarComponent,
@@ -27,7 +26,7 @@ import { SideNavbarComponent } from 'src/app/side-navbar/side-navbar.component';
     SettingsRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
-  ]
+    FormsModule,
+  ],
 })
-export class SettingsModule { }
+export class SettingsModule {}

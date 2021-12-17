@@ -4,11 +4,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-side-navbar',
   templateUrl: './side-navbar.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class SideNavbarComponent implements OnInit {
-
   imgSrc: string;
 
   menuIcons = {
@@ -49,9 +47,7 @@ export class SideNavbarComponent implements OnInit {
     },
   };
 
-  constructor(public router: Router) { }
+  constructor(public router: Router) {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

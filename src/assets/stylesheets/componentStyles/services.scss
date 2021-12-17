@@ -1,80 +1,79 @@
 .services {
   .aether-sideCol-NavCard {
-      margin-left: 0 !important;
-      width: auto !important;
+    margin-left: 0 !important;
+    width: auto !important;
   }
   .right-section {
-      .sec-1 {
-          .title-tab {
-              .title-block {
-                  color: #000000;
-                  font-family: Inter;
-                  font-style: normal;
-                  font-weight: normal;
-                  font-size: 28px;
-                  line-height: 36px;
-              }
-          }
+    .sec-1 {
+      .title-tab {
+        .title-block {
+          color: #000000;
+          font-family: Inter;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 28px;
+          line-height: 36px;
+        }
       }
-      .services-cards {
-          .card-list-items {
-              .card-list-item {
-                  margin-right: 15px !important;
-                  .series-bg {
-                      height: 56px;
-                      width: 56px;
-                      background: #edf4ff;
-                      border-radius: 50%;
-                      position: relative;
-                      margin-right: 10px;
-                      img {
-                          position: absolute;
-                          top: 10px;
-                          left: 12px;
-                          height: 32px;
-                          width: 32px;
-                      }
-                      &:after {
-                          content: "";
-                          background: #97c1ff;
-                          height: 58px;
-                          width: 2px;
-                          position: absolute;
-                          right: -10px;
-                      }
-                  }
-                  .title {
-                      font-family: Inter;
-                      font-style: normal;
-                      font-weight: normal;
-                      font-size: 12px;
-                      line-height: 16px;
-                      letter-spacing: 0.02em;
-                      color: #000000;
-                  }
-                  .desc {
-                      font-family: Inter;
-                      font-style: normal;
-                      font-weight: 500;
-                      font-size: 14px;
-                      line-height: 150%;
-                      letter-spacing: 0.00625em;
-                      color: #000000;
-                      padding-top: 6px;
-                  }
-                  &.status {
-                      margin-left: auto !important;
-                  }
-              }
+    }
+    .services-cards {
+      .card-list-items {
+        .card-list-item {
+          margin-right: 15px !important;
+          .series-bg {
+            height: 56px;
+            width: 56px;
+            background: #edf4ff;
+            border-radius: 50%;
+            position: relative;
+            margin-right: 10px;
+            img {
+              position: absolute;
+              top: 10px;
+              left: 12px;
+              height: 32px;
+              width: 32px;
+            }
+            &:after {
+              content: "";
+              background: #97c1ff;
+              height: 58px;
+              width: 2px;
+              position: absolute;
+              right: -10px;
+            }
           }
+          .title {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 16px;
+            letter-spacing: 0.02em;
+            color: #000000;
+          }
+          .desc {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
+            letter-spacing: 0.00625em;
+            color: #000000;
+            padding-top: 6px;
+          }
+          &.status {
+            margin-left: auto !important;
+          }
+        }
       }
+    }
   }
 }
 .form-actions {
   padding-bottom: 0 !important;
   .button-sec {
-      margin-left: auto;
-
+    margin-left: auto;
   }
 }
 /*common class*/
@@ -103,19 +102,19 @@
 .add-button {
   border-radius: 6px;
   button {
-      color: #ffffff !important;
-      background: #0063f7 !important;
-      border-radius: 4px !important;
-      text-align: left;
-      margin: 0 auto;
-      display: inherit;
-      position: relative;
-      padding: 8px 12px;
-      &:after {
-          content: "+";
-          position: absolute;
-          right: 8px;
-      }
+    color: #ffffff !important;
+    background: #0063f7 !important;
+    border-radius: 4px !important;
+    text-align: left;
+    margin: 0 auto;
+    display: inherit;
+    position: relative;
+    padding: 8px 12px;
+    &:after {
+      content: "+";
+      position: absolute;
+      right: 8px;
+    }
   }
 }
 .button-medium-14 {
@@ -132,51 +131,50 @@
 }
 .form-label {
   font-family: Inter;
-font-style: normal;
-font-weight: normal;
-font-size: 12px;
-line-height: 16px;
-letter-spacing: 0.02em;
-color: #3C4257;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
+  color: #3c4257;
 }
 .form-control {
   border-radius: 0;
-  border-bottom: 0.5px solid #3C4257;
+  border-bottom: 0.5px solid #3c4257;
   margin-top: 8px;
 }
 
 .btn-gray {
-  background: #A3A3A3;
+  background: #a3a3a3;
   border-radius: 4px;
   padding: 10px 62px 10px 16px;
   border-radius: 6px;
-  color:#fff;
-
+  color: #fff;
 }
 .btn-white {
-  background: #FFFFFF;
+  background: #ffffff;
   border: 1px solid #0063f7;
   padding: 10px 62px 10px 16px;
 
   border-radius: 6px;
-  color :#0063F7;
+  color: #0063f7;
 }
 .btn-save {
-  background: #0063F7;
+  background: #0063f7;
   border-radius: 4px;
   padding: 10px 62px 10px 16px;
   border-radius: 6px;
-  color:#fff;
+  color: #fff;
 }
 .close {
-  color: #EF233C;
+  color: #ef233c;
 }
 .card-item-delete {
-  color: #EF233C;
+  color: #ef233c;
   align-items: center;
   cursor: pointer;
   padding-left: 15px;
   .delete-label {
-      padding : 2px 0 0 6px;
+    padding: 2px 0 0 6px;
   }
 }

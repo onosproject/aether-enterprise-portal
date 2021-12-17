@@ -12,7 +12,7 @@ import { MaterialModule } from './Modules/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, NavbarComponent,],
+  declarations: [AppComponent, HeaderComponent, NavbarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -21,7 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SettingsModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

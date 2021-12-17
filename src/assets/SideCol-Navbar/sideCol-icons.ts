@@ -4,7 +4,10 @@ import { MatIconRegistry } from '@angular/material/icon';
 
 export class SideColIcons {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIconLiteral('devices', sanitizer.bypassSecurityTrustHtml(devices));
+    iconRegistry.addSvgIconLiteral(
+      'devices',
+      sanitizer.bypassSecurityTrustHtml(devices)
+    );
   }
 }
 

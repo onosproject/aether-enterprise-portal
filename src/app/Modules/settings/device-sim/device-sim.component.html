@@ -198,9 +198,7 @@
                             >
                               Browse
                               <img
-                                class="
-                                  activate-device-subtitle2-button-searchIcon
-                                "
+                                class="activate-device-subtitle2-button-searchIcon"
                                 src="../../assets/deviceSim/search.svg"
                               />
                             </div>
@@ -242,13 +240,7 @@
         <!--device+sim view-->
         <div class="row">
           <mat-card
-            class="
-              device-view device-sims-view
-              col-12
-              d-flex
-              my-1
-              device-sims-detail-card
-            "
+            class="device-view device-sims-view col-12 d-flex my-1 device-sims-detail-card"
           >
             <div class="ng-tns-c119-0 vector">
               <div class="vector-bg">
@@ -279,13 +271,7 @@
               <div class="desc">Name</div>
             </div>
             <div
-              class="
-                progress
-                col
-                mx-3
-                device-details-blocks device-progress-bar
-                bg-light
-              "
+              class="progress col mx-3 device-details-blocks device-progress-bar bg-light"
               [ngClass]="
                 deviceSimsDetailItemDetailsPopUp == true ? 'v-hidden' : 'v-show'
               "
@@ -299,11 +285,7 @@
             </div>
 
             <div
-              class="
-                col-1
-                device-details device-sims-details
-                ng-tns-c119-0 ng-star-inserted
-              "
+              class="col-1 device-details device-sims-details ng-tns-c119-0 ng-star-inserted"
               (click)="deviceSimsDetailItemDetailsPopUpFun()"
               *ngIf="!deviceSimsDetailItemDetailsPopUp"
             >
@@ -318,11 +300,7 @@
             </div>
 
             <div
-              class="
-                col-1
-                device-details-view-edit device-sims-details-view-edit
-                ng-tns-c119-0 ng-star-inserted
-              "
+              class="col-1 device-details-view-edit device-sims-details-view-edit ng-tns-c119-0 ng-star-inserted"
               (click)="deviceSimsDetailViewEditFormFun()"
               *ngIf="!deviceSimsDetailViewEditForm"
             >
@@ -343,24 +321,14 @@
           </mat-card>
           <!--DEVICE SIMS DETAILS VIEW EDIT FORM-->
           <mat-card
-            class="
-              active-new-device-form active-new-device-form
-              device-sims-detail-view-edit-form
-              forms-block
-            "
+            class="active-new-device-form active-new-device-form device-sims-detail-view-edit-form forms-block"
             *ngIf="deviceSimsDetailViewEditForm"
             [@inOutAnimation]
           >
             <form [formGroup]="deviceSimFormGroup">
               <mat-card-content>
                 <div
-                  class="
-                    device-sims-detail-view-card-edit-form
-                    form-content
-                    my-4
-                    mx-2
-                    d-flex
-                  "
+                  class="device-sims-detail-view-card-edit-form form-content my-4 mx-2 d-flex"
                 >
                   <div class="row my-3">
                     <div class="row">
@@ -474,9 +442,7 @@
                             >
                               Browse
                               <img
-                                class="
-                                  activate-device-subtitle2-button-searchIcon
-                                "
+                                class="activate-device-subtitle2-button-searchIcon"
                                 src="../../assets/deviceSim/search.svg"
                               />
                             </div>
@@ -539,24 +505,14 @@
           <!--END DEVICE SIMS DETAILS VIEW EDIT FORM-->
           <!--DEVICE SIMS DETAILS VIEW ITEMS DETAILS BUTTON POP UP-->
           <mat-card
-            class="
-              active-new-device-form active-new-device-form
-              device-sims-detail-view-details-form
-              forms-block
-            "
+            class="active-new-device-form active-new-device-form device-sims-detail-view-details-form forms-block"
             *ngIf="deviceSimsDetailItemDetailsPopUp"
             [@inOutAnimation]
           >
             <form [formGroup]="deviceSimFormGroup">
               <mat-card-content>
                 <div
-                  class="
-                    device-sims-detail-view-details-card-form
-                    form-content
-                    my-4
-                    mx-2
-                    d-flex
-                  "
+                  class="device-sims-detail-view-details-card-form form-content my-4 mx-2 d-flex"
                 >
                   <div class="row my-3">
                     <div class="col-12 d-flex section-one">
@@ -601,17 +557,15 @@
                     </div>
                     <div class="progress-bar-sec">
                       <div class="col-12 d-flex my-1">
-                        <span class="col-5 progress-hours-title1 mx-1">24H</span>
+                        <span class="col-5 progress-hours-title1 mx-1"
+                          >24H</span
+                        >
                         <span class="col-2 progress-hours-title2">12H</span>
                         <span class="col-5 progress-hours-title3">Now</span>
                       </div>
                       <div
                         id="1D"
-                        class="
-                          progress
-                          col
-                          device-details-blocks device-progress-bar
-                        "
+                        class="progress col device-details-blocks device-progress-bar"
                         *ngIf="deviceSimsDetailsProgressToggleDay"
                       >
                         <div
@@ -662,11 +616,7 @@
                       </div>
                       <div
                         id="1W"
-                        class="
-                          progress
-                          col
-                          device-details-blocks device-progress-bar
-                        "
+                        class="progress col device-details-blocks device-progress-bar"
                         *ngIf="deviceSimsDetailsProgressToggleWeek"
                       >
                         <div
@@ -761,13 +711,7 @@
           <!--END DEVICE SIMS DETAILS VIEW ITEMS DETAILS BUTTON POP UP-->
 
           <mat-card
-            class="
-              device-view device-sims-view
-              col-12
-              d-flex
-              my-1
-              device-sims-detail-card
-            "
+            class="device-view device-sims-view col-12 d-flex my-1 device-sims-detail-card"
           >
             <div class="ng-tns-c119-0 vector">
               <div class="vector-bg">
@@ -798,12 +742,7 @@
               <div class="desc">Name</div>
             </div>
             <div
-              class="
-                progress
-                col
-                mx-3
-                device-details-blocks device-progress-bar
-              "
+              class="progress col mx-3 device-details-blocks device-progress-bar"
             >
               <div class="progress-bar bg-success" style="width: 40%"></div>
               <div class="progress-bar" style="width: 10%"></div>
@@ -816,20 +755,12 @@
               <div>OFFLINE</div>
             </div>
             <div
-              class="
-                col-1
-                device-details device-sims-details
-                ng-tns-c119-0 ng-star-inserted
-              "
+              class="col-1 device-details device-sims-details ng-tns-c119-0 ng-star-inserted"
             >
               Details
             </div>
             <div
-              class="
-                col-1
-                device-details-view-edit device-sims-details-view-edit
-                ng-tns-c119-0 ng-star-inserted
-              "
+              class="col-1 device-details-view-edit device-sims-details-view-edit ng-tns-c119-0 ng-star-inserted"
             >
               <img
                 src="../../assets/deviceSim/pencil.svg"
@@ -1019,11 +950,7 @@
             </div>
 
             <div
-              class="
-                col-1
-                device-details-view-edit
-                ng-tns-c119-0 ng-star-inserted
-              "
+              class="col-1 device-details-view-edit ng-tns-c119-0 ng-star-inserted"
               (click)="inventoryDeviceEditFormFun()"
               *ngIf="!inventoryDeviceEditForm"
             >
@@ -1034,12 +961,7 @@
               Edit
             </div>
             <div
-              class="
-                col-1
-                device-details-view-edit
-                close
-                ng-tns-c119-0 ng-star-inserted
-              "
+              class="col-1 device-details-view-edit close ng-tns-c119-0 ng-star-inserted"
               (click)="inventoryDeviceEditFormFunClose()"
               *ngIf="inventoryDeviceEditForm"
             >
@@ -1183,11 +1105,7 @@
             </div>
 
             <div
-              class="
-                col-1
-                device-details-view-edit
-                ng-tns-c119-0 ng-star-inserted
-              "
+              class="col-1 device-details-view-edit ng-tns-c119-0 ng-star-inserted"
             >
               <img
                 src="../../assets/deviceSim/pencil.svg"
@@ -1227,11 +1145,7 @@
             </div>
 
             <div
-              class="
-                col-1
-                device-details-view-edit
-                ng-tns-c119-0 ng-star-inserted
-              "
+              class="col-1 device-details-view-edit ng-tns-c119-0 ng-star-inserted"
             >
               <img
                 src="../../assets/deviceSim/pencil.svg"

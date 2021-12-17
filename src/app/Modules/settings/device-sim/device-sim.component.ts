@@ -9,7 +9,7 @@ import {
   transition,
 } from '@angular/animations';
 
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog } from '@angular/material/dialog';
 import { SelectDevicesComponent } from '../dialogs/select-devices/select-devices.component';
 import { SelectSimsComponent } from '../dialogs/select-sims/select-sims.component';
 
@@ -75,24 +75,24 @@ export class DeviceSimComponent implements OnInit {
 
   openDialog(): void {
     let dialogRef = this.dialog.open(SelectSimsComponent, {
-      width: "690px",
+      width: '690px',
       data: { name: this.name, animal: this.animal },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed");
+      console.log('The dialog was closed');
       this.animal = result;
     });
   }
 
   openDialog1(): void {
     let dialogRef = this.dialog.open(SelectDevicesComponent, {
-      width: "870px",
+      width: '870px',
       data: { name: this.name, animal: this.animal },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed");
+      console.log('The dialog was closed');
       this.animal = result;
     });
   }
@@ -203,5 +203,4 @@ export class DeviceSimComponent implements OnInit {
     this.deviceSimsDetailViewEditForm = false;
     this.deviceSimsDetailItemDetailsPopUp = false;
   }
-
 }
