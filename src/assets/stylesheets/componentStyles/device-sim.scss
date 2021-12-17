@@ -1,0 +1,597 @@
+.aether-add-active-device {
+  .add-active {
+    color: #ffffff !important;
+    background: #0063f7 !important;
+    border-radius: 0px !important;
+    margin-top: -3.9px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    margin: 0 auto;
+    display: inherit;
+    position: relative;
+    &:after {
+      content: "+";
+      position: absolute;
+      right: 8px;
+    }
+  }
+}
+
+.device-details {
+  color: #0063f7;
+  cursor: pointer;
+  &.close {
+    color: #ef233c;
+  }
+}
+
+.device-sim-view {
+  margin-top: 30px;
+  .aether-sideCol-NavCard {
+    margin-left: 0 !important;
+    width: auto !important;
+  }
+  .right-section {
+    .sec-1 {
+      .title-tab {
+        .title-block {
+          color: #97c1ff;
+          font-family: Inter;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 28px;
+          line-height: 36px;
+          cursor: pointer;
+          &.active {
+            color: #0063f7;
+            font-weight: 600;
+          }
+          &.device-sim-tab {
+            padding-right: 40px;
+          }
+        }
+      }
+      .inventory-block {
+        padding-right: 40px;
+        .device-switch,
+        .sims-switch {
+          border-radius: 10px;
+          padding: 10px 20px 10px 20px;
+        }
+        &:not(.active) {
+          .sims-btn.normal {
+            background: #97c1ff;
+            color: #fff;
+          }
+        }
+        &.in-active {
+          pointer-events: none;
+        }
+      }
+    }
+    .device-detail-card,
+    .device-sims-detail-card {
+      margin-top: 15px !important;
+      padding: 0px 0 0 10px !important;
+      min-height: 81px;
+      align-items: center;
+      .vector {
+        padding: 4px 10px 0 0;
+        .vector-bg {
+          height: 56px;
+          width: 56px;
+          background: #edf4ff;
+          border-radius: 50%;
+          position: relative;
+          &:after {
+            content: "";
+            background: #97c1ff;
+            height: 58px;
+            width: 2px;
+            position: absolute;
+            right: -10px;
+          }
+        }
+
+        img {
+          position: absolute;
+          top: 10px;
+          left: 12px;
+          height: 32px;
+          width: 32px;
+        }
+      }
+      .device-details-blocks {
+        .title {
+          font-family: Inter;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 16px;
+        }
+        .desc {
+          color: #3c4257;
+          font-family: Inter;
+          font-weight: 500;
+          font-style: normal;
+          font-size: 14px;
+          text-align: left;
+          padding-top: 6px;
+        }
+      }
+      .device-details-view-edit {
+        color: #0063f7;
+        margin-left: auto;
+        cursor: pointer;
+        &.close {
+          color: #ef233c;
+        }
+      }
+      .device-progress-bar {
+        height: 6px;
+      }
+      .connected {
+        color: #ffffff !important;
+        background: #06d6a0 !important;
+        border-radius: 15px !important;
+        margin-top: 6px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 5px 10px 5px 10px;
+        font-size: 14px;
+        &.offline {
+          background: #ef233c !important;
+        }
+        &.cancelled {
+          margin-left: auto !important;
+        }
+      }
+    }
+    .cancelled-sims-block,
+    .inventory-sims-block {
+      .device-detail-card {
+        margin-top: 0 !important;
+      }
+    }
+  }
+}
+.device-sims-detail-card {
+  .device-sims-details {
+    margin-left: auto;
+    cursor: pointer;
+    &.in-active-link {
+      pointer-events: none;
+    }
+  }
+  .device-sims-details-view-edit {
+    margin-left: initial !important;
+    cursor: pointer;
+    &.in-active-link {
+      pointer-events: none;
+    }
+  }
+}
+
+/*common css*/
+.button-medium-14 {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 150%;
+}
+
+/*FORM KARTHIK*/
+
+// Activate new device classes.
+
+.forms-block {
+  .form-content {
+    // border: 1px dashed #97c1f0;
+    border-radius: 5px;
+    background: #eff1f3;
+    padding-left: 15px;
+  }
+  .activate-title {
+    color: #3c4257;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 36px;
+  }
+  .activate-or {
+    margin-top: 3rem;
+  }
+  .activate-sim-title {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0.00625em;
+    color: #000;
+  }
+  .activate-sim-subtitle1 {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: #3c4257;
+    display: block;
+  }
+  .cancel-sim {
+    color: #0063f7;
+    cursor: pointer;
+    padding: 40px 0px 0 15px;
+  }
+
+  .browse-label {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: #000;
+  }
+  .browse {
+    border: 1px solid #0063f7;
+    border-radius: 4px;
+    color: #0063f7;
+    padding: 12px;
+  }
+  .browse-searchIcon {
+    margin-left: 3.75rem;
+  }
+  // .browse-label-inputField {
+  //   width: 9.5rem;
+  // }
+  .activate-device-title {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: 0.00625em;
+    color: #000;
+  }
+  .form-field-title {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: #3c4257;
+  }
+
+  .activate-device-subtitle2 {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: #000;
+  }
+  .activate-device-subtitle2-button {
+    border: 1px solid #0063f7;
+    border-radius: 4px;
+    color: #0063f7;
+    padding: 14px;
+  }
+  // .activate-device-subtitle2-button-searchIcon {
+  //   margin-left: 3.75rem;
+  // }
+  // .activate-device-subtitle2-inputField {
+  //   width: 9.5rem;
+  // }
+  &.active-new-device-form {
+    .add-plus {
+      margin-left: auto;
+      position: relative;
+      margin-top: 15px;
+      div {
+        position: absolute;
+        right: 40px;
+        bottom: 10px;
+        color: #0063f7;
+      }
+    }
+  }
+  .mat-card-actions {
+    margin-bottom: 0;
+    align-items: center;
+    .add {
+      color: #fff;
+      float: right;
+      height: 49px;
+      width: 108px;
+      text-align: start;
+      margin-right: 1rem;
+      border: 1px solid #0063f7;
+      border-radius: 4px;
+      background: #0063f7;
+    }
+    .cancel {
+      color: #0063f7;
+      float: right;
+      height: 49px;
+      width: 108px;
+      text-align: start;
+      margin-right: 2rem;
+      border: 1px solid #0063f7;
+      border-radius: 4px;
+      background: #fff;
+    }
+    .button-sec {
+      margin-left: auto;
+    }
+    .device-sim-item-delete {
+      color: #ef233c;
+      align-items: center;
+      cursor: pointer;
+      padding-left: 15px;
+      .delete-label {
+        padding: 2px 0 0 6px;
+      }
+    }
+    .down-up-load {
+      padding-left: 20px;
+
+      .download-template,
+      .upload-bulk {
+        cursor: pointer;
+        padding-right: 20px;
+        color: #0063f7;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 150%;
+        img {
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+  .info-block {
+    padding-left: 10px;
+    .info-text {
+      padding-left: 6px;
+      font-size: 12px;
+      font-family: Inter;
+      font-style: normal;
+      font-weight: normal;
+      line-height: 16px;
+      span {
+        font-size: 14px;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        color: #0063f7;
+        line-height: 21px;
+      }
+    }
+  }
+  .device-sims-detail-view-details-card-form {
+    .section-one {
+      margin-bottom: 15px;
+      align-items: center;
+      .title {
+        color: #3C4257;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 150%;
+      }
+      .progress-bar-tabs {
+        margin-left: auto;
+        padding-right: 30px;
+        .one-day,
+        .one-week {
+          font-family: Inter;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 18px;
+          letter-spacing: 0.01em;
+          padding: 0 8px 0 8px;
+          cursor: pointer;
+          &.active {
+            color: #0063f7;
+            border-bottom: 3px solid #0063f7;
+            font-weight: 600;
+          }
+        }
+      }
+      .legends {
+        color: #3c4257;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        letter-spacing: 0.0375em;
+        padding-right: 25px;
+      }
+      .connected-event,
+      .bad-event,
+      .in-session {
+        color: #3c4257;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.02em;
+        padding-right: 20px;
+      }
+    }
+    .progress-bar-sec {
+      padding: 0 30px 0 15px;
+      margin: 30px 0 30px 0;
+    }
+    .button-sec {
+      .ping-device {
+        color: #0063f7;
+        height: 45px;
+        width: 136px;
+        padding-left: 12px;
+        text-align: start;
+        margin-right: 1rem;
+        border: 1px solid #0063f7;
+        border-radius: 4px;
+        margin-left: auto;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 150%;
+      }
+    }
+    .ping-failed {
+      .failed-link {
+        color: #ef233c;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 16px;
+        margin-left: auto;
+        margin: 1rem 1rem 0 auto;
+        cursor: pointer;
+      }
+    }
+  }
+  .device-sims-detail-view-details-card-history {
+    .content {
+      margin: 5px 30px 5px 5px;
+      .label {
+        color: #a3a3a3;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 16px;
+        letter-spacing: 0.02em;
+      }
+      .details {
+        color: #3c4257;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 150%;
+        letter-spacing: 0.00625em;
+        padding-top: 5px;
+        word-break: break-word;
+      }
+    }
+  }
+  &.device-sims-detail-view-edit-form,
+  &.device-sims-detail-view-details-form {
+    padding-top: 0;
+  }
+  input.form-control {
+    border-radius: 0;
+    border-bottom: 0.5px solid #3c4257;
+  }
+}
+.v-hidden {
+  visibility: hidden;
+}
+
+// temp classes
+
+.add-new-device-form {
+  background: #eff1f3;
+}
+
+.progress {
+  background-color: #fff;
+  border-radius: 22px;
+  &-hours {
+    &-title1 {
+      font-family: Inter;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 16px;
+    }
+    &-title2 {
+      text-align: center;
+      font-family: Inter;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 16px;
+    }
+    &-title3 {
+      margin-left: -1rem;
+      text-align: end;
+      font-family: Inter;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+}
+
+.success {
+  &-dot {
+    background-color: #06d6a0 !important;
+    width: 16px;
+    border-radius: 1rem;
+    height: 1rem;
+    &-abs {
+      position: absolute;
+      background-color: #06d6a0 !important;
+      width: 16px;
+      border-radius: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &-bar {
+    background-color: #06d6a0 !important;
+    width: 30%;
+    border-radius: 1rem;
+  }
+}
+
+.white-dot {
+  background-color: #fff !important;
+  width: 16px;
+  height: 1rem !important;
+  border-radius: 1rem;
+  &-abs {
+    position: absolute;
+    background-color: #fff !important;
+    width: 16px;
+    height: 1rem !important;
+    border-radius: 1rem;
+    margin-left: 2rem;
+  }
+}
+
+.danger-dot {
+  background-color: #ef233c !important;
+  width: 16px;
+  border-radius: 1rem;
+  height: 1rem;
+  &-abs {
+    position: absolute;
+    background-color: #ef233c !important;
+    width: 16px;
+    border-radius: 1rem;
+    height: 1rem;
+    margin-left: 12rem;
+  }
+}

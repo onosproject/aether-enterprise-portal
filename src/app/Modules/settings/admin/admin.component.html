@@ -1,107 +1,668 @@
 <!-- <app-navbar></app-navbar> -->
 
 <!-- <h3>Admin panel works..</h3> -->
-<div class="row container-fluid my-4">
-  <div class="col-1"></div>
-  <mat-card class="aether-sideCol-NavCard col-2">
-    <mat-card-header>
-      <mat-card-title>Select site: </mat-card-title>
-    </mat-card-header>
-    <mat-card-header>
-      <mat-card-title>MANAGE</mat-card-title>
-    </mat-card-header>
-    <img src="../../assets/CommonAssets/ControlMenuLine.svg" />
-    <mat-card-header>
-      <div mat-card-avatar>
-        <mat-icon>account_circle</mat-icon>
+<div class="row container-fluid my-5">
+  <div class="col-2 mx-4">
+    <app-side-navbar></app-side-navbar>
+  </div>
+  <div
+    class="
+      col
+      container-fluid
+      col-xxl col-xl-9 col-lg-8 col-md-7 col-sm-6 col-5
+    "
+  >
+    <div class="admin-addUser-holder col-12 mx-3 useerPanel">
+      <form [formGroup]="userForm">
+        <mat-card
+          class="col-12 admin-addNew-holder my-1"
+          *ngIf="AddNew"
+          [@inOutAnimation]
+        >
+          <mat-card-title class="admin-addNew-title my-4 mx-4"
+            >Add new user</mat-card-title
+          >
+          <mat-card-content>
+            <div class="admin-addNew-form my-4 mx-2 d-flex">
+              <div class="admin-addNew-form-ppicHolder col-2 mx-3">
+                <div class="admin-addNew-form-profile mx-2 my-4">
+                  <img
+                    src="../../assets/AdminPanel/Rectangle 966.svg"
+                    alt="profile-pic-outline"
+                    widt
+                  />
+                  <br />
+                  <button mat-button class="admin-addNew-form-upload my-4">
+                    Upload
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="row">
+                  <div class="col-12 my-3">
+                    <div id="new-form" class="col-12 my-2 d-flex">
+                      <div class="col-6">
+                        <mat-label class="admin-addNew-form-label" for="name"
+                          >Enter user name</mat-label
+                        >
+                        <br />
+                        <div class="admin-addNew-form-field" appearance="fill">
+                          <input
+                            class="form-control form-field-big"
+                            type="text"
+                            formControlName="name"
+                            name="newuserName"
+                            id="newuserName"
+                            placeholder="Name"
+                          />
+                        </div>
+                      </div>
+                      <div class="col-6 mx-2">
+                        <mat-label class="admin-addNew-form-label" for="email"
+                          >Enter Email ID</mat-label
+                        >
+                        <br />
+                        <div class="admin-addNew-form-field" appearance="fill">
+                          <input
+                            type="email"
+                            type="text"
+                            name="email"
+                            id="email"
+                            class="form-control form-field-big"
+                            required
+                            formControlName="email"
+                            [formControl]="emailFormControl"
+                            placeholder="Email ID"
+                          />
+                          <mat-error
+                            *ngIf="
+                              emailFormControl.hasError('email') &&
+                              !emailFormControl.hasError('required')
+                            "
+                          >
+                            Please enter a valid email address
+                          </mat-error>
+                          <mat-error
+                            *ngIf="emailFormControl.hasError('required')"
+                          >
+                            Email is <strong>required</strong>
+                          </mat-error>
+                        </div>
+
+                        <div class="col-5">
+                          <mat-checkbox
+                            class="admin-addNew-form-checkBox"
+                            [(ngModel)]="checked"
+                            [color]="task.color"
+                            [ngModelOptions]="{ standalone: true }"
+                            >Send email alerts to my email</mat-checkbox
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row d-flex">
+                  <div>Select Access Level</div>
+                  <div class="col-6 d-flex" style="flex-wrap: wrap">
+                    <div
+                      class="d-flex mx-2"
+                      *ngFor="let city of cities; let cityIndex = index"
+                    >
+                      <mat-form-field style="width: 140px">
+                        <div class="col-8">
+                          <mat-label>{{ city.name }}</mat-label>
+                        </div>
+                        <div
+                          class="btn admin-addNew-form-permissions my-3"
+                          appearance="fill"
+                        >
+                          <mat-label></mat-label>
+                          <mat-select
+                            class="admin-addNew-form-permissionsSelect"
+                            [formControl]="
+                              getCitiesControl(cityIndex, userForm)
+                            "
+                          >
+                            <mat-option
+                              [value]="permissionIndex"
+                              *ngFor="
+                                let permission of permissions;
+                                let permissionIndex = index
+                              "
+                              >{{ permission.viewValue }}</mat-option
+                            >
+                          </mat-select>
+                        </div>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="col-6 my-2">
+                    <div class="my-2">Select Alert Category</div>
+                    <div class="my-3">
+                      <div class="row">
+                        <div class="d-flex">
+                          <mat-checkbox class="admin-addNew-form-subChecks">
+                            Device
+                          </mat-checkbox>
+                          <mat-checkbox
+                            class="
+                              admin-addNew-form-subChecks
+                              admin-addNew-form-subChecks-central
+                            "
+                          >
+                            Central
+                          </mat-checkbox>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="d-flex my-3">
+                          <mat-checkbox class="admin-addNew-form-subChecks">
+                            Site Equipment
+                          </mat-checkbox>
+                          <mat-checkbox
+                            class="
+                              admin-addNew-form-subChecks
+                              admin-addNew-form-subChecks-security
+                            "
+                          >
+                            Security
+                          </mat-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div class="admin-addNew-form-lastButtons">
+              <button
+                class="admin-addNew-form-addButton"
+                type="submit"
+                mat-raised-button
+                color="primary"
+                (click)="AddNew = !AddNew; onSubmit(); assignUsersCities()"
+              >
+                Add
+              </button>
+              <button
+                mat-button
+                class="admin-addNew-form-cancelButton"
+                (click)="AddNew = !AddNew"
+              >
+                Cancel
+              </button>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+
+      <!-- View Defining and switching row. -->
+      <div class="row">
+        <div class="d-flex admin-usersites-holder">
+          <div
+            class="col-xxl-9 col-xl-9 col-lg-8 admin-usersites-title"
+            *ngIf="userViewToggle"
+          >
+            Users
+          </div>
+          <div
+            class="col-xxl-9 col-xl-9 col-lg-8 admin-usersites-title"
+            *ngIf="siteViewToggle"
+          >
+            Site
+          </div>
+
+          <div class="col-xxl-3 col-xl-4 col-lg-5 d-flex">
+            <div class="admin-usersites-switch-text mt-2">Filter by</div>
+            <div class="mx-4">
+              <button
+                class="admin-usersites-switch"
+                (click)="siteView()"
+                [ngClass]="siteViewStyle == 'true' ? 'highlight' : 'normal'"
+              >
+                Site
+              </button>
+              <button
+                class="admin-usersites-switch"
+                (click)="userView()"
+                [ngClass]="userViewStyle == 'true' ? 'highlight' : 'normal'"
+              >
+                User
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <mat-card-title>Admin</mat-card-title>
-    </mat-card-header>
-    <mat-card-header>
-      <div mat-card-avatar>
-        <mat-icon>sim_card</mat-icon>
-      </div>
-      <mat-card-title>Devices / Sims</mat-card-title>
-    </mat-card-header>
-    <mat-card-header>
-      <div mat-card-avatar>
-        <mat-icon>layers</mat-icon>
-      </div>
-      <mat-card-title>Services</mat-card-title>
-    </mat-card-header>
-    <mat-card-header>
-      <mat-card-title>CONFIGURE</mat-card-title>
-    </mat-card-header>
-    <img src="../../assets/CommonAssets/ControlMenuLine.svg" />
-    <mat-card-header>
-      <div mat-card-avatar>
-        <mat-icon>wifi_tethering</mat-icon>
-      </div>
-      <mat-card-title>Small Cells</mat-card-title>
-    </mat-card-header>
-    <mat-card-header>
-      <div mat-card-avatar>
-        <mat-icon>devices_other</mat-icon>
-      </div>
-      <mat-card-title>Device Groups</mat-card-title>
-    </mat-card-header>
-    <mat-card-header>
-      <div mat-card-avatar>
-        <mat-icon>filter_none</mat-icon>
-      </div>
-      <mat-card-title>Slices</mat-card-title>
-    </mat-card-header>
-    <mat-card-header>
-      <mat-card-title>REPORTS</mat-card-title>
-    </mat-card-header>
-    <img src="../../assets/CommonAssets/ControlMenuLine.svg" />
-    <mat-card-header>
-      <div mat-card-avatar>
-        <mat-icon>filter_none</mat-icon>
-      </div>
-      <mat-card-title>Audit</mat-card-title>
-    </mat-card-header>
-  </mat-card>
-  <div class="col container-fluid UsersPanel mx-2">
-    <div class="col aether-UsersPanel-Title my-2 mx-2">Users</div>
-    <div class="my-4 col-12 mx-2">
-      <mat-card class="aether-AddUser-Card col-11 d-flex" *ngIf="!AddNew">
+
+      <mat-card class="admin-addUser-Card col-12 d-flex my-4" *ngIf="!AddNew">
         <div>
           <button
-            class="btn col-3 aether-AddUser-btnCenter"
+            class="btn col-3 admin-addUser-btnCenter"
             (click)="AddNew = !AddNew"
           >
-            + Add new user
+            Add new user +
           </button>
         </div>
       </mat-card>
-      <br />
-      <mat-card class="col-11" *ngIf="AddNew">
-        <mat-card-title class="aether-AddNew-Title my-4 mx-4"
-          >Add New User</mat-card-title
-        >
-        <mat-card-content>
-          <div class="aether-AddNew-Form my-4 mx-2">
-            <div class="col-3 mx-2">
-              <div class="aether-AddNew-Form-Profile mx-5 my-5">
-                <img
-                  src="../../assets/AdminPanel/p-pic-outline.svg"
-                  alt="profile-pic-outline"
-                />
-                <br />
-                <button mat-button class="aether-AddNew-Form-Upload my-4 mx-3">
-                  Upload
-                </button>
+
+      <!-- User View -->
+      <div class="my-3" *ngIf="userViewToggle">
+        <div *ngFor="let user of users; let userIndex = index">
+          <mat-card class="admin-users-card col-12 d-flex my-3">
+            <div
+              class="col-12 d-flex my-2"
+              (click)="
+                toggle === userIndex ? (toggle = null) : (toggle = userIndex)
+              "
+            >
+              <div class="mx-3 d-flex" style="margin-top: -5px">
+                <img src="{{ user.ppic }}" height="56px" /><sup
+                  ><img class="admin-users-card-active" src="{{ user.active }}"
+                /></sup>
+              </div>
+
+              <div class="col-1 admin-users-card-username mx-2">
+                {{ user.name }}
+              </div>
+              <div class="col-3 admin-users-card-email">{{ user.email }}</div>
+              <div class="col-xxl-6 col-xl-5 mx-4 admin-users-card-cities">
+                <div class="d-flex">
+                  <div
+                    class="admin-users-card-city-image-container mx-1"
+                    *ngFor="let city of user.cities"
+                  >
+                    <img
+                      *ngIf="city.name == 'Fremont, CA'"
+                      class="admin-users-card-city-image"
+                      src="../../assets/AdminPanel/fremont.svg"
+                    />
+                    <img
+                      *ngIf="city.name == 'Bengaluru, IN'"
+                      class="admin-users-card-city-image"
+                      src="../../assets/AdminPanel/berlin.svg"
+                    />
+                    <img
+                      *ngIf="city.name == 'NYC, NY'"
+                      class="admin-users-card-city-image"
+                      src="../../assets/AdminPanel/nyc.svg"
+                    />
+                    <img
+                      *ngIf="city.name == 'Austin, TX'"
+                      class="admin-users-card-city-image"
+                      src="../../assets/AdminPanel/austin.svg"
+                    />
+                    <img
+                      *ngIf="city.name == 'Berlin, DE'"
+                      class="admin-users-card-city-image"
+                      src="../../assets/AdminPanel/berlin.svg"
+                    />
+                    <div class="admin-users-card-access-text-block">
+                      {{ permissions[city.accessLevel].viewValue }}
+                    </div>
+                    <span class="admin-users-card-city-text-block">{{
+                      city.name
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-1 admin-users-card-editOption"
+                (click)="toggleEdit(user.id, userIndex)"
+                *ngIf="editUsers.indexOf(user.id) < 0"
+              >
+                <img src="../../assets/AdminPanel/pencil.svg" />
+                Edit
+              </div>
+              <div
+                class="col-1 admin-users-card-editOption-close"
+                (click)="toggleEdit(user.id, userIndex)"
+                *ngIf="editUsers.indexOf(user.id) >= 0"
+              >
+                Close
               </div>
             </div>
-          </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button class="" (click)="AddNew = !AddNew">
-            Temp Cancel
-          </button>
-        </mat-card-actions>
-      </mat-card>
+          </mat-card>
+
+          <!-- Edit form panel (User-View) -->
+          <form [formGroup]="editForm">
+            <div *ngIf="editUsers.indexOf(user.id) >= 0" [@inOutAnimation]>
+              <mat-card class="col admin-addNew-holder">
+                <mat-card-content>
+                  <div class="admin-addNew-form my-4 mx-2 d-flex">
+                    <div class="admin-addNew-form-ppicHolder col-2 mx-3">
+                      <div class="admin-addNew-form-profile mx-2 my-4">
+                        <img
+                          src="../../assets/AdminPanel/Rectangle 966.svg"
+                          alt="profile-pic-outline"
+                        />
+                        <br />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="row">
+                        <div class="col-12 my-3">
+                          <div id="new-form" class="col-12 my-2 d-flex">
+                            <div class="">
+                              <mat-label
+                                class="admin-addNew-form-label"
+                                for="name"
+                                >Enter user name</mat-label
+                              >
+                              <br />
+                              <mat-form-field
+                                class="admin-addNew-form-field"
+                                appearance="fill"
+                              >
+                                <input
+                                  class="form-control"
+                                  matInput
+                                  type="text"
+                                  name="newuserName"
+                                  id="newuserName"
+                                  placeholder="Name"
+                                  required
+                                  [formControl]="
+                                    getEditControl(user.form, 'name')
+                                  "
+                                />
+                              </mat-form-field>
+                            </div>
+                            <div class="mx-4">
+                              <mat-label
+                                class="admin-addNew-form-label"
+                                for="email"
+                                >Enter Email ID</mat-label
+                              >
+                              <br />
+                              <mat-form-field
+                                class="admin-addNew-form-field"
+                                appearance="fill"
+                              >
+                                <input
+                                  type="email"
+                                  matInput
+                                  type="text"
+                                  name="email"
+                                  id="email"
+                                  class="form-control"
+                                  required
+                                  [formControl]="
+                                    getEditControl(user.form, 'email')
+                                  "
+                                  placeholder="Email ID"
+                                />
+                                <mat-error
+                                  *ngIf="
+                                    emailFormControl.hasError('email') &&
+                                    !emailFormControl.hasError('required')
+                                  "
+                                >
+                                  Please enter a valid email address
+                                </mat-error>
+                                <mat-error
+                                  *ngIf="emailFormControl.hasError('required')"
+                                >
+                                  Email is <strong>required</strong>
+                                </mat-error>
+                              </mat-form-field>
+
+                              <div class="col-5">
+                                <mat-checkbox
+                                  class="admin-addNew-form-checkBox"
+                                  [(ngModel)]="checked"
+                                  [color]="task.color"
+                                  [ngModelOptions]="{ standalone: true }"
+                                  >Send email alerts to my email</mat-checkbox
+                                >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row d-flex">
+                        <div>Select Access Level</div>
+                        <div class="col-6 d-flex" style="flex-wrap: wrap">
+                          <div
+                            class="d-flex mx-2"
+                            *ngFor="let city of cities; let cityIndex = index"
+                          >
+                            <mat-form-field style="width: 140px">
+                              <div class="col-8">
+                                <mat-label>{{ city.name }}</mat-label>
+                              </div>
+                              <div
+                                class="btn admin-addNew-form-permissions my-3"
+                                appearance="fill"
+                              >
+                                <mat-label></mat-label>
+                                <mat-select
+                                  class="admin-addNew-form-permissionsSelect"
+                                  [formControl]="
+                                    getCitiesControl(cityIndex, user.form)
+                                  "
+                                >
+                                  <mat-option
+                                    [value]="permissionIndex"
+                                    *ngFor="
+                                      let users1 of city.users;
+                                      let permission;
+                                      of: permissions;
+                                      let permissionIndex = index
+                                    "
+                                    >{{ permission.viewValue }}</mat-option
+                                  >
+                                </mat-select>
+                              </div>
+                            </mat-form-field>
+                          </div>
+                        </div>
+
+                        <div class="col-6 my-2">
+                          <div class="my-2">Select Alert Category</div>
+                          <div class="my-3">
+                            <div class="row">
+                              <div class="d-flex">
+                                <mat-checkbox
+                                  class="admin-addNew-form-subChecks"
+                                >
+                                  Device
+                                </mat-checkbox>
+                                <mat-checkbox
+                                  class="
+                                    admin-addNew-form-subChecks
+                                    admin-addNew-form-subChecks-central
+                                  "
+                                >
+                                  Central
+                                </mat-checkbox>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="d-flex my-3">
+                                <mat-checkbox
+                                  class="admin-addNew-form-subChecks"
+                                >
+                                  Site Equipment
+                                </mat-checkbox>
+                                <mat-checkbox
+                                  class="
+                                    admin-addNew-form-subChecks
+                                    admin-addNew-form-subChecks-security
+                                  "
+                                >
+                                  Security
+                                </mat-checkbox>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-content>
+
+                <mat-card-actions>
+                  <div class="admin-addNew-form-lastButtons">
+                    <span class="admin-addNew-form-audit" type="button">
+                      <img
+                        style="margin-top: -4px"
+                        src="../../assets/AdminPanel/audit.svg"
+                      />
+                      Audit User
+                    </span>
+                    <span
+                      class="admin-addNew-form-delete"
+                      type="button"
+                      (click)="confirmDelete(userIndex)"
+                    >
+                      <img
+                        style="margin-top: -4px"
+                        src="../../assets/AdminPanel/deleteicon.svg"
+                      />
+                      Delete
+                    </span>
+                    <button
+                      class="admin-addNew-form-addButton"
+                      mat-raised-button
+                      type="submit"
+                      color="primary"
+                      (click)="onEdit(userIndex)"
+                    >
+                      Save
+                    </button>
+                    <button
+                      mat-button
+                      class="admin-addNew-form-cancelButton"
+                      (click)="toggleEdit(user.id, userIndex)"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- siteView -->
+      <div class="my-3" *ngIf="siteViewToggle">
+        <div *ngFor="let city of cities; let cityIndex = index">
+          <mat-card class="col-12 d-flex my-2">
+            <div class="col-1 mx-1 admin-users-card-cities">
+              <div class="admin-users-card-city-image-container">
+                <img
+                  *ngIf="city.id === 1"
+                  class="admin-users-card-city-image"
+                  src="../../assets/AdminPanel/fremont.svg"
+                />
+                <img
+                  *ngIf="city.id === 2"
+                  class="admin-users-card-city-image"
+                  src="../../assets/AdminPanel/bengaluru.svg"
+                />
+                <img
+                  *ngIf="city.id === 3"
+                  class="admin-users-card-city-image"
+                  src="../../assets/AdminPanel/nyc.svg"
+                />
+                <img
+                  *ngIf="city.id === 4"
+                  class="admin-users-card-city-image"
+                  src="../../assets/AdminPanel/austin.svg"
+                />
+                <img
+                  *ngIf="city.id === 5"
+                  class="admin-users-card-city-image"
+                  src="../../assets/AdminPanel/berlin.svg"
+                />
+
+                <span class="admin-users-card-city-text-block">{{
+                  city.name
+                }}</span>
+              </div>
+            </div>
+            <div
+              class="vl mx-2"
+              style="border-left: 1px solid #97c1ff; height: auto"
+            ></div>
+            <!-- <div>
+              <img src="../../assets/AdminPanel/siteview-hline.svg" />
+            </div> -->
+            <div class="col-9 d-flex" style="flex-wrap: wrap">
+              <div
+                class="col-3"
+                *ngFor="let user of city.users; let userIndex = index"
+              >
+                <div>
+                  <!-- <div class="admin-siteView-sec-2 d-flex"> -->
+                  <div class="admin-siteView-card-1 d-flex">
+                    <div class="d-flex admin-siteView-card-1-img mx-1">
+                      <img height="46px" src="{{ user.details.ppic }}" />
+                      <sup
+                        ><img
+                          class="admin-siteView-card-1-userDetails-active"
+                          src="{{ user.details.active }}"
+                      /></sup>
+                    </div>
+                    <div class="admin-siteView-card-1-userDetails">
+                      <div class="admin-siteView-card-1-userDetails-userName">
+                        {{ user.details.name
+                        }}<span class="admin-siteView-access-list mx-1">{{
+                          permissions[user.accessLevel].viewValue
+                        }}</span>
+                      </div>
+                      <div class="admin-siteView-card-1-userDetails-userMail">
+                        {{ user.details.email }}
+                      </div>
+                    </div>
+                    <div
+                      class="admin-siteView-card-1-close-red"
+                      *ngIf="editCities.indexOf(city.id) >= 0"
+                    >
+                      <img
+                        (click)="confirmDelCity(cityIndex, userIndex)"
+                        src="../../assets/AdminPanel/siteViewEdit-del.svg"
+                        height="7.69px"
+                        width="7.69px"
+                      />
+                    </div>
+                  </div>
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+            <div class="col-1 admin-siteView-doneButton">
+              <span
+                (click)="toggleEdit1(city.id)"
+                *ngIf="editCities.indexOf(city.id) >= 0"
+              >
+                Done
+              </span>
+            </div>
+            <span
+              class="admin-siteView-closeButton"
+              (click)="toggleEdit1(city.id)"
+              *ngIf="editCities.indexOf(city.id) >= 0"
+            >
+              Cancel
+            </span>
+            <div
+              class="admin-siteView-editButton"
+              (click)="toggleEdit1(city.id)"
+              *ngIf="editCities.indexOf(city.id) < 0"
+            >
+              <img src="../../assets/AdminPanel/pencil.svg" /> Edit
+            </div>
+          </mat-card>
+        </div>
+      </div>
     </div>
   </div>
 </div>

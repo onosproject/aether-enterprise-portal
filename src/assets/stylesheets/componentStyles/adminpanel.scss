@@ -1,28 +1,96 @@
-.aether {
-  &-sideCol-NavCard {
-    background: #ffff;
+.admin {
+  &-sideCol-navCard {
+    background: $SecondaryColor;
     margin-left: -10px;
     border-top: 1px solid transparent !important;
     border-radius: 0.8rem !important;
+    margin-left: 7rem;
+    width: 13rem !important;
+    height: fit-content;
+
+    &-siteSelector {
+      color: #0063f7;
+      font-family: "Inter", sans-serif;
+      font-size: 12px !important;
+      font-weight: 700;
+      margin-left: -10px;
+      border: 1px solid #0063f7;
+      border-radius: 4px;
+    }
+
+    &-headings {
+      font-family: "Inter", sans-serif;
+      font-size: 12px !important;
+      font-weight: 700;
+      margin-left: -12px;
+      margin-bottom: auto !important;
+    }
+
+    &-controlLine {
+      width: -webkit-fill-available;
+    }
+
+    &-subIcon {
+      color: #004fc4;
+      // background-image: url(../../SideCol-Navbar/icon-bg.svg);
+      border: 1px solid transparent;
+      border-radius: 12px;
+    }
+
+    &-subHeading {
+      color: #3c4257;
+      font-family: "Inter", sans-serif;
+      font-size: 14px !important;
+      font-weight: 500;
+      margin-left: -20px;
+    }
   }
 
-  &-UsersPanel-Title {
-    color: #0063f7 !important;
-    font-family: Inter;
-    font-weight: 700;
-    font-size: 1.5rem;
-    font-style: normal;
+  &-usersites {
+    &-holder {
+      margin-top: 10px;
+    }
+
+    &-switch {
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 10px 20px 10px 20px;
+      // margin-top: 15px;
+
+      &-text {
+        color: #3c4257;
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        letter-spacing: 0.01em;
+        // margin-top: 5px;
+      }
+    }
+
+    &-title {
+      color: #3c4257 !important;
+      font-family: Inter;
+      font-weight: normal;
+      font-size: 2rem;
+      font-style: normal;
+      margin-top: 15px !important;
+    }
   }
 
-  &-AddUser {
+  &-addUser {
+    &-holder {
+      padding-right: 120px;
+    }
+
     &-Card {
       height: 3.8rem;
+      margin-left: -6px;
     }
 
     &-btnCenter {
-      color: #ffff !important;
+      color: #fff !important;
       background: #0063f7 !important;
-      border-radius: 9px !important;
+      border-radius: 4px !important;
       position: absolute;
       left: 0;
       right: 0;
@@ -32,29 +100,409 @@
     }
   }
 
-  &-AddNew {
-    &-Title {
-      color: #0063f7 !important;
-      font-family: Inter;
-      font-weight: 700;
-      font-size: 1.5rem;
-      font-style: normal;
+  &-users {
+    &-card {
+      padding-top: 10px !important;
+      height: 5rem;
+      margin-left: -6px;
+      box-shadow: none !important;
+
+      &-active {
+        height: 15px;
+        margin-left: -16px;
+        border: 1px solid white;
+        border-radius: 48px;
+        margin-top: 4px;
+        background: white;
+      }
+
+      &-username {
+        padding-top: 10px;
+        color: #3c4257;
+        font-family: Inter;
+        font-weight: 600;
+        font-style: normal;
+        font-size: 14px;
+      }
+
+      &-email {
+        padding-top: 10px;
+        color: #2d3748;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+      }
+
+      &-city-image-container {
+        height: 100%;
+        position: relative;
+      }
+
+      &-city-image {
+        height: 100%;
+        object-fit: cover;
+        width: -webkit-fill-available;
+        border-radius: 8px 8px 0 0;
+      }
+
+      &-access-text-block {
+        font-family: Inter;
+        // font-weight: 400;
+        // font-size: 12px;
+        // line-height:16px;
+        color: #fff;
+        text-align: center !important;
+        position: absolute;
+        background: #0063f7;
+        top: -12px;
+        left: 0px;
+        width: 99px;
+        padding-bottom: 5px;
+        border-radius: 8px 8px 0 0;
+      }
+
+      &-city-text-block {
+        line-height: 16px;
+        position: absolute;
+        left: 3px;
+        top: 16px;
+        color: white;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      &-editOption {
+        cursor: pointer;
+        color: #0063f7;
+        padding-top: 10px;
+      }
+
+      &-editOption-close {
+        cursor: pointer;
+        color: #ef233c;
+        padding-top: 10px;
+      }
+    }
+  }
+
+  &-addNew {
+    &-holder {
+      margin-left: -6px;
+      margin-top: -20px;
     }
 
-    &-Form {
-      border: 1px dashed #97c1f0;
-      border-radius: 5px;
-      background: $general-bg;
+    &-title {
+      color: #3c4257 !important;
+      font-family: Inter;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 28px;
+      line-height: 36px;
+    }
 
-      // &-Profile {
+    &-form {
+      // border: 1px dashed #97c1f0;
+      border-radius: 5px;
+      background: #eff1f3;
+
+      &-label {
+        color: #3c4257;
+        font-family: "Inter", sans-serif;
+        font-style: normal;
+        font-size: 12px;
+      }
+
+      &-field {
+        width: auto;
+        padding-top: 0 px !important;
+        // background: #fff;
+        border-radius: 8 px !important;
+      }
+
+      &-permissionsMainTitle {
+        color: #3c4257;
+        font-family: "Inter", sans-serif;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        margin-top: -1.5rem;
+      }
+
+      &-permissions {
+        width: -webkit-fill-available;
+      }
+
+      &-permissionsSelect {
+        color: white !important;
+        text-align: left;
+      }
+
+      // &-ppicHolder {
+
       // }
 
-      &-Upload {
-        padding: 6px 23px 6px 23px;
-        color: $uploadTextColor;
-        border: 0.5px solid #005eec;
+      &-profile {
+        width: 162px;
+      }
+
+      &-upload {
+        // padding: 6px 23px 6px 23px;
+        color: #0063f7;
+        border: none;
+        margin-left: 4rem;
+        // border: 0.5px solid #005eec;
+        // background: #fff;
+      }
+
+      &-checkBox {
+        font-size: 14px;
+      }
+
+      &-subChecksDiv {
+        margin: 0.5rem 0 1rem 0;
+      }
+
+      &-permissions {
+        color: blue !important;
+        border: 2px solid white !important;
+        background: #fff !important;
+        // padding: 0 0 0 6rem !important;
+      }
+
+      &-subChecks {
+        &-central {
+          margin-left: 10rem;
+        }
+
+        &-security {
+          margin-left: 6.8rem;
+        }
+      }
+
+      &-audit {
+        color: #0063f7;
+        margin-left: 2rem;
+        font-family: Inter;
+        font-weight: 500;
+      }
+
+      &-delete {
+        color: #ef233c;
+        margin-top: 15px;
+        margin-left: 3rem;
+        font-family: Inter;
+        font-weight: 500;
+      }
+
+      &-addButton {
+        color: #fff;
+        float: right;
+        height: 49px;
+        width: 108px;
+        text-align: start;
+        margin-right: 1rem;
+        border: 1px solid #0063f7;
+        border-radius: 4px;
+        background: #0063f7;
+      }
+
+      &-cancelButton {
+        color: #0063f7;
+        float: right;
+        height: 49px;
+        width: 108px;
+        text-align: start;
+        margin-right: 2rem;
+        border: 1px solid #0063f7;
+        border-radius: 4px;
         background: #fff;
       }
     }
   }
+
+  &-siteView {
+    &-sec-2 {
+      flex-wrap: wrap;
+    }
+
+    &-access-list {
+      background: #0063f7;
+      border-radius: 20px;
+      height: 18px;
+      min-width: 44px;
+      font-family: Inter;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 16px;
+      color: #ffffff;
+      display: inline-block;
+      text-align: center;
+      padding: 2px;
+    }
+
+    &-card-1 {
+      max-width: 230px;
+      background: #edf4ff;
+      padding: 10px 22px 10px 5px;
+      max-height: 65px;
+      margin: 0 5px 5px 5px;
+      border-radius: 5px;
+      align-items: center;
+      position: relative;
+      &-userDetails {
+        padding-left: 10px;
+        &-userName {
+          font-family: Inter;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 18px;
+        }
+        &-userMail {
+          padding-top: 5px;
+          font-family: Inter;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 16px;
+        }
+        &-user-mail {
+          padding-top: 5px;
+          font-family: Inter;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 16px;
+        }
+        &-active {
+          margin-left: -14px;
+          border: 1px solid white;
+          border-radius: 48px;
+          margin-top: 4px;
+          background: white;
+        }
+      }
+      &-close-red {
+        position: absolute;
+        right: 8px;
+        top: 2px;
+        width: 8px;
+        height: 8px;
+        cursor: pointer;
+        img {
+          height: 12px;
+          width: 12px;
+        }
+      }
+    }
+  }
+
+  &-delete {
+    &-close {
+      margin-top: -3.1rem;
+      margin-left: 1rem;
+      width: 1rem !important;
+    }
+    &-title {
+      color: #3c4257 !important;
+      font-family: "Inter", sans-serif !important;
+      font-weight: 400 !important;
+      font-style: normal !important;
+      font-size: 28px !important;
+      line-height: 36px !important;
+    }
+  }
 }
+
+#new-form {
+  .mat-form-field {
+    //   &-underline {
+    //     display: none;
+    //   }
+
+    &-flex {
+      // padding-top: 5px;
+      // padding-bottom: 5px;
+      // background: #ffff !important;
+      border-radius: 0.5rem;
+    }
+
+    &-outline {
+      background: #fff !important;
+    }
+  }
+}
+
+.mat-card-actions1 {
+  display: flow-root !important;
+  padding-bottom: 20px !important;
+}
+
+.admin-addNew-form-lastButtons {
+  display: flow-root !important;
+  padding-bottom: 20px !important;
+}
+
+.highlight {
+  color: #fff;
+  background: #0063f7;
+  border: none;
+}
+
+.normal {
+  color: #6ea6ff;
+  background: #fff;
+  border: none;
+}
+
+.admin-siteView-editButton {
+  cursor: pointer;
+  color: $primaryColor;
+  align-self: center;
+}
+
+.admin-siteView-doneButton {
+  cursor: pointer;
+  color: $primaryColor;
+  align-self: center;
+  text-align: center;
+}
+
+.admin-siteView-closeButton {
+  cursor: pointer;
+  color: #ef233c;
+  align-self: center;
+}
+
+// media-queries
+
+@media screen and (max-width: 1600px) {
+  .useerPanel {
+    margin-left: 4rem !important;
+  }
+}
+
+.mat-form-field-underline {
+  display: none !important;
+}
+
+.mat-select-arrow {
+  border-image-source: url("../../AdminPanel/city-arrow.svg") !important;
+  border-image-repeat: stretch !important;
+  border-left: 12px solid transparent !important;
+  border-right: none !important;
+  border-top: 8px solid transparent !important;
+  color: blue;
+}
+
+.mat-select-value {
+  color: #0063f7 !important;
+}
+
+// .form-control:focus {
+//   border-color: blue;
+//   box-shadow: none;
+// }

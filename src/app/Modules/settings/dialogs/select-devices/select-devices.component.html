@@ -1,0 +1,54 @@
+<!-- <p>select-devices works!</p> -->
+<div class="row">
+  <div class="col-12 d-flex">
+    <div class="col-11 select-device-title mx-2">Select SIM from inventory</div>
+    <div class="col-1 select-device-close" (click)="onNoClick()">close</div>
+  </div>
+</div>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 p-3">
+      <div class="select-device-container d-flex">
+        <div
+          class="select-device-container-spacings"
+          *ngFor="let device of devices"
+        >
+          <div
+            class="select-device-container-deviceHolder"
+            (click)="changeSelection(device.id)"
+          >
+            <div class="mx-1 d-flex">
+              <!-- <mat-checkbox type=checkbox [checked]="selectedSim === sim.simNumber"  class="mx-2"></mat-checkbox>
+               -->
+              <img
+                [src]="
+                  selectedDevice === device.id
+                    ? 'assets/deviceSim/selected-card.svg'
+                    : 'assets/deviceSim/select.svg'
+                "
+              />
+              <img
+                class="mx-2"
+                src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+              />
+              <span class="mx-1">{{ device.deviceName }}</span>
+              <span class="mx-1">{{ device.locationName }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="select-device-finalButtons mx-1">
+  <button
+    mat-button
+    class="select-device-finalButtons-cancel mx-3"
+    (click)="onNoClick()"
+  >
+    Cancel
+  </button>
+  <button mat-button class="select-device-finalButtons-select" cdkFocusInitial>
+    Select
+  </button>
+</div>
