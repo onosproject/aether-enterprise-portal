@@ -33,7 +33,7 @@ export class SlicesComponent {
     // console.log(this.sliceData.data[0].services[0].group.splice(0,1));
   }
 
-  dragAndDrop(event: CdkDragDrop<string[]>) {
+  dragAndDrop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(
       this.sliceData.data,
       event.previousIndex,
@@ -41,11 +41,11 @@ export class SlicesComponent {
     );
   }
 
-  expandSlice(id: any) {
+  expandSlice(id: number): void {
     this.expandId = id;
   }
 
-  collapseSlice(id: any) {
+  collapseSlice(): void {
     this.expandId = null;
     this.panelOpenState = false;
     if (this.isExpand) {
@@ -54,25 +54,25 @@ export class SlicesComponent {
     }
   }
 
-  onSelectCard(value: any) {
-    this.expandId = null;
-    const result = slice[0].filter((word) => word.site_id == value);
-    this.siteIndex = value;
-    this.sliceData = result[0];
-  }
+  // onSelectCard(value: any):void {
+  //   this.expandId = null;
+  //   const result = slice[0].filter((word) => word.site_id == value);
+  //   this.siteIndex = value;
+  //   this.sliceData = result[0];
+  // }
 
-  expandAllCard() {
+  expandAllCard(): void {
     this.expandId = null;
     this.isExpand = true;
     this.panelOpenState = true;
   }
 
-  collapseAllCard() {
+  collapseAllCard(): void {
     this.isExpand = false;
     this.panelOpenState = false;
   }
 
-  onEdit(sliceId: any) {
+  onEdit(sliceId: number): void {
     this.sliceId = sliceId;
     if (this.isEditable) {
       this.isEditable = true;
@@ -82,11 +82,11 @@ export class SlicesComponent {
   }
 
   removeDevice(
-    deviceIndex: any,
-    cameraIndex: any,
-    cameraId: any,
-    deviceId: any
-  ) {
+    deviceIndex: number,
+    cameraIndex: number,
+    cameraId: number,
+    deviceId: number
+  ): void {
     if (this.myTimeout != 'undefined') {
       this.removedCameraId = cameraId;
       this.removedDeviceId = deviceId;
@@ -100,11 +100,11 @@ export class SlicesComponent {
   }
 
   removeServiceGroup(
-    serviceIndex: any,
-    groupServiceIndex: any,
-    groupId: any,
-    serviceId: any
-  ) {
+    serviceIndex: number,
+    groupServiceIndex: number,
+    groupId: number,
+    serviceId: number
+  ): void {
     if (this.myTimeout != 'undefined') {
       this.removedServiceGroupId = groupId;
       this.removedServiceId = serviceId;
@@ -117,7 +117,7 @@ export class SlicesComponent {
     }
   }
 
-  undoDevice() {
+  undoDevice(): void {
     clearTimeout(this.myTimeout);
     this.removedCameraId = null;
     this.removedServiceGroupId = null;
@@ -126,7 +126,7 @@ export class SlicesComponent {
     this.myTimeout = undefined;
   }
 
-  openDialog(deviceIndex: any): void {
+  openDialog(deviceIndex: number): void {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '450px',
     });

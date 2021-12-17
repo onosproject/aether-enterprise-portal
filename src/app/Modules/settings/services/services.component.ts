@@ -35,15 +35,15 @@ export class ServicesComponent implements OnInit {
     });
   }
 
-  addNewServiceFormFun() {
+  addNewServiceFormFun(): void {
     this.addNewServiceForm = true;
     this.editServiceForm = false;
   }
-  editServiceFormFun() {
+  editServiceFormFun(): void {
     this.addNewServiceForm = false;
     this.editServiceForm = true;
   }
-  editServiceFormClose() {
+  editServiceFormClose(): void {
     this.editServiceForm = false;
   }
 }

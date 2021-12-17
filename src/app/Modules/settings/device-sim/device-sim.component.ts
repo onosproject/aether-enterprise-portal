@@ -91,51 +91,51 @@ export class DeviceSimComponent implements OnInit {
     });
   }
 
-  deviceSimsDetailItemDetailsPopUpFun() {
+  deviceSimsDetailItemDetailsPopUpFun(): void {
     this.deviceSimsDetailItemDetailsPopUp = true;
     this.deviceSimsDetailViewEditForm = false;
     this.activeNewDevice = false;
   }
-  deviceSimsDetailItemDetailsPopUpClose() {
+  deviceSimsDetailItemDetailsPopUpClose(): void {
     this.deviceSimsDetailItemDetailsPopUp = false;
     this.activeNewDevice = false;
   }
-  deviceSimsDetailViewEditFormFun() {
+  deviceSimsDetailViewEditFormFun(): void {
     this.deviceSimsDetailViewEditForm = true;
     this.deviceSimsDetailItemDetailsPopUp = false;
     this.activeNewDevice = false;
   }
-  deviceSimsDetailViewEditFormClose() {
+  deviceSimsDetailViewEditFormClose(): void {
     this.deviceSimsDetailViewEditForm = false;
     this.activeNewDevice = false;
   }
 
-  deviceSimsDetailsProgressToggleDayFun() {
+  deviceSimsDetailsProgressToggleDayFun(): void {
     this.deviceSimsDetailsProgressToggleDay = true;
     this.deviceSimsDetailsProgressToggleWeek = false;
   }
-  deviceSimsDetailsProgressToggleWeekFun() {
+  deviceSimsDetailsProgressToggleWeekFun(): void {
     this.deviceSimsDetailsProgressToggleWeek = true;
     this.deviceSimsDetailsProgressToggleDay = false;
   }
-  activeNewDeviceForm() {
+  activeNewDeviceForm(): void {
     this.activeNewDevice = true;
     this.deviceSimsDetailItemDetailsPopUp = false;
     this.deviceSimsDetailViewEditForm = false;
   }
-  addNewDeviceFun() {
+  addNewDeviceFun(): void {
     this.addNewDevice = true;
     this.inventoryDeviceEditForm = false;
   }
-  inventoryDeviceEditFormFun() {
+  inventoryDeviceEditFormFun(): void {
     this.inventoryDeviceEditForm = true;
     this.addNewDevice = false;
   }
-  inventoryDeviceEditFormFunClose() {
+  inventoryDeviceEditFormFunClose(): void {
     this.inventoryDeviceEditForm = false;
   }
 
-  simsView() {
+  simsView(): void {
     this.inventorySimsTabStyle = 'false';
     this.inventoryDeviceTabStyle = 'false';
     this.deviceSimView = 'true';
@@ -151,7 +151,7 @@ export class DeviceSimComponent implements OnInit {
     this.inventoryDeviceEditForm = false;
     // console.log(a)
   }
-  inventoryDeviceTab() {
+  inventoryDeviceTab(): void {
     this.deviceSimView = 'false';
     this.inventoryDeviceTabStyle = 'true';
     this.inventorySimsTabStyle = 'false';
@@ -167,7 +167,7 @@ export class DeviceSimComponent implements OnInit {
     this.deviceSimsDetailViewEditForm = false;
     this.deviceSimsDetailItemDetailsPopUp = false;
   }
-  inventorySimsTab() {
+  inventorySimsTab(): void {
     this.inventorySimsTabStyle = 'true';
     this.inventoryDeviceTabStyle = 'false';
     this.inventorySimsToggle = true;
@@ -179,7 +179,7 @@ export class DeviceSimComponent implements OnInit {
     this.addNewDevice = false;
     this.inventoryDeviceEditForm = false;
   }
-  cancelledSims() {
+  cancelledSims(): void {
     this.cancelledSimsStyle = 'true';
     this.inventorySimsTabStyle = 'false';
     this.inventoryDeviceTabStyle = 'false';

@@ -8,7 +8,7 @@ import { sites } from '../../../../shared/classes/dashboard-data';
 })
 export class SitesComponent {
   sites: any;
-  selected: any = 1;
+  selected: number = 1;
 
   @Input() message: any;
   @Output() informParent = new EventEmitter();
@@ -17,7 +17,7 @@ export class SitesComponent {
     this.sites = sites[0];
   }
 
-  onSelectCard(value: any) {
+  onSelectCard(value: number): void {
     this.selected = value;
     this.informParent.emit(value);
   }

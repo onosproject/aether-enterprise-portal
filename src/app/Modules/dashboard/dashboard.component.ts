@@ -12,7 +12,7 @@ export class DashboardComponent {
 
   panelOpenState = false;
 
-  parentWillTakeAction(message: any) {
+  parentWillTakeAction(message: number): void {
     if (!this.isExpand) {
       this.slices.expandAllCard();
       this.isExpand = false;
@@ -23,7 +23,7 @@ export class DashboardComponent {
     this.slices.onSelectCard(message);
   }
 
-  parentWillTakeForExpand() {
+  parentWillTakeForExpand(): void {
     if (this.isExpand) {
       this.slices.expandAllCard();
       this.isExpand = false;
@@ -32,7 +32,7 @@ export class DashboardComponent {
       this.isExpand = true;
     }
   }
-  parentWillTakeActionSlice(message: any) {
+  parentWillTakeActionSlice(): void {
     this.isExpand = !this.isExpand;
   }
 }

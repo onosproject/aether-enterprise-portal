@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { User } from '../models/user.model';
 import { City } from '../models/city.model';
@@ -192,46 +192,46 @@ export class UserService {
 
   usersSubject = new BehaviorSubject<User[]>(this.users);
 
-  getUsers() {
+  getUsers(): Observable<User[]> {
     return this.usersSubject.asObservable();
   }
 
-  getCities() {
+  getCities(): Observable<City[]> {
     return this.citiesSubject.asObservable();
   }
 
-  getUser(index: number) {
+  getUser(index: number): User {
     console.log(this.users[index]);
     return this.users[index];
   }
 
-  getCity(index: number) {
+  getCity(index: number): City {
     console.log(this.cities[index]);
     return this.cities[index];
   }
 
-  addUser(user: User) {
+  addUser(user: User): void {
     user.id =
       this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
     this.users.push(user);
     this.usersSubject.next(this.users.slice());
   }
 
-  updateUser(index: number, newUser: User) {
+  updateUser(index: number, newUser: User): void {
     this.users[index] = newUser;
     this.usersSubject.next(this.users.slice());
   }
 
-  updateCity(index: number, newCity: City) {
+  updateCity(index: number, newCity: City): void {
     this.cities[index] = newCity;
     this.citiesSubject.next(this.cities.slice());
   }
 
-  updateCities(cities: City[]) {
+  updateCities(cities: City[]): void {
     this.citiesSubject.next(cities.slice());
   }
 
-  deleteUser(index: number) {
+  deleteUser(index: number): void {
     const id = this.users[index].id;
     this.users.splice(index, 1);
     for (let i = 0; i < this.cities.length; i++) {
@@ -245,7 +245,7 @@ export class UserService {
     this.usersSubject.next(this.users.slice());
   }
 
-  deleteCity(index: number) {
+  deleteCity(index: number): void {
     console.log('hi');
 
     this.cities.forEach((city) => {

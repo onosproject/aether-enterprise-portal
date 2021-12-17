@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { AdminComponent } from './admin/admin.component';
 import { MaterialModule } from '../material/material.module';
-import { NavbarComponent } from 'src/app/components/header/navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeviceSimComponent } from './device-sim/device-sim.component';
 import { ServicesComponent } from './services/services.component';

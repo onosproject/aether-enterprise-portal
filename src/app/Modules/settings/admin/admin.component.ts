@@ -126,7 +126,7 @@ export class AdminComponent implements OnInit {
   });
 
   // Toggling userView and SiteView
-  userView() {
+  userView(): void {
     this.userViewToggle = true;
     this.siteViewToggle = false;
     this.userViewStyle = 'true';
@@ -134,7 +134,7 @@ export class AdminComponent implements OnInit {
     // console.log(a)
   }
 
-  siteView() {
+  siteView(): void {
     this.siteViewToggle = true;
     this.userViewToggle = false;
     this.siteViewStyle = 'true';
@@ -143,7 +143,7 @@ export class AdminComponent implements OnInit {
   }
 
   // functions
-  assignUsersCities() {
+  assignUsersCities(): void {
     this.users = this.users.map((user) => {
       const cities1 = [];
       this.cities.forEach((city) => {
@@ -165,7 +165,7 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  assignCitiesUsers() {
+  assignCitiesUsers(): void {
     this.cities = this.cities.map((city) => {
       city.users = city.users.map((user) => {
         const userIndex = this.users.findIndex(
@@ -180,7 +180,7 @@ export class AdminComponent implements OnInit {
   }
 
   // for userView edit
-  toggleEdit(id: number, index: number) {
+  toggleEdit(id: number, index: number): void {
     console.log(id, index);
     const editIndex = this.editUsers.indexOf(id);
     if (editIndex >= 0) {
@@ -209,7 +209,7 @@ export class AdminComponent implements OnInit {
   }
 
   // for siteView edit
-  toggleEdit1(id: number) {
+  toggleEdit1(id: number): void {
     const editCityIndex = this.editCities.indexOf(id);
     if (editCityIndex >= 0) {
       this.editCities.splice(editCityIndex, 1);
@@ -218,24 +218,24 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  getEditControl(editForm: FormGroup, param: string) {
+  getEditControl(editForm: FormGroup, param: string): FormControl {
     return editForm.get(param) as FormControl;
   }
 
-  getCitiesControl(cityIndex: number, formGroup: FormGroup) {
+  getCitiesControl(cityIndex: number, formGroup: FormGroup): FormControl {
     const cities = formGroup.get('cities') as FormArray;
     const control = cities.controls[cityIndex] as FormControl;
     return control;
   }
 
-  setUpCities() {
+  setUpCities(): void {
     const cities = this.userForm.get('cities') as FormArray;
     for (let i = 0; i < this.cities.length; i++) {
       cities.push(new FormControl(0));
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     // this.userService.addUser(this.userForm.value);
     const id =
       this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
@@ -260,20 +260,20 @@ export class AdminComponent implements OnInit {
     console.log(this.cities, this.users);
   }
 
-  getControlEdit(cityIndex) {
-    const cities = this.editForm.get('cities') as FormArray;
-    const control = cities.controls[cityIndex] as FormControl;
-    return control;
-  }
+  // getControlEdit(cityIndex):FormControl {
+  //   const cities = this.editForm.get('cities') as FormArray;
+  //   const control = cities.controls[cityIndex] as FormControl;
+  //   return control;
+  // }
 
-  setUpEditedCities() {
+  setUpEditedCities(): void {
     const cities = this.editForm.get('cities') as FormArray;
     for (let i = 0; i < this.cities.length; i++) {
       cities.push(new FormControl(0));
     }
   }
 
-  onEdit(index: number) {
+  onEdit(index: number): void {
     console.log(this.userService.getUser(index));
     const id = this.users[index].id;
     const form = this.users[index].form.value;
@@ -308,17 +308,17 @@ export class AdminComponent implements OnInit {
     console.log(this.cities, this.users);
   }
 
-  editSubmit(userIndex: number) {
+  editSubmit(userIndex: number): void {
     console.log(userIndex, 'yes');
     this.userService.updateUser(userIndex, this.userForm.value);
     console.log(userIndex);
   }
 
-  confirmDelete(userIndex: number) {
+  confirmDelete(userIndex: number): void {
     this.editObject = this.userService.deleteUser(userIndex);
   }
 
-  confirmDelCity(cityIndex: number, userIndex: number) {
+  confirmDelCity(cityIndex: number, userIndex: number): void {
     // this.editObject = this.userService.deleteUser(i);
     this.cities[cityIndex].users.splice(userIndex, 1);
     this.userService.updateCities(this.cities);

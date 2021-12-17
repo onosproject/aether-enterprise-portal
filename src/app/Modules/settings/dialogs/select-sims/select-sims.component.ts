@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'aep-select-sims',
@@ -62,8 +62,7 @@ export class SelectSimsComponent implements OnInit {
   ];
 
   constructor(
-    public dialogRef: MatDialogRef<SelectSimsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    public dialogRef: MatDialogRef<SelectSimsComponent> // @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +73,7 @@ export class SelectSimsComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  changeSelection(simNumber: number) {
+  changeSelection(simNumber: number): void {
     this.selectedSim = simNumber;
     // this.getSelectedSims()
   }
