@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MaterialModule } from 'src/app/Modules/material/material.module';
 
 import { SelectSimsComponent } from './select-sims.component';
 
@@ -8,6 +9,7 @@ describe('SelectSimsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [MaterialModule],
       declarations: [SelectSimsComponent],
     }).compileComponents();
   });

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MaterialModule } from '../../material/material.module';
 
 import { DeviceSimComponent } from './device-sim.component';
 
@@ -8,6 +9,7 @@ describe('DeviceSimComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [MaterialModule],
       declarations: [DeviceSimComponent],
     }).compileComponents();
   });

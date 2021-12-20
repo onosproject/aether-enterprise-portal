@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'aep-side-navbar',
@@ -8,6 +7,7 @@ import { Router } from '@angular/router';
 })
 export class SideNavbarComponent {
   imgSrc: string;
+  url = '';
 
   menuIcons = {
     admin: {
@@ -46,6 +46,4 @@ export class SideNavbarComponent {
       auditInactive: '../../assets/SideCol-Navbar/slices.svg',
     },
   };
-
-  constructor(public router: Router) {}
 }

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MaterialModule } from '../Modules/material/material.module';
 
 import { SideNavbarComponent } from './side-navbar.component';
 
@@ -8,6 +9,7 @@ describe('SideNavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [MaterialModule],
       declarations: [SideNavbarComponent],
     }).compileComponents();
   });

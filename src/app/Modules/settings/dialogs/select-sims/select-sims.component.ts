@@ -5,6 +5,12 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'aep-select-sims',
   templateUrl: './select-sims.component.html',
   styles: [],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
+  ],
 })
 export class SelectSimsComponent implements OnInit {
   selectedSim: number = 0;

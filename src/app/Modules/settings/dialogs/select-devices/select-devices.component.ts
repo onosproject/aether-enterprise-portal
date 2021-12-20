@@ -5,6 +5,12 @@ import { MatDialogRef } from '@angular/material/dialog';
   selector: 'aep-select-devices',
   templateUrl: './select-devices.component.html',
   styles: [],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
+  ],
 })
 export class SelectDevicesComponent implements OnInit {
   selectedDevice: number = 0;
