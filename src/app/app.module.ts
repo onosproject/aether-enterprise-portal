@@ -9,6 +9,7 @@ import { NavbarComponent } from './components/header/navbar/navbar.component';
 import { SettingsRoutingModule } from './Modules/settings/settings-routing.module';
 import { SettingsModule } from './Modules/settings/settings.module';
 import { MaterialModule } from './Modules/material/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, NavbarComponent],
@@ -19,6 +20,8 @@ import { MaterialModule } from './Modules/material/material.module';
     SettingsRoutingModule,
     SettingsModule,
     MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

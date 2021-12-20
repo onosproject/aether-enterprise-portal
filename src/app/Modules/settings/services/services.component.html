@@ -1,0 +1,348 @@
+<!-- <p>services works!</p> -->
+<div class="container services my-4">
+  <div class="row">
+    <!--left side section-->
+    <div class="col-3">
+      <aep-side-navbar></aep-side-navbar>
+    </div>
+    <!--RIGHT SIDE SECTION-->
+    <div class="col-9 right-section">
+      <div class="row sec-1">
+        <div class="title-tab d-flex">
+          <div class="title-block">Services</div>
+        </div>
+      </div>
+      <div class="services-cards">
+        <!--BUTTON FOR ADD NEW SERVICE-->
+        <div class="row">
+          <mat-card
+            class="
+              add-new-services add-button
+              .button-medium-14
+              col-12
+              d-flex
+              my-1
+            "
+            *ngIf="!addNewServiceForm"
+          >
+            <button
+              class="btn col-3 button-medium-14 align-items-center"
+              (click)="addNewServiceFormFun()"
+            >
+              Add new services
+            </button>
+          </mat-card>
+          <!--ADD NEW SERVICE FORM-->
+          <mat-card
+            class="add-new-service-form my-1 forms-block"
+            *ngIf="addNewServiceForm"
+            [@inOutAnimation]
+          >
+            <mat-card-title class="pop-over-title my-3"
+              >Add new service</mat-card-title
+            >
+            <form [formGroup]="anankiFormGroup">
+              <mat-card-content class="form-field-bg py-2">
+                <div class="form-content mx-2 my-3">
+                  <div class="col-12">
+                    <div class="col-12 my-2 d-flex flex-wrap">
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="appName"
+                          >Enter APP name
+                        </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="appName"
+                          name="appName"
+                          id="appName"
+                          placeholder="Name"
+                        />
+                      </div>
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="protocol"
+                          >protocol
+                        </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="protocol"
+                          name="protocol"
+                          id="protocol"
+                          placeholder="protocol"
+                        />
+                      </div>
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="portStart"
+                          >Port Start
+                        </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="portStart"
+                          name="portStart"
+                          id="portStart"
+                          placeholder="port Start"
+                        />
+                      </div>
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="address"
+                          >Enter Address
+                        </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="address"
+                          name="address"
+                          id="address"
+                          placeholder="Enter Address"
+                        />
+                      </div>
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="mbr">MBR </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="mbr"
+                          name="mbr"
+                          id="mbr"
+                          placeholder="MBR"
+                        />
+                      </div>
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="portEnd"
+                          >portEnd
+                        </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="portEnd"
+                          name="portEnd"
+                          id="portEnd"
+                          placeholder="portEnd"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+              <mat-card-actions class="form-actions d-flex mx-auto">
+                <div class="button-sec">
+                  <button
+                    mat-button
+                    class="cancel btn btn-white mx-2"
+                    (click)="addNewServiceForm = !addNewServiceForm"
+                    [@inOutAnimation]
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    class="add btn btn-gray mx-2"
+                    (click)="addNewServiceForm = !addNewServiceForm"
+                    [@inOutAnimation]
+                    type="submit"
+                    mat-raised-button
+                    color="primary"
+                  >
+                    Add
+                  </button>
+                </div>
+              </mat-card-actions>
+            </form>
+          </mat-card>
+          <!--END ADD NEW SERVICE FORM-->
+        </div>
+        <!--END BUTTON FOR ADD NEW SERVICE-->
+
+        <div class="row">
+          <mat-card
+            class="card-list-items col-12 d-flex my-1 align-items-center"
+          >
+            <div class="ng-tns-c119-0 card-list-item service-img">
+              <div class="series-bg">
+                <img
+                  class="ng-tns-c119-0"
+                  src="../../assets/services/services.svg"
+                />
+              </div>
+            </div>
+            <div class="mx-1 card-list-item enter-app-name ng-tns-c119-0">
+              <div class="title">Enter APP Name</div>
+              <div class="desc">Zoom</div>
+            </div>
+            <div class="mx-1 card-list-item protocol ng-tns-c119-0">
+              <div class="title">protocol</div>
+              <div class="desc">Name</div>
+            </div>
+            <div class="mx-1 card-list-item port-start ng-tns-c119-0">
+              <div class="title">Port Start</div>
+              <div class="desc">Name</div>
+            </div>
+            <div class="mx-1 card-list-item enter-address ng-tns-c119-0">
+              <div class="title">Enter Address</div>
+              <div class="desc">Name</div>
+            </div>
+            <div class="mx-1 card-list-item port-end ng-tns-c119-0">
+              <div class="title">Port End</div>
+              <div class="desc">Name</div>
+            </div>
+            <div class="mx-1 card-list-item device-name ng-tns-c119-0">
+              <div class="title">device Name</div>
+              <div class="desc">Name</div>
+            </div>
+
+            <div class="mx-1 card-list-item ng-tns-c119-0 status status-active">
+              <div>ACTIVE</div>
+            </div>
+            <div
+              class="col-1 card-list-item text-center edit"
+              (click)="editServiceFormFun()"
+              *ngIf="!editServiceForm"
+            >
+              <img src="../../assets/services/pencil.svg" />
+              Edit
+            </div>
+            <div
+              class="
+                col-1
+                card-list-item
+                text-center
+                add-new-service-close
+                close
+              "
+              (click)="editServiceFormClose()"
+              *ngIf="editServiceForm"
+            >
+              Close
+            </div>
+          </mat-card>
+          <!--ADD EDIT  SERVICE FORM-->
+          <mat-card
+            class="add-new-service-form forms-block"
+            *ngIf="editServiceForm"
+            [@inOutAnimation]
+          >
+            <form [formGroup]="anankiFormGroup">
+              <mat-card-content class="form-field-bg py-2">
+                <div class="form-content mx-2 my-3">
+                  <div class="col-12">
+                    <div class="col-12 my-2 d-flex flex-wrap">
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="appName"
+                          >Enter APP name
+                        </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="appName"
+                          name="appName"
+                          id="appName"
+                          placeholder="Name"
+                        />
+                      </div>
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="protocol"
+                          >protocol
+                        </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="protocol"
+                          name="protocol"
+                          id="protocol"
+                          placeholder="protocol"
+                        />
+                      </div>
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="portStart"
+                          >Port Start
+                        </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="portStart"
+                          name="portStart"
+                          id="portStart"
+                          placeholder="port Start"
+                        />
+                      </div>
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="address"
+                          >Enter Address
+                        </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="address"
+                          name="address"
+                          id="address"
+                          placeholder="Enter Address"
+                        />
+                      </div>
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="mbr">MBR </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="mbr"
+                          name="mbr"
+                          id="mbr"
+                          placeholder="MBR"
+                        />
+                      </div>
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label" for="portEnd"
+                          >portEnd
+                        </mat-label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          formControlName="portEnd"
+                          name="portEnd"
+                          id="portEnd"
+                          placeholder="portEnd"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+              <mat-card-actions class="form-actions d-flex mx-auto">
+                <div class="card-item-delete d-flex mx-2">
+                  <div>
+                    <img
+                      class="ng-tns-c119-0"
+                      src="../../assets/services/delete.svg"
+                    />
+                  </div>
+                  <div class="delete-label">Delete</div>
+                </div>
+                <div class="button-sec">
+                  <button
+                    mat-button
+                    class="cancel btn btn-white mx-2"
+                    (click)="editServiceForm = !editServiceForm"
+                    [@inOutAnimation]
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    class="add btn btn-save mx-2"
+                    (click)="editServiceForm = !editServiceForm"
+                    [@inOutAnimation]
+                    type="submit"
+                    mat-raised-button
+                    color="primary"
+                  >
+                    Save
+                  </button>
+                </div>
+              </mat-card-actions>
+            </form>
+          </mat-card>
+          <!--END EDIT NEW SERVICE FORM-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

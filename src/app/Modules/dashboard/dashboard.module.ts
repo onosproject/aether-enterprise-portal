@@ -1,26 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { DashboardRoutingModule } from './dashboard-routing.module';
+import { MaterialModule } from '../material/material.module';
 import { DashboardComponent } from './dashboard.component';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatCardModule } from '@angular/material/card';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SitesComponent } from './pages/sites/sites.component';
+import { SlicesComponent } from './pages/slices/slices.component';
+import { ModalComponent } from './pages/modal/modal.component';
 
 @NgModule({
-  declarations: [DashboardComponent],
+  declarations: [
+    DashboardComponent,
+    SitesComponent,
+    SlicesComponent,
+    ModalComponent,
+  ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    MatExpansionModule,
-    MatCardModule,
-    MatTabsModule,
-    MatButtonToggleModule,
+    MaterialModule,
     CdkAccordionModule,
-    MatGridListModule,
+    DragDropModule,
   ],
 })
 export class DashboardModule {}

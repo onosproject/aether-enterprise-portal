@@ -1,0 +1,20 @@
+.mat-expansion-panel {
+  overflow: visible;
+  border-radius: 8px !important;
+  margin-bottom: 50px;
+  .mat-expansion-panel-header > span {
+    justify-content: space-between;
+    overflow: visible;
+  }
+  .mat-expansion-panel-header-description {
+    flex-grow: 1;
+    justify-content: center;
+  }
+  .accordion-right-bx {
+    flex-grow: 1;
+  }
+}
+
+.mat-action-row {
+  border-top-width: 0px;
+}

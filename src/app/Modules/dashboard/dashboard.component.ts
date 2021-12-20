@@ -1,8 +1,4 @@
-import { Component } from '@angular/core';
-import {
-  dashboardAlerts,
-  alertData,
-} from '../../shared/classes/dashboard-data';
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'aep-dashboard',
@@ -10,39 +6,33 @@ import {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
+  @ViewChild('sites') sites: any;
+  @ViewChild('slices') slices: any;
+  isExpand: any = true;
+
   panelOpenState = false;
-  selected: any = 1;
-  step = 0;
-  expandedIndex = 0;
-  alerts: any;
-  alertData: any;
 
-  constructor() {
-    this.alerts = dashboardAlerts[0];
-    this.alertData = alertData[0][0];
-    console.log(this.alertData);
+  parentWillTakeAction(message: number): void {
+    if (!this.isExpand) {
+      this.slices.expandAllCard();
+      this.isExpand = false;
+    } else {
+      this.slices.collapseAllCard();
+      this.isExpand = true;
+    }
+    this.slices.onSelectCard(message);
   }
 
-  onSelectCard(value: number): void {
-    this.selected = value;
-    const result = alertData[0].filter((word) => word.alert_id == value);
-    console.log(result[0]);
-    this.alertData = result[0];
+  parentWillTakeForExpand(): void {
+    if (this.isExpand) {
+      this.slices.expandAllCard();
+      this.isExpand = false;
+    } else {
+      this.slices.collapseAllCard();
+      this.isExpand = true;
+    }
   }
-
-  setStep(index: number): void {
-    this.step = index;
-  }
-
-  nextStep(): void {
-    this.step++;
-  }
-
-  prevStep(): void {
-    this.step--;
-  }
-
-  moveUp(event: MouseEvent): void {
-    console.log(event);
+  parentWillTakeActionSlice(): void {
+    this.isExpand = !this.isExpand;
   }
 }

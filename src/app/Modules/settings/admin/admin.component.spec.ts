@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MaterialModule } from '../../material/material.module';
 
 import { AdminComponent } from './admin.component';
-import { MaterialModule } from '../../material/material.module';
 
 describe('AdminComponent', () => {
   let component: AdminComponent;

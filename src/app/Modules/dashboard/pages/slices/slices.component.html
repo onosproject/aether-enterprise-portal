@@ -1,0 +1,746 @@
+<div
+  cdkDropList
+  class="example-list"
+  (cdkDropListDropped)="dragAndDrop($event)"
+>
+  <div class="nomarLR mt-1 float-left col-12">
+    <mat-accordion
+      class="example-headers-align"
+      hideToggle="true"
+      #accordion="matAccordion"
+      [multi]="panelOpenState"
+    >
+      <mat-expansion-panel
+        hideToggle="true"
+        #mapanel="matExpansionPanel"
+        [expanded]="panelOpenState"
+        *ngFor="let slice of sliceData.data; let i = index"
+        cdkDrag
+        class="shadow_none"
+      >
+        <mat-expansion-panel-header
+          class="pannel-header-bx"
+          [hidden]="expandId === slice.id || isExpand"
+        >
+          <div class="left-icon" (click)="$event.stopPropagation()">
+            <img src="assets/AdminPanel/union.svg" />
+          </div>
+          <div class="right-icon" (click)="expandSlice(slice.id)">
+            <img
+              src="assets/AdminPanel/plush-blue.svg"
+              (opened)="panelOpenState = true"
+              (closed)="panelOpenState = false"
+            />
+          </div>
+          <div class="right-bx-shadow" (click)="expandSlice(slice.id)"></div>
+          <div
+            class="row expansion-header-row"
+            (click)="$event.stopPropagation()"
+          >
+            <div class="col-xl-3 col-lg-12">
+              <mat-panel-title
+                class="accordion-left-bx"
+                (click)="$event.stopPropagation()"
+              >
+                6 Device Groups | 60 Devices
+                <button mat-raised-button class="conected-devices-bx">
+                  <div class="card-icon">
+                    <img src="assets/AdminPanel/connected.svg" />
+                  </div>
+                  Connected Devices
+                  <div class="red-ellipse">
+                    <img src="assets/AdminPanel/Ellipse-red.svg" />
+                  </div>
+                </button>
+              </mat-panel-title>
+            </div>
+            <div class="col-xl-6 col-lg-12">
+              <mat-panel-description (click)="$event.stopPropagation()">
+                <mat-card class="graph-detail-bx">
+                  <mat-card-header class="graph-header">
+                    <div class="graph-detail-h">
+                      <div class="card-icon">
+                        <img src="assets/AdminPanel/stack.svg" />
+                      </div>
+                      <h3>Mission Critical Slice</h3>
+                    </div>
+                    <div
+                      class="graph-alert-h"
+                      [ngClass]="
+                        slice.status === '1' ? 'text-red' : 'text-blue'
+                      "
+                    >
+                      <div class="card-icon">
+                        <img
+                          *ngIf="slice.status === 1"
+                          src="assets/AdminPanel/red-alert.svg"
+                        />
+                        <img
+                          *ngIf="slice.status === 0"
+                          src="assets/AdminPanel/danger.svg"
+                        />
+                      </div>
+                      <span>5 Alerts</span>
+                    </div>
+                    <div class="graph-detail-filter">
+                      <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                          <button
+                            class="nav-link active"
+                            id="nav-home-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-home"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-home"
+                            aria-selected="true"
+                          >
+                            1H
+                          </button>
+                          <button
+                            class="nav-link"
+                            id="nav-profile-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-home"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-profile"
+                            aria-selected="false"
+                          >
+                            1D
+                          </button>
+                          <button
+                            class="nav-link"
+                            id="nav-contact-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-home"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-contact"
+                            aria-selected="false"
+                          >
+                            1M
+                          </button>
+                          <button
+                            class="nav-link"
+                            id="nav-contact-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#nav-home"
+                            type="button"
+                            role="tab"
+                            aria-controls="nav-contact"
+                            aria-selected="false"
+                          >
+                            1Y
+                          </button>
+                        </div>
+                      </nav>
+                    </div>
+                  </mat-card-header>
+
+                  <mat-card-content class="graph-content-bx">
+                    <div class="tab-content" id="nav-tabContent">
+                      <div
+                        class="tab-pane fade show active"
+                        id="nav-home"
+                        role="tabpanel"
+                        aria-labelledby="nav-home-tab"
+                      >
+                        <div class="main-accordion-graph">
+                          <div class="accordion-graph-bx">
+                            <div class="graph-detail">
+                              <div class="graph-name">Bandwidth</div>
+                              <div class="graph-increment">
+                                <img src="assets/AdminPanel/polygon.svg" />10%
+                              </div>
+                            </div>
+                            <div class="graph-img-bx">
+                              <img
+                                src="assets/AdminPanel/graph-white.svg"
+                                class="img-fluid"
+                              />
+                            </div>
+                          </div>
+                          <div class="accordion-graph-bx">
+                            <div class="graph-detail">
+                              <div class="graph-name">Latency</div>
+                              <div class="graph-increment">
+                                <img src="assets/AdminPanel/polygon.svg" />10%
+                              </div>
+                            </div>
+                            <div class="graph-img-bx">
+                              <img
+                                src="assets/AdminPanel/graph-white.svg"
+                                class="img-fluid"
+                              />
+                            </div>
+                          </div>
+                          <div class="accordion-graph-bx">
+                            <div class="graph-detail">
+                              <div class="graph-name">Packet Loss</div>
+                              <div class="graph-increment">
+                                <img src="assets/AdminPanel/polygon.svg" />10%
+                              </div>
+                            </div>
+                            <div class="graph-img-bx">
+                              <img
+                                src="assets/AdminPanel/graph-white.svg"
+                                class="img-fluid"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="tab-pane fade"
+                        id="nav-profile"
+                        role="tabpanel"
+                        aria-labelledby="nav-profile-tab"
+                      >
+                        .2.
+                      </div>
+                      <div
+                        class="tab-pane fade"
+                        id="nav-contact"
+                        role="tabpanel"
+                        aria-labelledby="nav-contact-tab"
+                      >
+                        .3.
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </mat-panel-description>
+            </div>
+            <div class="col-xl-3 col-lg-12">
+              <div
+                class="accordion-right-bx"
+                (click)="$event.stopPropagation()"
+              >
+                60 Services
+                <button mat-raised-button class="conected-devices-bx">
+                  <div class="card-icon">
+                    <img src="assets/AdminPanel/service.svg" />
+                  </div>
+                  Services
+                  <div class="red-ellipse">
+                    <img src="assets/AdminPanel/Ellipse-red.svg" />
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel-header>
+
+        <mat-action-row class="expanded-content-bx">
+          <div class="row customise-row-center">
+            <div class="col-lg-12">
+              <div class="functionality-bx">
+                <div
+                  class="edit-bx"
+                  *ngIf="!isEditable && sliceId === slice.id"
+                  (click)="onEdit(slice.id)"
+                >
+                  <img src="assets/AdminPanel/edit.svg" /> Edit
+                </div>
+                <div
+                  class="edit-bx"
+                  *ngIf="sliceId !== slice.id"
+                  (click)="onEdit(slice.id)"
+                >
+                  <img src="assets/AdminPanel/edit.svg" /> Edit
+                </div>
+                <div
+                  class="cancel-bx"
+                  *ngIf="isEditable && sliceId === slice.id"
+                  (click)="isEditable = !isEditable"
+                >
+                  Cancel
+                </div>
+                <div
+                  class="minimise-bx"
+                  (click)="mapanel.close(); collapseSlice()"
+                >
+                  <img src="assets/AdminPanel/negative.svg" />
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="accordion-section">
+                <div
+                  class="accordion-item"
+                  *ngFor="let device of slice.group; let deviceIndex = index"
+                >
+                  <h2
+                    class="accordion-header"
+                    [attr.id]="'heading' + deviceIndex"
+                  >
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      [ngClass]="
+                        device.status === openAccordion[deviceIndex]
+                          ? 'hiden'
+                          : 'collapsed'
+                      "
+                      [style.justify-content]="
+                        isEditable && sliceId === slice.id
+                          ? 'space-between'
+                          : 'center'
+                      "
+                    >
+                      <div
+                        class="services_left_bx"
+                        (click)="
+                          openAccordion[deviceIndex] =
+                            !openAccordion[deviceIndex]
+                        "
+                        data-bs-toggle="collapse"
+                        [attr.data-target]="'#collapse' + deviceIndex"
+                        aria-expanded="true"
+                        [attr.aria-controls]="'collapse' + deviceIndex"
+                      >
+                        <div class="card-icon">
+                          <img src="assets/AdminPanel/camera.svg" />
+                        </div>
+                        {{ device.title }}
+                        <div class="red-ellipse">
+                          <img
+                            *ngIf="device.status === 1"
+                            src="assets/AdminPanel/Ellipse-red.svg"
+                          />
+                          <img
+                            *ngIf="device.status === 0"
+                            src="assets/AdminPanel/Ellipse.svg"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="services_right_bx"
+                        *ngIf="isEditable && sliceId === slice.id"
+                      >
+                        <a class="add_btn">Add</a>
+                        <a class="remove_btn" (click)="openDialog(deviceIndex)"
+                          >Remove Group</a
+                        >
+                      </div>
+                    </button>
+                  </h2>
+                  <div
+                    [attr.id]="'collapse' + deviceIndex"
+                    class="accordion-collapse collapse"
+                    [class.show]="openAccordion[deviceIndex]"
+                    [ngClass]="device.status === '1' ? 'show' : 'hidden'"
+                    [attr.aria-labelledby]="'heading' + deviceIndex"
+                    data-bs-parent="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div class="row">
+                        <div
+                          class="col-lg-6 ctm-border-bottom"
+                          *ngFor="
+                            let camera of device.cameras;
+                            let cameraIndex = index
+                          "
+                        >
+                          <div
+                            class="product-detail"
+                            *ngIf="
+                              removedCameraId === camera.id &&
+                              removedDeviceId === device.id
+                            "
+                          >
+                            <div class="removed_heading">
+                              <p>{{ camera.title }} Removed</p>
+                              <span (click)="undoDevice()">Undo</span>
+                            </div>
+                          </div>
+                          <div
+                            class="product-detail"
+                            *ngIf="
+                              removedCameraId !== camera.id ||
+                              removedDeviceId !== device.id
+                            "
+                          >
+                            <div class="left-bx">
+                              <img
+                                *ngIf="!isEditable || sliceId !== slice.id"
+                                src="assets/AdminPanel/camera.svg"
+                                class="camera_icon"
+                              />
+                              <img
+                                *ngIf="isEditable && sliceId === slice.id"
+                                src="assets/AdminPanel/remove.svg"
+                                class="remove-icon"
+                                (click)="
+                                  removeDevice(
+                                    deviceIndex,
+                                    cameraIndex,
+                                    camera.id,
+                                    device.id
+                                  )
+                                "
+                              />
+                              {{ camera.title }}
+                            </div>
+                            <div class="right-bx">
+                              <p>Location</p>
+                              <div class="red-ellipse">
+                                <img
+                                  *ngIf="camera.status === 1"
+                                  src="assets/AdminPanel/Ellipse-red.svg"
+                                />
+                                <img
+                                  *ngIf="camera.status === 0"
+                                  src="assets/AdminPanel/Ellipse.svg"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <mat-card class="graph-detail-bx">
+                <mat-card-header class="graph-header">
+                  <div class="graph-detail-h">
+                    <div class="card-icon">
+                      <img src="assets/AdminPanel/stack.svg" />
+                    </div>
+                    <h3>Mission Critical Slice</h3>
+                  </div>
+                  <div class="graph-detail-filter">
+                    <nav>
+                      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button
+                          class="nav-link active"
+                          id="nav-home-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#nav-home"
+                          type="button"
+                          role="tab"
+                          aria-controls="nav-home"
+                          aria-selected="true"
+                        >
+                          1H
+                        </button>
+                        <button
+                          class="nav-link"
+                          id="nav-profile-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#nav-home"
+                          type="button"
+                          role="tab"
+                          aria-controls="nav-profile"
+                          aria-selected="false"
+                        >
+                          1D
+                        </button>
+                        <button
+                          class="nav-link"
+                          id="nav-contact-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#nav-home"
+                          type="button"
+                          role="tab"
+                          aria-controls="nav-contact"
+                          aria-selected="false"
+                        >
+                          1M
+                        </button>
+                        <button
+                          class="nav-link"
+                          id="nav-contact-tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#nav-home"
+                          type="button"
+                          role="tab"
+                          aria-controls="nav-contact"
+                          aria-selected="false"
+                        >
+                          1Y
+                        </button>
+                      </div>
+                    </nav>
+                  </div>
+                  <div class="graph-alert-h text-red">
+                    <div class="card-icon">
+                      <img src="assets/AdminPanel/red-alert.svg" />
+                    </div>
+                    <span>5 Alerts</span>
+                  </div>
+                </mat-card-header>
+
+                <mat-card-content class="graph-content-bx">
+                  <div class="tab-content" id="nav-tabContent">
+                    <div
+                      class="tab-pane fade show active"
+                      id="nav-home"
+                      role="tabpanel"
+                      aria-labelledby="nav-home-tab"
+                    >
+                      <div class="main-accordion-graph">
+                        <div class="accordion-graph-bx">
+                          <div class="graph-detail">
+                            <div class="graph-name">Bandwidth</div>
+                            <div class="graph-increment">
+                              <img src="assets/AdminPanel/polygon.svg" />10%
+                            </div>
+                          </div>
+                          <div class="graph-img-bx">
+                            <img
+                              src="assets/AdminPanel/graph-white.svg"
+                              class="img-fluid"
+                            />
+                          </div>
+                        </div>
+                        <div class="accordion-graph-bx">
+                          <div class="graph-detail">
+                            <div class="graph-name">Latency</div>
+                            <div class="graph-increment">
+                              <img src="assets/AdminPanel/polygon.svg" />10%
+                            </div>
+                          </div>
+                          <div class="graph-img-bx">
+                            <img
+                              src="assets/AdminPanel/graph-white.svg"
+                              class="img-fluid"
+                            />
+                          </div>
+                        </div>
+                        <div class="accordion-graph-bx">
+                          <div class="graph-detail">
+                            <div class="graph-name">Packet Loss</div>
+                            <div class="graph-increment">
+                              <img src="assets/AdminPanel/polygon.svg" />10%
+                            </div>
+                          </div>
+                          <div class="graph-img-bx">
+                            <img
+                              src="assets/AdminPanel/graph-white.svg"
+                              class="img-fluid"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="tab-pane fade"
+                      id="nav-profile"
+                      role="tabpanel"
+                      aria-labelledby="nav-profile-tab"
+                    >
+                      .2.
+                    </div>
+                    <div
+                      class="tab-pane fade"
+                      id="nav-contact"
+                      role="tabpanel"
+                      aria-labelledby="nav-contact-tab"
+                    >
+                      .3.
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <mat-card
+                class="graph-detail-bx add_new_device"
+                *ngIf="isEditable"
+              >
+                <p>Add new device group</p>
+                <img src="assets/AdminPanel/plush-white.svg" />
+              </mat-card>
+            </div>
+            <div class="col-lg-3">
+              <div class="accordion-section left-accordion-section">
+                <div
+                  class="accordion-item"
+                  *ngFor="
+                    let service of slice.services;
+                    let serviceIndex = index
+                  "
+                >
+                  <h2
+                    class="accordion-header"
+                    [attr.id]="'heading' + serviceIndex"
+                  >
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      (click)="
+                        openAccordionRight[serviceIndex] =
+                          !openAccordionRight[serviceIndex]
+                      "
+                      data-bs-toggle="collapse"
+                      [attr.data-target]="'#collapse' + serviceIndex"
+                      aria-expanded="true"
+                      [attr.aria-controls]="'collapse' + serviceIndex"
+                      [ngClass]="
+                        service.status === openAccordionRight[serviceIndex]
+                          ? 'hiden'
+                          : 'collapsed'
+                      "
+                    >
+                      <div class="card-icon">
+                        <img src="assets/AdminPanel/service.svg" />
+                      </div>
+                      {{ service.tittle }}
+                      <div class="red-ellipse">
+                        <img
+                          *ngIf="service.status === 1"
+                          src="assets/AdminPanel/Ellipse-red.svg"
+                        />
+                        <img
+                          *ngIf="service.status === 0"
+                          src="assets/AdminPanel/Ellipse.svg"
+                        />
+                      </div>
+                      <!-- <div
+                        class="services_right_bx"
+                        *ngIf="isEditable && sliceId == slice.id"
+                      >
+                        <a class="add_btn">Add</a>
+                        <a class="remove_btn" (click)="openDialog(serviceIndex)"
+                          >Remove Group</a
+                        >
+                      </div> -->
+                    </button>
+                  </h2>
+                  <div
+                    [attr.id]="'collapse' + serviceIndex"
+                    class="accordion-collapse collapse"
+                    [class.show]="openAccordionRight[serviceIndex]"
+                    [ngClass]="service.status === '1' ? 'show' : 'hidden'"
+                    [attr.aria-labelledby]="'heading' + serviceIndex"
+                    data-bs-parent="#accordionExample"
+                  >
+                    <div class="accordion-body">
+                      <div
+                        class="product-detail"
+                        *ngFor="
+                          let group of service.group;
+                          let groupServiceIndex = index
+                        "
+                      >
+                        <div
+                          class="removed_heading"
+                          *ngIf="
+                            removedServiceGroupId === group.id &&
+                            removedServiceId === service.id
+                          "
+                        >
+                          <p>{{ group.title }} Removed</p>
+                          <span (click)="undoDevice()">Undo</span>
+                        </div>
+                        <div
+                          class="left-bx"
+                          *ngIf="
+                            removedServiceGroupId !== group.id ||
+                            removedServiceId !== service.id
+                          "
+                        >
+                          <div class="card-icon">
+                            <img
+                              src="assets/AdminPanel/service.svg"
+                              *ngIf="!isEditable && sliceId !== slice.id"
+                            />
+                            <img
+                              *ngIf="isEditable && sliceId === slice.id"
+                              src="assets/AdminPanel/remove.svg"
+                              class="remove-icon"
+                              (click)="
+                                removeServiceGroup(
+                                  serviceIndex,
+                                  groupServiceIndex,
+                                  group.id,
+                                  service.id
+                                )
+                              "
+                            />
+                          </div>
+                          {{ group.title }}
+                        </div>
+                        <div
+                          class="center-bx"
+                          *ngIf="
+                            removedServiceGroupId !== group.id ||
+                            removedServiceId !== service.id
+                          "
+                        >
+                          <p>Location</p>
+                        </div>
+                        <div
+                          class="right-bx"
+                          *ngIf="
+                            removedServiceGroupId !== group.id ||
+                            removedServiceId !== service.id
+                          "
+                        >
+                          <div class="red-ellipse">
+                            <img src="assets/AdminPanel/Ellipse-red.svg" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+<!-- <button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+>
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<!-- <div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content ctm-modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Are you sure you want to delete the group?
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn ctm-btn ctm-btn-transparent"
+          data-bs-dismiss="modal"
+        >
+          No, Cancel
+        </button>
+        <button type="button" class="btn ctm-btn ctm-btn-red">
+          Yes, Remove
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->

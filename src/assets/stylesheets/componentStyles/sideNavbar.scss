@@ -1,0 +1,71 @@
+.sideNavbar {
+  &_navCard {
+    background: $SecondaryColor;
+    margin-left: -10px;
+    border-top: 1px solid transparent !important;
+    border-radius: 0.8rem !important;
+    margin-left: 4rem;
+    width: 15rem !important;
+    height: fit-content;
+
+    &_siteSelector {
+      color: #0063f7;
+      font-family: "Inter", sans-serif;
+      font-size: 12px !important;
+      font-weight: 700;
+      margin-left: -10px;
+      border: 1px solid #0063f7;
+      border-radius: 4px;
+    }
+
+    &_headings {
+      font-family: Inter;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px !important;
+      line-height: 18px;
+      letter-spacing: 0.0375em;
+      text-transform: uppercase;
+      margin-bottom: 0px !important;
+      margin-left: -13px;
+    }
+  }
+
+  &_optionStyling {
+    &_active {
+      cursor: pointer;
+      border: 1px solid #edf4ff;
+      border-radius: 4px;
+      background: #edf4ff;
+      padding: 10px;
+    }
+    &_inactive {
+      cursor: pointer;
+      padding: 11px;
+    }
+  }
+  &_iconbg {
+    &_inactive {
+      padding: 3px 6px 5px 6px;
+      border: 1px solid transparent;
+      border-radius: 13px;
+    }
+  }
+  &_text {
+    &_active {
+      color: #0063f7;
+      font-family: Inter;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    &_inactive {
+      color: #3c4257;
+      font-family: Inter;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 150%;
+    }
+  }
+}

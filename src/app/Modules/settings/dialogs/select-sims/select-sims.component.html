@@ -1,0 +1,46 @@
+<!-- <p>select-sims works!</p> -->
+<div class="row">
+  <div class="col-12 d-flex">
+    <div class="col-11 select-sim-title mx-2">Select SIM from inventory</div>
+    <div class="col-1 select-sim-close" (click)="onNoClick()">close</div>
+  </div>
+</div>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 p-3">
+      <div class="select-sim-container d-flex">
+        <div class="select-sim-container-spacings" *ngFor="let sim of sims">
+          <div
+            class="select-sim-container-simHolder"
+            (click)="changeSelection(sim.simNumber)"
+          >
+            <div class="mx-1 d-flex">
+              <!-- <mat-checkbox type=checkbox [checked]="selectedSim === sim.simNumber"  class="mx-2"></mat-checkbox>
+             -->
+              <img
+                [src]="
+                  selectedSim === sim.simNumber
+                    ? 'assets/deviceSim/selected-card.svg'
+                    : 'assets/deviceSim/select.svg'
+                "
+              />
+              <span class="mx-1">{{ sim.simNumber }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="select-sim-finalButtons mx-1">
+  <button
+    mat-button
+    class="select-sim-finalButtons-cancel mx-3"
+    (click)="onNoClick()"
+  >
+    Cancel
+  </button>
+  <button mat-button class="select-sim-finalButtons-select" cdkFocusInitial>
+    Select
+  </button>
+</div>
