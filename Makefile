@@ -97,3 +97,9 @@ kind: images
 	kind load docker-image ${DOCKER_IMAGENAME}
 
 all: images
+
+publish:
+	./../build-tools/publish-version ${VERSION} onosproject/aether-enterprise-portal
+
+clean: # @HELP remove all the build artifacts
+	rm -rf ./dist ./node-modules
