@@ -1,0 +1,26 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { SmallCellsComponent } from './small-cells.component';
+import { MatMenuModule } from '@angular/material/menu';
+
+describe('SmallCellsComponent', () => {
+  let component: SmallCellsComponent;
+  let fixture: ComponentFixture<SmallCellsComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [SmallCellsComponent],
+      imports: [MatMenuModule],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SmallCellsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
