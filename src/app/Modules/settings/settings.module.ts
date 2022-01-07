@@ -11,6 +11,9 @@ import { SelectDevicesComponent } from './dialogs/select-devices/select-devices.
 import { SelectSimsComponent } from './dialogs/select-sims/select-sims.component';
 import { SideNavbarComponent } from 'src/app/side-navbar/side-navbar.component';
 
+import { DeleteDevicesComponent } from './dialogs/delete-devices/delete-devices.component';
+import { DeviceGroupsComponent } from './device-groups/device-groups.component';
+
 @NgModule({
   declarations: [
     SideNavbarComponent,
@@ -19,6 +22,8 @@ import { SideNavbarComponent } from 'src/app/side-navbar/side-navbar.component';
     ServicesComponent,
     SelectDevicesComponent,
     SelectSimsComponent,
+    DeleteDevicesComponent,
+    DeviceGroupsComponent,
   ],
   imports: [
     CommonModule,
