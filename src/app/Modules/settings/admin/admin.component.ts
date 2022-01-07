@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { trigger, style, animate, transition } from '@angular/animations';
 
@@ -38,12 +37,7 @@ interface Permission {
   styles: [],
 })
 export class AdminComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private userService: UserService,
-    public dialog: MatDialog
-  ) {}
+  constructor(private userService: UserService, public dialog: MatDialog) {}
 
   // Boolean Triggers
   AddNew: boolean = false;

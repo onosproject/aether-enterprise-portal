@@ -317,7 +317,7 @@
       [ngClass]="{
         sideNavbar_optionStyling_active:
           menuIcons.audit.auditString === menuIcons.audit.auditActive ||
-          router.url === '/sidenavbar',
+          url === '/sidenavbar',
         sideNavbar_optionStyling_inactive:
           menuIcons.audit.auditString === menuIcons.audit.auditInactive
       }"
@@ -330,14 +330,14 @@
           [ngStyle]="{
             'background-color':
               menuIcons.audit.auditString === menuIcons.audit.auditActive ||
-              router.url === '/sidenavbar'
+              url === '/sidenavbar'
                 ? '#0063F7'
                 : '#EDF4FF'
           }"
         >
           <img
             [src]="
-              router.url === '/sidenavbar'
+              url === '/sidenavbar'
                 ? menuIcons.audit.auditActive
                 : menuIcons.audit.auditString
             "

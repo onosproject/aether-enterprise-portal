@@ -586,3 +586,102 @@ export const slice = Array([
     ],
   },
 ]);
+
+export const smallCell = Array([
+  {
+    alerts: [
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 1(CG)',
+        priorty: 'High',
+        status: 'Critical',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+      {
+        id: 2,
+        title: 'Alert Causing Entity Camera 4(CG)',
+        priorty: 'Low',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568114,
+      },
+      {
+        id: 3,
+        title: 'Alert Causing Entity Camera 5(SG)',
+        priorty: 'Medium',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568115,
+      },
+      {
+        id: 4,
+        title: 'Alert Causing Entity Phone 1(SG)',
+        priorty: 'High',
+        status: 'null',
+        group: 'Phones group',
+        serialNumber: '752365A',
+      },
+      {
+        id: 5,
+        title: 'Alert Causing Entity Phone 3(SG)',
+        priorty: 'High',
+        status: 'null',
+        group: 'Phones group',
+        serialNumber: '18876873',
+      },
+    ],
+    tickets: [
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 1(CG)',
+        priorty: 'High',
+        status: 'Critical',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+      {
+        id: 2,
+        title: 'Alert Causing Entity Camera 4(CG)',
+        priorty: 'Low',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568112,
+      },
+      {
+        id: 3,
+        title: 'Alert Causing Entity Sensor 1(SG)',
+        priorty: 'Medium',
+        status: 'null',
+        group: 'Sensor group',
+        serialNumber: 7568115,
+      },
+      {
+        id: 4,
+        title: 'Alert Causing Entity Sensor 9(SG)',
+        priorty: 'High',
+        status: 'null',
+        group: 'Sensor group',
+        serialNumber: 7568115,
+      },
+      {
+        id: 5,
+        title: 'Alert Causing Entity Phone 1(SG)',
+        priorty: 'High',
+        status: 'null',
+        group: 'Phones group',
+        serialNumber: '752365A',
+      },
+    ],
+    history: [
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 6(CG)',
+        priorty: 'High',
+        status: 'Resolved',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+    ],
+  },
+]);

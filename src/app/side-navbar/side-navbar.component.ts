@@ -9,6 +9,7 @@ import { DeviceSimService } from '../services/device-sim.service';
 })
 export class SideNavbarComponent implements OnInit {
   imgSrc: string;
+  url = '';
 
   sites: any[] = []
 

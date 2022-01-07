@@ -6,6 +6,12 @@ import { DeviceSimService } from 'src/app/services/device-sim.service';
   selector: 'aep-select-sims',
   templateUrl: './select-sims.component.html',
   styles: [],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
+  ],
 })
 export class SelectSimsComponent implements OnInit {
   selectedSim: string = '';
