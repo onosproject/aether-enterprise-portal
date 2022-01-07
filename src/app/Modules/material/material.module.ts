@@ -13,6 +13,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [],
@@ -31,6 +33,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatGridListModule,
     MatDialogModule,
     MatButtonModule,
+    MatListModule,
+    MatFormFieldModule,
   ],
 })
 export class MaterialModule {}
