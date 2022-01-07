@@ -13,6 +13,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [],
@@ -31,6 +32,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatGridListModule,
     MatDialogModule,
     MatButtonModule,
+    MatStepperModule
   ],
 })
 export class MaterialModule {}

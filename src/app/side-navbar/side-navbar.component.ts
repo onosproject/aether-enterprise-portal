@@ -1,13 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { DeviceSimService } from '../services/device-sim.service';
 
 @Component({
   selector: 'aep-side-navbar',
   templateUrl: './side-navbar.component.html',
   styles: [],
 })
-export class SideNavbarComponent {
+export class SideNavbarComponent implements OnInit {
   imgSrc: string;
+
+  sites: any[] = []
+
+  selectSite: string = ''
+
+  @Output() newSiteEvent = new EventEmitter<string>();
 
   menuIcons = {
     admin: {
@@ -47,5 +54,34 @@ export class SideNavbarComponent {
     },
   };
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, public deviceService: DeviceSimService,) { }
+
+  ngOnInit(): void {
+    this.fetchSites()
+    this.deviceService.mySite("freemont")
+  }
+
+  fetchSites(): any {
+      this.deviceService.getData().subscribe(
+        (result) => {
+          result.sites.map((site) => {
+            console.log(site['site-id'])
+            const siteID: string = site['site-id'];
+            const siteName: string = site['display-name']
+            this.sites.push({siteID, siteName})
+            console.log(this.sites)
+          })
+        }
+      )
+    }
+
+  selectedSite(siteID: string): any {
+    this.deviceService.mySite(siteID)
+    this.newSiteEvent.emit(siteID);
+    this.selectSite = siteID;
+    this.deviceService.selectedSite = siteID;
+    console.log(this.selectSite)
+
+    console.log(this.deviceService.selectedSite)
+  }
 }

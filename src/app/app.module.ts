@@ -10,10 +10,12 @@ import { SettingsRoutingModule } from './Modules/settings/settings-routing.modul
 import { SettingsModule } from './Modules/settings/settings.module';
 import { MaterialModule } from './Modules/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, NavbarComponent],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
