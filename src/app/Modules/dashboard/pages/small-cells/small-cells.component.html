@@ -201,29 +201,19 @@
                       <mat-menu #belowMenu="matMenu" yPosition="below">
                         <button
                           mat-menu-item
-                          (click)="
-                            setResponedStatus(
-                              'Acknowledged',
-                              cellIndex,
-                              'alerts'
-                            )
-                          "
+                          (click)="setResponedStatus('Acknowledged', cellIndex)"
                         >
                           Acknowledged
                         </button>
                         <button
                           mat-menu-item
-                          (click)="
-                            setResponedStatus('Resolved', cellIndex, 'alerts')
-                          "
+                          (click)="setResponedStatus('Resolved', cellIndex)"
                         >
                           Resolved
                         </button>
                         <button
                           mat-menu-item
-                          (click)="
-                            setResponedStatus('Ignore', cellIndex, 'alerts')
-                          "
+                          (click)="setResponedStatus('Ignore', cellIndex)"
                         >
                           Ignore
                         </button>
@@ -588,32 +578,20 @@
                         <button
                           mat-menu-item
                           (click)="
-                            setResponedStatus(
-                              'Acknowledged',
-                              ticketIndex,
-                              'tickets'
-                            )
+                            setResponedStatus('Acknowledged', ticketIndex)
                           "
                         >
                           Acknowledged
                         </button>
                         <button
                           mat-menu-item
-                          (click)="
-                            setResponedStatus(
-                              'Resolved',
-                              ticketIndex,
-                              'tickets'
-                            )
-                          "
+                          (click)="setResponedStatus('Resolved', ticketIndex)"
                         >
                           Resolved
                         </button>
                         <button
                           mat-menu-item
-                          (click)="
-                            setResponedStatus('Ignore', ticketIndex, 'tickets')
-                          "
+                          (click)="setResponedStatus('Ignore', ticketIndex)"
                         >
                           Ignore
                         </button>

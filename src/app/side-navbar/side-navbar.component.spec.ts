@@ -1,4 +1,8 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from '../app-routing.module';
 import { MaterialModule } from '../Modules/material/material.module';
 
 import { SideNavbarComponent } from './side-navbar.component';
@@ -9,7 +13,13 @@ describe('SideNavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MaterialModule],
+      imports: [
+        MaterialModule,
+        RouterModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+      ],
       declarations: [SideNavbarComponent],
     }).compileComponents();
   });

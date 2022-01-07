@@ -180,8 +180,14 @@ export class DeviceGroupsComponent implements OnInit {
         this.dataConvert();
         // this.test1();
       });
-      console.log('This is a global device-groups array for a site', this.siteDeviceGroups);
-      console.log('This is a global devices-array for a site', this.siteDevices)
+      console.log(
+        'This is a global device-groups array for a site',
+        this.siteDeviceGroups
+      );
+      console.log(
+        'This is a global devices-array for a site',
+        this.siteDevices
+      );
       console.log(this.config);
     });
   }

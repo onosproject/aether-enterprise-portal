@@ -1,4 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { DeviceGroupsComponent } from './device-groups.component';
 
@@ -8,9 +10,9 @@ describe('DeviceGroupsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeviceGroupsComponent ]
-    })
-    .compileComponents();
+      declarations: [DeviceGroupsComponent],
+      imports: [ReactiveFormsModule, HttpClientModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {

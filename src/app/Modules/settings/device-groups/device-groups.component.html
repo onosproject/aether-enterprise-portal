@@ -109,15 +109,26 @@
                       >
                         <div
                           class="device-group-item"
-                          *ngFor="let device of devices; let deviceIndex = index"
-                          (click)="changeSelection(device['serial-number'], deviceIndex)"
+                          *ngFor="
+                            let device of devices;
+                            let deviceIndex = index
+                          "
+                          (click)="
+                            changeSelection(
+                              device['serial-number'],
+                              deviceIndex
+                            )
+                          "
                         >
                           <div class="mx-1 d-flex align-items-center">
                             <div class="select">
-                              <img [src]="
-                              device.selected === 0
-                                ? 'assets/deviceSim/selected-card.svg'
-                                : 'assets/deviceSim/select.svg'" />
+                              <img
+                                [src]="
+                                  device.selected === 0
+                                    ? 'assets/deviceSim/selected-card.svg'
+                                    : 'assets/deviceSim/select.svg'
+                                "
+                              />
                             </div>
 
                             <div class="img-bg-popup">
@@ -250,7 +261,9 @@
                   <button mat-button matStepperPrevious class="back-btn">
                     Back
                   </button>
-                  <button mat-button class="next-btn" (click)="addNewDeviceG()">Submit</button>
+                  <button mat-button class="next-btn" (click)="addNewDeviceG()">
+                    Submit
+                  </button>
                 </div>
               </mat-step>
             </mat-stepper>
@@ -381,8 +394,7 @@
                     </mat-panel-description>
                   </mat-expansion-panel-header>
 
-                  <div class="acc-content">
-                  </div>
+                  <div class="acc-content"></div>
                 </mat-expansion-panel>
               </mat-accordion>
               <!--DEVICE GROUP EDIT FORM-->

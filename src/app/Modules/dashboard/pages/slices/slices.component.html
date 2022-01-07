@@ -30,17 +30,14 @@
             <div class="left-icon" (click)="$event.stopPropagation()">
               <img src="assets/AdminPanel/union.svg" />
             </div>
-            <div class="right-icon" (click)="expandSlice(slice['slice-id'])">
+            <div class="right-icon" (click)="expandSlice()">
               <img
                 src="assets/AdminPanel/plush-blue.svg"
                 (opened)="panelOpenState = true"
                 (closed)="panelOpenState = false"
               />
             </div>
-            <div
-              class="right-bx-shadow"
-              (click)="expandSlice(slice['slice-id'])"
-            ></div>
+            <div class="right-bx-shadow" (click)="expandSlice()"></div>
             <div
               class="row expansion-header-row"
               (click)="$event.stopPropagation()"
@@ -138,7 +135,7 @@
 
                     <mat-card-content class="graph-content-bx">
                       <div class="tab-content">
-                        <div *ngIf="TabValue[i] == '1h' + i">
+                        <div *ngIf="TabValue[i] === '1h' + i">
                           <div class="main-accordion-graph">
                             <div class="accordion-graph-bx">
                               <div class="graph-detail">
@@ -184,7 +181,7 @@
                             </div>
                           </div>
                         </div>
-                        <div *ngIf="TabValue[i] == '1d' + i">
+                        <div *ngIf="TabValue[i] === '1d' + i">
                           <div class="main-accordion-graph">
                             <div class="accordion-graph-bx">
                               <div class="graph-detail">
@@ -230,7 +227,7 @@
                             </div>
                           </div>
                         </div>
-                        <div *ngIf="TabValue[i] == '1w' + i">
+                        <div *ngIf="TabValue[i] === '1w' + i">
                           <div class="main-accordion-graph">
                             <div class="accordion-graph-bx">
                               <div class="graph-detail">
@@ -276,7 +273,7 @@
                             </div>
                           </div>
                         </div>
-                        <div *ngIf="TabValue[i] == '1m' + i">
+                        <div *ngIf="TabValue[i] === '1m' + i">
                           <div class="main-accordion-graph">
                             <div class="accordion-graph-bx">
                               <div class="graph-detail">
@@ -322,7 +319,7 @@
                             </div>
                           </div>
                         </div>
-                        <div *ngIf="TabValue[i] == '1y' + i">
+                        <div *ngIf="TabValue[i] === '1y' + i">
                           <div class="main-accordion-graph">
                             <div class="accordion-graph-bx">
                               <div class="graph-detail">
@@ -420,7 +417,7 @@
                   </div>
                   <div
                     class="minimise-bx"
-                    (click)="mapanel.close(); collapseSlice(i)"
+                    (click)="mapanel.close(); collapseSlice()"
                     *ngIf="isAcknowledged === 12"
                   >
                     <img src="assets/AdminPanel/negative.svg" />
@@ -562,8 +559,7 @@
                                       removeDevice(
                                         deviceIndex,
                                         cameraIndex,
-                                        camera['serial-number'],
-                                        device.id
+                                        camera['serial-number']
                                       )
                                     "
                                   />
@@ -655,7 +651,7 @@
                     *ngIf="isAcknowledged === 12"
                   >
                     <div class="tab-content" id="nav-tabContent">
-                      <div *ngIf="TabValue[i] == '1h' + i">
+                      <div *ngIf="TabValue[i] === '1h' + i">
                         <div class="main-accordion-graph">
                           <div class="accordion-graph-bx">
                             <div class="graph-detail">
@@ -701,7 +697,7 @@
                           </div>
                         </div>
                       </div>
-                      <div *ngIf="TabValue[i] == '1d' + i">
+                      <div *ngIf="TabValue[i] === '1d' + i">
                         <div class="main-accordion-graph">
                           <div class="accordion-graph-bx">
                             <div class="graph-detail">
@@ -747,7 +743,7 @@
                           </div>
                         </div>
                       </div>
-                      <div *ngIf="TabValue[i] == '1W' + i">
+                      <div *ngIf="TabValue[i] === '1W' + i">
                         <div class="main-accordion-graph">
                           <div class="accordion-graph-bx">
                             <div class="graph-detail">
@@ -793,7 +789,7 @@
                           </div>
                         </div>
                       </div>
-                      <div *ngIf="TabValue[i] == '1m' + i">
+                      <div *ngIf="TabValue[i] === '1m' + i">
                         <div class="main-accordion-graph">
                           <div class="accordion-graph-bx">
                             <div class="graph-detail">
@@ -839,7 +835,7 @@
                           </div>
                         </div>
                       </div>
-                      <div *ngIf="TabValue[i] == '1y' + i">
+                      <div *ngIf="TabValue[i] === '1y' + i">
                         <div class="main-accordion-graph">
                           <div class="accordion-graph-bx">
                             <div class="graph-detail">

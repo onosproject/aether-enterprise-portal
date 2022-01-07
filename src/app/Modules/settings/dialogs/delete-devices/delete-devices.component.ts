@@ -3,9 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'aep-delete-devices',
   templateUrl: './delete-devices.component.html',
-  styles: [
-  ]
+  styles: [],
 })
-export class DeleteDevicesComponent {
-
-}
+export class DeleteDevicesComponent {}

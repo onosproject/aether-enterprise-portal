@@ -12,7 +12,11 @@ export class DashboardComponent {
   panelOpenState = false;
   isAcknowledged = 12;
 
-  parentWillTakeAction(event: any): void {
+  parentWillTakeAction(event: {
+    siteId: string;
+    siteData: any[];
+    siteIndex: number;
+  }): void {
     // console.log(event.siteId, event.siteData);
     if (!this.isExpand) {
       this.slices.expandAllCard(false);
@@ -40,12 +44,12 @@ export class DashboardComponent {
     this.isExpand = !this.isExpand;
   }
 
-  showAcknowledgedView() {
+  showAcknowledgedView(): void {
     this.isAcknowledged = 8;
     this.slices.expandAllCard(true);
     this.isExpand = false;
   }
-  hideAcknowledgedView() {
+  hideAcknowledgedView(): void {
     this.isAcknowledged = 12;
     this.slices.hideAcknowledgedView();
   }

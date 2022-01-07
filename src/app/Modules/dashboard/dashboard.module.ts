@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MaterialModule } from '../material/material.module';
 import { DashboardComponent } from './dashboard.component';
-import { NavbarComponent } from '../../components/header/navbar/navbar.component';
+// import { NavbarComponent } from '../../components/header/navbar/navbar.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SitesComponent } from './pages/sites/sites.component';
@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
     SlicesComponent,
     ModalComponent,
     SmallCellsComponent,
-    NavbarComponent,
+    // NavbarComponent,
   ],
   imports: [
     CommonModule,

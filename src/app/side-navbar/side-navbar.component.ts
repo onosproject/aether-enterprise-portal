@@ -11,9 +11,9 @@ export class SideNavbarComponent implements OnInit {
   imgSrc: string;
   url = '';
 
-  sites: any[] = []
+  sites: any[] = [];
 
-  selectSite: string = ''
+  selectSite: string = '';
 
   @Output() newSiteEvent = new EventEmitter<string>();
 
@@ -55,34 +55,32 @@ export class SideNavbarComponent implements OnInit {
     },
   };
 
-  constructor(public router: Router, public deviceService: DeviceSimService,) { }
+  constructor(public router: Router, public deviceService: DeviceSimService) {}
 
   ngOnInit(): void {
-    this.fetchSites()
-    this.deviceService.mySite("freemont")
+    this.fetchSites();
+    this.deviceService.mySite('freemont');
   }
 
   fetchSites(): any {
-      this.deviceService.getData().subscribe(
-        (result) => {
-          result.sites.map((site) => {
-            console.log(site['site-id'])
-            const siteID: string = site['site-id'];
-            const siteName: string = site['display-name']
-            this.sites.push({siteID, siteName})
-            console.log(this.sites)
-          })
-        }
-      )
-    }
+    this.deviceService.getData().subscribe((result) => {
+      result.sites.map((site) => {
+        console.log(site['site-id']);
+        const siteID: string = site['site-id'];
+        const siteName: string = site['display-name'];
+        this.sites.push({ siteID, siteName });
+        console.log(this.sites);
+      });
+    });
+  }
 
   selectedSite(siteID: string): any {
-    this.deviceService.mySite(siteID)
+    this.deviceService.mySite(siteID);
     this.newSiteEvent.emit(siteID);
     this.selectSite = siteID;
     this.deviceService.selectedSite = siteID;
-    console.log(this.selectSite)
+    console.log(this.selectSite);
 
-    console.log(this.deviceService.selectedSite)
+    console.log(this.deviceService.selectedSite);
   }
 }
