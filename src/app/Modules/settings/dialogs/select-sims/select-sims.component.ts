@@ -20,6 +20,8 @@ export class SelectSimsComponent implements OnInit {
 
   selectedSite: any = ''
 
+  inventorySims: any[] = []
+
   sims: any[] = [
     // {
     //   id: 1,
@@ -79,6 +81,7 @@ export class SelectSimsComponent implements OnInit {
 
   ngOnInit(): void {
     this.assignSelectedSite1();
+    this.assignSelectedSims();
   }
 
   assignSelectedSite1(): any {
@@ -126,5 +129,12 @@ export class SelectSimsComponent implements OnInit {
   selectSimFinal(): void {
     console.log(this.selectedSim)
     this.deviceService.mySim(this.selectedSim);
+  }
+
+  assignSelectedSims(): any {
+    this.deviceService.getSims().subscribe((data) => {
+      console.log(data)
+      this.inventorySims = data;
+    })
   }
 }

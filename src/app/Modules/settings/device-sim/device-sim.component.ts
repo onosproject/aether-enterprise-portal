@@ -360,6 +360,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
+    this.deviceService.mySims(this.simInventory)
     const dialogRef = this.dialog.open(SelectSimsComponent, {
       width: '690px',
       data: { name: this.name, animal: this.animal },
@@ -392,6 +393,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       if (result == 'true') {
         this.deleteDevice(deviceIndex);
       }
+      this.closeEdit()
     });
   }
 
