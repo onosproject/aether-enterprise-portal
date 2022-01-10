@@ -20,6 +20,8 @@ export class SitesComponent {
     // console.log(sites);
     sitesService.GetAllConfig().subscribe(
       (response) => {
+        console.log('Site Response', response);
+
         this.sitesResponse = response;
         this.sites = this.sitesResponse.sites;
         this.onSelectCard(

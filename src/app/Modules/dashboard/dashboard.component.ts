@@ -12,6 +12,8 @@ export class DashboardComponent {
   panelOpenState = false;
   isAcknowledged = 12;
 
+  constructor() {}
+
   parentWillTakeAction(event: any): void {
     // console.log(event.siteId, event.siteData);
     if (!this.isExpand) {

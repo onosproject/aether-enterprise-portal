@@ -138,7 +138,7 @@
 
                     <mat-card-content class="graph-content-bx">
                       <div class="tab-content">
-                        <div *ngIf="TabValue[i] == '1h' + i">
+                        <div *ngIf="TabValue[i] === '1h' + i">
                           <div class="main-accordion-graph">
                             <div class="accordion-graph-bx">
                               <div class="graph-detail">
@@ -184,7 +184,7 @@
                             </div>
                           </div>
                         </div>
-                        <div *ngIf="TabValue[i] == '1d' + i">
+                        <div *ngIf="TabValue[i] === '1d' + i">
                           <div class="main-accordion-graph">
                             <div class="accordion-graph-bx">
                               <div class="graph-detail">
@@ -230,7 +230,7 @@
                             </div>
                           </div>
                         </div>
-                        <div *ngIf="TabValue[i] == '1w' + i">
+                        <div *ngIf="TabValue[i] === '1w' + i">
                           <div class="main-accordion-graph">
                             <div class="accordion-graph-bx">
                               <div class="graph-detail">
@@ -276,7 +276,7 @@
                             </div>
                           </div>
                         </div>
-                        <div *ngIf="TabValue[i] == '1m' + i">
+                        <div *ngIf="TabValue[i] === '1m' + i">
                           <div class="main-accordion-graph">
                             <div class="accordion-graph-bx">
                               <div class="graph-detail">
@@ -322,7 +322,7 @@
                             </div>
                           </div>
                         </div>
-                        <div *ngIf="TabValue[i] == '1y' + i">
+                        <div *ngIf="TabValue[i] === '1y' + i">
                           <div class="main-accordion-graph">
                             <div class="accordion-graph-bx">
                               <div class="graph-detail">
@@ -1042,7 +1042,7 @@
                           removedServiceGroupId !== group.id ||
                           removedServiceId !== service.id
                         " -->
-                            <div class="red-ellipse" *ngIf="group.status === 1">
+                            <div class="red-ellipse" *ngIf="group.status">
                               <img src="assets/AdminPanel/Ellipse-red.svg" />
                             </div>
                           </div>

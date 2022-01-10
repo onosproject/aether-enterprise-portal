@@ -1,0 +1,68 @@
+.example-container {
+  background-image: url("../../../../../assets/CommonAssets/auth-background.png");
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .login-container{
+    height: 100%;
+    .row{
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: 100%;
+      .card_bx {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 16px;
+        .logo{
+          text-align: end;
+        }
+        h4{
+          color: #3C4257;
+          font-size: 32px;
+          span{
+            margin-top: 10px;
+            font-size: 14px;
+            display: block;
+          }
+        }
+        .form-field-area{
+          .label-txt{
+            color: #3C4257;
+            font-size: 12px;
+            display: block;
+          }
+          .mat-form-field-appearance-fill {
+            .mat-form-field-flex{
+              background: #F0F3FA;
+            }
+          }
+          .form-input-bx{
+            width: 100%;
+            // border-bottom: 0.5px solid #3C4257;
+            input{background: #F0F3FA;}
+            // background: #F0F3FA;
+          }
+          .check_bx{
+            font-size: 14px;
+            color: #3C4257;
+            label{
+              .mat-checkbox-frame{
+                border-color: red;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.mat-form-field-flex{
+  background: #F0F3FA;
+}
+.mat-form-field-wrapper{
+  padding-bottom: 0 !important;
+}
