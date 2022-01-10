@@ -131,6 +131,10 @@
             </mat-button-toggle-group>
           </div>
         </div>
+        <aep-slices
+          #slices
+          (informParent)="parentWillTakeActionSlice()"
+        ></aep-slices>
       </div>
       <div *ngIf="isAcknowledged === 8" class="col-lg-4">
         <div class="site-visite-bx">
