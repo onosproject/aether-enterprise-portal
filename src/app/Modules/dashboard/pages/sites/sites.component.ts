@@ -1,5 +1,4 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
-import { sites } from '../../../../shared/classes/dashboard-data';
 import { SitesService } from '../../../../services/sites/sites.service';
 
 @Component({
@@ -31,7 +30,7 @@ export class SitesComponent {
         );
         // console.log('Site Response', this.sitesResponse);
       },
-      (error) => {
+      () => {
         // console.log('Site Error', error);
       }
     );
@@ -39,9 +38,14 @@ export class SitesComponent {
 
   onSelectCard(
     value: string,
-    siteData: any,
-    deviceGroup: any,
-    device: any,
+    siteData: { slices: any[] },
+    deviceGroup: {
+      'device-group-id': string;
+      devices: any[];
+    }[],
+    device: {
+      'serial-number': string;
+    }[],
     siteIndex: number
   ): void {
     this.selected = value;
@@ -53,9 +57,9 @@ export class SitesComponent {
             deviceGroup[k]['device-group-id']
           ) {
             let groupName = '';
-            let selecteddevice = [];
+            const selecteddevice = [];
             // console.log('|||||||||', deviceGroup[k]['display-name']);
-            let devices = [];
+            const devices = [];
             for (let m = 0; m < deviceGroup[k].devices.length; m++) {
               for (let n = 0; n < device.length; n++) {
                 if (device[n]['serial-number'] === deviceGroup[k].devices[m]) {
@@ -76,10 +80,16 @@ export class SitesComponent {
     this.getServices(siteData, value, siteIndex);
     // console.log('+++++', siteData.slices);
   }
-  getServices(siteData: any, value: string, siteIndex: number) {
+  getServices(
+    siteData: {
+      slices: any[];
+    },
+    value: string,
+    siteIndex: number
+  ): void {
     for (let i = 0; i < siteData.slices.length; i++) {
-      let selectedService = [];
-      let service = [];
+      const selectedService = [];
+      const service = [];
       for (let j = 0; j < siteData.slices[i].applications.length; j++) {
         for (let k = 0; k < this.sitesResponse.applications.length; k++) {
           if (
@@ -105,7 +115,10 @@ export class SitesComponent {
     });
   }
 
-  getTotalService(slice: any, applications: any) {
+  getTotalService(
+    slice: { applications: unknown[] }[],
+    applications: unknown[]
+  ): number {
     let totalService = 0;
     for (let i = 0; i < slice.length; i++) {
       for (let j = 0; j < slice[i].applications.length; j++) {

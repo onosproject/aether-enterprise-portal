@@ -41,12 +41,12 @@ export class SlicesComponent {
     );
   }
 
-  expandSlice(id: string): void {
+  expandSlice(): void {
     // this.expandId = id;
     this.isEditable = false;
   }
 
-  collapseSlice(index: number): void {
+  collapseSlice(): void {
     // alert(this.siteIndex);
     // this.panelOpenState = false;
     if (this.isExpand) {
@@ -61,17 +61,21 @@ export class SlicesComponent {
     // this.panelOpenState = false;
   }
 
-  onSelectCard(value: any): void {
+  onSelectCard(value: {
+    siteId: string;
+    siteData: any[];
+    siteIndex: number;
+  }): void {
     this.siteIndex = value.siteIndex;
     this.sliceData = value.siteData;
 
     // console.log('siteData||||', value.siteData);
   }
 
-  getDevices(deviceGroup: any) {
+  getDevices(deviceGroup: unknown[]): number {
     let deviceLenght = 0;
     for (let i = 0; i < deviceGroup.length; i++) {
-      var result = this.sliceData['device-groups'].filter(
+      const result = this.sliceData['device-groups'].filter(
         (word) => word['device-group-id'] === deviceGroup[i]
       );
       deviceLenght = +result[0].devices.length;
@@ -104,8 +108,7 @@ export class SlicesComponent {
   removeDevice(
     deviceIndex: number,
     cameraIndex: number,
-    cameraId: number,
-    deviceId: number
+    cameraId: number
   ): void {
     if (this.myTimeout === null) {
       this.removedCameraId = cameraId;
@@ -161,14 +164,14 @@ export class SlicesComponent {
     });
   }
 
-  hideAcknowledgedView() {
+  hideAcknowledgedView(): void {
     this.isAcknowledged = 12;
     this.isExpand = false;
     // this.panelOpenState = false;
     this.panelIndex = undefined;
   }
 
-  selectedDevice(event: any) {
+  selectedDevice(event: { group: any; serialNumber: any }): void {
     this.group = event.group;
     this.serialNumber = JSON.stringify(event.serialNumber);
   }
