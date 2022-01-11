@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  baseUrl: 'https://chronos-dev.onlab.us/',
 };
 
 /*

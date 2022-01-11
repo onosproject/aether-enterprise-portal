@@ -9,22 +9,22 @@
   <div class="row">
     <div class="col-12 p-3">
       <div class="select-sim-container d-flex">
-        <div class="select-sim-container-spacings" *ngFor="let sim of sims">
+        <div class="select-sim-container-spacings" *ngFor="let sim of sims[0]">
           <div
             class="select-sim-container-simHolder"
-            (click)="changeSelection(sim.simNumber)"
+            (click)="changeSelection(sim.iccid)"
           >
             <div class="mx-1 d-flex">
               <!-- <mat-checkbox type=checkbox [checked]="selectedSim === sim.simNumber"  class="mx-2"></mat-checkbox>
              -->
               <img
                 [src]="
-                  selectedSim === sim.simNumber
+                  selectedSim === sim.iccid
                     ? 'assets/deviceSim/selected-card.svg'
                     : 'assets/deviceSim/select.svg'
                 "
               />
-              <span class="mx-1">{{ sim.simNumber }}</span>
+              <span class="mx-1">{{ sim.iccid }}</span>
             </div>
           </div>
         </div>
@@ -40,7 +40,12 @@
   >
     Cancel
   </button>
-  <button mat-button class="select-sim-finalButtons-select" cdkFocusInitial>
+  <button
+    mat-button
+    class="select-sim-finalButtons-select"
+    cdkFocusInitial
+    (click)="selectSimFinal()"
+  >
     Select
   </button>
 </div>

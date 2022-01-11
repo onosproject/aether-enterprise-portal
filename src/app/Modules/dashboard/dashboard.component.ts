@@ -9,30 +9,48 @@ export class DashboardComponent {
   @ViewChild('sites') sites: any;
   @ViewChild('slices') slices: any;
   isExpand: any = true;
-
   panelOpenState = false;
+  isAcknowledged = 12;
 
-  parentWillTakeAction(message: number): void {
+  parentWillTakeAction(event: {
+    siteId: string;
+    siteData: any[];
+    siteIndex: number;
+  }): void {
+    // console.log(event.siteId, event.siteData);
     if (!this.isExpand) {
-      this.slices.expandAllCard();
+      this.slices.expandAllCard(false);
       this.isExpand = false;
     } else {
       this.slices.collapseAllCard();
       this.isExpand = true;
     }
-    this.slices.onSelectCard(message);
+    this.slices.onSelectCard(event);
+    setTimeout(() => {
+      this.hideAcknowledgedView();
+    }, 10);
   }
 
   parentWillTakeForExpand(): void {
     if (this.isExpand) {
-      this.slices.expandAllCard();
+      this.slices.expandAllCard(false);
       this.isExpand = false;
     } else {
-      this.slices.collapseAllCard();
       this.isExpand = true;
+      this.slices.collapseAllCard();
     }
   }
   parentWillTakeActionSlice(): void {
     this.isExpand = !this.isExpand;
+  }
+
+  showAcknowledgedView(): void {
+    this.isAcknowledged = 8;
+    this.slices.expandAllCard(true);
+    this.isExpand = false;
+  }
+  hideAcknowledgedView(): void {
+    this.isAcknowledged = 12;
+    this.slices.hideAcknowledgedView();
   }
 }

@@ -2,9 +2,18 @@
 
 <mat-card class="sideNavbar_navCard col-2">
   <mat-card-header class="my-2">
-    <mat-card-title class="sideNavbar_navCard_siteSelector"
-      >Site:
-    </mat-card-title>
+    <mat-form-field id="siteDropdown">
+      <mat-label>site</mat-label>
+      <mat-select>
+        <mat-option
+          *ngFor="let site of sites; let siteIndex = index"
+          [value]="site['siteName']"
+          (click)="selectedSite(site['siteID'])"
+        >
+          {{ site["siteName"] }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </mat-card-header>
   <mat-card-header>
     <mat-card-title class="sideNavbar_navCard_headings">MANAGE</mat-card-title>
@@ -13,7 +22,7 @@
     class="admin-sideCol-navCard-controlLine"
     src="../../assets/CommonAssets/ControlMenuLine.svg"
   />
-  <div class="">
+  <div class="" routerLink="/admin">
     <div
       class="d-flex"
       [ngClass]="{
@@ -49,7 +58,7 @@
       </div>
     </div>
   </div>
-  <div class="my-2">
+  <div class="my-2" routerLink="/device-sim">
     <div
       class="d-flex"
       [ngClass]="{
@@ -94,7 +103,7 @@
       </div>
     </div>
   </div>
-  <div class="mb-3">
+  <div class="mb-3" routerLink="/services">
     <div
       class="d-flex"
       [ngClass]="{
@@ -201,7 +210,7 @@
       </div>
     </div>
   </div>
-  <div class="my-2">
+  <div class="my-2" routerLink="/device-groups">
     <div
       class="d-flex"
       [ngClass]="{

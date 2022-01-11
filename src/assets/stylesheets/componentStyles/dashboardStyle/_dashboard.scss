@@ -115,6 +115,9 @@
       .section-tabs {
         font-size: 14px;
         margin: 20px 0;
+        p {
+          margin-bottom: 0;
+        }
         .section-group-btn {
           border: none;
           .border-none {

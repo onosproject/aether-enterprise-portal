@@ -178,8 +178,10 @@ export class AdminComponent implements OnInit {
     console.log(id, index);
     const editIndex = this.editUsers.indexOf(id);
     if (editIndex >= 0) {
+      console.log('if');
       this.editUsers.splice(editIndex, 1);
     } else {
+      console.log('else');
       const cities = new FormArray([]);
       for (let i = 0; i < this.cities.length; i++) {
         const cityIndex = this.users[index].cities.findIndex(
@@ -191,6 +193,7 @@ export class AdminComponent implements OnInit {
           )
         );
       }
+      console.log(this.users[index]);
       this.users[index].form = new FormGroup({
         ppic: new FormControl(this.users[index].ppic),
         name: new FormControl(this.users[index].name, Validators.required),

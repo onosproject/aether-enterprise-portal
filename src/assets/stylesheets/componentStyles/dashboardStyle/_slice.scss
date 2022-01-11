@@ -38,6 +38,10 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      span {
+        display: flex;
+        align-items: center;
+      }
       .conected-devices-bx::after {
         content: "";
         position: absolute;
@@ -112,6 +116,10 @@
         transform-style: preserve-3d;
         transition: 0.15s cubic-bezier(0, 0, 0.6, 1);
         margin-top: 12px;
+        span {
+          display: flex;
+          align-items: center;
+        }
         .card-icon {
           margin-right: 5px;
           background: #edf4ff;
@@ -216,7 +224,7 @@
         }
         .graph-detail-filter {
           flex: 3;
-          .nav-tabs {
+          .parent-toggel {
             border: none;
             .nav-link {
               &:hover {
@@ -228,15 +236,35 @@
             }
             button {
               color: #859cbe;
-              padding-bottom: 5px;
               border-bottom: 2px solid transparent;
-              padding: 6px;
+              max-height: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 7px 0;
             }
-            .active {
+            // .active {
+            //   color: #fff;
+            //   background: transparent;
+            //   border: 0;
+            //   border-bottom: 2px solid #fff !important;
+            //   width: 5px;
+            //   button {
+            //     color: #fff;
+            //   }
+            // }
+            .mat-button-toggle-checked {
               color: #fff;
               background: transparent;
               border: 0;
               border-bottom: 2px solid #fff !important;
+              // width: 5px;
+              button {
+                color: #fff;
+              }
+            }
+            .mat-button-toggle-group-appearance-standard {
+              border: none;
             }
           }
         }
@@ -321,6 +349,9 @@
     }
     .accordion-section {
       padding-right: 60px;
+      @media only screen and (max-width: 1440px) {
+        padding-right: 0;
+      }
       .accordion-item {
         margin: 30px 0;
         border-radius: 8px;
@@ -360,6 +391,9 @@
             font-size: 16px;
             font-weight: 600;
             padding: 10px 15px;
+            &:focus {
+              box-shadow: none;
+            }
             &:after {
               display: none;
             }
@@ -410,6 +444,8 @@
               font-weight: 500;
               position: relative;
               z-index: 1;
+              min-width: 50px;
+              width: auto;
               .camera_icon {
                 background-color: #edf4ff;
                 width: 26px;
@@ -479,9 +515,10 @@
       padding: 0;
       border-radius: 16px;
       margin: 0 auto;
-      @media only screen and (max-width: 1200px) {
-        margin: 20px;
-        width: auto;
+      // padding-top: 40px;
+      @media only screen and (max-width: 1400px) {
+        margin: 20px 0;
+        max-width: 100%;
       }
       @media only screen and (max-width: 767px) {
         width: 100%;
@@ -496,6 +533,9 @@
         flex-direction: row;
         align-items: center;
         border-radius: 16px 16px 0 0;
+        @media only screen and (max-width: 1440px) {
+          padding: 15px 10px;
+        }
         @media only screen and (max-width: 767px) {
           flex-wrap: wrap;
         }
@@ -509,6 +549,10 @@
           flex: 3;
           position: relative;
           left: -30px;
+          @media only screen and (max-width: 1440px) {
+            left: 0;
+            max-width: 100%;
+          }
           .card-icon {
             background: #0062ff;
             width: 26px;
@@ -555,30 +599,67 @@
         }
         .graph-detail-filter {
           flex: 3;
-          .nav-tabs {
+          .child-toggle {
             border: none;
-            flex-wrap: nowrap;
             .nav-link {
               &:hover {
-                border: 1px solid transparent;
+                border: none;
               }
               &:focus {
-                border: 1px solid transparent;
+                border: none;
               }
             }
             button {
               color: #859cbe;
-              padding-bottom: 5px;
               border-bottom: 2px solid transparent;
-              padding: 6px;
+              max-height: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: 4px 0;
             }
-            .active {
+            // .active {
+            //   color: #fff;
+            //   background: transparent;
+            //   border: 0;
+            //   border-bottom: 2px solid #fff !important;
+            //   width: 5px;
+            //   button {
+            //     color: #fff;
+            //   }
+            // }
+            .mat-button-toggle-checked {
               color: #fff;
               background: transparent;
               border: 0;
               border-bottom: 2px solid #fff !important;
+              // width: 5px;
+              button {
+                color: #fff;
+              }
+            }
+            .mat-button-toggle-group-appearance-standard .mat-button-toggle {
+              border-left: solid 1px rgba(0, 0, 0, 0.12);
+              padding: 7px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border: none;
+              width: 39px;
+            }
+            .mat-button-toggle-group-appearance-standard {
+              border: none;
             }
           }
+        }
+      }
+      .graph-header-isAcknowledged {
+        border-radius: 16px;
+        .graph-detail-h {
+          left: 0px;
+        }
+        .graph-alert-h {
+          margin: auto;
         }
       }
       .graph-content-bx {
@@ -653,7 +734,23 @@
     border: 1px solid #fb8500 !important;
     .accordion-header {
       .accordion-button {
-        justify-content: center !important;
+        justify-content: center;
+      }
+    }
+    .accordion-body {
+      padding: 0 !important;
+      .product-detail {
+        margin: 7px 0 !important;
+        padding: 0 5px !important;
+        &:before {
+          padding: 23px;
+        }
+        .left-bx {
+          // margin-bottom: 10px !important;
+          :last-child {
+            margin-bottom: 0px !important;
+          }
+        }
       }
     }
   }
@@ -684,42 +781,12 @@
     }
   }
 }
-
-// .ctm-modal-content {
-//   box-shadow: none;
-//   border-radius: 8px;
-//   max-width: 522px;
-//   .modal-header {
-//     padding: 24px;
-//     align-items: flex-start;
-//     border: none;
-//     .modal-title {
-//       font-size: 28px;
-//       line-height: 1;
-//       margin-bottom: 0;
-//     }
-//     .btn-close {
-//       background-image: url(../../../../assets/AdminPanel/red-alert.svg);
-//       opacity: 1;
-//     }
-//   }
-//   .ctm-btn {
-//     min-width: 166px;
-//     padding: 14px 16px;
-//     text-align: left;
-//   }
-//   .ctm-btn-red {
-//     background-color: #ef233c;
-//     color: #fff;
-//   }
-//   .ctm-btn-transparent {
-//     color: #0063f7;
-//   }
-//   .modal-footer {
-//     border: none;
-//   }
-// }
-.accordion-button:focus {
-  box-shadow: none;
-  border: none;
+.ctm_new_col_8 {
+  .left-accordion-section {
+    .product-detail {
+      &:before {
+        padding: 17px !important;
+      }
+    }
+  }
 }

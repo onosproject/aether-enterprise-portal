@@ -1,12 +1,22 @@
 <div class="row ctm-row">
   <div
     class="col-xl-3 col-lg-5 col-md-6 col-sm-7 ctm-cols"
-    *ngFor="let site of sites"
+    *ngFor="let site of sites; let siteIndex = index"
   >
     <div
       class="card card-stats"
-      (click)="onSelectCard(site.id)"
-      [ngClass]="{ 'card-selected mat-elevation-z4': selected === site.id }"
+      (click)="
+        onSelectCard(
+          site['site-id'],
+          site,
+          site['device-groups'],
+          site.devices,
+          siteIndex
+        )
+      "
+      [ngClass]="{
+        'card-selected mat-elevation-z4': selected === site['site-id']
+      }"
     >
       <div
         class="card-header card-header-warning card-header-icon card-header-bg"
@@ -14,7 +24,8 @@
           background-image: url('../../../../../assets/AdminPanel/card-header-bg.png');
         "
       >
-        <h3 class="card-title">{{ site.title }}</h3>
+        <!-- [ngStyle]="{ 'background-image': 'url(' + site.image + ')' }" -->
+        <h3 class="card-title">{{ site["display-name"] }}</h3>
         <div *ngIf="site.status === 1" class="alert-bx">ALERT</div>
         <div *ngIf="site.status === 0" class="success-bx">HEALTHY</div>
       </div>
@@ -27,7 +38,7 @@
               </div>
               <div class="card-category">
                 <p class="">
-                  {{ site.devices }} Devices
+                  {{ site.devices.length }} Devices
                   <span>10 Unprovisioned</span>
                 </p>
               </div>
@@ -39,7 +50,7 @@
                 <img src="assets/AdminPanel/slices.svg" />
               </div>
               <div class="card-category">
-                <p class="">{{ site.slices }} Slices</p>
+                <p class="">{{ site.slices.length }} Slices</p>
               </div>
             </div>
           </div>
@@ -49,7 +60,10 @@
                 <img src="assets/AdminPanel/service.svg" />
               </div>
               <div class="card-category">
-                <p class="">{{ site.services }} Services</p>
+                <p class="">
+                  {{ getTotalService(site.slices, sitesResponse.applications) }}
+                  Services
+                </p>
               </div>
             </div>
           </div>
@@ -73,11 +87,11 @@
         </div>
         <div class="check-box-container">
           <img
-            *ngIf="selected !== site.id"
+            *ngIf="selected !== site['site-id']"
             src="assets/AdminPanel/select.svg"
           />
           <img
-            *ngIf="selected === site.id"
+            *ngIf="selected === site['site-id']"
             src="assets/AdminPanel/selected-card.svg"
           />
         </div>

@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { slice } from '../../../../shared/classes/dashboard-data';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modal/modal.component';
 
@@ -13,25 +12,26 @@ export class SlicesComponent {
   @Output() informParent = new EventEmitter();
   sliceData: any;
   panelOpenState = false;
-  expandId: any;
-  isExpand: any = false;
+  isExpand: boolean = false;
   deviceGroups: any;
   openAccordion: any = [];
+  openAccordion2: any = [];
   openAccordionRight: any = [];
   isEditable: any = false;
   siteIndex: any = 0;
   removedCameraId: any;
   removedDeviceId: any;
-  myTimeout: any;
+  myTimeout: any = null;
   sliceId: any;
   removedServiceGroupId: any;
   removedServiceId: any;
+  isAcknowledged = 12;
+  group: string;
+  serialNumber: any;
+  panelIndex: number;
+  TabValue = ['1h0', '1h1', '1h2', '1h3'];
 
-  constructor(public dialog: MatDialog) {
-    this.sliceData = slice[0][this.siteIndex];
-    // console.log(this.sliceData.data[1].group[0].cameras.splice(0,1));
-    // console.log(this.sliceData.data[0].services[0].group.splice(0,1));
-  }
+  constructor(public dialog: MatDialog) {}
 
   dragAndDrop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(
@@ -41,39 +41,63 @@ export class SlicesComponent {
     );
   }
 
-  expandSlice(id: number): void {
-    this.expandId = id;
+  expandSlice(): void {
+    // this.expandId = id;
+    this.isEditable = false;
   }
 
   collapseSlice(): void {
-    this.expandId = null;
-    this.panelOpenState = false;
+    // alert(this.siteIndex);
+    // this.panelOpenState = false;
     if (this.isExpand) {
       this.informParent.emit();
       this.isExpand = false;
     }
   }
 
-  // onSelectCard(value: any):void {
-  //   this.expandId = null;
-  //   const result = slice[0].filter((word) => word.site_id == value);
-  //   this.siteIndex = value;
-  //   this.sliceData = result[0];
-  // }
-
-  expandAllCard(): void {
-    this.expandId = null;
-    this.isExpand = true;
-    this.panelOpenState = true;
-  }
-
   collapseAllCard(): void {
     this.isExpand = false;
-    this.panelOpenState = false;
+    this.panelIndex = undefined;
+    // this.panelOpenState = false;
   }
 
-  onEdit(sliceId: number): void {
+  onSelectCard(value: {
+    siteId: string;
+    siteData: any[];
+    siteIndex: number;
+  }): void {
+    this.siteIndex = value.siteIndex;
+    this.sliceData = value.siteData;
+
+    // console.log('siteData||||', value.siteData);
+  }
+
+  getDevices(deviceGroup: unknown[]): number {
+    let deviceLenght = 0;
+    for (let i = 0; i < deviceGroup.length; i++) {
+      const result = this.sliceData['device-groups'].filter(
+        (word) => word['device-group-id'] === deviceGroup[i]
+      );
+      deviceLenght = +result[0].devices.length;
+    }
+    return deviceLenght;
+  }
+
+  expandAllCard(isAcknowledged: boolean): void {
+    this.panelIndex = undefined;
+    setTimeout(() => {
+      if (isAcknowledged) {
+        this.isExpand = true;
+        this.isAcknowledged = 8;
+      } else {
+        this.isExpand = true;
+      }
+    }, 10);
+  }
+
+  onEdit(sliceId: number, index: number): void {
     this.sliceId = sliceId;
+    this.siteIndex = index;
     if (this.isEditable) {
       this.isEditable = true;
     } else {
@@ -84,17 +108,18 @@ export class SlicesComponent {
   removeDevice(
     deviceIndex: number,
     cameraIndex: number,
-    cameraId: number,
-    deviceId: number
+    cameraId: number
   ): void {
-    if (this.myTimeout != 'undefined') {
+    if (this.myTimeout === null) {
       this.removedCameraId = cameraId;
-      this.removedDeviceId = deviceId;
+      this.removedDeviceId = deviceIndex;
       this.myTimeout = setTimeout(() => {
-        this.sliceData.data[this.siteIndex].group[deviceIndex].cameras.splice(
+        this.sliceData[this.siteIndex].devices[deviceIndex].devices.splice(
           cameraIndex,
           1
         );
+
+        this.myTimeout = null;
       }, 3000);
     }
   }
@@ -102,39 +127,52 @@ export class SlicesComponent {
   removeServiceGroup(
     serviceIndex: number,
     groupServiceIndex: number,
-    groupId: number,
     serviceId: number
   ): void {
-    if (this.myTimeout != 'undefined') {
-      this.removedServiceGroupId = groupId;
+    if (this.myTimeout === null) {
       this.removedServiceId = serviceId;
       this.myTimeout = setTimeout(() => {
-        this.sliceData.data[this.siteIndex].services[serviceIndex].group.splice(
-          groupServiceIndex,
+        this.sliceData[this.siteIndex].services[serviceIndex].service.splice(
+          0,
           1
         );
+        this.myTimeout = null;
       }, 3000);
     }
   }
-
   undoDevice(): void {
     clearTimeout(this.myTimeout);
     this.removedCameraId = null;
     this.removedServiceGroupId = null;
     this.removedServiceId = null;
     this.removedDeviceId = null;
-    this.myTimeout = undefined;
+    this.myTimeout = null;
   }
 
-  openDialog(deviceIndex: number): void {
+  openDialog(deviceIndex: number, isDevice: boolean): void {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '450px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result == 'true') {
-        this.sliceData.data[this.siteIndex].group.splice(deviceIndex, 1);
+      if (result === 'true' && isDevice) {
+        this.sliceData[this.siteIndex].devices.splice(0, 1);
+      }
+      if (result === 'true' && !isDevice) {
+        this.sliceData[this.siteIndex].services.splice(0, 1);
       }
     });
+  }
+
+  hideAcknowledgedView(): void {
+    this.isAcknowledged = 12;
+    this.isExpand = false;
+    // this.panelOpenState = false;
+    this.panelIndex = undefined;
+  }
+
+  selectedDevice(event: { group: any; serialNumber: any }): void {
+    this.group = event.group;
+    this.serialNumber = JSON.stringify(event.serialNumber);
   }
 }

@@ -1,3 +1,5 @@
+<!-- <aep-navbar></aep-navbar> -->
+
 <div class="main-content">
   <div class="bg-gray">
     <div class="container-fluid ctm-container">
@@ -79,7 +81,10 @@
                         <div class="card-icon">
                           <img src="assets/AdminPanel/red-alert.svg" />
                         </div>
-                        <div class="card-category">
+                        <div
+                          class="card-category"
+                          (click)="showAcknowledgedView()"
+                        >
                           <p class="">5 Alerts</p>
                         </div>
                       </div>
@@ -97,7 +102,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-12">
+      <div class="col-lg-{{ isAcknowledged }}">
         <div class="site-visite-bx">
           <div class="section-h">
             <h4>
@@ -131,6 +136,30 @@
           (informParent)="parentWillTakeActionSlice()"
         ></aep-slices>
       </div>
+      <div *ngIf="isAcknowledged === 8" class="col-lg-4">
+        <div class="site-visite-bx">
+          <div class="section-h">
+            <h4>
+              Notification
+              <!-- <span>
+                <a *ngIf="isExpand" (click)="parentWillTakeForExpand()"
+                  >Expand All</a
+                >
+                <a *ngIf="!isExpand" (click)="parentWillTakeForExpand()"
+                  >Collapse</a
+                >
+              </span> -->
+            </h4>
+          </div>
+          <div class="section-tabs section_close">
+            <p (click)="hideAcknowledgedView()">Close</p>
+          </div>
+        </div>
+      </div>
+      <aep-slices
+        #slices
+        (informParent)="parentWillTakeActionSlice()"
+      ></aep-slices>
     </div>
   </div>
 </div>
