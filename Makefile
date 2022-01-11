@@ -53,7 +53,8 @@ deps: # @HELP ensure that the required dependencies are in place
 lint: deps # @HELP calls "npm run lint" to perform static code analysis
 	npm run lint
 
-test: deps lint # @HELP perform a license check on the code and then invokes "npm test"
+test: deps lint # @HELP perform a license check on the code and then invokes "npm run test"
+	npm run test
 
 license_check: # @HELP examine and ensure license headers exist
 	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
