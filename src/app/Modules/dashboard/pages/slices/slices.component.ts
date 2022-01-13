@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalComponent } from '../modal/modal.component';
+import { ModalComponent } from '../modals/delet-card/modal.component';
 
 @Component({
   selector: 'aep-slices',
@@ -29,7 +29,7 @@ export class SlicesComponent {
   group: string;
   serialNumber: any;
   panelIndex: number;
-  TabValue = ['1h0', '1h1', '1h2', '1h3'];
+  TabValue = [];
 
   constructor(public dialog: MatDialog) {}
 
@@ -41,12 +41,12 @@ export class SlicesComponent {
     );
   }
 
-  expandSlice(id: string): void {
+  expandSlice(): void {
     // this.expandId = id;
     this.isEditable = false;
   }
 
-  collapseSlice(index: number): void {
+  collapseSlice(): void {
     // alert(this.siteIndex);
     // this.panelOpenState = false;
     if (this.isExpand) {
@@ -61,17 +61,25 @@ export class SlicesComponent {
     // this.panelOpenState = false;
   }
 
-  onSelectCard(value: any): void {
+  onSelectCard(value: {
+    siteId: string;
+    siteData: any[];
+    siteIndex: number;
+  }): void {
     this.siteIndex = value.siteIndex;
     this.sliceData = value.siteData;
+
+    for (let i = 0; i < value.siteData.length; i++) {
+      this.TabValue.push('1h' + i);
+    }
 
     // console.log('siteData||||', value.siteData);
   }
 
-  getDevices(deviceGroup: any) {
+  getDevices(deviceGroup: unknown[]): number {
     let deviceLenght = 0;
     for (let i = 0; i < deviceGroup.length; i++) {
-      var result = this.sliceData['device-groups'].filter(
+      const result = this.sliceData['device-groups'].filter(
         (word) => word['device-group-id'] === deviceGroup[i]
       );
       deviceLenght = +result[0].devices.length;
@@ -85,6 +93,7 @@ export class SlicesComponent {
       if (isAcknowledged) {
         this.isExpand = true;
         this.isAcknowledged = 8;
+        this.isEditable = false;
       } else {
         this.isExpand = true;
       }
@@ -104,8 +113,7 @@ export class SlicesComponent {
   removeDevice(
     deviceIndex: number,
     cameraIndex: number,
-    cameraId: number,
-    deviceId: number
+    cameraId: number
   ): void {
     if (this.myTimeout === null) {
       this.removedCameraId = cameraId;
@@ -161,14 +169,14 @@ export class SlicesComponent {
     });
   }
 
-  hideAcknowledgedView() {
+  hideAcknowledgedView(): void {
     this.isAcknowledged = 12;
     this.isExpand = false;
     // this.panelOpenState = false;
     this.panelIndex = undefined;
   }
 
-  selectedDevice(event: any) {
+  selectedDevice(event: { group: any; serialNumber: any }): void {
     this.group = event.group;
     this.serialNumber = JSON.stringify(event.serialNumber);
   }

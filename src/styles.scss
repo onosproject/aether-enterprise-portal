@@ -18,6 +18,10 @@ body {
 body {
   background: #edf4ff !important;
 }
-// .mat-form-field-appearance-fill .mat-form-field-flex{
-//   background: green;
-// }
+.form-field-area-login,
+.form-field-area-forgot {
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    background: #f0f3fa;
+    border-bottom: 0.5px solid #3c4257;
+  }
+}

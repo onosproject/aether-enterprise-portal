@@ -6,7 +6,11 @@
     <aep-side-navbar></aep-side-navbar>
   </div>
   <div
-    class="col container-fluid col-xxl col-xl-9 col-lg-8 col-md-7 col-sm-6 col-5"
+    class="
+      col
+      container-fluid
+      col-xxl col-xl-9 col-lg-8 col-md-7 col-sm-6 col-5
+    "
   >
     <div class="admin-addUser-holder col-12 mx-3 useerPanel">
       <form [formGroup]="userForm">
@@ -29,7 +33,7 @@
                   />
                   <br />
                   <button mat-button class="admin-addNew-form-upload my-4">
-                    Upload
+                    <img src="assets/AdminPanel/upload.svg" /> Upload
                   </button>
                 </div>
               </div>
@@ -67,19 +71,16 @@
                             class="form-control form-field-big"
                             required
                             formControlName="email"
-                            [formControl]="emailFormControl"
                             placeholder="Email ID"
                           />
+                          <!-- <mat-error *ngIf="email.hasError('email')">
+                            Please enter a valid email address
+                          </mat-error> -->
                           <mat-error
                             *ngIf="
-                              emailFormControl.hasError('email') &&
-                              !emailFormControl.hasError('required')
+                              userForm.controls.email.errors?.required &&
+                              userForm.controls.email.touched
                             "
-                          >
-                            Please enter a valid email address
-                          </mat-error>
-                          <mat-error
-                            *ngIf="emailFormControl.hasError('required')"
                           >
                             Email is <strong>required</strong>
                           </mat-error>
@@ -100,7 +101,7 @@
                 </div>
 
                 <div class="row d-flex">
-                  <div>Select Access Level</div>
+                  <div class="select-level">Select Access Level</div>
                   <div class="col-6 d-flex" style="flex-wrap: wrap">
                     <div
                       class="d-flex mx-2"
@@ -144,7 +145,10 @@
                             Device
                           </mat-checkbox>
                           <mat-checkbox
-                            class="admin-addNew-form-subChecks admin-addNew-form-subChecks-central"
+                            class="
+                              admin-addNew-form-subChecks
+                              admin-addNew-form-subChecks-central
+                            "
                           >
                             Central
                           </mat-checkbox>
@@ -156,7 +160,10 @@
                             Site Equipment
                           </mat-checkbox>
                           <mat-checkbox
-                            class="admin-addNew-form-subChecks admin-addNew-form-subChecks-security"
+                            class="
+                              admin-addNew-form-subChecks
+                              admin-addNew-form-subChecks-security
+                            "
                           >
                             Security
                           </mat-checkbox>
@@ -168,13 +175,12 @@
               </div>
             </div>
           </mat-card-content>
-          <mat-card-actions>
-            <div class="admin-addNew-form-lastButtons">
+          <mat-card-actions class="bottom-button">
+            <div class="admin-addNew-form-lastButtons admin-addnew-group">
               <button
-                class="admin-addNew-form-addButton"
+                class="admin-addNew-form-addButton add-button-gray"
                 type="submit"
                 mat-raised-button
-                color="primary"
                 (click)="AddNew = !AddNew; onSubmit(); assignUsersCities()"
               >
                 Add
@@ -464,7 +470,10 @@
                                   Device
                                 </mat-checkbox>
                                 <mat-checkbox
-                                  class="admin-addNew-form-subChecks admin-addNew-form-subChecks-central"
+                                  class="
+                                    admin-addNew-form-subChecks
+                                    admin-addNew-form-subChecks-central
+                                  "
                                 >
                                   Central
                                 </mat-checkbox>
@@ -478,7 +487,10 @@
                                   Site Equipment
                                 </mat-checkbox>
                                 <mat-checkbox
-                                  class="admin-addNew-form-subChecks admin-addNew-form-subChecks-security"
+                                  class="
+                                    admin-addNew-form-subChecks
+                                    admin-addNew-form-subChecks-security
+                                  "
                                 >
                                   Security
                                 </mat-checkbox>
@@ -491,7 +503,7 @@
                   </div>
                 </mat-card-content>
 
-                <mat-card-actions>
+                <mat-card-actions class="bottom-button">
                   <div class="admin-addNew-form-lastButtons">
                     <span class="admin-addNew-form-audit" type="button">
                       <img

@@ -5,9 +5,9 @@
   position: relative;
   background-repeat: no-repeat;
   background-size: cover;
-  .login-container{
+  .login-container {
     height: 100%;
-    .row{
+    .row {
       width: 100%;
       display: flex;
       justify-content: flex-end;
@@ -17,42 +17,74 @@
         background-color: #ffffff;
         padding: 40px;
         border-radius: 16px;
-        .logo{
+        min-height: 60vh;
+        .logo {
           text-align: end;
+          margin-bottom: 40px;
         }
-        h4{
-          color: #3C4257;
+        h4 {
+          color: #3c4257;
           font-size: 32px;
-          span{
+          span {
             margin-top: 10px;
             font-size: 14px;
             display: block;
           }
         }
-        .form-field-area{
-          .label-txt{
-            color: #3C4257;
+        .form-field-area-login {
+          .label-txt {
+            color: #3c4257;
             font-size: 12px;
             display: block;
           }
           .mat-form-field-appearance-fill {
-            .mat-form-field-flex{
-              background: #F0F3FA;
+            .mat-form-field-flex {
+              background: #f0f3fa;
             }
           }
-          .form-input-bx{
+          .form-input-bx {
             width: 100%;
             // border-bottom: 0.5px solid #3C4257;
-            input{background: #F0F3FA;}
+            input {
+              background: #f0f3fa;
+            }
             // background: #F0F3FA;
           }
-          .check_bx{
+          .check_bx {
             font-size: 14px;
-            color: #3C4257;
-            label{
-              .mat-checkbox-frame{
+            color: #3c4257;
+            label {
+              .mat-checkbox-frame {
                 border-color: red;
               }
+            }
+          }
+          .form_link_control {
+            display: flex;
+            justify-content: space-between;
+            .forgot-password {
+              text-align: right;
+              a {
+                color: #0063f7;
+                text-decoration: none;
+              }
+            }
+          }
+          .btn_control {
+            display: flex;
+            justify-content: flex-end;
+            margin: 20px 0;
+            button {
+              background: #0063f7;
+              color: #ffffff;
+              min-width: 128px;
+              text-align: left;
+              border: none;
+              padding: 10px;
+              border-radius: 4px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
             }
           }
         }
@@ -60,9 +92,9 @@
     }
   }
 }
-.mat-form-field-flex{
-  background: #F0F3FA;
+.mat-form-field-flex {
+  background: #f0f3fa;
 }
-.mat-form-field-wrapper{
+.mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }

@@ -251,7 +251,7 @@
         // padding: 6px 23px 6px 23px;
         color: #0063f7;
         border: none;
-        margin-left: 4rem;
+        margin-left: 4rem !important;
         // border: 0.5px solid #005eec;
         // background: #fff;
       }
@@ -444,12 +444,30 @@
 .admin-addNew-form-lastButtons {
   display: flow-root !important;
   padding-bottom: 20px !important;
+  .admin-addNew-form-addButton {
+    background-color: #0063f7;
+  }
+  .add-button-gray {
+    background-color: #a3a3a3;
+  }
+}
+.select-level {
+  padding-left: 20px !important;
+}
+
+.admin-addnew-group {
+  padding-right: 10px;
 }
 
 .highlight {
   color: #fff;
   background: #0063f7;
   border: none;
+}
+
+.bottom-button {
+  padding: 0px !important;
+  margin: 0px !important;
 }
 
 .normal {

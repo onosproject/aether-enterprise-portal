@@ -16,7 +16,13 @@
         <!--BUTTON FOR ADD NEW SERVICE-->
         <div class="row">
           <mat-card
-            class="add-new-services add-button .button-medium-14 col-12 d-flex my-1"
+            class="
+              add-new-services add-button
+              .button-medium-14
+              col-12
+              d-flex
+              my-1
+            "
             *ngIf="!addNewServiceForm"
           >
             <button
@@ -120,8 +126,17 @@
                   </div>
                 </div>
               </mat-card-content>
-              <mat-card-actions class="form-actions d-flex mx-auto">
-                <div class="button-sec">
+              <mat-card-actions class="form-actions d-flex">
+                <div class="button-sec service-button-section">
+                  <button
+                    class="add btn btn-gray mx-2"
+                    (click)="addNewServiceForm = !addNewServiceForm"
+                    [@inOutAnimation]
+                    type="submit"
+                    mat-raised-button
+                  >
+                    Add
+                  </button>
                   <button
                     mat-button
                     class="cancel btn btn-white mx-2"
@@ -129,16 +144,6 @@
                     [@inOutAnimation]
                   >
                     Cancel
-                  </button>
-                  <button
-                    class="add btn btn-gray mx-2"
-                    (click)="addNewServiceForm = !addNewServiceForm"
-                    [@inOutAnimation]
-                    type="submit"
-                    mat-raised-button
-                    color="primary"
-                  >
-                    Add
                   </button>
                 </div>
               </mat-card-actions>
@@ -197,7 +202,13 @@
               Edit
             </div>
             <div
-              class="col-1 card-list-item text-center add-new-service-close close"
+              class="
+                col-1
+                card-list-item
+                text-center
+                add-new-service-close
+                close
+              "
               (click)="editServiceFormClose()"
               *ngIf="editServiceForm"
             >
@@ -295,7 +306,7 @@
                   </div>
                 </div>
               </mat-card-content>
-              <mat-card-actions class="form-actions d-flex mx-auto">
+              <mat-card-actions class="form-actions d-flex">
                 <div class="card-item-delete d-flex mx-2">
                   <div>
                     <img
@@ -305,15 +316,7 @@
                   </div>
                   <div class="delete-label">Delete</div>
                 </div>
-                <div class="button-sec">
-                  <button
-                    mat-button
-                    class="cancel btn btn-white mx-2"
-                    (click)="editServiceForm = !editServiceForm"
-                    [@inOutAnimation]
-                  >
-                    Cancel
-                  </button>
+                <div class="button-sec service-button-section">
                   <button
                     class="add btn btn-save mx-2"
                     (click)="editServiceForm = !editServiceForm"
@@ -323,6 +326,14 @@
                     color="primary"
                   >
                     Save
+                  </button>
+                  <button
+                    mat-button
+                    class="cancel btn btn-white mx-2"
+                    (click)="editServiceForm = !editServiceForm"
+                    [@inOutAnimation]
+                  >
+                    Cancel
                   </button>
                 </div>
               </mat-card-actions>

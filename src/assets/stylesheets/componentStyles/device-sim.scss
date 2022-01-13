@@ -128,9 +128,9 @@
           color: #ef233c;
         }
       }
-      .device-progress-bar {
-        height: 6px;
-      }
+      // .device-progress-bar {
+      //   height: 6px;
+      // }
       .connected {
         color: #ffffff !important;
         background: #06d6a0 !important;
@@ -279,14 +279,17 @@
     color: #000;
   }
   .activate-device-subtitle2-button {
+    width: 10rem;
     border: 1px solid #0063f7;
     border-radius: 4px;
     color: #0063f7;
     padding: 14px;
+
+    &-searchIcon {
+      margin-left: 3.75rem;
+    }
   }
-  // .activate-device-subtitle2-button-searchIcon {
-  //   margin-left: 3.75rem;
-  // }
+
   // .activate-device-subtitle2-inputField {
   //   width: 9.5rem;
   // }
@@ -313,7 +316,7 @@
       width: 108px;
       text-align: start;
       margin-right: 1rem;
-      border: 1px solid #0063f7;
+      // border: 1px solid #0063f7;
       border-radius: 4px;
       background: #0063f7;
     }
@@ -330,6 +333,10 @@
     }
     .button-sec {
       margin-left: auto;
+      padding-right: 10px;
+      .add-button-gray {
+        background-color: #a3a3a3;
+      }
     }
     .device-sim-item-delete {
       color: #ef233c;
@@ -358,6 +365,10 @@
         }
       }
     }
+  }
+  .bottom-button {
+    padding: 0px;
+    margin: 0px;
   }
   .info-block {
     padding-left: 10px;
@@ -514,6 +525,7 @@
 }
 
 .progress {
+  height: 1rem;
   background-color: #fff;
   border-radius: 22px;
   &-hours {
@@ -594,4 +606,17 @@
     height: 1rem;
     margin-left: 12rem;
   }
+}
+
+.dayChart {
+  // background-color: #0063f7 !important;
+  margin-top: -2rem;
+  rect {
+    rx: 10;
+    ry: 10;
+  }
+}
+
+.randClass {
+  background-color: red !important;
 }

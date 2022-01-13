@@ -1,0 +1,300 @@
+.sideNavbar_navCard {
+  margin-left: 0 !important;
+}
+.device-groups-view {
+  .right-section {
+    .sec-1 {
+      .title-tab .title-block {
+        color: #000000;
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 28px;
+        line-height: 36px;
+      }
+    }
+  }
+  .mat-expansion-panel-header {
+    padding: 0;
+    margin: 0 24px;
+  }
+  .device-groups-view-cards {
+    .mat-expansion-panel-header {
+      height: auto;
+      .mat-content {
+        flex-wrap: wrap;
+      }
+    }
+    .card-titles {
+      padding: 10px 0 10px 0;
+      border-bottom: 1px solid #97c1ff;
+      .device-group {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 150%;
+        color: #3c4257;
+        border-right: 1px solid #97c1ff;
+        padding: 0 15px 0 0px;
+      }
+      .device-count {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 22px;
+        color: #3c4257;
+        border-right: 1px solid #97c1ff;
+        padding: 0 15px 0 15px;
+      }
+      .device-domain {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 150%;
+        letter-spacing: 0.00625em;
+        color: #3c4257;
+        padding: 0 15px 0 15px;
+      }
+      .edit {
+        margin-left: auto;
+      }
+      .close {
+        margin-left: auto;
+      }
+    }
+    .device-group-items {
+      .device-group-item {
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        background-color: #f0f3fa;
+        padding: 8px 0px 8px 0px;
+        margin: 8px 10px 8px 0;
+        width: max-content;
+        min-width: 13rem;
+        .camera {
+          font-family: Inter;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          letter-spacing: 0.00625em;
+          color: #3c4257;
+          padding-left: 5px;
+        }
+        .location {
+          font-family: Inter;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 16px;
+          letter-spacing: 0.02em;
+          color: #3c4257;
+          padding-left: 10px;
+        }
+        .status-dot {
+          padding: 0 5px 0 5px;
+        }
+        .img-bg {
+          height: 24px;
+          width: 24px;
+          background: #ffffff;
+          border-radius: 50%;
+          position: relative;
+          img {
+            position: absolute;
+            top: 5px;
+            left: -2px;
+            height: 14px;
+            width: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  .right-bx-shadow {
+    background: linear-gradient(
+      270deg,
+      #8ebcff -80.88%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    width: 25px;
+    height: 100%;
+    position: absolute;
+    right: -24px;
+    top: 0;
+    z-index: 1;
+    border-radius: 0 4px 4px 0;
+  }
+  .plush-blue {
+    position: relative;
+    right: -3px;
+    height: 18px;
+    width: 18px;
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  .minimise-bx {
+    position: absolute;
+    right: -18px;
+    top: 12px;
+    z-index: 99;
+    img {
+      width: 14px;
+    }
+  }
+  .add-device-group-form {
+    padding: 0;
+    .mat-step-header {
+      pointer-events: none;
+      .mat-step-icon {
+        height: 8px;
+        width: 8px;
+        background: #d8d8d8;
+        &.mat-step-icon-selected {
+          background: #0063f7;
+        }
+      }
+      .mat-step-label {
+        color: #d8d8d8;
+        &.mat-step-label-selected {
+          color: #0063f7;
+        }
+      }
+      .mat-step-icon-content {
+        display: none;
+      }
+      &.cdk-program-focused {
+        background: none;
+      }
+      &:hover {
+        background: none !important;
+      }
+    }
+    .next-btn {
+      color: #fff;
+      height: 49px;
+      width: 108px;
+      text-align: start;
+      // margin-right: 1rem;
+      border: 1px solid #0063f7;
+      border-radius: 4px;
+      background: #0063f7;
+    }
+    .back-btn {
+      color: #0063f7;
+      height: 49px;
+      width: 108px;
+      text-align: start;
+      margin-right: 2rem;
+      border: 1px solid #0063f7;
+      border-radius: 4px;
+      background: #fff;
+    }
+    .btn-controls {
+      justify-content: right;
+    }
+    .form-body {
+      background: #eff1f3;
+    }
+    .device-group-items {
+      .device-group-item {
+        background-color: #ffffff;
+      }
+    }
+    .select {
+      height: 20px;
+      width: 20px;
+      img {
+        height: 20px;
+        width: 20px;
+        position: relative;
+      }
+    }
+    img-bg-popup {
+      height: 24px;
+      width: 24px;
+      // img {
+      // }
+    }
+    .add-device-group-summary {
+      font-family: Inter;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 28px;
+    }
+    .device-groups-summary {
+      .selected-items {
+        .selected-item {
+          .label {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 16px;
+
+            letter-spacing: 0.02em;
+          }
+          .content {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
+            letter-spacing: 0.00625em;
+          }
+        }
+      }
+    }
+  }
+  .mat-expansion-panel
+    .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"]),
+  .mat-expansion-panel
+    .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"]),
+  .mat-expansion-panel:not(.mat-expanded)
+    .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
+    background: none;
+  }
+}
+.mat-card-actions-content {
+  position: relative;
+}
+.edit-device-goup-form {
+  background-color: #fff;
+  position: absolute;
+  top: 48px;
+  .edit-section {
+    background: #eff1f3;
+  }
+  .device-group-items {
+    .device-group-item {
+      background-color: #ffffff !important;
+    }
+  }
+}
+.edit-add-new-device {
+  .label {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    cursor: pointer;
+
+    color: #0063f7;
+  }
+  .cancel {
+    margin-left: auto !important;
+    color: #ef233c;
+  }
+}
+
+#special {
+  display: contents !important;
+}

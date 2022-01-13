@@ -8,9 +8,11 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SitesComponent } from './pages/sites/sites.component';
 import { SlicesComponent } from './pages/slices/slices.component';
-import { ModalComponent } from './pages/modal/modal.component';
+import { ModalComponent } from './pages/modals/delet-card/modal.component';
+import { GraphComponent } from './pages/modals/graph-modal/graph.component';
 import { SmallCellsComponent } from './pages/small-cells/small-cells.component';
 import { FormsModule } from '@angular/forms';
+import { JoinerModule } from '../joiner/joiner.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     SitesComponent,
     SlicesComponent,
     ModalComponent,
+    GraphComponent,
     SmallCellsComponent,
     NavbarComponent,
   ],
@@ -28,6 +31,7 @@ import { FormsModule } from '@angular/forms';
     CdkAccordionModule,
     DragDropModule,
     FormsModule,
+    JoinerModule,
   ],
 })
 export class DashboardModule {}

@@ -1,0 +1,89 @@
+.graph-modal {
+  .parent-toggel-graph {
+    //   border: none;
+    .nav-link {
+      padding: 0px;
+      &:hover {
+        border: none;
+      }
+      &:focus {
+        border: none;
+      }
+    }
+    button {
+      color: #97c1ff;
+      border-bottom: 2px solid transparent;
+      max-height: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 0;
+    }
+    .mat-button-toggle-checked {
+      color: #0063f7 !important;
+      background: transparent;
+      border: 0;
+      border-bottom: 2px solid #0063f7 !important;
+      // width: 5px;
+      button {
+        color: #fff;
+      }
+    }
+    .mat-button-toggle-group-appearance-standard .mat-button-toggle {
+      border: none;
+      color: #97c1ff;
+    }
+    .mat-button-toggle-group-appearance-standard {
+      border: none;
+    }
+  }
+  .child-toggel-graph {
+    //   border: none;
+    .nav-link {
+      padding: 0px;
+      &:hover {
+        border: none;
+      }
+      &:focus {
+        border: none;
+      }
+    }
+    button {
+      color: #859cbe;
+      border-bottom: 2px solid transparent;
+      max-height: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 0;
+    }
+    .mat-button-toggle-checked {
+      color: #0063f7 !important;
+      background: transparent;
+      border: 0;
+      border-bottom: 2px solid #0063f7 !important;
+      // width: 5px;
+      button {
+        color: #fff;
+      }
+    }
+    .mat-button-toggle-group-appearance-standard .mat-button-toggle {
+      border: none;
+      color: #859cbe;
+    }
+    .mat-button-toggle-group-appearance-standard {
+      border: none;
+    }
+  }
+  .close-button {
+    color: #ef233c;
+  }
+  .graph-modal {
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

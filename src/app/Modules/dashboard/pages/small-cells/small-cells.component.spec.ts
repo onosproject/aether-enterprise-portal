@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SmallCellsComponent } from './small-cells.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SmallCellsComponent', () => {
   let component: SmallCellsComponent;
@@ -10,7 +11,7 @@ describe('SmallCellsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SmallCellsComponent],
-      imports: [MatMenuModule],
+      imports: [MatMenuModule, RouterTestingModule],
     }).compileComponents();
   });
 

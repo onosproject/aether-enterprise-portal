@@ -13,6 +13,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -33,6 +34,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatGridListModule,
     MatDialogModule,
     MatButtonModule,
+    MatStepperModule,
     MatListModule,
     MatFormFieldModule,
   ],

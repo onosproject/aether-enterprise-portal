@@ -1,0 +1,70 @@
+<div class="row graph-modal">
+  <div class="col-8">
+    <div class="parent-toggel-graph">
+      <mat-button-toggle-group
+        aria-label="Font Style"
+        [(ngModel)]="TabParentValue[0]"
+      >
+        <mat-button-toggle [value]="'bandwidth'" class="nav-link"
+          >Bandwidth</mat-button-toggle
+        >
+        <mat-button-toggle [value]="'throughput'" class="nav-link"
+          >Throughput</mat-button-toggle
+        >
+        <mat-button-toggle [value]="'packetLoss'" class="nav-link"
+          >Packet Loss</mat-button-toggle
+        >
+        <mat-button-toggle [value]="'latency'" class="nav-link"
+          >Latency</mat-button-toggle
+        >
+      </mat-button-toggle-group>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="fixed_tab_header">
+      <div class="sort" [matMenuTriggerFor]="Sort">
+        Time Service
+        <img src="assets/AdminPanel/expand.svg" mat-button />
+        <mat-menu #Sort="matMenu" yPosition="below" class="ctm_filter">
+          <button mat-menu-item>High To Low</button>
+          <button mat-menu-item>Low To High</button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+  <div class="col-1" mat-dialog-close>
+    <p class="close-button">Close</p>
+  </div>
+  <div class="col-12">
+    <div class="child-toggel-graph">
+      <mat-button-toggle-group
+        [(ngModel)]="TabChildValue[0]"
+        aria-label="Font Style"
+      >
+        <mat-button-toggle [value]="'1h'" class="nav-link"
+          >1H</mat-button-toggle
+        >
+        <mat-button-toggle [value]="'1d'" class="nav-link"
+          >1D</mat-button-toggle
+        >
+        <mat-button-toggle [value]="'1w'" class="nav-link"
+          >1W</mat-button-toggle
+        >
+        <mat-button-toggle [value]="'1m'" class="nav-link"
+          >1M</mat-button-toggle
+        >
+        <mat-button-toggle [value]="'1y'" class="nav-link"
+          >1Y</mat-button-toggle
+        >
+        <mat-button-toggle [value]="'max'" class="nav-link"
+          >Max</mat-button-toggle
+        >
+      </mat-button-toggle-group>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="graph-modal">
+      <img src="assets/AdminPanel/graph.png" />
+    </div>
+  </div>
+</div>

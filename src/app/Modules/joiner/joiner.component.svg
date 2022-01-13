@@ -1,0 +1,11 @@
+<svg:g xmlns:svg="http://www.w3.org/2000/svg">
+  <svg:path stroke-width="3" [attr.stroke-dasharray]="dash" [attr.stroke]="color" fill-opacity="0"
+            [attr.d]="curveCalculatorOrtho(halfX, halfY)">
+  </svg:path>
+  <svg:desc>{{title}}</svg:desc>
+  <svg:foreignObject [attr.x]="10 + halfX" [attr.y]="halfY" width="100" height="100">
+    <div id="htmlInsideSvg" xmlns="http://www.w3.org/1999/xhtml">
+      <p [style]="'color:' + color + ';'">{{title}}</p>
+    </div>
+  </svg:foreignObject>
+</svg:g>

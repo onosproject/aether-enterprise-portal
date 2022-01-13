@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MaterialModule } from 'src/app/Modules/material/material.module';
 
@@ -9,7 +10,7 @@ describe('SelectSimsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MaterialModule],
+      imports: [MaterialModule, HttpClientModule],
       declarations: [SelectSimsComponent],
     }).compileComponents();
   });

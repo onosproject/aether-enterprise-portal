@@ -71,10 +71,14 @@
       </div>
     </div>
     <div class="ml-only d-flex col-2">
-      <div class="my-auto" *ngIf="alert">
+      <div class="my-auto" *ngIf="alert === 'berlin'">
         <img src="../../assets/Navbar/notifications.svg" />
       </div>
-      <div class="my-auto" *ngIf="!alert">
+      <div
+        class="my-auto"
+        *ngIf="alert !== 'berlin'"
+        (click)="goToSmallCells()"
+      >
         <img src="../../assets/Navbar/notifications.svg" /><sup
           ><sup
             ><sup
@@ -111,11 +115,11 @@
     <mat-icon>account_circle</mat-icon>
     <span>Admin</span>
   </button>
-  <button mat-menu-item>
+  <button routerLink="/device-sim" mat-menu-item>
     <mat-icon>sim_card</mat-icon>
     <span>Devices / Sim</span>
   </button>
-  <button mat-menu-item>
+  <button routerLink="/services" mat-menu-item>
     <mat-icon>layers</mat-icon>
     <span>Services</span>
   </button>
@@ -146,7 +150,9 @@
 <!-- Company Menu -->
 <mat-menu class="aether-CompanyMenu" #CompanyMenu="matMenu" xPosition="before">
   <button mat-menu-item>
-    <mat-icon>developer_board</mat-icon>
+    <!-- <mat-icon>developer_board</mat-icon> -->
+    <img src="assets/Navbar/devices.svg" />
+
     <span>{{ devices }} Devices</span>
   </button>
   <button mat-menu-item>
@@ -155,19 +161,24 @@
     >
   </button>
   <button mat-menu-item>
-    <mat-icon>filter_none</mat-icon>
+    <!-- <mat-icon>filter_none</mat-icon> -->
+    <img src="assets/AdminPanel/slices.svg" />
     <span>{{ Slices }} Slices</span>
   </button>
   <button mat-menu-item>
-    <mat-icon>layers</mat-icon>
-    <span>{{ Layers }} Layers</span>
+    <!-- <mat-icon>layers</mat-icon> -->
+    <img src="assets/AdminPanel/service.svg" />
+    <span>{{ Layers }} Services</span>
   </button>
   <button mat-menu-item>
-    <mat-icon>layers</mat-icon>
+    <!-- <mat-icon>layers</mat-icon> -->
+    <img src="assets/Navbar/sites.svg" />
+
     <span>{{ Sites }} Sites</span>
   </button>
   <button mat-menu-item>
-    <mat-icon>wifi_tethering</mat-icon>
+    <!-- <mat-icon>wifi_tethering</mat-icon> -->
+    <img src="assets/AdminPanel/sensor.svg" />
     <span>{{ SmallCells }} Small Cells</span>
   </button>
 </mat-menu>
