@@ -1,13 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { GraphComponent } from './pages/modals/graph-modal/graph.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SitesService } from 'src/app/services/sites/sites.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'aep-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   // @ViewChild('sites') sites: any;
   @ViewChild('slices') slices: any;
   @ViewChild('navbar') navbar: any;
@@ -16,8 +18,21 @@ export class DashboardComponent {
   panelOpenState = false;
   isAcknowledged = 12;
   siteId: string;
+  viewType: string = 'Logical';
+  config: any = null;
+  baseUrl: string = environment.baseUrl.substring(
+    0,
+    environment.baseUrl.length - 1
+  );
+  selectedPlan: number = 0;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, public sitesService: SitesService) {}
+
+  ngOnInit(): void {
+    this.sitesService.GetAllConfig().subscribe((response) => {
+      this.config = response || null;
+    });
+  }
 
   parentWillTakeAction(event: {
     siteId: string;

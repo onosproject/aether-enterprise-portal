@@ -144,12 +144,30 @@
               </span>
             </h4>
           </div>
+          <div *ngIf="viewType === 'Physical'">
+            <mat-button-toggle-group
+              [(ngModel)]="selectedPlan"
+              name="fontStyle"
+              aria-label="Font Style"
+              class="section-group-btn"
+            >
+              <mat-button-toggle
+                *ngFor="
+                  let plan of config?.sites[0]['site-plans']['site-plan-list'];
+                  let planIndex = index
+                "
+                [value]="planIndex"
+              >
+                {{ plan.id }}
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
           <div class="section-tabs">
             <mat-button-toggle-group
               name="fontStyle"
               aria-label="Font Style"
-              value="Logical"
               class="section-group-btn"
+              [(ngModel)]="viewType"
             >
               <mat-button-toggle value="Logical">Logical</mat-button-toggle>
               <mat-button-toggle value="Physical" class="border-none"
@@ -172,7 +190,56 @@
       <aep-slices
         #slices
         (informParent)="parentWillTakeActionSlice()"
+        *ngIf="viewType === 'Logical'"
       ></aep-slices>
+      <div *ngIf="viewType === 'Physical'" class="dashboard__physical-view">
+        <!-- <svg></svg> -->
+        <img
+          class="dashboard__physical-view__image"
+          [src]="
+            baseUrl +
+            config?.sites[0]['site-plans']['site-plan-list'][selectedPlan][
+              'svg-file'
+            ]
+          "
+        />
+        <ng-container *ngFor="let device of config?.sites[0].devices">
+          <div
+            class="dashboard__physical-view__device"
+            *ngIf="
+              device['position'] &&
+              config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+                .id === device['position']['site-plan']
+            "
+            [style]="
+              'top: ' +
+              device['position']['position-y'] +
+              'px; ' +
+              'left: ' +
+              device['position']['position-x'] +
+              'px;'
+            "
+          ></div>
+        </ng-container>
+        <ng-container *ngFor="let smallCell of config?.sites[0]['small-cells']">
+          <div
+            class="dashboard__physical-view__device"
+            *ngIf="
+              smallCell['position'] &&
+              config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+                .id === smallCell['position']['site-plan']
+            "
+            [style]="
+              'top: ' +
+              smallCell['position']['position-y'] +
+              'px; ' +
+              'left: ' +
+              smallCell['position']['position-x'] +
+              'px;'
+            "
+          ></div>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>

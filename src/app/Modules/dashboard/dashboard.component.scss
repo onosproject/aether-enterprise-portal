@@ -1,0 +1,16 @@
+.dashboard {
+  &__physical-view {
+    position: relative;
+    &__image {
+      position: absolute;
+      top: 0;
+    }
+    &__device {
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      background: blue;
+      border-radius: 50%;
+    }
+  }
+}
