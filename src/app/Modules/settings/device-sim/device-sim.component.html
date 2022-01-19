@@ -316,7 +316,7 @@
                   device-details device-sims-details
                   ng-tns-c119-0 ng-star-inserted
                 "
-                (click)="detailsTrigger(deviceIndex, device.sim)"
+                (click)="detailsTrigger(deviceIndex, device.sim, device['serial-number'])"
                 *ngIf="deviceDetails.indexOf(deviceIndex) < 0"
               >
                 Details
@@ -540,7 +540,7 @@
                 <mat-card-actions class="mat-card-actions d-flex">
                   <div
                     class="device-sim-item-delete d-flex mx-2"
-                    (click)="openDeleteDialog(deviceIndex);"
+                    (click)="openDeleteDialog(deviceIndex)"
                   >
                     <div>
                       <img
@@ -551,7 +551,13 @@
                     <div class="delete-label">Delete</div>
                   </div>
                   <div class="button-sec" (click)="editTrigger(deviceIndex)">
-                    <button type="button" mat-button class="cancel">
+                    <button
+                      type="button"
+                      mat-button
+                      class="cancel"
+                      (click)="closeEdit()"
+                      *ngIf="editDevices.indexOf(deviceIndex) >= 0"
+                    >
                       Cancel
                     </button>
                     <button

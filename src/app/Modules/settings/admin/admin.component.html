@@ -2,7 +2,7 @@
 
 <!-- <h3>Admin panel works..</h3> -->
 <div class="row container-fluid my-5">
-  <div class="col-2 mx-4">
+  <div class="col-2 ml-5">
     <aep-side-navbar></aep-side-navbar>
   </div>
   <div
@@ -92,9 +92,7 @@
                         <div class="col-5">
                           <mat-checkbox
                             class="admin-addNew-form-checkBox"
-                            [(ngModel)]="checked"
-                            [color]="task.color"
-                            [ngModelOptions]="{ standalone: true }"
+                            formControlName="emailAlert"
                             >Send email alerts to my email</mat-checkbox
                           >
                         </div>
@@ -144,7 +142,10 @@
                     <div class="my-3">
                       <div class="row">
                         <div class="d-flex">
-                          <mat-checkbox class="admin-addNew-form-subChecks">
+                          <mat-checkbox
+                            class="admin-addNew-form-subChecks"
+                            formControlName="deviceAlert"
+                          >
                             Device
                           </mat-checkbox>
                           <mat-checkbox
@@ -152,6 +153,7 @@
                               admin-addNew-form-subChecks
                               admin-addNew-form-subChecks-central
                             "
+                            formControlName="centralAlert"
                           >
                             Central
                           </mat-checkbox>
@@ -159,7 +161,10 @@
                       </div>
                       <div class="row">
                         <div class="d-flex my-3">
-                          <mat-checkbox class="admin-addNew-form-subChecks">
+                          <mat-checkbox
+                            class="admin-addNew-form-subChecks"
+                            formControlName="siteEquipmentAlert"
+                          >
                             Site Equipment
                           </mat-checkbox>
                           <mat-checkbox
@@ -167,6 +172,7 @@
                               admin-addNew-form-subChecks
                               admin-addNew-form-subChecks-security
                             "
+                            formControlName="securityAlert"
                           >
                             Security
                           </mat-checkbox>
@@ -202,22 +208,28 @@
       </form>
 
       <!-- View Defining and switching row. -->
-      <div class="row">
+      <div class="">
         <div class="d-flex admin-usersites-holder">
           <div
-            class="col-xxl-9 col-xl-9 col-lg-8 admin-usersites-title"
+            class="col-xxl-10 col-xl-9 col-lg-8 admin-usersites-title"
             *ngIf="userViewToggle"
           >
             Users
           </div>
           <div
-            class="col-xxl-9 col-xl-9 col-lg-8 admin-usersites-title"
+            class="col-xxl-10 col-xl-9 col-lg-8 admin-usersites-title"
             *ngIf="siteViewToggle"
           >
             Site
           </div>
 
-          <div class="col-xxl-3 col-xl-4 col-lg-5 d-flex">
+          <div
+            class="
+              col-xxl-3 col-xl-4 col-lg-5
+              d-flex
+              admin-usersites-switch-holder
+            "
+          >
             <div class="admin-usersites-switch-text mt-2">Filter by</div>
             <div class="mx-4">
               <button
@@ -243,7 +255,7 @@
         <div>
           <button
             class="btn col-3 admin-addUser-btnCenter"
-            (click)="AddNew = !AddNew"
+            (click)="AddNew = !AddNew; closeUserViewEdit()"
           >
             Add new user +
           </button>
@@ -347,20 +359,19 @@
                       <div class="row">
                         <div class="col-12 my-3">
                           <div id="new-form" class="col-12 my-2 d-flex">
-                            <div class="">
+                            <div class="col-6">
                               <mat-label
                                 class="admin-addNew-form-label"
                                 for="name"
                                 >Enter user name</mat-label
                               >
                               <br />
-                              <mat-form-field
+                              <div
                                 class="admin-addNew-form-field"
                                 appearance="fill"
                               >
                                 <input
-                                  class="form-control"
-                                  matInput
+                                  class="form-control form-field-big"
                                   type="text"
                                   name="newuserName"
                                   id="newuserName"
@@ -370,26 +381,25 @@
                                     getEditControl(user.form, 'name')
                                   "
                                 />
-                              </mat-form-field>
+                              </div>
                             </div>
-                            <div class="mx-4">
+                            <div class="col-6 mx-2">
                               <mat-label
                                 class="admin-addNew-form-label"
                                 for="email"
                                 >Enter Email ID</mat-label
                               >
                               <br />
-                              <mat-form-field
+                              <div
                                 class="admin-addNew-form-field"
                                 appearance="fill"
                               >
                                 <input
                                   type="email"
-                                  matInput
                                   type="text"
                                   name="email"
                                   id="email"
-                                  class="form-control"
+                                  class="form-control form-field-big"
                                   required
                                   [formControl]="
                                     getEditControl(user.form, 'email')
@@ -409,14 +419,14 @@
                                 >
                                   Email is <strong>required</strong>
                                 </mat-error>
-                              </mat-form-field>
+                              </div>
 
                               <div class="col-5">
                                 <mat-checkbox
                                   class="admin-addNew-form-checkBox"
-                                  [(ngModel)]="checked"
-                                  [color]="task.color"
-                                  [ngModelOptions]="{ standalone: true }"
+                                  [formControl]="
+                                    getEditControl(user.form, 'emailAlert')
+                                  "
                                   >Send email alerts to my email</mat-checkbox
                                 >
                               </div>
@@ -470,6 +480,9 @@
                               <div class="d-flex">
                                 <mat-checkbox
                                   class="admin-addNew-form-subChecks"
+                                  [formControl]="
+                                    getEditControl(user.form, 'deviceAlert')
+                                  "
                                 >
                                   Device
                                 </mat-checkbox>
@@ -477,6 +490,9 @@
                                   class="
                                     admin-addNew-form-subChecks
                                     admin-addNew-form-subChecks-central
+                                  "
+                                  [formControl]="
+                                    getEditControl(user.form, 'centralAlert')
                                   "
                                 >
                                   Central
@@ -487,6 +503,12 @@
                               <div class="d-flex my-3">
                                 <mat-checkbox
                                   class="admin-addNew-form-subChecks"
+                                  [formControl]="
+                                    getEditControl(
+                                      user.form,
+                                      'siteEquipmentAlert'
+                                    )
+                                  "
                                 >
                                   Site Equipment
                                 </mat-checkbox>
@@ -494,6 +516,9 @@
                                   class="
                                     admin-addNew-form-subChecks
                                     admin-addNew-form-subChecks-security
+                                  "
+                                  [formControl]="
+                                    getEditControl(user.form, 'securityAlert')
                                   "
                                 >
                                   Security
@@ -519,7 +544,7 @@
                     <span
                       class="admin-addNew-form-delete"
                       type="button"
-                      (click)="confirmDelete(userIndex)"
+                      (click)="openDeleteUserDialog(userIndex)"
                     >
                       <img
                         style="margin-top: -4px"
@@ -565,7 +590,7 @@
                 <img
                   *ngIf="city.id === 2"
                   class="admin-users-card-city-image"
-                  src="../../assets/AdminPanel/bengaluru.svg"
+                  src="../../assets/AdminPanel/berlin.svg"
                 />
                 <img
                   *ngIf="city.id === 3"
@@ -597,50 +622,63 @@
             </div> -->
             <div class="col-9 d-flex" style="flex-wrap: wrap">
               <div
-                class="col-3"
+                class="col-4 admin-siteView-userDetailsHolder"
                 *ngFor="let user of city.users; let userIndex = index"
               >
-                <div>
-                  <!-- <div class="admin-siteView-sec-2 d-flex"> -->
-                  <div class="admin-siteView-card-1 d-flex">
-                    <div class="d-flex admin-siteView-card-1-img mx-1">
-                      <img height="46px" src="{{ user.details.ppic }}" />
-                      <sup
-                        ><img
-                          class="admin-siteView-card-1-userDetails-active"
-                          src="{{ user.details.active }}"
-                      /></sup>
+                <!-- <div> -->
+                <!-- <div class="admin-siteView-sec-2 d-flex"> -->
+                <div
+                  class="admin-siteView-card-1 d-flex"
+                  [ngClass]="{
+                    'admin-siteView-card-1-delete':
+                      editCities.indexOf(city.id) >= 0
+                  }"
+                >
+                  <div class="d-flex admin-siteView-card-1-img mx-1">
+                    <img height="46px" src="{{ user.details.ppic }}" />
+                    <sup
+                      ><img
+                        class="admin-siteView-card-1-userDetails-active"
+                        src="{{ user.details.active }}"
+                    /></sup>
+                  </div>
+                  <div class="admin-siteView-card-1-userDetails">
+                    <div class="admin-siteView-card-1-userDetails-userName">
+                      {{ user.details.name
+                      }}<span class="admin-siteView-access-list mx-1">{{
+                        permissions[user.accessLevel].viewValue
+                      }}</span>
                     </div>
-                    <div class="admin-siteView-card-1-userDetails">
-                      <div class="admin-siteView-card-1-userDetails-userName">
-                        {{ user.details.name
-                        }}<span class="admin-siteView-access-list mx-1">{{
-                          permissions[user.accessLevel].viewValue
-                        }}</span>
-                      </div>
-                      <div class="admin-siteView-card-1-userDetails-userMail">
-                        {{ user.details.email }}
-                      </div>
-                    </div>
-                    <div
-                      class="admin-siteView-card-1-close-red"
-                      *ngIf="editCities.indexOf(city.id) >= 0"
-                    >
-                      <img
-                        (click)="confirmDelCity(cityIndex, userIndex)"
-                        src="../../assets/AdminPanel/siteViewEdit-del.svg"
-                        height="7.69px"
-                        width="7.69px"
-                      />
+                    <div class="admin-siteView-card-1-userDetails-userMail">
+                      {{ user.details.email }}
                     </div>
                   </div>
-                  <!-- </div> -->
+                  <div
+                    class="admin-siteView-card-1-close-red"
+                    *ngIf="editCities.indexOf(city.id) >= 0"
+                  >
+                    <img
+                      (click)="openRemoveUserDialog(cityIndex, userIndex)"
+                      src="../../assets/AdminPanel/siteViewEdit-del.svg"
+                      height="7.69px"
+                      width="7.69px"
+                    />
+                  </div>
                 </div>
+                <!-- </div> -->
+                <!-- </div> -->
               </div>
             </div>
-            <div class="col-1 admin-siteView-doneButton">
+            <div
+              class="col-1"
+              [ngClass]="
+                doneActive === true
+                  ? 'admin-siteView-doneButtonActive'
+                  : 'admin-siteView-doneButtonInactive'
+              "
+            >
               <span
-                (click)="toggleEdit1(city.id)"
+                (click)="doneActive === true && closeSiteViewEdit()"
                 *ngIf="editCities.indexOf(city.id) >= 0"
               >
                 Done
@@ -648,7 +686,7 @@
             </div>
             <span
               class="admin-siteView-closeButton"
-              (click)="toggleEdit1(city.id)"
+              (click)="closeSiteViewEdit()"
               *ngIf="editCities.indexOf(city.id) >= 0"
             >
               Cancel

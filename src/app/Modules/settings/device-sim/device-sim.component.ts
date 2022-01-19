@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs';
 // chart imports
 import * as d3Time from 'd3-timelines-edited';
 import * as d3 from 'd3';
+
 import { DeleteDevicesComponent } from '../dialogs/delete-devices/delete-devices.component';
 @Component({
   selector: 'aep-device-sim',
@@ -26,7 +27,7 @@ import { DeleteDevicesComponent } from '../dialogs/delete-devices/delete-devices
     trigger('inOutAnimation', [
       transition(':enter', [
         style({ height: 0, opacity: 0 }),
-        animate('0.5s ease-out', style({ height: 500, opacity: 1 })),
+        animate('0.5s ease-out', style({ height: 400, opacity: 1 })),
       ]),
       transition(':leave', [
         style({ height: 500, opacity: 1 }),
@@ -81,6 +82,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   editDevices: number[] = [];
 
   deviceDetails: number[] = [];
+
+  deviceType: any[] = ['phone', 'camera']
 
   cancelledSimsStorage: any[] = [];
 
@@ -302,7 +305,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.editDevices.pop();
   }
 
-  detailsTrigger(index: number, sim: string): any {
+  detailsTrigger(index: number, sim: string, serialNum: string): any {
     // this.removePreviousChart();
     this.closeDetails();
     this.closeEdit();
@@ -313,6 +316,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.deviceDetails.push(index);
     }
     this.fetchProm(this.selectedSite, sim, index);
+    this.fetchDots(this.selectedSite, serialNum)
   }
 
   closeDetails(): any {
@@ -482,6 +486,38 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
     console.log(this.timesArray);
     console.log(this.valuesArrayFinal);
+  }
+
+  fetchDotsApi(site: string, serialNum: string): any {
+    this.formatDate();
+    const headers = {
+      Accept: 'application/json',
+      Authorization:
+        'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
+    };
+    const query: string =
+      '/query_range?query=device_connection_event_core{site="' +
+      site +
+      '", serial_number="' +
+      serialNum +
+      '"}&start=' +
+      this.apiPreviousDate +
+      'T' +
+      this.apiPreviousTime +
+      '.000Z&end=' +
+      this.apiCurrentDate +
+      'T' +
+      this.apiCurrentTime +
+      '.000Z&step=2000000m';
+
+    console.log(query);
+    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+  }
+
+  fetchDots(site: string, serialNum: string): any {
+    this.fetchDotsApi(site, serialNum).subscribe((data) => {
+      console.log(data)
+    })
   }
 
   displayChart(chartData: any[], index: number): any {
