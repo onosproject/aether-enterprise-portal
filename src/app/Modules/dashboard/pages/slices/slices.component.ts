@@ -31,6 +31,9 @@ export class SlicesComponent {
   panelIndex: number;
   TabValue = [];
 
+  innerWidth = 2000;
+  innerHeight = 2000;
+
   constructor(public dialog: MatDialog) {}
 
   dragAndDrop(event: CdkDragDrop<string[]>): void {
@@ -55,6 +58,16 @@ export class SlicesComponent {
     }
   }
 
+  cancelEdit(index: number): void {
+    this.isEditable = !this.isEditable;
+    for (let i = 0; i < this.sliceData[index].devices.length; i++) {
+      this.sliceData[index].devices[i].isExpanded = false;
+    }
+    for (let i = 0; i < this.sliceData[index].services.length; i++) {
+      this.sliceData[index].services[i].isExpanded = false;
+    }
+  }
+
   collapseAllCard(): void {
     this.isExpand = false;
     this.panelIndex = undefined;
@@ -73,7 +86,7 @@ export class SlicesComponent {
       this.TabValue.push('1h' + i);
     }
 
-    // console.log('siteData||||', value.siteData);
+    console.log('siteData||||', value.siteData);
   }
 
   getDevices(deviceGroup: unknown[]): number {
@@ -94,6 +107,20 @@ export class SlicesComponent {
         this.isExpand = true;
         this.isAcknowledged = 8;
         this.isEditable = false;
+        for (
+          let i = 0;
+          i < this.sliceData[this.siteIndex].devices.length;
+          i++
+        ) {
+          this.sliceData[this.siteIndex].devices[i].isExpanded = false;
+        }
+        for (
+          let i = 0;
+          i < this.sliceData[this.siteIndex].services.length;
+          i++
+        ) {
+          this.sliceData[this.siteIndex].services[i].isExpanded = false;
+        }
       } else {
         this.isExpand = true;
       }
@@ -101,12 +128,30 @@ export class SlicesComponent {
   }
 
   onEdit(sliceId: number, index: number): void {
+    // console.log(this.sliceData[index]);
     this.sliceId = sliceId;
     this.siteIndex = index;
     if (this.isEditable) {
       this.isEditable = true;
     } else {
       this.isEditable = !this.isEditable;
+    }
+    for (let i = 0; i < this.sliceData[index].devices.length; i++) {
+      this.sliceData[index].devices[i].isExpanded = true;
+    }
+    for (let i = 0; i < this.sliceData[index].services.length; i++) {
+      this.sliceData[index].services[i].isExpanded = true;
+    }
+  }
+
+  setAccordion(sliceIndex: number, deviceIndex: number): void {
+    if (!this.isEditable) {
+      this.openAccordion[sliceIndex + deviceIndex] =
+        !this.openAccordion[sliceIndex + deviceIndex];
+      setTimeout(() => {
+        this.sliceData[sliceIndex].devices[deviceIndex].isExpanded =
+          !this.sliceData[sliceIndex].devices[deviceIndex].isExpanded;
+      }, 10);
     }
   }
 
@@ -172,12 +217,82 @@ export class SlicesComponent {
   hideAcknowledgedView(): void {
     this.isAcknowledged = 12;
     this.isExpand = false;
+    this.group = '';
+    this.serialNumber = '';
     // this.panelOpenState = false;
     this.panelIndex = undefined;
+    for (let i = 0; i < this.sliceData[this.siteIndex].devices.length; i++) {
+      this.sliceData[this.siteIndex].devices[i].isExpanded = false;
+    }
+    for (let i = 0; i < this.sliceData[this.siteIndex].services.length; i++) {
+      this.sliceData[this.siteIndex].services[i].isExpanded = false;
+    }
   }
 
-  selectedDevice(event: { group: any; serialNumber: any }): void {
+  selectedDevice(event: { group: string; serialNumber: number }): void {
     this.group = event.group;
     this.serialNumber = JSON.stringify(event.serialNumber);
   }
+
+  calculateSVGHeight(
+    noOfDeviceGroups: number,
+    isExpanded: boolean,
+    deviceGroups: any
+  ): number {
+    // const totalHeight = noOfDeviceGroups * (isExpanded ? 420 : 120);
+    // return totalHeight > 450 ? totalHeight : 450;
+    let totalHeight = 0;
+    for (let i = 0; i < deviceGroups.length; i++) {
+      totalHeight += deviceGroups[i].isExpanded ? 420 : 120;
+    }
+    // totalHeight += 200;
+
+    return totalHeight > 450 ? totalHeight : 450;
+  }
+
+  // calculateDeviceTop(index: number, deviceGroups: any): number {
+  //   if (index === 0) {
+  //     return 20;
+  //   } else {
+  //     let height = 20;
+  //     for (let i = 0; i < index; i++) {
+  //       height += deviceGroups[i].isExpanded ? 420 : 120;
+  //     }
+  //     // return index * (isExpaned ? 400 : 100) + 20 * (index + 1);
+  //     return height;
+  //   }
+  // }
+
+  calculateDeviceTop(index: number, deviceGroups: any): number {
+    if (index === 0) {
+      return 20;
+    } else {
+      let height = 20;
+      for (let i = 0; i < index; i++) {
+        height += deviceGroups[i].isExpanded ? 250 : 85;
+      }
+      // return index * (isExpaned ? 400 : 100) + 20 * (index + 1);
+      return height;
+    }
+  }
+
+  calculateJointVerticalPosition(deviceGroups: any, index: number): number {
+    let height =
+      deviceGroups.length !== index
+        ? deviceGroups[index].isExpanded
+          ? 140
+          : 56
+        : 56;
+    for (let i = 0; i < index; i++) {
+      height += deviceGroups[i].isExpanded ? 250 : 85;
+    }
+    return height;
+  }
+  // calculateServiceHeight(deviceGroups: any): number {
+  //   let height = 0;
+  //   for (let i = 0; i < deviceGroups.length; i++) {
+  //     height += deviceGroups[i].isExpanded ? 310 : deviceGroups.length * 150;
+  //   }
+  //   return height;
+  // }
 }

@@ -1,22 +1,22 @@
-import { Component, Output, Input, EventEmitter } from '@angular/core';
-import { SitesService } from '../../../../services/sites/sites.service';
+import { Component, OnInit } from '@angular/core';
+import { DeviceGroup, Slice, sliceData } from './slice.model';
+import { SitesService } from '../../services/sites/sites.service';
 
 @Component({
-  selector: 'aep-sites',
-  templateUrl: './sites.component.html',
-  styleUrls: ['./sites.component.scss'],
+  selector: 'aep-connect',
+  templateUrl: './connect.component.html',
+  styleUrls: ['./connect.component.scss'],
 })
-export class SitesComponent {
+export class ConnectComponent implements OnInit {
+  slices: any = [];
+  innerWidth = 1000;
+  innerHeight = 500;
+
   sites: any;
   selected: string = 'freemont';
   sitesResponse: any;
 
-  @Input() message: any;
-  @Output() informParent = new EventEmitter();
-
   constructor(public sitesService: SitesService) {
-    // this.sites = sites[0];
-    // console.log(sites);
     sitesService.GetAllConfig().subscribe(
       (response) => {
         console.log('Site Response', response);
@@ -36,6 +36,10 @@ export class SitesComponent {
         // console.log('Site Error', error);
       }
     );
+  }
+
+  ngOnInit(): void {
+    // this.slices = sliceData;
   }
 
   onSelectCard(
@@ -68,27 +72,27 @@ export class SitesComponent {
                   devices.push(device[n]);
                 }
               }
-              // groupName = deviceGroup[k]['display-name'];
-              // selecteddevice.push({
-              //   'display-name': groupName,
-              //   devices: devices,
-              //   isExpanded: false,
-              // });
-              // siteData.slices[i]['devices'] = selecteddevice;
+              groupName = deviceGroup[k]['display-name'];
+              selecteddevice.push({
+                'display-name': groupName,
+                devices: devices,
+                isExpanded: false,
+              });
+              siteData.slices[i]['devices'] = selecteddevice;
             }
-            groupName = deviceGroup[k]['display-name'];
-            selecteddevice.push({
-              'display-name': groupName,
-              devices: devices,
-              isExpanded: false,
-            });
-            siteData.slices[i]['devices'] = selecteddevice;
+            // groupName = deviceGroup[k]['display-name'];
+            // selecteddevice.push({
+            //   'display-name': groupName,
+            //   devices: devices,
+            //   isExpanded: false,
+            // });
+            // siteData.slices[i]['devices'] = selecteddevice;
           }
         }
       }
     }
     this.getServices(siteData, value, siteIndex);
-    // console.log('+++++', siteData.slices);
+    // console.log('+++++', siteData.slices[0]);
   }
   getServices(
     siteData: {
@@ -114,32 +118,69 @@ export class SitesComponent {
       selectedService.push({
         'display-name': 'Services',
         service: service,
-        isExpanded: false,
       });
       siteData.slices[i]['services'] = selectedService;
     }
-    // console.log('+++++', siteData.slices);
-    this.informParent.emit({
-      siteId: value,
-      siteData: siteData.slices,
-      siteIndex: siteIndex,
-    });
+    this.slices = siteData.slices;
+    console.log('+++++', this.slices);
+
+    // this.informParent.emit({
+    //   siteId: value,
+    //   siteData: siteData.slices,
+    //   siteIndex: siteIndex,
+    // });
   }
 
-  getTotalService(
-    slice: { applications: unknown[] }[],
-    applications: unknown[]
-  ): number {
-    let totalService = 0;
-    for (let i = 0; i < slice.length; i++) {
-      for (let j = 0; j < slice[i].applications.length; j++) {
-        for (let k = 0; k < applications.length; k++) {
-          if (applications[k]['application-id'] === slice[i].applications[j]) {
-            totalService = 1 + totalService;
-          }
-        }
-      }
+  calculateDevices(deviceGroups: DeviceGroup[]): number {
+    let noOfDevices: number = 0;
+    for (let i = 0; i < deviceGroups.length; i++) {
+      noOfDevices += deviceGroups[i].devices.length;
     }
-    return totalService;
+    return noOfDevices;
+  }
+
+  calculateSVGHeight(
+    noOfDeviceGroups: number,
+    isExpanded: boolean,
+    deviceGroups: DeviceGroup[]
+  ): number {
+    // const totalHeight = noOfDeviceGroups * (isExpanded ? 420 : 120);
+    // return totalHeight > 450 ? totalHeight : 450;
+    let totalHeight = 0;
+    for (let i = 0; i < deviceGroups.length; i++) {
+      totalHeight += deviceGroups[i].isExpanded ? 420 : 120;
+    }
+    totalHeight += 400;
+
+    return totalHeight > 450 ? totalHeight : 450;
+  }
+
+  calculateDeviceTop(index: number, deviceGroups: DeviceGroup[]): number {
+    if (index === 0) {
+      return 20;
+    } else {
+      let height = 20;
+      for (let i = 0; i < index; i++) {
+        height += deviceGroups[i].isExpanded ? 420 : 120;
+      }
+      // return index * (isExpaned ? 400 : 100) + 20 * (index + 1);
+      return height;
+    }
+  }
+
+  calculateJointVerticalPosition(
+    deviceGroups: DeviceGroup[],
+    index: number
+  ): number {
+    let height =
+      deviceGroups.length !== index
+        ? deviceGroups[index].isExpanded
+          ? 200
+          : 50
+        : 50;
+    for (let i = 0; i < index; i++) {
+      height += deviceGroups[i].isExpanded ? 420 : 120;
+    }
+    return height;
   }
 }

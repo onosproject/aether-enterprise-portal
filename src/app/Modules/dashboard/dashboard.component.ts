@@ -66,7 +66,8 @@ export class DashboardComponent {
   openDialog(): void {
     this.dialog.open(GraphComponent, {
       width: '40%',
-      height: '55%',
+      // height: '55%',
+      panelClass: 'graph-modal-container',
     });
     // const dialogRef = this.dialog.open(GraphComponent, {
     //   width: '40%',
