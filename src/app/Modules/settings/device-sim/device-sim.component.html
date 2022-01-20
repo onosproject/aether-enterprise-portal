@@ -315,7 +315,13 @@
                   device-details device-sims-details
                   ng-tns-c119-0 ng-star-inserted
                 "
-                (click)="detailsTrigger(deviceIndex, device.sim)"
+                (click)="
+                  detailsTrigger(
+                    deviceIndex,
+                    device.sim,
+                    device['serial-number']
+                  )
+                "
                 *ngIf="deviceDetails.indexOf(deviceIndex) < 0"
               >
                 Details
@@ -539,7 +545,7 @@
                 <mat-card-actions class="mat-card-actions d-flex bottom-button">
                   <div
                     class="device-sim-item-delete d-flex mx-2"
-                    (click)="editTrigger(deviceIndex)"
+                    (click)="openDeleteDialog(deviceIndex)"
                   >
                     <div>
                       <img
@@ -550,6 +556,15 @@
                     <div class="delete-label">Delete</div>
                   </div>
                   <div class="button-sec" (click)="editTrigger(deviceIndex)">
+                    <button
+                      type="button"
+                      mat-button
+                      class="cancel"
+                      (click)="closeEdit()"
+                      *ngIf="editDevices.indexOf(deviceIndex) >= 0"
+                    >
+                      Cancel
+                    </button>
                     <button
                       class="add"
                       type="button"
@@ -885,8 +900,17 @@
                 </span>
                 <div class="button-sec">
                   <button
-                    class="add add-button-gray"
-                    type="submit"
+                    mat-button
+                    type="button"
+                    class="cancel"
+                    (click)="addNewDeviceFun()"
+                    [@inOutAnimation]
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    class="add"
+                    type="button"
                     mat-raised-button
                     (click)="addNewDeviceInventory()"
                     [@inOutAnimation]
@@ -913,176 +937,219 @@
           <div class="p-3" *ngIf="deviceInventory.length <= 0">
             There are no devices at the moment in Inventory
           </div>
-          <mat-card
-            class="device-view col-12 d-flex my-1 device-detail-card"
-            *ngFor="let devices of deviceInventory"
+          <div
+            *ngFor="
+              let inventoryDevices of deviceInventory;
+              let inventoryDeviceIndex = index
+            "
           >
-            <div class="ng-tns-c119-0 vector">
-              <div class="vector-bg">
-                <img
-                  class="ng-tns-c119-0"
-                  src="../../assets/deviceSim/cc-cam-big.svg"
-                />
+            <mat-card class="device-view col-12 d-flex my-1 device-detail-card">
+              <div class="ng-tns-c119-0 vector">
+                <div class="vector-bg">
+                  <img
+                    class="ng-tns-c119-0"
+                    src="../../assets/deviceSim/cc-cam-big.svg"
+                  />
+                </div>
               </div>
-            </div>
-            <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
-              <div class="title">device name</div>
-              <div class="desc">{{ devices["display-name"] }}</div>
-            </div>
-            <div
-              class="mx-3 device-details-blocks device-location ng-tns-c119-0"
-            >
-              <div class="title">device location</div>
-              <div class="desc">{{ devices.location }}</div>
-            </div>
-            <div
-              class="mx-3 device-details-blocks device-serial-no ng-tns-c119-0"
-            >
-              <div class="title">device serial no</div>
-              <div class="desc">{{ devices["serial-number"] }}</div>
-            </div>
-            <div class="mx-3 device-details-blocks device-type ng-tns-c119-0">
-              <div class="title">device Type</div>
-              <div class="desc">{{ devices.type }}</div>
-            </div>
+              <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
+                <div class="title">device name</div>
+                <div class="desc">{{ inventoryDevices["display-name"] }}</div>
+              </div>
+              <div
+                class="mx-3 device-details-blocks device-location ng-tns-c119-0"
+              >
+                <div class="title">device location</div>
+                <div class="desc">{{ inventoryDevices.location }}</div>
+              </div>
+              <div
+                class="
+                  mx-3
+                  device-details-blocks device-serial-no
+                  ng-tns-c119-0
+                "
+              >
+                <div class="title">device serial no</div>
+                <div class="desc">{{ inventoryDevices["serial-number"] }}</div>
+              </div>
+              <div class="mx-3 device-details-blocks device-type ng-tns-c119-0">
+                <div class="title">device Type</div>
+                <div class="desc">{{ inventoryDevices.type }}</div>
+              </div>
 
-            <div
-              class="
-                col-1
-                device-details-view-edit
-                ng-tns-c119-0 ng-star-inserted
-              "
-              (click)="inventoryDeviceEditFormFun()"
-              *ngIf="!inventoryDeviceEditForm"
+              <div
+                class="
+                  col-1
+                  device-details-view-edit
+                  ng-tns-c119-0 ng-star-inserted
+                "
+                (click)="inventoryEditTrigger(inventoryDeviceIndex)"
+                *ngIf="editInventory.indexOf(inventoryDeviceIndex) < 0"
+              >
+                <img
+                  src="../../assets/deviceSim/pencil.svg"
+                  class="ng-tns-c119-0"
+                />
+                Edit
+              </div>
+              <div
+                class="
+                  col-1
+                  device-details-view-edit
+                  close
+                  ng-tns-c119-0 ng-star-inserted
+                "
+                (click)="closeEditInventory()"
+                *ngIf="editInventory.indexOf(inventoryDeviceIndex) >= 0"
+              >
+                Close
+              </div>
+            </mat-card>
+            <!-- END INVENTORY DEVICE EDIT FORM -->
+            <mat-card
+              class="active-new-device-form my-1 forms-block"
+              *ngIf="editInventory.indexOf(inventoryDeviceIndex) >= 0"
+              [@inOutAnimation]
             >
-              <img
-                src="../../assets/deviceSim/pencil.svg"
-                class="ng-tns-c119-0"
-              />
-              Edit
-            </div>
-            <div
-              class="
-                col-1
-                device-details-view-edit
-                close
-                ng-tns-c119-0 ng-star-inserted
-              "
-              (click)="inventoryDeviceEditFormFunClose()"
-              *ngIf="inventoryDeviceEditForm"
-            >
-              Close
-            </div>
-          </mat-card>
-          <!-- END INVENTORY DEVICE EDIT FORM -->
-          <mat-card
-            class="active-new-device-form my-1 forms-block"
-            *ngIf="inventoryDeviceEditForm"
-            [@inOutAnimation]
-          >
-            <form [formGroup]="inventoryDeviceSimEditForm">
-              <mat-card-content>
-                <div class="add-new-device-form my-4 mx-2 d-flex">
-                  <div class="row my-3">
-                    <div class="row">
-                      <div class="col-12 my-3">
-                        <div
-                          id="add-new-device-form-id"
-                          class="col-12 my-2 d-flex"
-                        >
-                          <div class="mx-1">
-                            <mat-label
-                              class="form-field-title"
-                              for="inventoryDeviceName"
-                              >Device name</mat-label
-                            >
-                            <input
-                              class="form-control form-field-big"
-                              type="text"
-                              formControlName="inventoryDeviceName"
-                              name="inventoryDeviceName"
-                              id="inventoryDeviceName"
-                              placeholder="Name"
-                            />
-                          </div>
-                          <div class="mx-2">
-                            <mat-label
-                              class="form-field-title"
-                              for="inventoryDeviceLocation"
-                              >Device location</mat-label
-                            >
-                            <input
-                              type="text"
-                              name="inventoryDeviceLocation"
-                              id="inventoryDeviceLocation"
-                              class="form-control form-field-big"
-                              formControlName="inventoryDeviceLocation"
-                              placeholder="eg.Floor 1, Floor 2 etc"
-                            />
-                          </div>
-                          <div class="mx-2">
-                            <mat-label
-                              class="form-field-title"
-                              for="inventoryDeviceSerialNum"
-                              >Device serial number</mat-label
-                            >
-                            <input
-                              type="text"
-                              name="inventoryDeviceSerialNum"
-                              id="inventoryDeviceSerialNum"
-                              class="form-control form-field-big"
-                              formControlName="inventoryDeviceSerialNum"
-                              placeholder="XXX-XXX-XXXX"
-                            />
-                          </div>
-                          <div class="mx-2">
-                            <mat-label
-                              class="form-field-title"
-                              for="inventoryDeviceType"
-                              >Device Type</mat-label
-                            >
-                            <input
-                              type="text"
-                              name="inventoryDeviceType"
-                              id="inventoryDeviceType"
-                              class="form-control form-field-big"
-                              formControlName="inventoryDeviceType"
-                              placeholder="Camera,sensor,...etc"
-                            />
+              <form [formGroup]="inventoryEditForm">
+                <mat-card-content>
+                  <div class="add-new-device-form my-4 mx-2 d-flex">
+                    <div class="row my-3">
+                      <div class="row">
+                        <div class="col-12 my-3">
+                          <div
+                            id="add-new-device-form-id"
+                            class="col-12 my-2 d-flex"
+                          >
+                            <div class="mx-1">
+                              <mat-label
+                                class="form-field-title"
+                                for="inventoryDeviceName"
+                                >Device name</mat-label
+                              >
+                              <input
+                                class="form-control form-field-big"
+                                type="text"
+                                [formControl]="
+                                  getEditInventoryControl(
+                                    inventoryDevices.form,
+                                    'inventoryDeviceName'
+                                  )
+                                "
+                                name="inventoryDeviceName"
+                                id="inventoryDeviceName"
+                                placeholder="Name"
+                              />
+                            </div>
+                            <div class="mx-2">
+                              <mat-label
+                                class="form-field-title"
+                                for="inventoryDeviceLocation"
+                                >Device location</mat-label
+                              >
+                              <input
+                                type="text"
+                                name="inventoryDeviceLocation"
+                                id="inventoryDeviceLocation"
+                                class="form-control form-field-big"
+                                [formControl]="
+                                  getEditInventoryControl(
+                                    inventoryDevices.form,
+                                    'inventoryDeviceLocation'
+                                  )
+                                "
+                                placeholder="eg.Floor 1, Floor 2 etc"
+                              />
+                            </div>
+                            <div class="mx-2">
+                              <mat-label
+                                class="form-field-title"
+                                for="inventoryDeviceSerialNum"
+                                >Device serial number</mat-label
+                              >
+                              <input
+                                type="text"
+                                name="inventoryDeviceSerialNum"
+                                id="inventoryDeviceSerialNum"
+                                class="form-control form-field-big"
+                                [formControl]="
+                                  getEditInventoryControl(
+                                    inventoryDevices.form,
+                                    'inventoryDeviceSerialNum'
+                                  )
+                                "
+                                placeholder="XXX-XXX-XXXX"
+                              />
+                            </div>
+                            <div class="mx-2">
+                              <mat-label
+                                class="form-field-title"
+                                for="inventoryDeviceType"
+                                >Device Type</mat-label
+                              >
+                              <input
+                                type="text"
+                                name="inventoryDeviceType"
+                                id="inventoryDeviceType"
+                                class="form-control form-field-big"
+                                [formControl]="
+                                  getEditInventoryControl(
+                                    inventoryDevices.form,
+                                    'inventoryDeviceType'
+                                  )
+                                "
+                                placeholder="Camera,sensor,...etc"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="add-plus">
-                      <div>+Add</div>
+                      <div class="add-plus">
+                        <div>+Add</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </mat-card-content>
-              <mat-card-actions class="mat-card-actions d-flex bottom-button">
-                <div class="button-sec">
-                  <button
-                    class="add"
-                    type="submit"
-                    mat-raised-button
-                    color="primary"
-                    (click)="addNewDevice = !addNewDevice"
-                    [@inOutAnimation]
+                </mat-card-content>
+                <mat-card-actions class="mat-card-actions d-flex">
+                  <div
+                    class="device-sim-item-delete d-flex mx-2"
+                    (click)="openDeleteInventoryDialog(inventoryDeviceIndex)"
                   >
-                    Save
-                  </button>
-                  <button
-                    mat-button
-                    class="cancel"
-                    (click)="inventoryDeviceEditForm = !inventoryDeviceEditForm"
-                    [@inOutAnimation]
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </mat-card-actions>
-            </form>
-          </mat-card>
+                    <div>
+                      <img
+                        class="ng-tns-c119-0"
+                        src="../../assets/deviceSim/delete.svg"
+                      />
+                    </div>
+                    <div class="delete-label">Delete</div>
+                  </div>
+                  <div class="button-sec">
+                    <button
+                      class="add"
+                      type="button"
+                      mat-raised-button
+                      color="primary"
+                      (click)="actualInventoryEdit(inventoryDeviceIndex)"
+                      [@inOutAnimation]
+                    >
+                      Save
+                    </button>
+                    <button
+                      mat-button
+                      type="button"
+                      class="cancel"
+                      (click)="
+                        inventoryDeviceEditForm = !inventoryDeviceEditForm
+                      "
+                      [@inOutAnimation]
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </mat-card-actions>
+              </form>
+            </mat-card>
+          </div>
           <!-- END INVENTORY DEVICE EDIT FORM -->
         </div>
       </div>

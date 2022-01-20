@@ -13,6 +13,11 @@ import { SideNavbarComponent } from 'src/app/side-navbar/side-navbar.component';
 
 import { DeleteDevicesComponent } from './dialogs/delete-devices/delete-devices.component';
 import { DeviceGroupsComponent } from './device-groups/device-groups.component';
+import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component';
+import { RemoveUserComponent } from './dialogs/remove-user/remove-user.component';
+import { SlicesComponent } from './slices/slices.component';
+import { DeleteSlicesComponent } from './dialogs/delete-slices/delete-slices.component';
+import { DeleteInventoryComponent } from './dialogs/delete-inventory/delete-inventory.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +29,11 @@ import { DeviceGroupsComponent } from './device-groups/device-groups.component';
     SelectSimsComponent,
     DeleteDevicesComponent,
     DeviceGroupsComponent,
+    DeleteUserComponent,
+    RemoveUserComponent,
+    SlicesComponent,
+    DeleteSlicesComponent,
+    DeleteInventoryComponent,
   ],
   imports: [
     CommonModule,

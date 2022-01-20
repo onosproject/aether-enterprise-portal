@@ -14,10 +14,13 @@ export class DeviceSimService {
 
   selectedSite: string = '';
 
-  selectedSim: string = '';
+  selectedSims: any[] = []
 
   mySite1: Observable<any>;
   private mySiteSubject = new BehaviorSubject<any>('');
+
+  mySims1: Observable<any>;
+  private mySimsSubject = new BehaviorSubject<any>("");
 
   mySim1: Observable<any>;
   private mySimSubject = new Subject<any>();
@@ -37,8 +40,17 @@ export class DeviceSimService {
     return this.mySiteSubject.asObservable();
   }
 
+  mySims(data :any[]): any {
+    this.selectedSims = data
+    this.mySimsSubject.next(data)
+  }
+
+  getSims(): Observable<any> {
+    return this.mySimsSubject.asObservable();
+  }
+
   mySim(data: string): any {
-    this.selectedSim = data;
+    // this.selectedSim = data
     // console.log(this.selectedSim)
     this.mySimSubject.next(data);
   }

@@ -1,4 +1,5 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { SitesService } from '../../../../services/sites/sites.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class SitesComponent {
   @Input() message: any;
   @Output() informParent = new EventEmitter();
 
-  constructor(public sitesService: SitesService) {
+  constructor(public sitesService: SitesService, public deviceService: DeviceSimService) {
     // this.sites = sites[0];
     // console.log(sites);
     sitesService.GetAllConfig().subscribe(
@@ -50,6 +51,7 @@ export class SitesComponent {
     }[],
     siteIndex: number
   ): void {
+    this.deviceService.mySite(value)
     this.selected = value;
     for (let i = 0; i < siteData.slices.length; i++) {
       for (let j = 0; j < siteData.slices[i]['device-groups'].length; j++) {
