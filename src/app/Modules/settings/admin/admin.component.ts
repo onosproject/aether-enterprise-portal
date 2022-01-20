@@ -210,14 +210,29 @@ export class AdminComponent implements OnInit {
         ppic: new FormControl(this.users[index].ppic),
         name: new FormControl(this.users[index].name, Validators.required),
         email: new FormControl(this.users[index].email, Validators.required),
-        emailAlert: new FormControl(this.users[index].emailAlert, Validators.required),
-        deviceAlert: new FormControl(this.users[index].deviceAlert, Validators.required),
-        centralAlert: new FormControl(this.users[index].centralAlert, Validators.required),
-        siteEquipmentAlert: new FormControl(this.users[index].siteEquipmentAlert, Validators.required),
-        securityAlert: new FormControl(this.users[index].securityAlert, Validators.required),
+        emailAlert: new FormControl(
+          this.users[index].emailAlert,
+          Validators.required
+        ),
+        deviceAlert: new FormControl(
+          this.users[index].deviceAlert,
+          Validators.required
+        ),
+        centralAlert: new FormControl(
+          this.users[index].centralAlert,
+          Validators.required
+        ),
+        siteEquipmentAlert: new FormControl(
+          this.users[index].siteEquipmentAlert,
+          Validators.required
+        ),
+        securityAlert: new FormControl(
+          this.users[index].securityAlert,
+          Validators.required
+        ),
         cities: cities,
       });
-      console.log(this.users[index].form)
+      console.log(this.users[index].form);
       this.editUsers.push(id);
     }
     console.log(this.editUsers);

@@ -3,9 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'aep-remove-user',
   templateUrl: './remove-user.component.html',
-  styles: [
-  ]
+  styles: [],
 })
-export class RemoveUserComponent {
-
-}
+export class RemoveUserComponent {}

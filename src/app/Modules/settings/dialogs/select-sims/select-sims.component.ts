@@ -20,7 +20,7 @@ export class SelectSimsComponent implements OnInit {
 
   selectedSite: any = '';
 
-  inventorySims: any[] = []
+  inventorySims: any[] = [];
 
   sims: any[] = [
     // {
@@ -136,8 +136,8 @@ export class SelectSimsComponent implements OnInit {
 
   assignSelectedSims(): any {
     this.deviceService.getSims().subscribe((data) => {
-      console.log(data)
+      console.log(data);
       this.inventorySims = data;
-    })
+    });
   }
 }

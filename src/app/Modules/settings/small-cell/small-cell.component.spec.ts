@@ -8,9 +8,8 @@ describe('SmallCellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SmallCellComponent ]
-    })
-    .compileComponents();
+      declarations: [SmallCellComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

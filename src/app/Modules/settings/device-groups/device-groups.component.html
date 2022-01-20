@@ -444,23 +444,30 @@
                             <mat-label class="form-label"
                               >Description
                             </mat-label>
-                            <textarea class="my-2" rows="6" cols="45"> </textarea>
+                            <textarea class="my-2" rows="6" cols="45">
+                            </textarea>
                           </div>
                         </div>
                       </div>
                       <div class="remove-device-label mx-4">
                         Select Devices to remove form group
                       </div>
-                      <div class="my-2 mx-4 d-flex flex-wrap" >
+                      <div class="my-2 mx-4 d-flex flex-wrap">
                         <div
-                          class="device-group-items d-flex flex-wrap" *ngFor="
-                          let devices of group.devices;
-                          let deviceIndex = index
-                        "
+                          class="device-group-items d-flex flex-wrap"
+                          *ngFor="
+                            let devices of group.devices;
+                            let deviceIndex = index
+                          "
                         >
                           <div class="device-group-item">
                             <div class="mx-1 d-flex align-items-center">
-                              <div class="select" (click)="deleteDevicesInGroups(groupIndex, deviceIndex)">
+                              <div
+                                class="select"
+                                (click)="
+                                  deleteDevicesInGroups(groupIndex, deviceIndex)
+                                "
+                              >
                                 <img
                                   src="../../../assets/CommonAssets/delete-red-bg.svg"
                                 />
