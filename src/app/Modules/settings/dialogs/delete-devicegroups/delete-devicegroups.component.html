@@ -1,0 +1,19 @@
+<div class="ctm-modal-content">
+  <mat-dialog-content class="mat-typography modal-header d-flex">
+    <h5>Are you sure you want to delete device group?</h5>
+    <img src="assets/AdminPanel/close.svg" mat-dialog-close />
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close class="btn ctm-btn ctm-btn-transparent">
+      No, Cancel
+    </button>
+    <button
+      mat-button
+      mat-dialog-close="true"
+      cdkFocusInitial
+      class="btn ctm-btn ctm-btn-red"
+    >
+      Yes, Remove
+    </button>
+  </mat-dialog-actions>
+</div>

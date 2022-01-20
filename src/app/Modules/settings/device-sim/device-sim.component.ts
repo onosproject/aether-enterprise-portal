@@ -86,7 +86,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   deviceDetails: number[] = [];
 
-  deviceType: any[] = ['phone', 'camera'];
+  deviceType: any[] = ['Phone', 'Camera', 'Sensor', 'IOT', 'Other'];
 
   cancelledSimsStorage: any[] = [];
 
@@ -216,6 +216,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       location: this.deviceSimForm.value.deviceLocation,
       'serial-number': this.deviceSimForm.value.deviceSerialNum,
     });
+    this.activeNewDeviceForm();
     // console.log(this.siteConfig);
   }
 
@@ -228,7 +229,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         this.inventoryDeviceSimForm.value.inventoryDeviceSerialNum,
       type: this.inventoryDeviceSimForm.value.inventoryDeviceType,
     });
-    this.addNewDeviceFun();
+    this.activeNewDeviceForm();
   }
 
   assignSelectedSite(): any {
@@ -419,6 +420,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.cancelledSimsStorage.push({ simIccid });
     console.log('THe Cancelled SIMS are: -->', this.cancelledSimsStorage);
     delete this.siteConfig[0][index].sim;
+    this.closeEditInventory();
   }
 
   openDialog(): void {

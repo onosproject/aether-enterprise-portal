@@ -178,3 +178,36 @@
     padding: 2px 0 0 6px;
   }
 }
+
+.mat-select-box {
+  h4 {
+    margin: 0 0 10px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .mat-form-field-wrapper {
+    height: 48px;
+  }
+  .mat-form-field-flex {
+    background: #eff1f3;
+  }
+  .mat-form-field-infix {
+    background: #ffffff;
+    // width: 160px;
+    height: 48px;
+    // border-bottom: 1px solid;
+  }
+  .mat-form-field-label-wrapper {
+    left: 8px;
+    top: -8px;
+  }
+  .mat-select-arrow-wrapper {
+    display: inline-block !important;
+  }
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding: 0;
+  }
+}

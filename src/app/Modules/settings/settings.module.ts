@@ -18,6 +18,8 @@ import { RemoveUserComponent } from './dialogs/remove-user/remove-user.component
 import { SlicesComponent } from './slices/slices.component';
 import { DeleteSlicesComponent } from './dialogs/delete-slices/delete-slices.component';
 import { DeleteInventoryComponent } from './dialogs/delete-inventory/delete-inventory.component';
+import { DeleteDevicegroupsComponent } from './dialogs/delete-devicegroups/delete-devicegroups.component';
+import { DeleteServiceComponent } from './dialogs/delete-service/delete-service.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { DeleteInventoryComponent } from './dialogs/delete-inventory/delete-inve
     SlicesComponent,
     DeleteSlicesComponent,
     DeleteInventoryComponent,
+    DeleteDevicegroupsComponent,
+    DeleteServiceComponent,
   ],
   imports: [
     CommonModule,

@@ -17,7 +17,7 @@
     </div>
   </mat-form-field> -->
 
-  <mat-form-field style="width: 140px">
+  <!-- <mat-form-field style="width: 140px">
     <div class="col-8">
     </div>
     <div
@@ -36,6 +36,21 @@
         >
       </mat-select>
     </div>
+  </mat-form-field> -->
+
+  <mat-form-field
+    class="btn admin-addNew-form-permissions my-3 select-site"
+    appearance="fill"
+  >
+    <mat-label>site:</mat-label>
+    <mat-select class="admin-addNew-form-permissionsSelect">
+      <mat-option
+        *ngFor="let site of sites; let siteIndex = index"
+        value="site['siteName']"
+        (click)="selectedSite(site['siteID'])"
+        >{{ site["siteName"] }}</mat-option
+      >
+    </mat-select>
   </mat-form-field>
 
   <mat-card-header>

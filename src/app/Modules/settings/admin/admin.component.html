@@ -251,15 +251,16 @@
         </div>
       </div>
 
-      <mat-card class="admin-addUser-Card col-12 d-flex my-4" *ngIf="!AddNew">
-        <div>
-          <button
-            class="btn col-3 admin-addUser-btnCenter"
-            (click)="AddNew = !AddNew; closeUserViewEdit()"
-          >
-            Add new user +
-          </button>
-        </div>
+      <mat-card
+        class="admin-addUser-Card1 add-btn col-12 d-flex my-4"
+        *ngIf="!AddNew"
+      >
+        <button
+          class="btn button-medium-14 col-3 admin-addUser-btnCenter1"
+          (click)="AddNew = !AddNew; closeUserViewEdit()"
+        >
+          Add new user
+        </button>
       </mat-card>
 
       <!-- User View -->
