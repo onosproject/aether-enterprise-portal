@@ -25,3 +25,11 @@ body {
     border-bottom: 0.5px solid #3c4257;
   }
 }
+
+.graph-modal-container {
+  [class~="mat-dialog-container"] {
+    border-radius: 12px;
+    border: none;
+    padding: 0;
+  }
+}

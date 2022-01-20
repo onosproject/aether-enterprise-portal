@@ -1,6 +1,11 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { smallCell } from '../../../../shared/classes/dashboard-data';
 import { Router, ActivatedRoute } from '@angular/router';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'aep-small-cells',
@@ -26,7 +31,11 @@ export class SmallCellsComponent {
   respondTab: string;
   isNotification: boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute, private route: Router) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private route: Router,
+    private snackBar: MatSnackBar
+  ) {
     this.smallCells = smallCell[0][0].alerts;
     this.tickets = smallCell[0][0].tickets;
     this.historys = smallCell[0][0].history;
@@ -104,6 +113,12 @@ export class SmallCellsComponent {
         let object = [];
         object = this.smallCells.splice(index, 1);
         smallCell[0][0].history.push(object[0]);
+
+        this.snackBar.openFromComponent(PizzaPartyComponent, {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 20000000,
+        });
       } else {
         this.smallCells[index].status = status;
       }
@@ -155,3 +170,22 @@ export class SmallCellsComponent {
     this.route.navigate(['/']);
   }
 }
+
+@Component({
+  selector: 'snack-bar-component-example-snack',
+  template:
+    '<div class="snack-div"><p>Alert has been resolved</p> <img src="assets/AdminPanel/close-snack.svg" /></div>',
+  styles: [
+    `
+      .snack-div {
+        justify-content: space-between;
+        display: flex;
+        height: 10px;
+        img {
+          margin: 0px 5px;
+        }
+      }
+    `,
+  ],
+})
+export class PizzaPartyComponent {}

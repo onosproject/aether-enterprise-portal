@@ -70,11 +70,19 @@ export class SitesComponent {
                   devices.push(device[n]);
                 }
               }
+              // groupName = deviceGroup[k]['display-name'];
+              // selecteddevice.push({
+              //   'display-name': groupName,
+              //   devices: devices,
+              //   isExpanded: false,
+              // });
+              // siteData.slices[i]['devices'] = selecteddevice;
             }
             groupName = deviceGroup[k]['display-name'];
             selecteddevice.push({
               'display-name': groupName,
               devices: devices,
+              isExpanded: false,
             });
             siteData.slices[i]['devices'] = selecteddevice;
           }
@@ -108,6 +116,7 @@ export class SitesComponent {
       selectedService.push({
         'display-name': 'Services',
         service: service,
+        isExpanded: false,
       });
       siteData.slices[i]['services'] = selectedService;
     }

@@ -1,4 +1,12 @@
 .graph-modal {
+  .modalHeader {
+    background-color: #edf4ff;
+    align-items: center;
+    max-width: 100%;
+  }
+  .row {
+    margin: 0 auto;
+  }
   .parent-toggel-graph {
     //   border: none;
     .nav-link {
@@ -21,9 +29,10 @@
     }
     .mat-button-toggle-checked {
       color: #0063f7 !important;
-      background: transparent;
+      background: #fff !important;
       border: 0;
-      border-bottom: 2px solid #0063f7 !important;
+      border-bottom: 3px solid #0063f7 !important;
+      font-weight: 500;
       // width: 5px;
       button {
         color: #fff;
@@ -32,13 +41,18 @@
     .mat-button-toggle-group-appearance-standard .mat-button-toggle {
       border: none;
       color: #97c1ff;
+      background-color: #edf4ff;
     }
     .mat-button-toggle-group-appearance-standard {
       border: none;
     }
   }
+  .fixed_tab_header {
+    color: #0063f7;
+    text-align: right;
+  }
   .child-toggel-graph {
-    //   border: none;
+    margin: 10px 0 20px;
     .nav-link {
       padding: 0px;
       &:hover {
@@ -60,9 +74,10 @@
     .mat-button-toggle-checked {
       color: #0063f7 !important;
       background: transparent;
-      border: 0;
-      border-bottom: 2px solid #0063f7 !important;
-      // width: 5px;
+      border-bottom: 3px solid #0063f7 !important;
+      [class~="mat-button-toggle-label-content"] {
+        padding: 0 !important;
+      }
       button {
         color: #fff;
       }
@@ -77,6 +92,9 @@
   }
   .close-button {
     color: #ef233c;
+    text-align: end;
+    margin: 0;
+    margin-right: 15px;
   }
   .graph-modal {
     width: 100%;
@@ -85,5 +103,8 @@
       width: 100%;
       height: 100%;
     }
+  }
+  .child-graph-row {
+    padding: 0px 30px;
   }
 }

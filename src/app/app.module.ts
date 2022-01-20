@@ -11,9 +11,16 @@ import { SettingsModule } from './Modules/settings/settings.module';
 import { MaterialModule } from './Modules/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ConnectComponent } from './components/connect/connect.component';
+import { JoinerComponent } from './Modules/joiner/joiner.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    // JoinerComponent,
+    // ConnectComponent,
+  ],
   imports: [
     HttpClientModule,
     BrowserModule,

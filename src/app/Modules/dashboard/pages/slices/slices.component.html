@@ -67,6 +67,9 @@
                   </button>
                 </mat-panel-title>
               </div>
+              <div class="col-xl-1 col-lg-12 line-img-first">
+                <img src="assets/AdminPanel/line.svg" />
+              </div>
               <div class="col-xl-6 col-lg-12">
                 <mat-panel-description (click)="$event.stopPropagation()">
                   <mat-card class="graph-detail-bx">
@@ -370,6 +373,9 @@
                   </mat-card>
                 </mat-panel-description>
               </div>
+              <div class="col-xl-1 col-lg-12 line-img-second">
+                <img src="assets/AdminPanel/line.svg" />
+              </div>
               <div class="col-xl-3 col-lg-12">
                 <div
                   class="accordion-right-bx"
@@ -411,7 +417,7 @@
                   <div
                     class="cancel-bx"
                     *ngIf="isEditable && sliceId === slice['slice-id']"
-                    (click)="isEditable = !isEditable"
+                    (click)="cancelEdit(i)"
                   >
                     Cancel
                   </div>
@@ -425,158 +431,167 @@
                 </div>
               </div>
               <!-- <div class="col-lg-5"> -->
-
-              <div
-                [ngClass]="
-                  isAcknowledged === 8 ? 'col-lg-8 ctm_new_col_8' : 'col-lg-5'
-                "
-              >
-                <div class="accordion-section">
-                  <div
-                    class="accordion-item"
-                    *ngFor="
-                      let device of slice.devices;
-                      let deviceIndex = index
-                    "
-                  >
-                    <h2
-                      class="accordion-header"
-                      [attr.id]="'heading' + deviceIndex"
-                    >
-                      <button
-                        class="accordion-button"
-                        type="button"
-                        [ngClass]="
-                          device.status === openAccordion[deviceIndex]
-                            ? 'hiden'
-                            : 'collapsed'
-                        "
-                        [style.justify-content]="
-                          isEditable && sliceId === slice['slice-id']
-                            ? 'space-between'
-                            : 'center'
-                        "
-                      >
-                        <div
-                          class="services_left_bx"
-                          (click)="
-                            openAccordion[i + deviceIndex] =
-                              !openAccordion[i + deviceIndex]
-                          "
-                          data-bs-toggle="collapse"
-                          [attr.data-target]="'#collapse' + deviceIndex"
-                          aria-expanded="true"
-                          [attr.aria-controls]="'collapse' + deviceIndex"
-                        >
-                          <div class="card-icon">
-                            <img src="assets/AdminPanel/camera.svg" />
-                          </div>
-                          {{ device["display-name"] }}
-                          <div class="red-ellipse">
-                            <img
-                              *ngIf="device.status === 1"
-                              src="assets/AdminPanel/Ellipse-red.svg"
-                            />
-                            <img
-                              *ngIf="device.status === 0"
-                              src="assets/AdminPanel/Ellipse.svg"
-                            />
-                          </div>
-                        </div>
-                        <div
-                          class="services_right_bx"
-                          *ngIf="isEditable && sliceId === slice['slice-id']"
-                        >
-                          <a class="add_btn">Add</a>
-                          <a
-                            class="remove_btn"
-                            (click)="openDialog(deviceIndex, true)"
-                            >Remove Group</a
-                          >
-                        </div>
-                      </button>
-                    </h2>
+              <div class="slice">
+                <div
+                  [ngClass]="
+                    isAcknowledged === 8 ? 'col-lg-8 ctm_new_col_8' : 'col-lg-5'
+                  "
+                  class="slice__deviceGroups"
+                >
+                  <div class="accordion-section">
                     <div
-                      [attr.id]="'collapse' + deviceIndex"
-                      class="accordion-collapse collapse"
-                      [class.show]="openAccordion[i + deviceIndex]"
-                      [ngClass]="isEditable === true ? 'show' : 'hidden'"
-                      [ngClass]="device.status === 1 ? 'show' : 'hidden'"
-                      [attr.aria-labelledby]="'heading' + deviceIndex"
-                      data-bs-parent="#accordionExample"
+                      class="accordion-item"
+                      *ngFor="
+                        let device of slice.devices;
+                        let deviceIndex = index
+                      "
+                      [ngClass]="{
+                        'slice__deviceGroups--expanded': device?.isExpanded
+                      }"
+                      [style]="
+                        'top: ' +
+                        calculateDeviceTop(deviceIndex, slice.devices) +
+                        'px;'
+                      "
                     >
-                      <div class="accordion-body">
-                        <div class="ctm_accordion_container">
-                          <div class="row">
-                            <div
-                              class="col-lg-6 ctm-border-bottom"
-                              *ngFor="
-                                let camera of device.devices;
-                                let cameraIndex = index
-                              "
-                              [ngClass]="
-                                group === device['display-name'] &&
-                                serialNumber === camera['serial-number']
-                                  ? 'selected-device'
-                                  : ''
-                              "
+                      <h2
+                        class="accordion-header"
+                        [attr.id]="'heading' + deviceIndex"
+                      >
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          [ngClass]="
+                            device.status === openAccordion[deviceIndex]
+                              ? 'hiden'
+                              : 'collapsed'
+                          "
+                          [style.justify-content]="
+                            isEditable && sliceId === slice['slice-id']
+                              ? 'space-between'
+                              : 'center'
+                          "
+                        >
+                          <div
+                            class="services_left_bx"
+                            data-bs-toggle="collapse"
+                            [attr.data-target]="'#collapse' + deviceIndex"
+                            aria-expanded="true"
+                            [attr.aria-controls]="'collapse' + deviceIndex"
+                            (click)="setAccordion(i, deviceIndex)"
+                          >
+                            <div class="card-icon">
+                              <img src="assets/AdminPanel/camera.svg" />
+                            </div>
+                            {{ device["display-name"] }}
+                            <div class="red-ellipse">
+                              <img
+                                *ngIf="device.status === 1"
+                                src="assets/AdminPanel/Ellipse-red.svg"
+                              />
+                              <img
+                                *ngIf="device.status === 0"
+                                src="assets/AdminPanel/Ellipse.svg"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            class="services_right_bx"
+                            *ngIf="isEditable && sliceId === slice['slice-id']"
+                          >
+                            <a class="add_btn">Add</a>
+                            <a
+                              class="remove_btn"
+                              (click)="openDialog(deviceIndex, true)"
+                              >Remove Group</a
                             >
+                          </div>
+                        </button>
+                      </h2>
+                      <div
+                        [attr.id]="'collapse' + deviceIndex"
+                        class="accordion-collapse collapse"
+                        [class.show]="openAccordion[i + deviceIndex]"
+                        [ngClass]="isEditable === true ? 'show' : 'hidden'"
+                        [ngClass]="device.status === 1 ? 'show' : 'hidden'"
+                        [attr.aria-labelledby]="'heading' + deviceIndex"
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div class="accordion-body">
+                          <div class="ctm_accordion_container">
+                            <div class="row">
                               <div
-                                class="product-detail"
-                                *ngIf="
-                                  removedCameraId === camera['serial-number'] &&
-                                  removedDeviceId === deviceIndex
+                                class="col-lg-6 ctm-border-bottom"
+                                *ngFor="
+                                  let camera of device.devices;
+                                  let cameraIndex = index
+                                "
+                                [ngClass]="
+                                  group === device['display-name'] &&
+                                  serialNumber === camera['serial-number']
+                                    ? 'selected-device'
+                                    : ''
                                 "
                               >
-                                <div class="removed_heading">
-                                  <p>{{ camera.title }} Removed</p>
-                                  <span (click)="undoDevice()">Undo</span>
+                                <div
+                                  class="product-detail"
+                                  *ngIf="
+                                    removedCameraId ===
+                                      camera['serial-number'] &&
+                                    removedDeviceId === deviceIndex
+                                  "
+                                >
+                                  <div class="removed_heading">
+                                    <p>{{ camera.title }} Removed</p>
+                                    <span (click)="undoDevice()">Undo</span>
+                                  </div>
                                 </div>
-                              </div>
-                              <div
-                                class="product-detail"
-                                *ngIf="
-                                  removedCameraId !== camera['serial-number'] ||
-                                  removedDeviceId !== deviceIndex
-                                "
-                              >
-                                <div class="left-bx">
-                                  <img
-                                    *ngIf="
-                                      !isEditable ||
-                                      sliceId !== slice['slice-id']
-                                    "
-                                    src="assets/AdminPanel/camera.svg"
-                                    class="camera_icon"
-                                  />
-                                  <img
-                                    *ngIf="
-                                      isEditable &&
-                                      sliceId === slice['slice-id']
-                                    "
-                                    src="assets/AdminPanel/remove.svg"
-                                    class="remove-icon"
-                                    (click)="
-                                      removeDevice(
-                                        deviceIndex,
-                                        cameraIndex,
-                                        camera['serial-number']
-                                      )
-                                    "
-                                  />
-                                  {{ camera["display-name"] }}
-                                </div>
-                                <div class="right-bx">
-                                  <p>Location</p>
-                                  <div class="red-ellipse">
+                                <div
+                                  class="product-detail"
+                                  *ngIf="
+                                    removedCameraId !==
+                                      camera['serial-number'] ||
+                                    removedDeviceId !== deviceIndex
+                                  "
+                                >
+                                  <div class="left-bx">
                                     <img
-                                      *ngIf="camera.status === 1"
-                                      src="assets/AdminPanel/Ellipse-red.svg"
+                                      *ngIf="
+                                        !isEditable ||
+                                        sliceId !== slice['slice-id']
+                                      "
+                                      src="assets/AdminPanel/camera.svg"
+                                      class="camera_icon"
                                     />
                                     <img
-                                      *ngIf="camera.status === 0"
-                                      src="assets/AdminPanel/Ellipse.svg"
+                                      *ngIf="
+                                        isEditable &&
+                                        sliceId === slice['slice-id']
+                                      "
+                                      src="assets/AdminPanel/remove.svg"
+                                      class="remove-icon"
+                                      (click)="
+                                        removeDevice(
+                                          deviceIndex,
+                                          cameraIndex,
+                                          camera['serial-number']
+                                        )
+                                      "
                                     />
+                                    {{ camera["display-name"] }}
+                                  </div>
+                                  <div class="right-bx">
+                                    <p>Location</p>
+                                    <div class="red-ellipse">
+                                      <img
+                                        *ngIf="camera.status === 1"
+                                        src="assets/AdminPanel/Ellipse-red.svg"
+                                      />
+                                      <img
+                                        *ngIf="camera.status === 0"
+                                        src="assets/AdminPanel/Ellipse.svg"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -587,465 +602,476 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg-4">
-                <mat-card class="graph-detail-bx">
-                  <mat-card-header
-                    class="graph-header"
-                    [class.graph-header-isAcknowledged]="isAcknowledged === 8"
-                  >
-                    <div class="graph-detail-h">
-                      <div class="card-icon">
-                        <img src="assets/AdminPanel/stack.svg" />
+                <div
+                  class="col-lg-4"
+                  [ngClass]="
+                    isAcknowledged === 8
+                      ? 'slice__slice-details_smallcells'
+                      : 'slice__slice-details'
+                  "
+                >
+                  <mat-card class="graph-detail-bx">
+                    <mat-card-header
+                      class="graph-header"
+                      [class.graph-header-isAcknowledged]="isAcknowledged === 8"
+                    >
+                      <div class="graph-detail-h">
+                        <div class="card-icon">
+                          <img src="assets/AdminPanel/stack.svg" />
+                        </div>
+                        <h3>Mission Critical Slice</h3>
                       </div>
-                      <h3>Mission Critical Slice</h3>
-                    </div>
-                    <div
-                      class="graph-detail-filter"
+                      <div
+                        class="graph-detail-filter"
+                        *ngIf="isAcknowledged === 12"
+                      >
+                        <nav>
+                          <div class="nav nav-tabs child-toggle">
+                            <mat-button-toggle-group
+                              [(ngModel)]="TabValue[i]"
+                              aria-label="Font Style"
+                            >
+                              <mat-button-toggle
+                                [value]="'1h' + i"
+                                class="nav-link"
+                                >1H</mat-button-toggle
+                              >
+                              <mat-button-toggle
+                                [value]="'1d' + i"
+                                class="nav-link"
+                                >1D</mat-button-toggle
+                              >
+                              <mat-button-toggle
+                                [value]="'1w' + i"
+                                class="nav-link"
+                                >1W</mat-button-toggle
+                              >
+                              <mat-button-toggle
+                                [value]="'1m' + i"
+                                class="nav-link"
+                                >1M</mat-button-toggle
+                              >
+                              <mat-button-toggle
+                                [value]="'1y' + i"
+                                class="nav-link"
+                                >1Y</mat-button-toggle
+                              >
+                            </mat-button-toggle-group>
+                          </div>
+                        </nav>
+                      </div>
+                      <div class="graph-alert-h text-red">
+                        <div class="card-icon">
+                          <img src="assets/AdminPanel/red-alert.svg" />
+                        </div>
+                        <span>5 Alerts</span>
+                      </div>
+                    </mat-card-header>
+
+                    <mat-card-content
+                      class="graph-content-bx"
                       *ngIf="isAcknowledged === 12"
                     >
-                      <nav>
-                        <div class="nav nav-tabs child-toggle">
-                          <mat-button-toggle-group
-                            [(ngModel)]="TabValue[i]"
-                            aria-label="Font Style"
-                          >
-                            <mat-button-toggle
-                              [value]="'1h' + i"
-                              class="nav-link"
-                              >1H</mat-button-toggle
-                            >
-                            <mat-button-toggle
-                              [value]="'1d' + i"
-                              class="nav-link"
-                              >1D</mat-button-toggle
-                            >
-                            <mat-button-toggle
-                              [value]="'1w' + i"
-                              class="nav-link"
-                              >1W</mat-button-toggle
-                            >
-                            <mat-button-toggle
-                              [value]="'1m' + i"
-                              class="nav-link"
-                              >1M</mat-button-toggle
-                            >
-                            <mat-button-toggle
-                              [value]="'1y' + i"
-                              class="nav-link"
-                              >1Y</mat-button-toggle
-                            >
-                          </mat-button-toggle-group>
+                      <div class="tab-content" id="nav-tabContent">
+                        <div *ngIf="TabValue[i] === '1h' + i">
+                          <div class="main-accordion-graph">
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Bandwidth</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Latency</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Packet Loss</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      </nav>
-                    </div>
-                    <div class="graph-alert-h text-red">
-                      <div class="card-icon">
-                        <img src="assets/AdminPanel/red-alert.svg" />
+                        <div *ngIf="TabValue[i] === '1d' + i">
+                          <div class="main-accordion-graph">
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Bandwidth</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Latency</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />20%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Packet Loss</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="TabValue[i] === '1w' + i">
+                          <div class="main-accordion-graph">
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Bandwidth</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Latency</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Packet Loss</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="TabValue[i] === '1m' + i">
+                          <div class="main-accordion-graph">
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Bandwidth</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Latency</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Packet Loss</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="TabValue[i] === '1y' + i">
+                          <div class="main-accordion-graph">
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Bandwidth</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />30%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Latency</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />10%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                            <div class="accordion-graph-bx">
+                              <div class="graph-detail">
+                                <div class="graph-name">Packet Loss</div>
+                                <div class="graph-increment">
+                                  <img src="assets/AdminPanel/polygon.svg" />20%
+                                </div>
+                              </div>
+                              <div class="graph-img-bx">
+                                <img
+                                  src="assets/AdminPanel/graph-white.svg"
+                                  class="img-fluid"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <span>5 Alerts</span>
-                    </div>
-                  </mat-card-header>
+                    </mat-card-content>
+                  </mat-card>
 
-                  <mat-card-content
-                    class="graph-content-bx"
-                    *ngIf="isAcknowledged === 12"
+                  <mat-card
+                    class="graph-detail-bx add_new_device"
+                    *ngIf="isEditable && sliceId === slice['slice-id']"
                   >
-                    <div class="tab-content" id="nav-tabContent">
-                      <div *ngIf="TabValue[i] === '1h' + i">
-                        <div class="main-accordion-graph">
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Bandwidth</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Latency</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Packet Loss</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div *ngIf="TabValue[i] === '1d' + i">
-                        <div class="main-accordion-graph">
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Bandwidth</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Latency</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />20%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Packet Loss</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div *ngIf="TabValue[i] === '1w' + i">
-                        <div class="main-accordion-graph">
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Bandwidth</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Latency</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Packet Loss</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div *ngIf="TabValue[i] === '1m' + i">
-                        <div class="main-accordion-graph">
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Bandwidth</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Latency</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Packet Loss</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div *ngIf="TabValue[i] === '1y' + i">
-                        <div class="main-accordion-graph">
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Bandwidth</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />30%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Latency</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />10%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                          <div class="accordion-graph-bx">
-                            <div class="graph-detail">
-                              <div class="graph-name">Packet Loss</div>
-                              <div class="graph-increment">
-                                <img src="assets/AdminPanel/polygon.svg" />20%
-                              </div>
-                            </div>
-                            <div class="graph-img-bx">
-                              <img
-                                src="assets/AdminPanel/graph-white.svg"
-                                class="img-fluid"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </mat-card-content>
-                </mat-card>
-
-                <mat-card
-                  class="graph-detail-bx add_new_device"
-                  *ngIf="isEditable && sliceId === slice['slice-id']"
+                    <p>Add new device group</p>
+                    <img src="assets/AdminPanel/plush-white.svg" />
+                  </mat-card>
+                </div>
+                <!-- <div class="col-lg-3"> -->
+                <div
+                  *ngIf="isAcknowledged !== 8 && slice.services.length !== 0"
+                  [ngClass]="
+                    isEditable && isAcknowledged === 8
+                      ? 'col-lg-5 ctm_new_col_8'
+                      : 'col-lg-8'
+                  "
+                  [ngClass]="
+                    isAcknowledged === 8 ? 'col-lg-8 ctm_new_col_8' : 'col-lg-3'
+                  "
+                  [ngClass]="
+                    slice.services[0].isExpanded
+                      ? 'slice__applications_expand'
+                      : 'slice__applications '
+                  "
                 >
-                  <p>Add new device group</p>
-                  <img src="assets/AdminPanel/plush-white.svg" />
-                </mat-card>
-              </div>
-              <!-- <div class="col-lg-3"> -->
-              <div
-                [ngClass]="
-                  isEditable && isAcknowledged === 8
-                    ? 'col-lg-5 ctm_new_col_8'
-                    : 'col-lg-8'
-                "
-                [ngClass]="
-                  isAcknowledged === 8 ? 'col-lg-8 ctm_new_col_8' : 'col-lg-3'
-                "
-              >
-                <div class="accordion-section left-accordion-section">
-                  <div
-                    class="accordion-item"
-                    *ngFor="
-                      let service of slice.services;
-                      let serviceIndex = index
-                    "
-                  >
-                    <h2
-                      class="accordion-header"
-                      [attr.id]="'heading' + serviceIndex"
-                    >
-                      <button
-                        class="accordion-button"
-                        type="button"
-                        [ngClass]="
-                          service.status === openAccordionRight[serviceIndex]
-                            ? 'hiden'
-                            : 'collapsed'
-                        "
-                        [style.justify-content]="
-                          isEditable && sliceId === slice['slice-id']
-                            ? 'space-between'
-                            : 'center'
-                        "
-                      >
-                        <div
-                          class="services_left_bx"
-                          (click)="
-                            openAccordionRight[serviceIndex] =
-                              !openAccordionRight[serviceIndex]
-                          "
-                          data-bs-toggle="collapse"
-                          [attr.data-target]="'#collapse' + serviceIndex"
-                          aria-expanded="true"
-                          [attr.aria-controls]="'collapse' + serviceIndex"
-                        >
-                          <div class="card-icon">
-                            <img src="assets/AdminPanel/service.svg" />
-                          </div>
-                          {{ service["display-name"] }}
-                          <div class="red-ellipse">
-                            <img
-                              *ngIf="service.status === 1"
-                              src="assets/AdminPanel/Ellipse-red.svg"
-                            />
-                            <img
-                              *ngIf="service.status === 0"
-                              src="assets/AdminPanel/Ellipse.svg"
-                            />
-                          </div>
-                        </div>
-                        <div
-                          class="services_right_bx"
-                          *ngIf="isEditable && sliceId === slice['slice-id']"
-                        >
-                          <a class="add_btn">Add</a>
-                          <a
-                            class="remove_btn"
-                            (click)="openDialog(serviceIndex, false)"
-                            >Remove Group</a
-                          >
-                        </div>
-                      </button>
-                    </h2>
+                  <!-- <p>{{ slice.services[0].isExpanded }}</p> -->
+                  <div class="accordion-section left-accordion-section">
                     <div
-                      [attr.id]="'collapse' + serviceIndex"
-                      class="accordion-collapse collapse"
-                      [class.show]="openAccordionRight[serviceIndex]"
-                      [ngClass]="isEditable === true ? 'show' : 'hidden'"
-                      [ngClass]="service.status === 1 ? 'show' : 'hidden'"
-                      [attr.aria-labelledby]="'heading' + serviceIndex"
-                      data-bs-parent="#accordionExample"
+                      class="accordion-item"
+                      *ngFor="
+                        let service of slice.services;
+                        let serviceIndex = index
+                      "
                     >
-                      <div class="accordion-body">
-                        <div
-                          class="product-detail"
-                          *ngFor="
-                            let group of service.service;
-                            let groupServiceIndex = index
+                      <h2
+                        class="accordion-header"
+                        [attr.id]="'heading' + serviceIndex"
+                      >
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          [ngClass]="
+                            service.status === openAccordionRight[serviceIndex]
+                              ? 'hiden'
+                              : 'collapsed'
+                          "
+                          [style.justify-content]="
+                            isEditable && sliceId === slice['slice-id']
+                              ? 'space-between'
+                              : 'center'
                           "
                         >
                           <div
-                            class="removed_heading"
-                            *ngIf="removedServiceId === group['application-id']"
+                            class="services_left_bx"
+                            (click)="
+                              openAccordionRight[serviceIndex] =
+                                !openAccordionRight[serviceIndex]
+                            "
+                            (click)="service.isExpanded = !service.isExpanded"
+                            data-bs-toggle="collapse"
+                            [attr.data-target]="'#collapse' + serviceIndex"
+                            aria-expanded="true"
+                            [attr.aria-controls]="'collapse' + serviceIndex"
                           >
-                            <p>{{ group["display-name"] }} Removed</p>
-                            <span (click)="undoDevice()">Undo</span>
-                          </div>
-                          <div
-                            class="left-bx"
-                            *ngIf="removedServiceId !== group['application-id']"
-                          >
-                            <!-- *ngIf="
-                          removedServiceGroupId !== group.id ||
-                          removedServiceId !== service.id
-                        " -->
                             <div class="card-icon">
+                              <img src="assets/AdminPanel/service.svg" />
+                            </div>
+                            {{ service["display-name"] }}
+                            <div class="red-ellipse">
                               <img
-                                src="assets/AdminPanel/service.svg"
-                                *ngIf="
-                                  !isEditable || sliceId !== slice['slice-id']
-                                "
+                                *ngIf="service.status === 1"
+                                src="assets/AdminPanel/Ellipse-red.svg"
                               />
                               <img
-                                *ngIf="
-                                  isEditable && sliceId === slice['slice-id']
-                                "
-                                src="assets/AdminPanel/remove.svg"
-                                class="remove-icon"
-                                (click)="
-                                  removeServiceGroup(
-                                    serviceIndex,
-                                    groupServiceIndex,
-                                    group['application-id']
-                                  )
-                                "
+                                *ngIf="service.status === 0"
+                                src="assets/AdminPanel/Ellipse.svg"
                               />
                             </div>
-                            {{ group["display-name"] }}
                           </div>
                           <div
-                            class="center-bx"
-                            *ngIf="removedServiceId !== group['application-id']"
+                            class="services_right_bx"
+                            *ngIf="isEditable && sliceId === slice['slice-id']"
                           >
-                            <!-- *ngIf="
-                          removedServiceGroupId !== group.id ||
-                          removedServiceId !== service.id
-                        " -->
-                            <p>Location</p>
+                            <a class="add_btn">Add</a>
+                            <a
+                              class="remove_btn"
+                              (click)="openDialog(serviceIndex, false)"
+                              >Remove Group</a
+                            >
                           </div>
+                        </button>
+                      </h2>
+                      <div
+                        [attr.id]="'collapse' + serviceIndex"
+                        class="accordion-collapse collapse"
+                        [class.show]="openAccordionRight[serviceIndex]"
+                        [ngClass]="isEditable === true ? 'show' : 'hidden'"
+                        [ngClass]="service.status === 1 ? 'show' : 'hidden'"
+                        [attr.aria-labelledby]="'heading' + serviceIndex"
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div class="accordion-body">
                           <div
-                            class="right-bx"
-                            *ngIf="removedServiceId !== group['application-id']"
+                            class="product-detail"
+                            *ngFor="
+                              let group of service.service;
+                              let groupServiceIndex = index
+                            "
                           >
-                            <!-- *ngIf="
-                          removedServiceGroupId !== group.id ||
-                          removedServiceId !== service.id
-                        " -->
-                            <div class="red-ellipse" *ngIf="group.status">
-                              <img src="assets/AdminPanel/Ellipse-red.svg" />
+                            <div
+                              class="removed_heading"
+                              *ngIf="
+                                removedServiceId === group['application-id']
+                              "
+                            >
+                              <p>{{ group["display-name"] }} Removed</p>
+                              <span (click)="undoDevice()">Undo</span>
+                            </div>
+                            <div
+                              class="left-bx"
+                              *ngIf="
+                                removedServiceId !== group['application-id']
+                              "
+                            >
+                              <div class="card-icon">
+                                <img
+                                  src="assets/AdminPanel/service.svg"
+                                  *ngIf="
+                                    !isEditable || sliceId !== slice['slice-id']
+                                  "
+                                />
+                                <img
+                                  *ngIf="
+                                    isEditable && sliceId === slice['slice-id']
+                                  "
+                                  src="assets/AdminPanel/remove.svg"
+                                  class="remove-icon"
+                                  (click)="
+                                    removeServiceGroup(
+                                      serviceIndex,
+                                      groupServiceIndex,
+                                      group['application-id']
+                                    )
+                                  "
+                                />
+                              </div>
+                              {{ group["display-name"] }}
+                            </div>
+                            <div
+                              class="center-bx"
+                              *ngIf="
+                                removedServiceId !== group['application-id']
+                              "
+                            >
+                              <p>Location</p>
+                            </div>
+                            <div
+                              class="right-bx"
+                              *ngIf="
+                                removedServiceId !== group['application-id']
+                              "
+                            >
+                              <div class="red-ellipse" *ngIf="group.status">
+                                <img src="assets/AdminPanel/Ellipse-red.svg" />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1053,6 +1079,225 @@
                     </div>
                   </div>
                 </div>
+                <div
+                  *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
+                  [ngClass]="
+                    isAcknowledged === 8 ? 'col-lg-8 ctm_new_col_8' : 'col-lg-3'
+                  "
+                  [ngClass]="
+                    slice.services[0].isExpanded
+                      ? 'slice__applications_smallcells_expand'
+                      : 'slice__applications_smallcells'
+                  "
+                  [style]="
+                    'top: ' +
+                    calculateDeviceTop(slice.devices.length, slice.devices) +
+                    'px;'
+                  "
+                >
+                  <div class="accordion-section left-accordion-section">
+                    <div
+                      class="accordion-item"
+                      *ngFor="
+                        let service of slice.services;
+                        let serviceIndex = index
+                      "
+                    >
+                      <h2
+                        class="accordion-header"
+                        [attr.id]="'heading' + serviceIndex"
+                      >
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          [ngClass]="
+                            service.status === openAccordionRight[serviceIndex]
+                              ? 'hiden'
+                              : 'collapsed'
+                          "
+                          [style.justify-content]="
+                            isEditable && sliceId === slice['slice-id']
+                              ? 'space-between'
+                              : 'center'
+                          "
+                        >
+                          <div
+                            class="services_left_bx"
+                            (click)="
+                              openAccordionRight[serviceIndex] =
+                                !openAccordionRight[serviceIndex]
+                            "
+                            (click)="service.isExpanded = !service.isExpanded"
+                            data-bs-toggle="collapse"
+                            [attr.data-target]="'#collapse' + serviceIndex"
+                            aria-expanded="true"
+                            [attr.aria-controls]="'collapse' + serviceIndex"
+                          >
+                            <div class="card-icon">
+                              <img src="assets/AdminPanel/service.svg" />
+                            </div>
+                            {{ service["display-name"] }}
+                            <div class="red-ellipse">
+                              <img
+                                *ngIf="service.status === 1"
+                                src="assets/AdminPanel/Ellipse-red.svg"
+                              />
+                              <img
+                                *ngIf="service.status === 0"
+                                src="assets/AdminPanel/Ellipse.svg"
+                              />
+                            </div>
+                          </div>
+                          <div
+                            class="services_right_bx"
+                            *ngIf="isEditable && sliceId === slice['slice-id']"
+                          >
+                            <a class="add_btn">Add</a>
+                            <a
+                              class="remove_btn"
+                              (click)="openDialog(serviceIndex, false)"
+                              >Remove Group</a
+                            >
+                          </div>
+                        </button>
+                      </h2>
+                      <div
+                        [attr.id]="'collapse' + serviceIndex"
+                        class="accordion-collapse collapse"
+                        [class.show]="openAccordionRight[serviceIndex]"
+                        [ngClass]="isEditable === true ? 'show' : 'hidden'"
+                        [ngClass]="service.status === 1 ? 'show' : 'hidden'"
+                        [attr.aria-labelledby]="'heading' + serviceIndex"
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div class="accordion-body">
+                          <div
+                            class="product-detail"
+                            *ngFor="
+                              let group of service.service;
+                              let groupServiceIndex = index
+                            "
+                          >
+                            <div
+                              class="removed_heading"
+                              *ngIf="
+                                removedServiceId === group['application-id']
+                              "
+                            >
+                              <p>{{ group["display-name"] }} Removed</p>
+                              <span (click)="undoDevice()">Undo</span>
+                            </div>
+                            <div
+                              class="left-bx"
+                              *ngIf="
+                                removedServiceId !== group['application-id']
+                              "
+                            >
+                              <div class="card-icon">
+                                <img
+                                  src="assets/AdminPanel/service.svg"
+                                  *ngIf="
+                                    !isEditable || sliceId !== slice['slice-id']
+                                  "
+                                />
+                                <img
+                                  *ngIf="
+                                    isEditable && sliceId === slice['slice-id']
+                                  "
+                                  src="assets/AdminPanel/remove.svg"
+                                  class="remove-icon"
+                                  (click)="
+                                    removeServiceGroup(
+                                      serviceIndex,
+                                      groupServiceIndex,
+                                      group['application-id']
+                                    )
+                                  "
+                                />
+                              </div>
+                              {{ group["display-name"] }}
+                            </div>
+                            <div
+                              class="center-bx"
+                              *ngIf="
+                                removedServiceId !== group['application-id']
+                              "
+                            >
+                              <p>Location</p>
+                            </div>
+                            <div
+                              class="right-bx"
+                              *ngIf="
+                                removedServiceId !== group['application-id']
+                              "
+                            >
+                              <div class="red-ellipse" *ngIf="group.status">
+                                <img src="assets/AdminPanel/Ellipse-red.svg" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <svg:svg
+                  xmlns:svg="http://www.w3.org/2000/svg"
+                  [attr.viewbox]="
+                    '0 0 ' +
+                    innerWidth +
+                    ' ' +
+                    calculateSVGHeight(
+                      slice.devices.length,
+                      slice.devices[0]?.isExpanded,
+                      slice.devices
+                    )
+                  "
+                  [attr.width]="innerWidth"
+                  [attr.height]="
+                    calculateSVGHeight(
+                      slice.devices.length,
+                      slice.devices[0]?.isExpanded,
+                      slice.devices
+                    )
+                  "
+                >
+                  <svg:g
+                    aep-joiner
+                    [dash]="'4 5'"
+                    [title]="''"
+                    [startX]="840"
+                    [startY]="215"
+                    [endX]="300"
+                    [endY]="calculateJointVerticalPosition(slice.devices, i)"
+                    *ngFor="let deviceGroup of slice.devices; let i = index"
+                  ></svg:g>
+                  <svg:g
+                    aep-joiner
+                    [dash]="'4 5'"
+                    [title]="''"
+                    [startX]="1155"
+                    [startY]="215"
+                    [endX]="780"
+                    [endY]="300"
+                    *ngIf="isAcknowledged !== 8 && slice.services.length !== 0"
+                  ></svg:g>
+                  <svg:g
+                    aep-joiner
+                    [dash]="'4 5'"
+                    [title]="''"
+                    [startX]="840"
+                    [startY]="215"
+                    [endX]="300"
+                    [endY]="
+                      calculateJointVerticalPosition(
+                        slice.devices,
+                        slice.devices.length
+                      )
+                    "
+                    *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
+                  ></svg:g>
+                </svg:svg>
               </div>
             </div>
           </mat-action-row>

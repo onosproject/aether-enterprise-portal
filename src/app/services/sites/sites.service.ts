@@ -17,8 +17,9 @@ export class SitesService {
   constructor(public http: HttpClient) {}
 
   GetAllConfig(): Observable<unknown> {
-    return this.http.get(environment.baseUrl + 'chronos-exporter/config', {
-      headers: this.header,
-    });
+    // return this.http.get(environment.baseUrl + 'chronos-exporter/config', {
+    //   headers: this.header,
+    // });
+    return this.http.get(environment.baseUrl + 'chronos-exporter/config');
   }
 }
