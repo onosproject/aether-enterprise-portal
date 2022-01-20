@@ -1,0 +1,45 @@
+.ctm-modal-content {
+  box-shadow: none;
+  border-radius: 8px;
+  max-width: 522px;
+}
+
+.modal-header {
+  display: flex;
+  border: none;
+  align-items: flex-start;
+  h5 {
+    font-size: 28px;
+    line-height: 1.2;
+    color: #3c4257;
+  }
+  .btn-close {
+    opacity: 1;
+  }
+}
+.ctm-btn {
+  min-width: 166px;
+  padding: 14px 16px;
+  text-align: left;
+}
+.ctm-btn:focus {
+  border: none;
+  box-shadow: none;
+}
+.ctm-btn-red {
+  background-color: #ef233c;
+  color: #fff;
+  &:hover {
+    color: #ffffff;
+  }
+}
+.ctm-btn-blue {
+  background: #0063f7;
+  color: #ffffff;
+  &:hover {
+    color: #ffffff;
+  }
+}
+.ctm-btn-transparent {
+  color: #0063f7;
+}
