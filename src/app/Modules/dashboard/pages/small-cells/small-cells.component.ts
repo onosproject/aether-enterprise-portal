@@ -1,5 +1,11 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { smallCell } from '../../../../shared/classes/dashboard-data';
+import { Router, ActivatedRoute } from '@angular/router';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'aep-small-cells',
@@ -23,11 +29,20 @@ export class SmallCellsComponent {
   respondIndex: number;
   TabIndex: number = 0;
   respondTab: string;
+  isNotification: boolean = false;
 
-  constructor() {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private route: Router,
+    private snackBar: MatSnackBar
+  ) {
     this.smallCells = smallCell[0][0].alerts;
     this.tickets = smallCell[0][0].tickets;
     this.historys = smallCell[0][0].history;
+
+    this.activatedRoute.params.subscribe((data) => {
+      this.isNotification = JSON.parse(data.isNotification);
+    });
 
     // console.log('||||||||||||||', this.smallCells[0].alerts);
   }
@@ -98,6 +113,12 @@ export class SmallCellsComponent {
         let object = [];
         object = this.smallCells.splice(index, 1);
         smallCell[0][0].history.push(object[0]);
+
+        this.snackBar.openFromComponent(PizzaPartyComponent, {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 20000000,
+        });
       } else {
         this.smallCells[index].status = status;
       }
@@ -120,24 +141,51 @@ export class SmallCellsComponent {
     if (this.TabIndex === 0) {
       if (priorty === 'high') {
         this.smallCells.sort(
-          (x, y) => order.indexOf(x.priorty) - order.indexOf(y.priorty)
+          (low, high) =>
+            order.indexOf(low.priorty) - order.indexOf(high.priorty)
         );
       } else {
         this.smallCells.sort(
-          (x, y) => order.indexOf(y.priorty) - order.indexOf(x.priorty)
+          (low, high) =>
+            order.indexOf(high.priorty) - order.indexOf(low.priorty)
         );
       }
     }
     if (this.TabIndex === 1) {
       if (priorty === 'high') {
         this.tickets.sort(
-          (x, y) => order.indexOf(x.priorty) - order.indexOf(y.priorty)
+          (low, high) =>
+            order.indexOf(low.priorty) - order.indexOf(high.priorty)
         );
       } else {
         this.tickets.sort(
-          (x, y) => order.indexOf(y.priorty) - order.indexOf(x.priorty)
+          (low, high) =>
+            order.indexOf(high.priorty) - order.indexOf(low.priorty)
         );
       }
     }
   }
+
+  goToDashboard(): void {
+    this.route.navigate(['/']);
+  }
 }
+
+@Component({
+  selector: 'snack-bar-component-example-snack',
+  template:
+    '<div class="snack-div"><p>Alert has been resolved</p> <img src="assets/AdminPanel/close-snack.svg" /></div>',
+  styles: [
+    `
+      .snack-div {
+        justify-content: space-between;
+        display: flex;
+        height: 10px;
+        img {
+          margin: 0px 5px;
+        }
+      }
+    `,
+  ],
+})
+export class PizzaPartyComponent {}

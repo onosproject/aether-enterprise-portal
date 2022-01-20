@@ -75,6 +75,9 @@
   .button-sec {
     margin-left: auto;
   }
+  .service-button-section {
+    padding-right: 5px !important;
+  }
 }
 /*common class*/
 .status {
@@ -140,7 +143,7 @@
 }
 .form-control {
   border-radius: 0;
-  border-bottom: 0.5px solid #3c4257;
+  // border-bottom: 0.5px solid #3c4257;
   margin-top: 8px;
 }
 

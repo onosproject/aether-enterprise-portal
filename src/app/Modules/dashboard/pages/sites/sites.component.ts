@@ -1,4 +1,5 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { SitesService } from '../../../../services/sites/sites.service';
 
 @Component({
@@ -14,11 +15,13 @@ export class SitesComponent {
   @Input() message: any;
   @Output() informParent = new EventEmitter();
 
-  constructor(public sitesService: SitesService) {
+  constructor(public sitesService: SitesService, public deviceService: DeviceSimService) {
     // this.sites = sites[0];
     // console.log(sites);
     sitesService.GetAllConfig().subscribe(
       (response) => {
+        console.log('Site Response', response);
+
         this.sitesResponse = response;
         this.sites = this.sitesResponse.sites;
         this.onSelectCard(
@@ -48,6 +51,7 @@ export class SitesComponent {
     }[],
     siteIndex: number
   ): void {
+    this.deviceService.mySite(value)
     this.selected = value;
     for (let i = 0; i < siteData.slices.length; i++) {
       for (let j = 0; j < siteData.slices[i]['device-groups'].length; j++) {
@@ -66,11 +70,19 @@ export class SitesComponent {
                   devices.push(device[n]);
                 }
               }
+              // groupName = deviceGroup[k]['display-name'];
+              // selecteddevice.push({
+              //   'display-name': groupName,
+              //   devices: devices,
+              //   isExpanded: false,
+              // });
+              // siteData.slices[i]['devices'] = selecteddevice;
             }
             groupName = deviceGroup[k]['display-name'];
             selecteddevice.push({
               'display-name': groupName,
               devices: devices,
+              isExpanded: false,
             });
             siteData.slices[i]['devices'] = selecteddevice;
           }
@@ -104,6 +116,7 @@ export class SitesComponent {
       selectedService.push({
         'display-name': 'Services',
         service: service,
+        isExpanded: false,
       });
       siteData.slices[i]['services'] = selectedService;
     }

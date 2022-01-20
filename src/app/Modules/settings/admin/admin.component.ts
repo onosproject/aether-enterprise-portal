@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { trigger, style, animate, transition } from '@angular/animations';
 
-import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
@@ -10,11 +9,12 @@ import { Subscription } from 'rxjs';
 import { User } from '../../../models/user.model';
 import { City } from '../../../models/city.model';
 import { UserService } from '../../../services/user.service';
+import { RemoveUserComponent } from '../dialogs/remove-user/remove-user.component';
+import { DeleteUserComponent } from '../dialogs/delete-user/delete-user.component';
 
 export interface Task {
   name: string;
   completed: boolean;
-  color: ThemePalette;
 }
 interface Permission {
   viewValue: string;
@@ -45,7 +45,8 @@ export class AdminComponent implements OnInit {
   userViewToggle: boolean = true;
   siteViewToggle: boolean = false;
   allComplete: boolean = false;
-  editMode = false;
+  editMode: boolean = false;
+  doneActive: boolean = false;
 
   // Checkbox Triggers
   checked = false;
@@ -84,12 +85,12 @@ export class AdminComponent implements OnInit {
     this.assignCitiesUsers();
     this.setUpCities();
     this.setUpEditedCities();
+    console.log(this.doneActive);
   }
 
   task: Task = {
     name: 'Select Alert Categories',
     completed: false,
-    color: 'primary',
   };
 
   // Permissions array (Select, R, W, R/W)
@@ -110,12 +111,22 @@ export class AdminComponent implements OnInit {
   userForm = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
+    emailAlert: new FormControl('', Validators.required),
+    deviceAlert: new FormControl('', Validators.required),
+    centralAlert: new FormControl('', Validators.required),
+    siteEquipmentAlert: new FormControl('', Validators.required),
+    securityAlert: new FormControl('', Validators.required),
     cities: new FormArray([]),
   });
 
   editForm = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
+    emailAlert: new FormControl('', Validators.required),
+    deviceAlert: new FormControl('', Validators.required),
+    centralAlert: new FormControl('', Validators.required),
+    siteEquipmentAlert: new FormControl('', Validators.required),
+    securityAlert: new FormControl('', Validators.required),
     cities: new FormArray([]),
   });
 
@@ -175,6 +186,7 @@ export class AdminComponent implements OnInit {
 
   // for userView edit
   toggleEdit(id: number, index: number): void {
+    this.AddNew = false;
     console.log(id, index);
     const editIndex = this.editUsers.indexOf(id);
     if (editIndex >= 0) {
@@ -198,21 +210,37 @@ export class AdminComponent implements OnInit {
         ppic: new FormControl(this.users[index].ppic),
         name: new FormControl(this.users[index].name, Validators.required),
         email: new FormControl(this.users[index].email, Validators.required),
+        emailAlert: new FormControl(this.users[index].emailAlert, Validators.required),
+        deviceAlert: new FormControl(this.users[index].deviceAlert, Validators.required),
+        centralAlert: new FormControl(this.users[index].centralAlert, Validators.required),
+        siteEquipmentAlert: new FormControl(this.users[index].siteEquipmentAlert, Validators.required),
+        securityAlert: new FormControl(this.users[index].securityAlert, Validators.required),
         cities: cities,
       });
+      console.log(this.users[index].form)
       this.editUsers.push(id);
     }
     console.log(this.editUsers);
   }
 
+  closeUserViewEdit(): any {
+    this.editUsers.pop();
+  }
+
   // for siteView edit
   toggleEdit1(id: number): void {
+    this.closeSiteViewEdit();
+    this.doneActive = false;
     const editCityIndex = this.editCities.indexOf(id);
     if (editCityIndex >= 0) {
       this.editCities.splice(editCityIndex, 1);
     } else {
       this.editCities.push(id);
     }
+  }
+
+  closeSiteViewEdit(): any {
+    this.editCities.pop();
   }
 
   getEditControl(editForm: FormGroup, param: string): FormControl {
@@ -243,6 +271,11 @@ export class AdminComponent implements OnInit {
       name: this.userForm.value.name,
       email: this.userForm.value.email,
       cities: this.userForm.value.cities,
+      emailAlert: this.userForm.value.emailAlert,
+      deviceAlert: this.userForm.value.deviceAlert,
+      siteEquipmentAlert: this.userForm.value.siteEquipmentAlert,
+      centralAlert: this.userForm.value.centralAlert,
+      securityAlert: this.userForm.value.securityAlert,
     });
     for (let i = 0; i < this.cities.length; i++) {
       console.log('forloop');
@@ -278,6 +311,11 @@ export class AdminComponent implements OnInit {
     user.ppic = form.ppic;
     user.name = form.name;
     user.email = form.email;
+    user.emailAlert = form.emailAlert;
+    user.deviceAlert = form.deviceAlert;
+    user.centralAlert = form.centralAlert;
+    user.securityAlert = form.securityAlert;
+    user.siteEquipmentAlert = form.siteEquipmentAlert;
     user.cities = [];
     for (let i = 0; i < this.cities.length; i++) {
       const userIndex = this.cities[i].users.findIndex(
@@ -321,5 +359,33 @@ export class AdminComponent implements OnInit {
     this.userService.updateCities(this.cities);
     this.assignCitiesUsers();
     this.assignUsersCities();
+  }
+
+  openRemoveUserDialog(cityIndex: number, userIndex: number): void {
+    const dialogRef = this.dialog.open(RemoveUserComponent, {
+      width: '450px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'true') {
+        this.confirmDelCity(cityIndex, userIndex);
+      }
+      if (result == 'true' && this.doneActive == false) {
+        this.doneActive = true;
+      }
+    });
+  }
+
+  openDeleteUserDialog(userIndex: number): void {
+    const dialogRef = this.dialog.open(DeleteUserComponent, {
+      width: '450px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'true') {
+        this.confirmDelete(userIndex);
+      }
+      // this.closeEdit()
+    });
   }
 }

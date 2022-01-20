@@ -316,7 +316,7 @@
       width: 108px;
       text-align: start;
       margin-right: 1rem;
-      border: 1px solid #0063f7;
+      // border: 1px solid #0063f7;
       border-radius: 4px;
       background: #0063f7;
     }
@@ -333,6 +333,10 @@
     }
     .button-sec {
       margin-left: auto;
+      padding-right: 10px;
+      .add-button-gray {
+        background-color: #a3a3a3;
+      }
     }
     .device-sim-item-delete {
       color: #ef233c;
@@ -361,6 +365,10 @@
         }
       }
     }
+  }
+  .bottom-button {
+    padding: 0px;
+    margin: 0px;
   }
   .info-block {
     padding-left: 10px;
@@ -503,7 +511,7 @@
   }
   input.form-control {
     border-radius: 0;
-    border-bottom: 0.5px solid #3c4257;
+    // border-bottom: 0.5px solid #3c4257;
   }
 }
 .v-hidden {

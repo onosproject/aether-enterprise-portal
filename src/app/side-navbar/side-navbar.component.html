@@ -1,11 +1,12 @@
 <!-- <p>side-navbar works!</p> -->
 
-<mat-card class="sideNavbar_navCard col-2">
-  <mat-card-header class="my-2">
-    <mat-form-field id="siteDropdown">
-      <mat-label>site</mat-label>
+<mat-card class="sideNavbar_navCard">
+  <!-- <mat-card-header class="my-2"> -->
+  <!-- <mat-form-field>
+    <div class="" id="siteDropdown" appearance="fill">
       <mat-select>
         <mat-option
+          class="sideNavbar_navCard_options"
           *ngFor="let site of sites; let siteIndex = index"
           [value]="site['siteName']"
           (click)="selectedSite(site['siteID'])"
@@ -13,8 +14,24 @@
           {{ site["siteName"] }}
         </mat-option>
       </mat-select>
-    </mat-form-field>
-  </mat-card-header>
+    </div>
+  </mat-form-field> -->
+
+  <mat-form-field style="width: 140px">
+    <div class="col-8"></div>
+    <div class="btn admin-addNew-form-permissions my-3" appearance="fill">
+      <mat-label></mat-label>
+      <mat-select class="admin-addNew-form-permissionsSelect">
+        <mat-option
+          *ngFor="let site of sites; let siteIndex = index"
+          [value]="site['siteName']"
+          (click)="selectedSite(site['siteID'])"
+          >{{ site["siteName"] }}</mat-option
+        >
+      </mat-select>
+    </div>
+  </mat-form-field>
+
   <mat-card-header>
     <mat-card-title class="sideNavbar_navCard_headings">MANAGE</mat-card-title>
   </mat-card-header>
@@ -160,7 +177,7 @@
     class="admin-sideCol-navCard-controlLine"
     src="../../assets/CommonAssets/ControlMenuLine.svg"
   />
-  <div class="">
+  <div class="" routerLink="/small-cells">
     <div
       class="d-flex"
       [ngClass]="{
@@ -260,7 +277,7 @@
       </div>
     </div>
   </div>
-  <div class="mb-3">
+  <div class="mb-3" routerLink="/slices">
     <div
       class="d-flex"
       [ngClass]="{

@@ -13,6 +13,15 @@ import { SideNavbarComponent } from 'src/app/side-navbar/side-navbar.component';
 
 import { DeleteDevicesComponent } from './dialogs/delete-devices/delete-devices.component';
 import { DeviceGroupsComponent } from './device-groups/device-groups.component';
+import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component';
+import { RemoveUserComponent } from './dialogs/remove-user/remove-user.component';
+import { SlicesComponent } from './slices/slices.component';
+import { DeleteSlicesComponent } from './dialogs/delete-slices/delete-slices.component';
+import { DeleteInventoryComponent } from './dialogs/delete-inventory/delete-inventory.component';
+import { SmallCellComponent } from './small-cell/small-cell.component';
+import { JoinerModule } from '../joiner/joiner.module';
+import { DecomissionComponent } from './dialogs/decomission/decomission.component';
+import { RecomissionComponent } from './dialogs/recomission/recomission.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +33,14 @@ import { DeviceGroupsComponent } from './device-groups/device-groups.component';
     SelectSimsComponent,
     DeleteDevicesComponent,
     DeviceGroupsComponent,
+    DeleteUserComponent,
+    RemoveUserComponent,
+    SlicesComponent,
+    DeleteSlicesComponent,
+    DeleteInventoryComponent,
+    SmallCellComponent,
+    DecomissionComponent,
+    RecomissionComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +48,7 @@ import { DeviceGroupsComponent } from './device-groups/device-groups.component';
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    JoinerModule,
   ],
 })
 export class SettingsModule {}

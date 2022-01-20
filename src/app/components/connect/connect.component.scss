@@ -1,0 +1,38 @@
+.slice {
+  position: relative;
+  // height: 100px;
+  padding: 20px;
+  &__deviceGroups {
+    position: absolute;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    border: 1px solid gray;
+    height: 100px;
+    justify-content: center;
+    cursor: pointer;
+    &--expanded {
+      height: 400px;
+    }
+  }
+  &__slice-details {
+    position: absolute;
+    width: 300px;
+    left: 500px;
+    height: 400px;
+    border: 1px solid blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__applications {
+    position: absolute;
+    width: 300px;
+    // left: 1000px;
+    height: 200px;
+    border: 1px solid green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

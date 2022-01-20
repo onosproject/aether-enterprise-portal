@@ -1,0 +1,68 @@
+<div class="example-container">
+  <div class="container login-container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card_bx">
+          <div class="logo">
+            <a class="aether-title aether-bgColor"
+              >Aether 5G
+              <sup class="aether-bgColor"
+                ><sup
+                  ><sup>
+                    <img src="../../assets/Navbar/spinner-alt.svg" />
+                  </sup>
+                </sup> </sup
+            ></a>
+          </div>
+          <h4>
+            Login
+            <span>Access all you 5G dashboard</span>
+          </h4>
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-field-area-login">
+              <mat-label class="label-txt">Email ID</mat-label>
+              <mat-form-field appearance="fill" class="form-input-bx">
+                <input
+                  matInput
+                  placeholder="@email.xyz"
+                  [formControl]="email"
+                  name="email"
+                  required
+                />
+                <mat-error *ngIf="email.invalid">{{
+                  getErrorMessage()
+                }}</mat-error>
+              </mat-form-field>
+              <mat-label class="label-txt">Password</mat-label>
+              <mat-form-field appearance="fill" class="form-input-bx">
+                <input
+                  matInput
+                  placeholder="*********"
+                  [formControl]="password"
+                  name="password"
+                  required
+                />
+                <mat-error *ngIf="password.invalid">{{
+                  getErrorMessage()
+                }}</mat-error>
+              </mat-form-field>
+              <div class="form_link_control">
+                <section class="example-section">
+                  <mat-checkbox class="example-margin">Check me!</mat-checkbox>
+                </section>
+                <div class="forgot-password">
+                  <a (click)="goToForgotPassword()">Forgot Password?</a>
+                </div>
+              </div>
+              <div class="btn_control">
+                <button class="submit-Btn">
+                  Submit <img src="assets/Auth/login-step.svg" />
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

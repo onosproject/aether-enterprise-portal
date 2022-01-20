@@ -2,14 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavbarComponent } from './navbar.component';
 import { MaterialModule } from '../../../Modules/material/material.module';
-
+import { RouterTestingModule } from '@angular/router/testing';
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MaterialModule],
+      imports: [MaterialModule, RouterTestingModule],
       declarations: [NavbarComponent],
     }).compileComponents();
   });

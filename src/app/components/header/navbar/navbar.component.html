@@ -71,10 +71,14 @@
       </div>
     </div>
     <div class="ml-only d-flex col-2">
-      <div class="my-auto" *ngIf="alert">
+      <div class="my-auto" *ngIf="alert === 'berlin'">
         <img src="../../assets/Navbar/notifications.svg" />
       </div>
-      <div class="my-auto" *ngIf="!alert">
+      <div
+        class="my-auto"
+        *ngIf="alert !== 'berlin'"
+        (click)="goToSmallCells()"
+      >
         <img src="../../assets/Navbar/notifications.svg" /><sup
           ><sup
             ><sup
@@ -88,8 +92,19 @@
         <img src="../../assets/Navbar/profile-pic.svg" />
       </div>
       <div class="">
-        <button class="btn btn-primary" [matMenuTriggerFor]="ControlsMenu">
+        <button
+          *ngIf="router.url === '/'"
+          class="btn btn-primary"
+          [matMenuTriggerFor]="ControlsMenu"
+        >
           Controls
+        </button>
+        <button
+          *ngIf="router.url !== '/'"
+          class="btn btn-primary"
+          routerLink="/"
+        >
+          Dashboard
         </button>
         <!-- <button class="btn btn-primary" (click)="controlMenuTrigger = !controlMenuTrigger">Controls</button> -->
       </div>
@@ -100,53 +115,361 @@
 
 <!-- Controls Menu -->
 <mat-menu
-  class="aether-ControlsMenu"
+  class="sideNavbar_navCard-triangle aether-ControlsMenu aether-ControlsMenu_navCard p-2"
   #ControlsMenu="matMenu"
   xPosition="before"
 >
-  <span mat-menu-item>
-    <span class="aether-ControlsMenu-Title">MANAGE</span>
-  </span>
-  <button class="" routerLink="/admin" mat-menu-item>
-    <mat-icon>account_circle</mat-icon>
-    <span>Admin</span>
-  </button>
-  <button routerLink="/device-sim" mat-menu-item>
-    <mat-icon>sim_card</mat-icon>
-    <span>Devices / Sim</span>
-  </button>
-  <button routerLink="/services" mat-menu-item>
-    <mat-icon>layers</mat-icon>
-    <span>Services</span>
-  </button>
-  <span mat-menu-item>
-    <span class="aether-ControlsMenu-Title">CONFIGURE</span>
-  </span>
-  <button mat-menu-item>
-    <mat-icon>wifi_tethering</mat-icon>
-    <span>Small Cells</span>
-  </button>
-  <button mat-menu-item>
-    <mat-icon>devices_other</mat-icon>
-    <span>Device Groups</span>
-  </button>
-  <button mat-menu-item>
-    <mat-icon>filter_none</mat-icon>
-    <span>Slices</span>
-  </button>
-  <span mat-menu-item>
-    <span class="aether-ControlsMenu-Title">REPORTS</span>
-  </span>
-  <button mat-menu-item>
-    <mat-icon>filter_none</mat-icon>
-    <span>Audit</span>
-  </button>
+  <div class=""></div>
+  <mat-card-header>
+    <mat-card-title class="sideNavbar_navCard_headings">ONBOARD</mat-card-title>
+  </mat-card-header>
+  <img
+    class="admin-sideCol-navCard-controlLine"
+    src="../../assets/CommonAssets/ControlMenuLine.svg"
+  />
+  <div class="" routerLink="/admin">
+    <div
+      class="d-flex"
+      [ngClass]="{
+        sideNavbar_optionStyling_active:
+          menuIcons.admin.adminString === menuIcons.admin.adminActive,
+        sideNavbar_optionStyling_inactive:
+          menuIcons.admin.adminString === menuIcons.admin.adminInactive
+      }"
+      (mouseover)="menuIcons.admin.adminString = menuIcons.admin.adminActive"
+      (mouseout)="menuIcons.admin.adminString = menuIcons.admin.adminInactive"
+    >
+      <div>
+        <span
+          class="sideNavbar_iconbg_inactive mx-1"
+          [ngStyle]="{
+            'background-color':
+              menuIcons.admin.adminString === menuIcons.admin.adminActive
+                ? '#0063F7'
+                : '#EDF4FF'
+          }"
+        >
+          <img [src]="menuIcons.admin.adminString" height="12px" width="12px" />
+        </span>
+      </div>
+      <div
+        class="admin-sideCol-navCard-subHeading mx-2"
+        [ngClass]="{
+          sideNavbar_text_active:
+            menuIcons.admin.adminString === menuIcons.admin.adminActive
+        }"
+      >
+        Admin
+      </div>
+    </div>
+  </div>
+  <div class="my-2" routerLink="/device-sim">
+    <div
+      class="d-flex"
+      [ngClass]="{
+        sideNavbar_optionStyling_active:
+          menuIcons.devices.devicesString === menuIcons.devices.devicesActive,
+        sideNavbar_optionStyling_inactive:
+          menuIcons.devices.devicesString === menuIcons.devices.devicesInactive
+      }"
+      (mouseover)="
+        menuIcons.devices.devicesString = menuIcons.devices.devicesActive
+      "
+      (mouseout)="
+        menuIcons.devices.devicesString = menuIcons.devices.devicesInactive
+      "
+    >
+      <div>
+        <span
+          class="sideNavbar_iconbg_inactive mx-1"
+          [ngStyle]="{
+            'background-color':
+              menuIcons.devices.devicesString ===
+              menuIcons.devices.devicesActive
+                ? '#0063F7'
+                : '#EDF4FF'
+          }"
+        >
+          <img
+            [src]="menuIcons.devices.devicesString"
+            height="12px"
+            width="12px"
+          />
+        </span>
+      </div>
+      <div
+        class="admin-sideCol-navCard-subHeading mx-2"
+        [ngClass]="{
+          sideNavbar_text_active:
+            menuIcons.devices.devicesString === menuIcons.devices.devicesActive
+        }"
+      >
+        Devices / Sim
+      </div>
+    </div>
+  </div>
+  <div class="mb-3" routerLink="/services">
+    <div
+      class="d-flex"
+      [ngClass]="{
+        sideNavbar_optionStyling_active:
+          menuIcons.services.servicesString ===
+          menuIcons.services.servicesActive,
+        sideNavbar_optionStyling_inactive:
+          menuIcons.services.servicesString ===
+          menuIcons.services.servicesInactive
+      }"
+      (mouseover)="
+        menuIcons.services.servicesString = menuIcons.services.servicesActive
+      "
+      (mouseout)="
+        menuIcons.services.servicesString = menuIcons.services.servicesInactive
+      "
+    >
+      <div>
+        <span
+          class="sideNavbar_iconbg_inactive mx-1"
+          [ngStyle]="{
+            'background-color':
+              menuIcons.services.servicesString ===
+              menuIcons.services.servicesActive
+                ? '#0063F7'
+                : '#EDF4FF'
+          }"
+        >
+          <img
+            [src]="menuIcons.services.servicesString"
+            height="12px"
+            width="12px"
+          />
+        </span>
+      </div>
+      <div
+        class="admin-sideCol-navCard-subHeading mx-2"
+        [ngClass]="{
+          sideNavbar_text_active:
+            menuIcons.services.servicesString ===
+            menuIcons.services.servicesActive
+        }"
+      >
+        Services
+      </div>
+    </div>
+  </div>
+  <mat-card-header>
+    <mat-card-title class="sideNavbar_navCard_headings"
+      >CONFIGURE</mat-card-title
+    >
+  </mat-card-header>
+  <img
+    class="admin-sideCol-navCard-controlLine"
+    src="../../assets/CommonAssets/ControlMenuLine.svg"
+  />
+  <div class="">
+    <div
+      class="d-flex"
+      [ngClass]="{
+        sideNavbar_optionStyling_active:
+          menuIcons.smallCells.smallCellsString ===
+          menuIcons.smallCells.smallCellsActive,
+        sideNavbar_optionStyling_inactive:
+          menuIcons.smallCells.smallCellsString ===
+          menuIcons.smallCells.smallCellsInactive
+      }"
+      (mouseover)="
+        menuIcons.smallCells.smallCellsString =
+          menuIcons.smallCells.smallCellsActive
+      "
+      (mouseout)="
+        menuIcons.smallCells.smallCellsString =
+          menuIcons.smallCells.smallCellsInactive
+      "
+    >
+      <div>
+        <span
+          class="sideNavbar_iconbg_inactive mx-1"
+          [ngStyle]="{
+            'background-color':
+              menuIcons.smallCells.smallCellsString ===
+              menuIcons.smallCells.smallCellsActive
+                ? '#0063F7'
+                : '#EDF4FF'
+          }"
+        >
+          <img
+            [src]="menuIcons.smallCells.smallCellsString"
+            height="12px"
+            width="12px"
+          />
+        </span>
+      </div>
+      <div
+        class="admin-sideCol-navCard-subHeading mx-2"
+        [ngClass]="{
+          sideNavbar_text_active:
+            menuIcons.smallCells.smallCellsString ===
+            menuIcons.smallCells.smallCellsActive
+        }"
+      >
+        Small Cells
+      </div>
+    </div>
+  </div>
+  <div class="my-2" routerLink="/device-groups">
+    <div
+      class="d-flex"
+      [ngClass]="{
+        sideNavbar_optionStyling_active:
+          menuIcons.deviceGroups.deviceGroupsString ===
+          menuIcons.deviceGroups.deviceGroupsActive,
+        sideNavbar_optionStyling_inactive:
+          menuIcons.deviceGroups.deviceGroupsString ===
+          menuIcons.deviceGroups.deviceGroupsInactive
+      }"
+      (mouseover)="
+        menuIcons.deviceGroups.deviceGroupsString =
+          menuIcons.deviceGroups.deviceGroupsActive
+      "
+      (mouseout)="
+        menuIcons.deviceGroups.deviceGroupsString =
+          menuIcons.deviceGroups.deviceGroupsInactive
+      "
+    >
+      <div>
+        <span
+          class="sideNavbar_iconbg_inactive mx-1"
+          [ngStyle]="{
+            'background-color':
+              menuIcons.deviceGroups.deviceGroupsString ===
+              menuIcons.deviceGroups.deviceGroupsActive
+                ? '#0063F7'
+                : '#EDF4FF'
+          }"
+        >
+          <img
+            [src]="menuIcons.deviceGroups.deviceGroupsString"
+            height="12px"
+            width="12px"
+          />
+        </span>
+      </div>
+      <div
+        class="admin-sideCol-navCard-subHeading mx-2"
+        [ngClass]="{
+          sideNavbar_text_active:
+            menuIcons.deviceGroups.deviceGroupsString ===
+            menuIcons.deviceGroups.deviceGroupsActive
+        }"
+      >
+        Device Groups
+      </div>
+    </div>
+  </div>
+  <div class="mb-3" routerLink="/slices">
+    <div
+      class="d-flex"
+      [ngClass]="{
+        sideNavbar_optionStyling_active:
+          menuIcons.slices.slicesString === menuIcons.slices.slicesActive,
+        sideNavbar_optionStyling_inactive:
+          menuIcons.slices.slicesString === menuIcons.slices.slicesInactive
+      }"
+      (mouseover)="
+        menuIcons.slices.slicesString = menuIcons.slices.slicesActive
+      "
+      (mouseout)="
+        menuIcons.slices.slicesString = menuIcons.slices.slicesInactive
+      "
+    >
+      <div>
+        <span
+          class="sideNavbar_iconbg_inactive mx-1"
+          [ngStyle]="{
+            'background-color':
+              menuIcons.slices.slicesString === menuIcons.slices.slicesActive
+                ? '#0063F7'
+                : '#EDF4FF'
+          }"
+        >
+          <img
+            [src]="menuIcons.slices.slicesString"
+            height="12px"
+            width="12px"
+          />
+        </span>
+      </div>
+      <div
+        class="admin-sideCol-navCard-subHeading mx-2"
+        [ngClass]="{
+          sideNavbar_text_active:
+            menuIcons.slices.slicesString === menuIcons.slices.slicesActive
+        }"
+      >
+        Slices
+      </div>
+    </div>
+  </div>
+  <mat-card-header>
+    <mat-card-title class="sideNavbar_navCard_headings">REPORTS</mat-card-title>
+  </mat-card-header>
+  <img
+    class="admin-sideCol-navCard-controlLine"
+    src="../../assets/CommonAssets/ControlMenuLine.svg"
+  />
+  <div>
+    <div
+      class="d-flex"
+      [ngClass]="{
+        sideNavbar_optionStyling_active:
+          menuIcons.audit.auditString === menuIcons.audit.auditActive ||
+          url === '/sidenavbar',
+        sideNavbar_optionStyling_inactive:
+          menuIcons.audit.auditString === menuIcons.audit.auditInactive
+      }"
+      (mouseover)="menuIcons.audit.auditString = menuIcons.audit.auditActive"
+      (mouseout)="menuIcons.audit.auditString = menuIcons.audit.auditInactive"
+    >
+      <div class="">
+        <span
+          class="sideNavbar_iconbg_inactive mx-1"
+          [ngStyle]="{
+            'background-color':
+              menuIcons.audit.auditString === menuIcons.audit.auditActive ||
+              url === '/sidenavbar'
+                ? '#0063F7'
+                : '#EDF4FF'
+          }"
+        >
+          <img
+            [src]="
+              url === '/sidenavbar'
+                ? menuIcons.audit.auditActive
+                : menuIcons.audit.auditString
+            "
+            height="12px"
+            width="12px"
+          />
+        </span>
+      </div>
+      <div
+        class="admin-sideCol-navCard-subHeading sideNavbar_text_active mx-2"
+        [ngClass]="{
+          sideNavbar_text_active:
+            menuIcons.audit.auditString === menuIcons.audit.auditActive
+        }"
+      >
+        Audit
+      </div>
+    </div>
+  </div>
 </mat-menu>
 
 <!-- Company Menu -->
 <mat-menu class="aether-CompanyMenu" #CompanyMenu="matMenu" xPosition="before">
   <button mat-menu-item>
-    <mat-icon>developer_board</mat-icon>
+    <!-- <mat-icon>developer_board</mat-icon> -->
+    <img src="assets/Navbar/devices.svg" />
+
     <span>{{ devices }} Devices</span>
   </button>
   <button mat-menu-item>
@@ -155,19 +478,24 @@
     >
   </button>
   <button mat-menu-item>
-    <mat-icon>filter_none</mat-icon>
+    <!-- <mat-icon>filter_none</mat-icon> -->
+    <img src="assets/AdminPanel/slices.svg" />
     <span>{{ Slices }} Slices</span>
   </button>
   <button mat-menu-item>
-    <mat-icon>layers</mat-icon>
-    <span>{{ Layers }} Layers</span>
+    <!-- <mat-icon>layers</mat-icon> -->
+    <img src="assets/AdminPanel/service.svg" />
+    <span>{{ Layers }} Services</span>
   </button>
   <button mat-menu-item>
-    <mat-icon>layers</mat-icon>
+    <!-- <mat-icon>layers</mat-icon> -->
+    <img src="assets/Navbar/sites.svg" />
+
     <span>{{ Sites }} Sites</span>
   </button>
   <button mat-menu-item>
-    <mat-icon>wifi_tethering</mat-icon>
+    <!-- <mat-icon>wifi_tethering</mat-icon> -->
+    <img src="assets/AdminPanel/sensor.svg" />
     <span>{{ SmallCells }} Small Cells</span>
   </button>
 </mat-menu>

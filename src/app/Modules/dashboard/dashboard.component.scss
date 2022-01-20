@@ -1,0 +1,38 @@
+.dashboard {
+  &__physical-view {
+    position: relative;
+    &__image {
+      position: absolute;
+      top: 0;
+    }
+    &__device {
+      position: absolute;
+      height: 40px;
+      width: 40px;
+      background: #0063f7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    &__small-cell {
+      position: absolute;
+      height: 60px;
+      width: 60px;
+      border: 1px solid black;
+      background: #edf4ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    &__device-icon {
+      color: white;
+    }
+    &__cell-icon {
+      color: white;
+    }
+  }
+}

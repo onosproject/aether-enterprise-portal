@@ -56,6 +56,9 @@
       border-radius: 10px;
       padding: 10px 20px 10px 20px;
       // margin-top: 15px;
+      &-holder {
+        margin-top: 6px;
+      }
 
       &-text {
         color: #3c4257;
@@ -79,7 +82,7 @@
 
   &-addUser {
     &-holder {
-      padding-right: 120px;
+      width: 91%
     }
 
     &-Card {
@@ -251,7 +254,7 @@
         // padding: 6px 23px 6px 23px;
         color: #0063f7;
         border: none;
-        margin-left: 4rem;
+        margin-left: 4rem !important;
         // border: 0.5px solid #005eec;
         // background: #fff;
       }
@@ -343,8 +346,12 @@
       padding: 2px;
     }
 
+    &-userDetailsHolder{
+      max-width: 250px;
+    }
+
     &-card-1 {
-      max-width: 230px;
+      max-width: 250px;
       background: #edf4ff;
       padding: 10px 22px 10px 5px;
       max-height: 65px;
@@ -352,6 +359,17 @@
       border-radius: 5px;
       align-items: center;
       position: relative;
+      &-delete {
+        border: 1px solid #EF233C;
+        max-width: 250px;
+        background: #edf4ff;
+        padding: 10px 22px 10px 5px;
+        max-height: 65px;
+        margin: 0 5px 5px 5px;
+        border-radius: 5px;
+        align-items: center;
+        position: relative;
+      }
       &-userDetails {
         padding-left: 10px;
         &-userName {
@@ -444,12 +462,30 @@
 .admin-addNew-form-lastButtons {
   display: flow-root !important;
   padding-bottom: 20px !important;
+  .admin-addNew-form-addButton {
+    background-color: #0063f7;
+  }
+  .add-button-gray {
+    background-color: #a3a3a3;
+  }
+}
+.select-level {
+  padding-left: 20px !important;
+}
+
+.admin-addnew-group {
+  padding-right: 10px;
 }
 
 .highlight {
   color: #fff;
   background: #0063f7;
   border: none;
+}
+
+.bottom-button {
+  padding: 0px !important;
+  margin: 0px !important;
 }
 
 .normal {
@@ -464,9 +500,15 @@
   align-self: center;
 }
 
-.admin-siteView-doneButton {
+.admin-siteView-doneButtonActive {
   cursor: pointer;
   color: $primaryColor;
+  align-self: center;
+  text-align: center;
+}
+
+.admin-siteView-doneButtonInactive {
+  color: #A3A3A3;
   align-self: center;
   text-align: center;
 }
@@ -496,12 +538,17 @@
   border-right: none !important;
   border-top: 8px solid transparent !important;
   color: blue;
+  margin: 0 9px !important;
 }
 
 .mat-select-value {
+  padding-left: 10px;
   color: #0063f7 !important;
 }
 
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #0063f7 !important;
+}
 // .form-control:focus {
 //   border-color: blue;
 //   box-shadow: none;
