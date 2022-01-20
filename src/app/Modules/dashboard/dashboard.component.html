@@ -202,8 +202,9 @@
               'svg-file'
             ]
           "
+          #physicalViewImage
         />
-        <ng-container *ngFor="let device of config?.sites[0].devices">
+        <ng-container *ngFor="let device of devices">
           <div
             class="dashboard__physical-view__device"
             *ngIf="
@@ -219,11 +220,40 @@
               device['position']['position-x'] +
               'px;'
             "
-          ></div>
+            [matMenuTriggerFor]="deviceMenu"
+          >
+            <mat-icon class="dashboard__device-icon">videocam</mat-icon>
+            <mat-menu #deviceMenu="matMenu">
+              <div class="dashboard__menu">
+                <span>Device: {{ device["display-name"] }}</span>
+                <span class="dashboard__menu__site">{{
+                  device["position"]["site-plan"]
+                }}</span>
+                <span class="dashboard__menu__details">Details</span>
+              </div>
+            </mat-menu>
+          </div>
         </ng-container>
-        <ng-container *ngFor="let smallCell of config?.sites[0]['small-cells']">
+        <svg:svg height="800" width="800">
+          <ng-container *ngFor="let device of devices">
+            <svg:line
+              *ngIf="
+                device['position'] &&
+                config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+                  .id === device['position']['site-plan']
+              "
+              [attr.x1]="device['position']['position-x']"
+              [attr.y1]="device['position']['position-y'] + 20"
+              [attr.x2]="device['site-position']['position-x']"
+              [attr.y2]="device['site-position']['position-y'] + 30"
+              style="stroke: #0063f7; stroke-width: 2"
+              stroke-dasharray="5,5"
+            />
+          </ng-container>
+        </svg:svg>
+        <ng-container *ngFor="let smallCell of smallCells">
           <div
-            class="dashboard__physical-view__device"
+            class="dashboard__physical-view__small-cell"
             *ngIf="
               smallCell['position'] &&
               config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
@@ -237,7 +267,23 @@
               smallCell['position']['position-x'] +
               'px;'
             "
-          ></div>
+            [matMenuTriggerFor]="menu"
+          >
+            <mat-icon class="dashboard__cell-icon">cell_tower</mat-icon>
+            <mat-menu #menu="matMenu">
+              <div class="dashboard__menu dashboard__menu__centered">
+                <span class="dashboard__menu__small-cell"
+                  ><mat-icon>wifi_tethering</mat-icon>
+                  {{ smallCell["display-name"] }}</span
+                >
+                <span
+                  class="dashboard__menu__site dashboard__menu__site--big"
+                  >{{ smallCell["position"]["site-plan"] }}</span
+                >
+                <span class="dashboard__menu__details">Details</span>
+              </div>
+            </mat-menu>
+          </div>
         </ng-container>
       </div>
     </div>

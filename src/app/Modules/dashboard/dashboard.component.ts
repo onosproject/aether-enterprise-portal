@@ -26,6 +26,116 @@ export class DashboardComponent implements OnInit {
   );
   selectedPlan: number = 0;
 
+  smallCells = [
+    {
+      'display-name': 'North Cell',
+      position: {
+        'position-x': 200,
+        'position-y': 100,
+        'site-plan': 'floor-0',
+      },
+    },
+    {
+      'display-name': 'South Cell',
+      position: {
+        'position-x': 100,
+        'position-y': 300,
+        'site-plan': 'floor-1',
+      },
+    },
+    {
+      'display-name': 'East Cell',
+      position: {
+        'position-x': 300,
+        'position-y': 400,
+        'site-plan': 'floor-2',
+      },
+    },
+    {
+      'display-name': 'West Cell',
+      position: {
+        'position-x': 200,
+        'position-y': 200,
+        'site-plan': 'floor-3',
+      },
+    },
+  ];
+
+  devices = [
+    {
+      'display-name': 'Camera 1',
+      position: {
+        'position-x': 500,
+        'position-y': 200,
+        'site-plan': 'floor-0',
+      },
+      'site-position': {
+        'position-x': 200,
+        'position-y': 100,
+      },
+    },
+    {
+      'display-name': 'Camera 2',
+      position: {
+        'position-x': 450,
+        'position-y': 300,
+        'site-plan': 'floor-1',
+      },
+      'site-position': {
+        'position-x': 100,
+        'position-y': 300,
+      },
+    },
+    {
+      'display-name': 'Phone 1',
+      position: {
+        'position-x': 100,
+        'position-y': 400,
+        'site-plan': 'floor-2',
+      },
+      'site-position': {
+        'position-x': 300,
+        'position-y': 400,
+      },
+    },
+    {
+      'display-name': 'Phone 2',
+      position: {
+        'position-x': 250,
+        'position-y': 300,
+        'site-plan': 'floor-3',
+      },
+      'site-position': {
+        'position-x': 200,
+        'position-y': 200,
+      },
+    },
+    {
+      'display-name': 'Phone 3',
+      position: {
+        'position-x': 350,
+        'position-y': 350,
+        'site-plan': 'floor-1',
+      },
+      'site-position': {
+        'position-x': 100,
+        'position-y': 300,
+      },
+    },
+    {
+      'display-name': 'Phone 4',
+      position: {
+        'position-x': 300,
+        'position-y': 300,
+        'site-plan': 'floor-0',
+      },
+      'site-position': {
+        'position-x': 200,
+        'position-y': 100,
+      },
+    },
+  ];
+
   constructor(public dialog: MatDialog, public sitesService: SitesService) {}
 
   ngOnInit(): void {
