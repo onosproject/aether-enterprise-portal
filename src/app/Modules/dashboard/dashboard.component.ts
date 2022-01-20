@@ -3,6 +3,7 @@ import { GraphComponent } from './pages/modals/graph-modal/graph.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SitesService } from 'src/app/services/sites/sites.service';
 import { environment } from 'src/environments/environment';
+import { Config } from 'src/app/models/config.model';
 
 @Component({
   selector: 'aep-dashboard',
@@ -139,7 +140,7 @@ export class DashboardComponent implements OnInit {
   constructor(public dialog: MatDialog, public sitesService: SitesService) {}
 
   ngOnInit(): void {
-    this.sitesService.GetAllConfig().subscribe((response) => {
+    this.sitesService.GetAllConfig().subscribe((response: Config) => {
       this.config = response || null;
     });
   }

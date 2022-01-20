@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modals/delet-card/modal.component';
+import { DeviceGroup } from 'src/app/models/device-group.model';
 
 @Component({
   selector: 'aep-slices',
@@ -234,16 +235,12 @@ export class SlicesComponent {
     this.serialNumber = JSON.stringify(event.serialNumber);
   }
 
-  calculateSVGHeight(
-    noOfDeviceGroups: number,
-    isExpanded: boolean,
-    deviceGroups: any
-  ): number {
+  calculateSVGHeight(deviceGroups: DeviceGroup[]): number {
     // const totalHeight = noOfDeviceGroups * (isExpanded ? 420 : 120);
     // return totalHeight > 450 ? totalHeight : 450;
     let totalHeight = 0;
     for (let i = 0; i < deviceGroups.length; i++) {
-      totalHeight += deviceGroups[i].isExpanded ? 420 : 120;
+      totalHeight += deviceGroups[i]?.isExpanded ? 420 : 120;
     }
     // totalHeight += 200;
 

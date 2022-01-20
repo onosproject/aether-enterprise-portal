@@ -1247,20 +1247,10 @@
                     '0 0 ' +
                     innerWidth +
                     ' ' +
-                    calculateSVGHeight(
-                      slice.devices.length,
-                      slice.devices[0]?.isExpanded,
-                      slice.devices
-                    )
+                    calculateSVGHeight(slice.devices)
                   "
                   [attr.width]="innerWidth"
-                  [attr.height]="
-                    calculateSVGHeight(
-                      slice.devices.length,
-                      slice.devices[0]?.isExpanded,
-                      slice.devices
-                    )
-                  "
+                  [attr.height]="calculateSVGHeight(slice.devices)"
                 >
                   <svg:g
                     aep-joiner

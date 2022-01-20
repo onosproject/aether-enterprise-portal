@@ -179,6 +179,7 @@
         <aep-slices
           #slices
           (informParent)="parentWillTakeActionSlice()"
+          *ngIf="viewType === 'Logical'"
         ></aep-slices>
       </div>
       <div *ngIf="isAcknowledged === 8" class="col-lg-4">
