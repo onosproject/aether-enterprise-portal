@@ -18,6 +18,10 @@ import { RemoveUserComponent } from './dialogs/remove-user/remove-user.component
 import { SlicesComponent } from './slices/slices.component';
 import { DeleteSlicesComponent } from './dialogs/delete-slices/delete-slices.component';
 import { DeleteInventoryComponent } from './dialogs/delete-inventory/delete-inventory.component';
+import { SmallCellComponent } from './small-cell/small-cell.component';
+import { JoinerModule } from '../joiner/joiner.module';
+import { DecomissionComponent } from './dialogs/decomission/decomission.component';
+import { RecomissionComponent } from './dialogs/recomission/recomission.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,9 @@ import { DeleteInventoryComponent } from './dialogs/delete-inventory/delete-inve
     SlicesComponent,
     DeleteSlicesComponent,
     DeleteInventoryComponent,
+    SmallCellComponent,
+    DecomissionComponent,
+    RecomissionComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +48,7 @@ import { DeleteInventoryComponent } from './dialogs/delete-inventory/delete-inve
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    JoinerModule,
   ],
 })
 export class SettingsModule {}

@@ -746,4 +746,27 @@ export class SlicesComponent implements OnInit {
       this.closeEditView();
     });
   }
+
+  calculateSVGHeight(slices: unknown): number {
+    const minimumHeight = 135;
+    let deviceGroupsHeight = 25;
+    let servicesHeight = 25;
+    slices['device-groups'].forEach(() => {
+      deviceGroupsHeight += 72;
+    });
+    slices['applications'].forEach(() => {
+      servicesHeight += 72;
+    });
+    if (deviceGroupsHeight < minimumHeight && servicesHeight < minimumHeight) {
+      return minimumHeight;
+    } else if (deviceGroupsHeight > servicesHeight) {
+      return deviceGroupsHeight;
+    } else {
+      return servicesHeight;
+    }
+  }
+
+  calculateVerticalPosition(index: number): number {
+    return 60 + index * 70;
+  }
 }
