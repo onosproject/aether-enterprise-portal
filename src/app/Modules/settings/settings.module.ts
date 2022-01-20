@@ -17,6 +17,7 @@ import { DeleteUserComponent } from './dialogs/delete-user/delete-user.component
 import { RemoveUserComponent } from './dialogs/remove-user/remove-user.component';
 import { SlicesComponent } from './slices/slices.component';
 import { DeleteSlicesComponent } from './dialogs/delete-slices/delete-slices.component';
+import { DeleteInventoryComponent } from './dialogs/delete-inventory/delete-inventory.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { DeleteSlicesComponent } from './dialogs/delete-slices/delete-slices.com
     RemoveUserComponent,
     SlicesComponent,
     DeleteSlicesComponent,
+    DeleteInventoryComponent,
   ],
   imports: [
     CommonModule,

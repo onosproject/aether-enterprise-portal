@@ -20,6 +20,7 @@ import * as d3Time from 'd3-timelines-edited';
 import * as d3 from 'd3';
 
 import { DeleteDevicesComponent } from '../dialogs/delete-devices/delete-devices.component';
+import { DeleteInventoryComponent } from '../dialogs/delete-inventory/delete-inventory.component';
 @Component({
   selector: 'aep-device-sim',
   templateUrl: './device-sim.component.html',
@@ -79,11 +80,13 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   simInventory: any[] = [];
 
+  editInventory: number[] = [];
+
   editDevices: number[] = [];
 
   deviceDetails: number[] = [];
 
-  deviceType: any[] = ['phone', 'camera']
+  deviceType: any[] = ['phone', 'camera'];
 
   cancelledSimsStorage: any[] = [];
 
@@ -171,7 +174,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     inventoryDeviceType: new FormControl('', Validators.required),
   });
 
-  inventoryDeviceSimEditForm = new FormGroup({
+  inventoryEditForm = new FormGroup({
     inventoryDeviceName: new FormControl('', Validators.required),
     inventoryDeviceLocation: new FormControl('', Validators.required),
     inventoryDeviceSerialNum: new FormControl('', Validators.required),
@@ -201,7 +204,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     console.log(this.valuesArrayFinal);
 
     setInterval(() => {
-      console.log('lol', this.fetchData());
+      console.log('Fetching small graph', this.fetchData());
     }, 100000);
   }
 
@@ -225,6 +228,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         this.inventoryDeviceSimForm.value.inventoryDeviceSerialNum,
       type: this.inventoryDeviceSimForm.value.inventoryDeviceType,
     });
+    this.addNewDeviceFun();
   }
 
   assignSelectedSite(): any {
@@ -302,33 +306,9 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   closeEdit(): any {
+    this.activeNewDevice = false;
     this.editDevices.pop();
   }
-
-  detailsTrigger(index: number, sim: string, serialNum: string): any {
-    // this.removePreviousChart();
-    this.closeDetails();
-    this.closeEdit();
-    const deviceDetailsIndex = this.deviceDetails.indexOf(index);
-    if (deviceDetailsIndex >= 0) {
-      this.deviceDetails.splice(deviceDetailsIndex, 1);
-    } else {
-      this.deviceDetails.push(index);
-    }
-    this.fetchProm(this.selectedSite, sim, index);
-    this.fetchDots(this.selectedSite, serialNum)
-  }
-
-  closeDetails(): any {
-    this.deviceDetails.pop();
-  }
-
-  // removePreviousChart(): any {
-  // if (document.body.contains(document.getElementById('device_timeline'))) {
-  //   const chartObj = document.getElementById('device_timeline');
-  //   chartObj.remove();
-  // }
-  // }
 
   getEditControl(deviceSimEditForm: FormGroup, param: string): FormControl {
     return deviceSimEditForm.get(param) as FormControl;
@@ -343,6 +323,83 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     device['serial-number'] = form.deviceSerialNum;
   }
 
+  inventoryEditTrigger(index: number): any {
+    this.addNewDevice = false;
+    this.closeEditInventory();
+    const editInventoryIndex = this.editInventory.indexOf(index);
+    if (editInventoryIndex >= 0) {
+      this.editInventory.splice(editInventoryIndex, 1);
+    } else {
+      this.deviceInventory[index].form = new FormGroup({
+        inventoryDeviceName: new FormControl(
+          this.deviceInventory[index]['display-name']
+        ),
+        inventoryDeviceLocation: new FormControl(
+          this.deviceInventory[index]['location']
+        ),
+        inventoryDeviceSerialNum: new FormControl(
+          this.deviceInventory[index]['serial-number']
+        ),
+        inventoryDeviceType: new FormControl(
+          this.deviceInventory[index]['type']
+        ),
+      });
+      this.editInventory.push(index);
+    }
+  }
+
+  closeEditInventory(): any {
+    this.editInventory.pop();
+  }
+
+  getEditInventoryControl(
+    inventoryEditForm: FormGroup,
+    param: string
+  ): FormControl {
+    return inventoryEditForm.get(param) as FormControl;
+  }
+
+  actualInventoryEdit(inventoryDeviceIndex: number): void {
+    this.closeEditInventory();
+    const form = this.deviceInventory[inventoryDeviceIndex].form.value;
+    const inventoryDevice = this.deviceInventory[inventoryDeviceIndex];
+    inventoryDevice['display-name'] = form.inventoryDeviceName;
+    inventoryDevice['type'] = form.inventoryDeviceType;
+    inventoryDevice.location = form.inventoryDeviceLocation;
+    inventoryDevice['serial-number'] = form.inventoryDeviceSerialNum;
+    console.log(this.deviceInventory);
+  }
+
+  deleteInventoryDevice(inventoryDeviceIndex: number): void {
+    this.deviceInventory.splice(inventoryDeviceIndex, 1);
+  }
+
+  detailsTrigger(index: number, sim: string, serialNum: string): any {
+    // this.removePreviousChart();
+    this.closeDetails();
+    this.closeEdit();
+    const deviceDetailsIndex = this.deviceDetails.indexOf(index);
+    if (deviceDetailsIndex >= 0) {
+      this.deviceDetails.splice(deviceDetailsIndex, 1);
+    } else {
+      this.deviceDetails.push(index);
+    }
+    this.fetchProm(this.selectedSite, sim, index);
+    this.fetchDots(this.selectedSite, serialNum);
+  }
+
+  closeDetails(): any {
+    this.activeNewDevice = false;
+    this.deviceDetails.pop();
+  }
+
+  // removePreviousChart(): any {
+  // if (document.body.contains(document.getElementById('device_timeline'))) {
+  //   const chartObj = document.getElementById('device_timeline');
+  //   chartObj.remove();
+  // }
+  // }
+
   deleteDevice(index: number): any {
     const simIccid = this.siteConfig[0][index].sim;
     // const siteName = this.siteConfig[0][index]['display-name'];
@@ -354,6 +411,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.deviceInventory.push(this.siteConfig[0][index]);
     // console.log(this.deviceInventory);
     this.siteConfig[0].splice(index, 1);
+    console.log(this.deviceInventory);
   }
 
   cancelSim(index: number): any {
@@ -364,7 +422,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
-    this.deviceService.mySims(this.simInventory)
+    this.deviceService.mySims(this.simInventory);
     const dialogRef = this.dialog.open(SelectSimsComponent, {
       width: '690px',
       data: { name: this.name, animal: this.animal },
@@ -397,7 +455,20 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       if (result == 'true') {
         this.deleteDevice(deviceIndex);
       }
-      this.closeEdit()
+      this.closeEdit();
+    });
+  }
+
+  openDeleteInventoryDialog(inventoryDeviceIndex: number): void {
+    const dialogRef = this.dialog.open(DeleteInventoryComponent, {
+      width: '450px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'true') {
+        this.deleteInventoryDevice(inventoryDeviceIndex);
+      }
+      this.closeEditInventory();
     });
   }
 
@@ -492,8 +563,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.formatDate();
     const headers = {
       Accept: 'application/json',
-      Authorization:
-        'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
+      // Authorization:
+      //   'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
     };
     const query: string =
       '/query_range?query=device_connection_event_core{site="' +
@@ -508,7 +579,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.apiCurrentDate +
       'T' +
       this.apiCurrentTime +
-      '.000Z&step=2000000m';
+      '.000Z&step=1h';
 
     console.log(query);
     return this.http.get(this.deviceService.promApiUrl + query, { headers });
@@ -516,8 +587,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   fetchDots(site: string, serialNum: string): any {
     this.fetchDotsApi(site, serialNum).subscribe((data) => {
-      console.log(data)
-    })
+      console.log(data);
+    });
   }
 
   displayChart(chartData: any[], index: number): any {
@@ -712,13 +783,15 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.deviceSimsDetailsProgressToggleDay = false;
   }
   activeNewDeviceForm(): void {
+    this.closeEdit();
+    this.closeDetails();
     this.activeNewDevice = true;
     this.deviceSimsDetailItemDetailsPopUp = false;
     this.deviceSimsDetailViewEditForm = false;
   }
   addNewDeviceFun(): void {
-    this.addNewDevice = true;
-    this.inventoryDeviceEditForm = false;
+    this.closeEditInventory();
+    this.addNewDevice = !this.addNewDevice;
   }
   inventoryDeviceEditFormFun(): void {
     this.inventoryDeviceEditForm = true;
@@ -729,6 +802,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   simsView(): void {
+    this.fetchData();
     this.inventorySimsTabStyle = 'false';
     this.inventoryDeviceTabStyle = 'false';
     this.deviceSimView = 'true';

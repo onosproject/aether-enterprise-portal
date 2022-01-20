@@ -124,9 +124,44 @@ export class SlicesComponent implements OnInit {
 
   remainingDeviceGroups: any[] = [];
 
-  deviceGroupsInventory: any[] = [];
+  deviceGroupsInventory: any[] = [
+    {
+      'device-group-id': 'sensors',
+      devices: ['000SEN1', '000SEN2', '000SEN3'],
+      'display-name': 'Sensors Group',
+      selected: 0,
+    },
+    {
+      'device-group-id': 'IOT',
+      devices: ['000IOT1', '000IOT2', '000IOT3'],
+      'display-name': 'IOT Group',
+      selected: 0,
+    },
+    {
+      'device-group-id': 'Other',
+      devices: ['000OTH1', '000OTH2', '000OTH3'],
+      'display-name': 'Others Group',
+      selected: 0,
+    },
+  ];
 
-  servicesInventory: any[] = [];
+  servicesInventory: any[] = [
+    {
+      'application-id': 'VC-application',
+      'display-name': 'Voice Control',
+      selected: 0,
+    },
+    {
+      'application-id': 'SC-application',
+      'display-name': 'Sensor Control',
+      selected: 0,
+    },
+    {
+      'application-id': 'EC-application',
+      'display-name': 'Error Control',
+      selected: 0,
+    },
+  ];
 
   remainingServices: any[] = [];
 
@@ -137,6 +172,8 @@ export class SlicesComponent implements OnInit {
   editSlices: number[] = [];
 
   selectedAddDeviceGroups: any[] = [];
+
+  selectedAddServices: any[] = [];
 
   summaryArray: any[] = [];
 
@@ -182,6 +219,7 @@ export class SlicesComponent implements OnInit {
       uplink: new FormControl(this.summaryArray[0].summaryUplink),
       downlink: new FormControl(this.summaryArray[0].summaryDownlink),
     });
+    console.log(this.summaryArray[0].summarySliceType);
   }
 
   emptySummaryArray(): any {
@@ -200,18 +238,19 @@ export class SlicesComponent implements OnInit {
     deviceGroupIndex: number
   ): void {
     console.log(this.siteDeviceGroups[0][deviceGroupIndex], id);
-    if (this.siteDeviceGroups[0][deviceGroupIndex].selected == 1) {
+    if (this.deviceGroupsInventory[deviceGroupIndex].selected == 0) {
       // console.log("if")
-      this.siteDeviceGroups[0][deviceGroupIndex].selected = 0;
+      this.deviceGroupsInventory[deviceGroupIndex].selected = 1;
       const selectedDeviceGroupInfo: any = {
         'device-group-id': id,
         devices: devices,
         'display-name': name,
+        selected: 1,
       };
       this.selectedDeviceGroups.push(selectedDeviceGroupInfo);
     } else {
       // console.log("else")
-      this.siteDeviceGroups[0][deviceGroupIndex].selected = 1;
+      this.deviceGroupsInventory[deviceGroupIndex].selected = 0;
       for (let i = 0; i < this.selectedDeviceGroups.length; i++) {
         console.log(i);
         if (this.selectedDeviceGroups[i]['device-group-id'] == id) {
@@ -223,20 +262,27 @@ export class SlicesComponent implements OnInit {
     console.log(this.selectedDeviceGroups);
   }
 
+  deleteSummaryDeviceGroups(deviceGroupIndex: number): any {
+    console.log(this.selectedDeviceGroups);
+    this.selectedDeviceGroups.splice(deviceGroupIndex, 1);
+    console.log(this.selectedDeviceGroups);
+  }
+
   changeSelectionServices(
     id: string,
     name: string,
     serviceIndex: number
   ): void {
-    if (this.siteServices[serviceIndex].selected == 1) {
-      this.siteServices[serviceIndex].selected = 0;
+    if (this.servicesInventory[serviceIndex].selected == 0) {
+      this.servicesInventory[serviceIndex].selected = 1;
       const selectedServiceInfo: any = {
         'application-id': id,
         'display-name': name,
+        selected: 1,
       };
       this.selectedServices.push(selectedServiceInfo);
     } else {
-      this.siteServices[serviceIndex].selected = 1;
+      this.servicesInventory[serviceIndex].selected = 1;
       for (let i = 0; i < this.selectedServices.length; i++) {
         if (this.selectedServices[i]['application-id'] == id) {
           this.selectedServices.splice(i, 1);
@@ -246,32 +292,78 @@ export class SlicesComponent implements OnInit {
     console.log(this.selectedServices);
   }
 
+  deleteSummaryServices(serviceIndex: number): any {
+    console.log(this.selectedServices);
+    this.selectedServices.splice(serviceIndex, 1);
+    console.log(this.selectedServices);
+  }
+
   onSubmit(): void {
-    // const downlink = this.firstFormGroup.value.downlink;
-    // this.firstFormGroup.reset();
-    this.emptySummaryArray();
     const applications: any[] = [];
     const deviceGroups: any[] = [];
+    const summaryForm = this.summaryArray[0].form.value;
     this.selectedServices.forEach((service) => {
       applications.push(service);
     });
     this.selectedDeviceGroups.forEach((deviceGroup) => {
       deviceGroups.push(deviceGroup);
     });
-    this.selectedServices.splice(0, this.selectedServices.length);
-    this.selectedDeviceGroups.splice(0, this.selectedDeviceGroups.length);
     this.siteSlices.push({
       applications: applications,
       'device-groups': deviceGroups,
-      'display-name': this.firstFormGroup.value.sliceName + ' Slice',
-      'slice-type': this.firstFormGroup.value.sliceType,
+      'display-name': summaryForm.sliceName + ' Slice',
+      'slice-type': summaryForm.sliceType,
       downlink: this.firstFormGroup.value.downlink,
       uplink: this.firstFormGroup.value.uplink,
-      'traffic-class': this.firstFormGroup.value.trafficClass,
-      'mbr': this.firstFormGroup.value.mbr,
-      'gbr': this.firstFormGroup.value.gbr,
+      'traffic-class': summaryForm.trafficClass,
+      mbr: summaryForm.mbr,
+      gbr: summaryForm.gbr,
     });
+    for (
+      let selectedIndex = 0;
+      selectedIndex < this.selectedDeviceGroups.length;
+      selectedIndex++
+    ) {
+      // slice['device-groups'].push(this.selectedAddDeviceGroups[selectedIndex]);
+      for (
+        let inventoryIndex = 0;
+        inventoryIndex < this.deviceGroupsInventory.length;
+        inventoryIndex++
+      ) {
+        if (
+          this.deviceGroupsInventory[inventoryIndex]['device-group-id'] ==
+          this.selectedDeviceGroups[selectedIndex]['device-group-id']
+        ) {
+          this.deviceGroupsInventory.splice(inventoryIndex, 1);
+        }
+      }
+    }
+    this.selectedDeviceGroups.splice(0, this.selectedDeviceGroups.length);
+
+    for (
+      let selectedIndex = 0;
+      selectedIndex < this.selectedServices.length;
+      selectedIndex++
+    ) {
+      // slice['device-groups'].push(this.selectedAddDeviceGroups[selectedIndex]);
+      for (
+        let inventoryIndex = 0;
+        inventoryIndex < this.servicesInventory.length;
+        inventoryIndex++
+      ) {
+        if (
+          this.servicesInventory[inventoryIndex]['application-id'] ==
+          this.selectedServices[selectedIndex]['application-id']
+        ) {
+          this.servicesInventory.splice(inventoryIndex, 1);
+        }
+      }
+    }
+    this.selectedServices.splice(0, this.selectedServices.length);
+    console.log(this.selectedDeviceGroups, this.deviceGroupsInventory);
     console.log(this.siteSlices);
+    this.emptySummaryArray();
+    this.firstFormGroup.reset();
     this.createNewSlices = false;
   }
 
@@ -426,6 +518,7 @@ export class SlicesComponent implements OnInit {
 
   createNewSlicesFun(): void {
     this.closeExpand();
+    this.closeEditView();
     this.createNewSlices = true;
   }
 
@@ -443,6 +536,14 @@ export class SlicesComponent implements OnInit {
   closeExpand(): any {
     this.closeListView();
     this.expandSlices.pop();
+  }
+
+  getTotalDevices(data: any[]): number {
+    let count = 0;
+    for (let i = 0; i < data.length; i++) {
+      count = data[i].devices.length + count;
+    }
+    return count;
   }
 
   listViewTrigger(index: number): void {
@@ -503,9 +604,48 @@ export class SlicesComponent implements OnInit {
     slice['traffic-class'] = editForm.trafficClass;
     slice.uplink = editForm.uplink;
     slice.downlink = editForm.downlink;
-    for (let i = 0; i < this.selectedAddDeviceGroups.length; i++) {
-      slice['device-groups'].push(this.selectedAddDeviceGroups[i]);
+    for (
+      let selectedIndex = 0;
+      selectedIndex < this.selectedAddDeviceGroups.length;
+      selectedIndex++
+    ) {
+      slice['device-groups'].push(this.selectedAddDeviceGroups[selectedIndex]);
+      for (
+        let inventoryIndex = 0;
+        inventoryIndex < this.deviceGroupsInventory.length;
+        inventoryIndex++
+      ) {
+        if (
+          this.deviceGroupsInventory[inventoryIndex]['device-group-id'] ==
+          this.selectedAddDeviceGroups[selectedIndex]['device-group-id']
+        ) {
+          this.deviceGroupsInventory.splice(inventoryIndex, 1);
+        }
+      }
     }
+    this.selectedAddDeviceGroups.splice(0, this.selectedAddDeviceGroups.length);
+    this.editAddDeviceGroup = false;
+    for (
+      let selectedIndex = 0;
+      selectedIndex < this.selectedAddServices.length;
+      selectedIndex++
+    ) {
+      slice.applications.push(this.selectedAddServices[selectedIndex]);
+      for (
+        let inventoryIndex = 0;
+        inventoryIndex < this.servicesInventory.length;
+        inventoryIndex++
+      ) {
+        if (
+          this.servicesInventory[inventoryIndex]['application-id'] ==
+          this.selectedAddServices[selectedIndex]['application-id']
+        ) {
+          this.servicesInventory.splice(inventoryIndex, 1);
+        }
+      }
+    }
+    this.selectedAddServices.splice(0, this.selectedAddServices.length);
+    this.editAddServices = false;
     this.closeEditView();
     console.log(this.siteSlices);
   }
@@ -522,7 +662,7 @@ export class SlicesComponent implements OnInit {
 
   deleteSlice(sliceIndex: number): any {
     const deviceGroupInfo = this.siteSlices[sliceIndex]['device-groups'];
-    console.log(deviceGroupInfo)
+    console.log(deviceGroupInfo);
     const serviceInfo = this.siteSlices[sliceIndex].applications;
 
     // deviceGroupInfo.selected = 1;
@@ -532,7 +672,7 @@ export class SlicesComponent implements OnInit {
       this.remainingDeviceGroups[i].selected = 1;
     }
     this.remainingServices.push(serviceInfo);
-    // this.siteSlices.splice(sliceIndex, 1);
+    this.siteSlices.splice(sliceIndex, 1);
     // console.log(
     //   this.siteSlices,
     //   this.remainingDeviceGroups,
@@ -546,18 +686,19 @@ export class SlicesComponent implements OnInit {
     devices: any[],
     deviceGroupsIndex: number
   ): any {
-    if (this.remainingDeviceGroups[deviceGroupsIndex][0].selected == 1) {
+    if (this.deviceGroupsInventory[deviceGroupsIndex].selected == 0) {
       // console.log("if")
-      this.remainingDeviceGroups[deviceGroupsIndex][0].selected = 0;
+      this.deviceGroupsInventory[deviceGroupsIndex].selected = 1;
       const selectedAddDeviceGroupInfo: any = {
         'device-group-id': id,
         devices: devices,
         'display-name': name,
+        selected: 1,
       };
       this.selectedAddDeviceGroups.push(selectedAddDeviceGroupInfo);
     } else {
       // console.log("else")
-      this.remainingDeviceGroups[deviceGroupsIndex][0].selected = 1;
+      this.deviceGroupsInventory[deviceGroupsIndex].selected = 0;
       for (let i = 0; i < this.selectedAddDeviceGroups.length; i++) {
         console.log(i);
         // console.log(this.selectedAddDeviceGroups[i])
@@ -566,12 +707,32 @@ export class SlicesComponent implements OnInit {
         }
       }
     }
-    console.log(this.selectedAddDeviceGroups, this.remainingDeviceGroups);
+    console.log(this.selectedAddDeviceGroups, this.deviceGroupsInventory);
   }
 
-  // changeSelectionAddServices(id: string, name: string, serviceIndex: number): any {
-  //   if (this.remainingServices[])
-  // }
+  changeSelectionAddServices(
+    id: string,
+    name: string,
+    serviceIndex: number
+  ): any {
+    if (this.servicesInventory[serviceIndex].selected == 0) {
+      this.servicesInventory[serviceIndex].selected = 1;
+      const selectedAddServiceInfo: any = {
+        'application-id': id,
+        'display-name': name,
+        selected: 1,
+      };
+      this.selectedAddServices.push(selectedAddServiceInfo);
+    } else {
+      this.servicesInventory[serviceIndex].selected = 0;
+      for (let i = 0; i < this.selectedAddServices.length; i++) {
+        if (this.selectedAddServices[i]['application-id'] == id) {
+          this.selectedAddServices.splice(i, 1);
+        }
+      }
+    }
+    console.log(this.selectedAddServices, this.servicesInventory);
+  }
 
   openDeleteDialog(sliceIndex: number): void {
     const dialogRef = this.dialog.open(DeleteSlicesComponent, {
