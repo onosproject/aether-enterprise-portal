@@ -70,7 +70,7 @@
               class="btn col-3 add-active button-medium-14"
               (click)="activeNewDeviceForm()"
             >
-              Active new device
+              Activate new device
             </button>
           </mat-card>
           <!--active new device form-->
@@ -218,7 +218,10 @@
                     class="add add-button-gray"
                     type="submit"
                     mat-raised-button
-                    (click)="addNewDevice1()"
+                    color="primary"
+                    (click)="
+                      addNewDevice1(); activeNewDevice = !activeNewDevice
+                    "
                     [@inOutAnimation]
                   >
                     Activate
@@ -857,20 +860,23 @@
                               placeholder="XXX-XXX-XXXX"
                             />
                           </div>
-                          <div class="mx-2">
-                            <mat-label
-                              class="form-field-title"
-                              for="inventoryDeviceType"
-                              >Device Type</mat-label
-                            >
-                            <input
-                              type="text"
-                              name="inventoryDeviceType"
-                              id="inventoryDeviceType"
-                              class="form-control form-field-big"
-                              formControlName="inventoryDeviceType"
-                              placeholder="Camera,sensor,...etc"
-                            />
+                          <div class="mat-select-box mx-2">
+                            <h4 class="form-label my-1">Device Type</h4>
+                            <mat-form-field class="my-1" appearance="fill">
+                              <mat-select
+                                placeholder="Camera, Phone, ..."
+                                formControlName="inventoryDeviceType"
+                              >
+                                <mat-option
+                                  [value]="type"
+                                  *ngFor="
+                                    let type of deviceType;
+                                    let typeIndex = index
+                                  "
+                                  >{{ type }}</mat-option
+                                >
+                              </mat-select>
+                            </mat-form-field>
                           </div>
                         </div>
                       </div>
@@ -1081,32 +1087,35 @@
                                 placeholder="XXX-XXX-XXXX"
                               />
                             </div>
-                            <div class="mx-2">
-                              <mat-label
-                                class="form-field-title"
-                                for="inventoryDeviceType"
-                                >Device Type</mat-label
-                              >
-                              <input
-                                type="text"
-                                name="inventoryDeviceType"
-                                id="inventoryDeviceType"
-                                class="form-control form-field-big"
-                                [formControl]="
-                                  getEditInventoryControl(
-                                    inventoryDevices.form,
-                                    'inventoryDeviceType'
-                                  )
-                                "
-                                placeholder="Camera,sensor,...etc"
-                              />
+                            <div class="mat-select-box mx-3">
+                              <h4 class="form-label my-1">Device Type</h4>
+                              <mat-form-field class="my-1" appearance="fill">
+                                <mat-select
+                                  placeholder="Camera, Phone, .."
+                                  [formControl]="
+                                    getEditInventoryControl(
+                                      inventoryDevices.form,
+                                      'inventoryDeviceType'
+                                    )
+                                  "
+                                >
+                                  <mat-option
+                                    [value]="type"
+                                    *ngFor="
+                                      let type of deviceType;
+                                      let typeIndex = index
+                                    "
+                                    >{{ type }}</mat-option
+                                  >
+                                </mat-select>
+                              </mat-form-field>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div class="add-plus">
+                      <!-- <div class="add-plus">
                         <div>+Add</div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </mat-card-content>
@@ -1138,9 +1147,7 @@
                       mat-button
                       type="button"
                       class="cancel"
-                      (click)="
-                        inventoryDeviceEditForm = !inventoryDeviceEditForm
-                      "
+                      (click)="closeEditInventory()"
                       [@inOutAnimation]
                     >
                       Cancel

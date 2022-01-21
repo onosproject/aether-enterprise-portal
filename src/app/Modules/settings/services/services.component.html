@@ -41,7 +41,7 @@
             <mat-card-title class="pop-over-title my-3"
               >Add new service</mat-card-title
             >
-            <form [formGroup]="anankiFormGroup">
+            <form [formGroup]="addServiceFormGroup">
               <mat-card-content class="form-field-bg py-2">
                 <div class="form-content mx-2 my-3">
                   <div class="col-12">
@@ -51,7 +51,7 @@
                           >Enter APP name
                         </mat-label>
                         <input
-                          class="form-control"
+                          class="form-control form-field-big"
                           type="text"
                           formControlName="appName"
                           name="appName"
@@ -59,68 +59,87 @@
                           placeholder="Name"
                         />
                       </div>
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="protocol"
-                          >protocol
-                        </mat-label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          formControlName="protocol"
-                          name="protocol"
-                          id="protocol"
-                          placeholder="protocol"
-                        />
+                      <div class="mat-select-box my-2 mx-3">
+                        <h4 class="form-label my-1">Protocol</h4>
+                        <mat-form-field class="my-1" appearance="fill">
+                          <mat-select
+                            placeholder="Choose an option..."
+                            formControlName="newProtocol"
+                          >
+                            <mat-option
+                              [value]="protocol"
+                              *ngFor="
+                                let protocol of protocolList;
+                                let domainIndex = index
+                              "
+                              >{{ protocol }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="mat-select-box my-2 mx-3">
+                        <h4 class="form-label my-1">Port Start</h4>
+                        <mat-form-field class="my-1" appearance="fill">
+                          <mat-select
+                            placeholder="Choose an option..."
+                            formControlName="newPortStart"
+                          >
+                            <mat-option
+                              [value]="portStart"
+                              *ngFor="
+                                let portStart of portStartList;
+                                let portStartIndex = index
+                              "
+                              >{{ portStart }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
                       </div>
                       <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="portStart"
-                          >Port Start
-                        </mat-label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          formControlName="portStart"
-                          name="portStart"
-                          id="portStart"
-                          placeholder="port Start"
-                        />
-                      </div>
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="address"
+                        <mat-label class="form-label" for="newAddress"
                           >Enter Address
                         </mat-label>
                         <input
-                          class="form-control"
+                          class="form-control form-field-big"
                           type="text"
-                          formControlName="address"
-                          name="address"
-                          id="address"
+                          formControlName="newAddress"
+                          name="newAddress"
+                          id="newAddress"
                           placeholder="Enter Address"
                         />
                       </div>
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="mbr">MBR </mat-label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          formControlName="mbr"
-                          name="mbr"
-                          id="mbr"
-                          placeholder="MBR"
-                        />
+                      <div class="mat-select-box my-2 mx-3">
+                        <h4 class="form-label my-1">MBR</h4>
+                        <mat-form-field class="my-1" appearance="fill">
+                          <mat-select
+                            placeholder="Choose an option..."
+                            formControlName="newMbr"
+                          >
+                            <mat-option
+                              [value]="mbr"
+                              *ngFor="let mbr of mbrList; let mbrIndex = index"
+                              >{{ mbr }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
                       </div>
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="portEnd"
-                          >portEnd
-                        </mat-label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          formControlName="portEnd"
-                          name="portEnd"
-                          id="portEnd"
-                          placeholder="portEnd"
-                        />
+                      <div class="mat-select-box my-2 mx-3">
+                        <h4 class="form-label my-1">Port End</h4>
+                        <mat-form-field class="my-1" appearance="fill">
+                          <mat-select
+                            placeholder="Choose an option..."
+                            formControlName="newPortEnd"
+                          >
+                            <mat-option
+                              [value]="portEnd"
+                              *ngFor="
+                                let portEnd of portEndList;
+                                let portEndIndex = index
+                              "
+                              >{{ portEnd }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
                       </div>
                     </div>
                   </div>
@@ -129,7 +148,9 @@
               <mat-card-actions class="form-actions d-flex">
                 <div class="button-sec service-button-section">
                   <button
-                    class="add btn btn-gray mx-2"
+                    mat-button
+                    type="button"
+                    class="cancel btn btn-white mx-2"
                     (click)="addNewServiceForm = !addNewServiceForm"
                     [@inOutAnimation]
                     type="submit"
@@ -138,10 +159,12 @@
                     Add
                   </button>
                   <button
-                    mat-button
-                    class="cancel btn btn-white mx-2"
-                    (click)="addNewServiceForm = !addNewServiceForm"
+                    class="add btn btn-gray mx-2"
+                    (click)="addNewService()"
                     [@inOutAnimation]
+                    type="button"
+                    mat-raised-button
+                    color="primary"
                   >
                     Cancel
                   </button>
@@ -154,192 +177,236 @@
         <!--END BUTTON FOR ADD NEW SERVICE-->
 
         <div class="row">
-          <mat-card
-            class="card-list-items col-12 d-flex my-1 align-items-center"
+          <div
+            *ngFor="let siteApp of siteApplications; let siteAppIndex = index"
           >
-            <div class="ng-tns-c119-0 card-list-item service-img">
-              <div class="series-bg">
-                <img
-                  class="ng-tns-c119-0"
-                  src="../../assets/services/services.svg"
-                />
+            <mat-card
+              class="card-list-items col-12 d-flex my-1 align-items-center"
+            >
+              <div class="ng-tns-c119-0 card-list-item service-img">
+                <div class="series-bg">
+                  <img
+                    class="ng-tns-c119-0"
+                    src="../../assets/services/services.svg"
+                  />
+                </div>
               </div>
-            </div>
-            <div class="mx-1 card-list-item enter-app-name ng-tns-c119-0">
-              <div class="title">Enter APP Name</div>
-              <div class="desc">Zoom</div>
-            </div>
-            <div class="mx-1 card-list-item protocol ng-tns-c119-0">
-              <div class="title">protocol</div>
-              <div class="desc">Name</div>
-            </div>
-            <div class="mx-1 card-list-item port-start ng-tns-c119-0">
-              <div class="title">Port Start</div>
-              <div class="desc">Name</div>
-            </div>
-            <div class="mx-1 card-list-item enter-address ng-tns-c119-0">
-              <div class="title">Enter Address</div>
-              <div class="desc">Name</div>
-            </div>
-            <div class="mx-1 card-list-item port-end ng-tns-c119-0">
-              <div class="title">Port End</div>
-              <div class="desc">Name</div>
-            </div>
-            <div class="mx-1 card-list-item device-name ng-tns-c119-0">
-              <div class="title">device Name</div>
-              <div class="desc">Name</div>
-            </div>
+              <div class="mx-1 card-list-item enter-app-name ng-tns-c119-0">
+                <div class="title">Enter APP name</div>
+                <div class="desc">{{ siteApp["display-name"] }}</div>
+              </div>
+              <div class="mx-1 card-list-item protocol ng-tns-c119-0">
+                <div class="title">Protocol</div>
+                <div class="desc">{{ siteApp.protocol }}</div>
+              </div>
+              <div class="mx-1 card-list-item port-start ng-tns-c119-0">
+                <div class="title">Port Start</div>
+                <div class="desc">{{ siteApp.portStart }}</div>
+              </div>
+              <div class="mx-1 card-list-item enter-address ng-tns-c119-0">
+                <div class="title">Enter Address</div>
+                <div class="desc">{{ siteApp.address }}</div>
+              </div>
+              <div class="mx-1 card-list-item port-end ng-tns-c119-0">
+                <div class="title">Port End</div>
+                <div class="desc">{{ siteApp.portEnd }}</div>
+              </div>
+              <div class="mx-1 card-list-item device-name ng-tns-c119-0">
+                <div class="title">Device name</div>
+                <div class="desc">{{ siteApp.deviceName }}</div>
+              </div>
 
-            <div class="mx-1 card-list-item ng-tns-c119-0 status status-active">
-              <div>ACTIVE</div>
-            </div>
-            <div
-              class="col-1 card-list-item text-center edit"
-              (click)="editServiceFormFun()"
-              *ngIf="!editServiceForm"
+              <div
+                class="mx-1 card-list-item ng-tns-c119-0 status status-active"
+              >
+                <div>ACTIVE</div>
+              </div>
+              <div
+                class="col-1 card-list-item text-center edit"
+                (click)="editTrigger(siteAppIndex)"
+                *ngIf="editService.indexOf(siteAppIndex) < 0"
+              >
+                <img src="../../assets/services/pencil.svg" />
+                Edit
+              </div>
+              <div
+                class="
+                  col-1
+                  card-list-item
+                  text-center
+                  add-new-service-close
+                  close
+                "
+                (click)="closeEdit()"
+                *ngIf="editService.indexOf(siteAppIndex) >= 0"
+              >
+                Close
+              </div>
+            </mat-card>
+            <!--ADD EDIT  SERVICE FORM-->
+            <mat-card
+              class="add-new-service-form forms-block"
+              *ngIf="editService.indexOf(siteAppIndex) >= 0"
+              [@inOutAnimation]
             >
-              <img src="../../assets/services/pencil.svg" />
-              Edit
-            </div>
-            <div
-              class="
-                col-1
-                card-list-item
-                text-center
-                add-new-service-close
-                close
-              "
-              (click)="editServiceFormClose()"
-              *ngIf="editServiceForm"
-            >
-              Close
-            </div>
-          </mat-card>
-          <!--ADD EDIT  SERVICE FORM-->
-          <mat-card
-            class="add-new-service-form forms-block"
-            *ngIf="editServiceForm"
-            [@inOutAnimation]
-          >
-            <form [formGroup]="anankiFormGroup">
-              <mat-card-content class="form-field-bg py-2">
-                <div class="form-content mx-2 my-3">
-                  <div class="col-12">
-                    <div class="col-12 my-2 d-flex flex-wrap">
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="appName"
-                          >Enter APP name
-                        </mat-label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          formControlName="appName"
-                          name="appName"
-                          id="appName"
-                          placeholder="Name"
-                        />
-                      </div>
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="protocol"
-                          >protocol
-                        </mat-label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          formControlName="protocol"
-                          name="protocol"
-                          id="protocol"
-                          placeholder="protocol"
-                        />
-                      </div>
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="portStart"
-                          >Port Start
-                        </mat-label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          formControlName="portStart"
-                          name="portStart"
-                          id="portStart"
-                          placeholder="port Start"
-                        />
-                      </div>
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="address"
-                          >Enter Address
-                        </mat-label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          formControlName="address"
-                          name="address"
-                          id="address"
-                          placeholder="Enter Address"
-                        />
-                      </div>
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="mbr">MBR </mat-label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          formControlName="mbr"
-                          name="mbr"
-                          id="mbr"
-                          placeholder="MBR"
-                        />
-                      </div>
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label" for="portEnd"
-                          >portEnd
-                        </mat-label>
-                        <input
-                          class="form-control"
-                          type="text"
-                          formControlName="portEnd"
-                          name="portEnd"
-                          id="portEnd"
-                          placeholder="portEnd"
-                        />
+              <form [formGroup]="editServiceFormGroup">
+                <mat-card-content class="form-field-bg py-2">
+                  <div class="form-content mx-2 my-3">
+                    <div class="col-12">
+                      <div class="col-12 my-2 d-flex flex-wrap">
+                        <div class="my-2 mx-3">
+                          <mat-label class="form-label" for="appName"
+                            >Enter APP name
+                          </mat-label>
+                          <input
+                            class="form-control form-field-big"
+                            type="text"
+                            [formControl]="
+                              getEditControl(siteApp.form, 'appName')
+                            "
+                            name="appName"
+                            id="appName"
+                            placeholder="Name"
+                          />
+                        </div>
+                        <div class="mat-select-box my-2 mx-3">
+                          <h4 class="form-label my-1">Protocol</h4>
+                          <mat-form-field class="my-1" appearance="fill">
+                            <mat-select
+                              placeholder="Choose an option..."
+                              [formControl]="
+                                getEditControl(siteApp.form, 'newProtocol')
+                              "
+                            >
+                              <mat-option
+                                [value]="protocol"
+                                *ngFor="
+                                  let protocol of protocolList;
+                                  let domainIndex = index
+                                "
+                                >{{ protocol }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="mat-select-box my-2 mx-3">
+                          <h4 class="form-label my-1">Port Start</h4>
+                          <mat-form-field class="my-1" appearance="fill">
+                            <mat-select
+                              placeholder="Choose an option..."
+                              [formControl]="
+                                getEditControl(siteApp.form, 'newPortStart')
+                              "
+                            >
+                              <mat-option
+                                [value]="portStart"
+                                *ngFor="
+                                  let portStart of portStartList;
+                                  let portStartIndex = index
+                                "
+                                >{{ portStart }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="my-2 mx-3">
+                          <mat-label class="form-label" for="address"
+                            >Enter Address
+                          </mat-label>
+                          <input
+                            class="form-control form-field-big"
+                            type="text"
+                            [formControl]="
+                              getEditControl(siteApp.form, 'newAddress')
+                            "
+                            name="address"
+                            id="address"
+                            placeholder="Enter Address"
+                          />
+                        </div>
+                        <div class="mat-select-box my-2 mx-3">
+                          <h4 class="form-label my-1">MBR</h4>
+                          <mat-form-field class="my-1" appearance="fill">
+                            <mat-select
+                              placeholder="Choose an option..."
+                              [formControl]="
+                                getEditControl(siteApp.form, 'newMbr')
+                              "
+                            >
+                              <mat-option
+                                [value]="mbr"
+                                *ngFor="
+                                  let mbr of mbrList;
+                                  let mbrIndex = index
+                                "
+                                >{{ mbr }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="mat-select-box my-2 mx-3">
+                          <h4 class="form-label my-1">Port End</h4>
+                          <mat-form-field class="my-1" appearance="fill">
+                            <mat-select
+                              placeholder="Choose an option..."
+                              [formControl]="
+                                getEditControl(siteApp.form, 'newPortEnd')
+                              "
+                            >
+                              <mat-option
+                                [value]="portEnd"
+                                *ngFor="
+                                  let portEnd of portEndList;
+                                  let portEndIndex = index
+                                "
+                                >{{ portEnd }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </mat-card-content>
-              <mat-card-actions class="form-actions d-flex">
-                <div class="card-item-delete d-flex mx-2">
-                  <div>
-                    <img
-                      class="ng-tns-c119-0"
-                      src="../../assets/services/delete.svg"
-                    />
+                </mat-card-content>
+                <mat-card-actions class="form-actions d-flex mx-auto">
+                  <div
+                    class="card-item-delete d-flex mx-2"
+                    (click)="openDeleteServiceDialog(siteAppIndex)"
+                  >
+                    <div>
+                      <img
+                        class="ng-tns-c119-0"
+                        src="../../assets/services/delete.svg"
+                      />
+                    </div>
+                    <div class="delete-label">Delete</div>
                   </div>
-                  <div class="delete-label">Delete</div>
-                </div>
-                <div class="button-sec service-button-section">
-                  <button
-                    class="add btn btn-save mx-2"
-                    (click)="editServiceForm = !editServiceForm"
-                    [@inOutAnimation]
-                    type="submit"
-                    mat-raised-button
-                    color="primary"
-                  >
-                    Save
-                  </button>
-                  <button
-                    mat-button
-                    class="cancel btn btn-white mx-2"
-                    (click)="editServiceForm = !editServiceForm"
-                    [@inOutAnimation]
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </mat-card-actions>
-            </form>
-          </mat-card>
-          <!--END EDIT NEW SERVICE FORM-->
+                  <div class="button-sec">
+                    <button
+                      mat-button
+                      type="button"
+                      class="cancel btn btn-white mx-2"
+                      (click)="closeEdit()"
+                      [@inOutAnimation]
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      class="add btn btn-save mx-2"
+                      (click)="onEdit(siteAppIndex)"
+                      [@inOutAnimation]
+                      type="button"
+                      mat-raised-button
+                      color="primary"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </mat-card-actions>
+              </form>
+            </mat-card>
+            <!--END EDIT NEW SERVICE FORM-->
+          </div>
         </div>
       </div>
     </div>

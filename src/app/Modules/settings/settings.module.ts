@@ -22,6 +22,8 @@ import { SmallCellComponent } from './small-cell/small-cell.component';
 import { JoinerModule } from '../joiner/joiner.module';
 import { DecomissionComponent } from './dialogs/decomission/decomission.component';
 import { RecomissionComponent } from './dialogs/recomission/recomission.component';
+import { DeleteDevicegroupsComponent } from './dialogs/delete-devicegroups/delete-devicegroups.component';
+import { DeleteServiceComponent } from './dialogs/delete-service/delete-service.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { RecomissionComponent } from './dialogs/recomission/recomission.componen
     SmallCellComponent,
     DecomissionComponent,
     RecomissionComponent,
+    DeleteDevicegroupsComponent,
+    DeleteServiceComponent,
   ],
   imports: [
     CommonModule,

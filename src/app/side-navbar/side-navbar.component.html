@@ -17,19 +17,22 @@
     </div>
   </mat-form-field> -->
 
-  <mat-form-field style="width: 140px">
-    <div class="col-8"></div>
-    <div class="btn admin-addNew-form-permissions my-3" appearance="fill">
-      <mat-label></mat-label>
-      <mat-select class="admin-addNew-form-permissionsSelect">
-        <mat-option
-          *ngFor="let site of sites; let siteIndex = index"
-          [value]="site['siteName']"
-          (click)="selectedSite(site['siteID'])"
-          >{{ site["siteName"] }}</mat-option
-        >
-      </mat-select>
-    </div>
+  <mat-form-field
+    class="btn admin-addNew-form-permissions my-3 select-site"
+    appearance="fill"
+  >
+    <mat-label>site:</mat-label>
+    <mat-select
+      [(value)]="selectSite"
+      class="admin-addNew-form-permissionsSelect"
+    >
+      <mat-option
+        *ngFor="let site of sites; let siteIndex = index"
+        value="site['siteID']"
+        (click)="selectedSite(site['siteID'])"
+        >{{ site["siteName"] }}</mat-option
+      >
+    </mat-select>
   </mat-form-field>
 
   <mat-card-header>
@@ -39,135 +42,41 @@
     class="admin-sideCol-navCard-controlLine"
     src="../../assets/CommonAssets/ControlMenuLine.svg"
   />
-  <div class="" routerLink="/admin">
-    <div
-      class="d-flex"
-      [ngClass]="{
-        sideNavbar_optionStyling_active:
-          menuIcons.admin.adminString === menuIcons.admin.adminActive,
-        sideNavbar_optionStyling_inactive:
-          menuIcons.admin.adminString === menuIcons.admin.adminInactive
-      }"
-      (mouseover)="menuIcons.admin.adminString = menuIcons.admin.adminActive"
-      (mouseout)="menuIcons.admin.adminString = menuIcons.admin.adminInactive"
-    >
-      <div>
-        <span
-          class="sideNavbar_iconbg_inactive mx-1"
-          [ngStyle]="{
-            'background-color':
-              menuIcons.admin.adminString === menuIcons.admin.adminActive
-                ? '#0063F7'
-                : '#EDF4FF'
-          }"
-        >
-          <img [src]="menuIcons.admin.adminString" height="12px" width="12px" />
-        </span>
-      </div>
-      <div
-        class="admin-sideCol-navCard-subHeading mx-2"
-        [ngClass]="{
-          sideNavbar_text_active:
-            menuIcons.admin.adminString === menuIcons.admin.adminActive
-        }"
-      >
-        Admin
-      </div>
+  <div
+    class="menu d-flex align-items-center"
+    routerLink="/admin"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    (mouseover)="foreache()"
+  >
+    <div class="img-bg">
+      <div class="icon admin-link"></div>
     </div>
+    <div class="label mx-2">Admin</div>
   </div>
-  <div class="my-2" routerLink="/device-sim">
-    <div
-      class="d-flex"
-      [ngClass]="{
-        sideNavbar_optionStyling_active:
-          menuIcons.devices.devicesString === menuIcons.devices.devicesActive,
-        sideNavbar_optionStyling_inactive:
-          menuIcons.devices.devicesString === menuIcons.devices.devicesInactive
-      }"
-      (mouseover)="
-        menuIcons.devices.devicesString = menuIcons.devices.devicesActive
-      "
-      (mouseout)="
-        menuIcons.devices.devicesString = menuIcons.devices.devicesInactive
-      "
-    >
-      <div>
-        <span
-          class="sideNavbar_iconbg_inactive mx-1"
-          [ngStyle]="{
-            'background-color':
-              menuIcons.devices.devicesString ===
-              menuIcons.devices.devicesActive
-                ? '#0063F7'
-                : '#EDF4FF'
-          }"
-        >
-          <img
-            [src]="menuIcons.devices.devicesString"
-            height="12px"
-            width="12px"
-          />
-        </span>
-      </div>
-      <div
-        class="admin-sideCol-navCard-subHeading mx-2"
-        [ngClass]="{
-          sideNavbar_text_active:
-            menuIcons.devices.devicesString === menuIcons.devices.devicesActive
-        }"
-      >
-        Devices / Sim
-      </div>
+  <div
+    class="menu d-flex align-items-center"
+    routerLink="/device-sim"
+    routerLinkActive="active"
+    (mouseover)="foreache()"
+  >
+    <div class="img-bg">
+      <div class="icon device-sim-link"></div>
     </div>
+    <div class="label mx-2">Devices / Sim</div>
   </div>
-  <div class="mb-3" routerLink="/services">
-    <div
-      class="d-flex"
-      [ngClass]="{
-        sideNavbar_optionStyling_active:
-          menuIcons.services.servicesString ===
-          menuIcons.services.servicesActive,
-        sideNavbar_optionStyling_inactive:
-          menuIcons.services.servicesString ===
-          menuIcons.services.servicesInactive
-      }"
-      (mouseover)="
-        menuIcons.services.servicesString = menuIcons.services.servicesActive
-      "
-      (mouseout)="
-        menuIcons.services.servicesString = menuIcons.services.servicesInactive
-      "
-    >
-      <div>
-        <span
-          class="sideNavbar_iconbg_inactive mx-1"
-          [ngStyle]="{
-            'background-color':
-              menuIcons.services.servicesString ===
-              menuIcons.services.servicesActive
-                ? '#0063F7'
-                : '#EDF4FF'
-          }"
-        >
-          <img
-            [src]="menuIcons.services.servicesString"
-            height="12px"
-            width="12px"
-          />
-        </span>
-      </div>
-      <div
-        class="admin-sideCol-navCard-subHeading mx-2"
-        [ngClass]="{
-          sideNavbar_text_active:
-            menuIcons.services.servicesString ===
-            menuIcons.services.servicesActive
-        }"
-      >
-        Services
-      </div>
+  <div
+    class="menu d-flex align-items-center"
+    routerLink="/services"
+    routerLinkActive="active"
+    (mouseover)="foreache()"
+  >
+    <div class="img-bg">
+      <div class="icon services-link"></div>
     </div>
+    <div class="label mx-2">Services</div>
   </div>
+
   <mat-card-header>
     <mat-card-title class="sideNavbar_navCard_headings"
       >CONFIGURE</mat-card-title
@@ -226,101 +135,31 @@
         Small Cells
       </div>
     </div>
+    <div class="label mx-2">Small Cells</div>
   </div>
-  <div class="my-2" routerLink="/device-groups">
-    <div
-      class="d-flex"
-      [ngClass]="{
-        sideNavbar_optionStyling_active:
-          menuIcons.deviceGroups.deviceGroupsString ===
-          menuIcons.deviceGroups.deviceGroupsActive,
-        sideNavbar_optionStyling_inactive:
-          menuIcons.deviceGroups.deviceGroupsString ===
-          menuIcons.deviceGroups.deviceGroupsInactive
-      }"
-      (mouseover)="
-        menuIcons.deviceGroups.deviceGroupsString =
-          menuIcons.deviceGroups.deviceGroupsActive
-      "
-      (mouseout)="
-        menuIcons.deviceGroups.deviceGroupsString =
-          menuIcons.deviceGroups.deviceGroupsInactive
-      "
-    >
-      <div>
-        <span
-          class="sideNavbar_iconbg_inactive mx-1"
-          [ngStyle]="{
-            'background-color':
-              menuIcons.deviceGroups.deviceGroupsString ===
-              menuIcons.deviceGroups.deviceGroupsActive
-                ? '#0063F7'
-                : '#EDF4FF'
-          }"
-        >
-          <img
-            [src]="menuIcons.deviceGroups.deviceGroupsString"
-            height="12px"
-            width="12px"
-          />
-        </span>
-      </div>
-      <div
-        class="admin-sideCol-navCard-subHeading mx-2"
-        [ngClass]="{
-          sideNavbar_text_active:
-            menuIcons.deviceGroups.deviceGroupsString ===
-            menuIcons.deviceGroups.deviceGroupsActive
-        }"
-      >
-        Device Groups
-      </div>
+  <div
+    class="menu d-flex align-items-center"
+    routerLink="/device-groups"
+    routerLinkActive="active"
+    (mouseover)="foreache()"
+  >
+    <div class="img-bg">
+      <div class="icon device-groups-link"></div>
     </div>
+    <div class="label mx-2">Device Groups</div>
   </div>
-  <div class="mb-3" routerLink="/slices">
-    <div
-      class="d-flex"
-      [ngClass]="{
-        sideNavbar_optionStyling_active:
-          menuIcons.slices.slicesString === menuIcons.slices.slicesActive,
-        sideNavbar_optionStyling_inactive:
-          menuIcons.slices.slicesString === menuIcons.slices.slicesInactive
-      }"
-      (mouseover)="
-        menuIcons.slices.slicesString = menuIcons.slices.slicesActive
-      "
-      (mouseout)="
-        menuIcons.slices.slicesString = menuIcons.slices.slicesInactive
-      "
-    >
-      <div>
-        <span
-          class="sideNavbar_iconbg_inactive mx-1"
-          [ngStyle]="{
-            'background-color':
-              menuIcons.slices.slicesString === menuIcons.slices.slicesActive
-                ? '#0063F7'
-                : '#EDF4FF'
-          }"
-        >
-          <img
-            [src]="menuIcons.slices.slicesString"
-            height="12px"
-            width="12px"
-          />
-        </span>
-      </div>
-      <div
-        class="admin-sideCol-navCard-subHeading mx-2"
-        [ngClass]="{
-          sideNavbar_text_active:
-            menuIcons.slices.slicesString === menuIcons.slices.slicesActive
-        }"
-      >
-        Slices
-      </div>
+  <div
+    class="menu d-flex align-items-center"
+    routerLink="/slices"
+    routerLinkActive="active"
+    (mouseover)="foreache()"
+  >
+    <div class="img-bg">
+      <div class="icon slices-link"></div>
     </div>
+    <div class="label mx-2">Slices</div>
   </div>
+
   <mat-card-header>
     <mat-card-title class="sideNavbar_navCard_headings">REPORTS</mat-card-title>
   </mat-card-header>
@@ -328,50 +167,10 @@
     class="admin-sideCol-navCard-controlLine"
     src="../../assets/CommonAssets/ControlMenuLine.svg"
   />
-  <div>
-    <div
-      class="d-flex"
-      [ngClass]="{
-        sideNavbar_optionStyling_active:
-          menuIcons.audit.auditString === menuIcons.audit.auditActive ||
-          url === '/sidenavbar',
-        sideNavbar_optionStyling_inactive:
-          menuIcons.audit.auditString === menuIcons.audit.auditInactive
-      }"
-      (mouseover)="menuIcons.audit.auditString = menuIcons.audit.auditActive"
-      (mouseout)="menuIcons.audit.auditString = menuIcons.audit.auditInactive"
-    >
-      <div class="">
-        <span
-          class="sideNavbar_iconbg_inactive mx-1"
-          [ngStyle]="{
-            'background-color':
-              menuIcons.audit.auditString === menuIcons.audit.auditActive ||
-              url === '/sidenavbar'
-                ? '#0063F7'
-                : '#EDF4FF'
-          }"
-        >
-          <img
-            [src]="
-              url === '/sidenavbar'
-                ? menuIcons.audit.auditActive
-                : menuIcons.audit.auditString
-            "
-            height="12px"
-            width="12px"
-          />
-        </span>
-      </div>
-      <div
-        class="admin-sideCol-navCard-subHeading sideNavbar_text_active mx-2"
-        [ngClass]="{
-          sideNavbar_text_active:
-            menuIcons.audit.auditString === menuIcons.audit.auditActive
-        }"
-      >
-        Audit
-      </div>
+  <div class="menu d-flex align-items-center" (mouseover)="foreache()">
+    <div class="img-bg">
+      <div class="icon audit-link"></div>
     </div>
+    <div class="label mx-2">Audit</div>
   </div>
 </mat-card>

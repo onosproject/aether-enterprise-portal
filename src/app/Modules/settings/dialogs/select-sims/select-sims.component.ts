@@ -109,10 +109,10 @@ export class SelectSimsComponent implements OnInit {
             //console.log(site.sims);
             this.sims.push(site.sims);
             //console.log(
-              'This is Local sims array',
-              this.selectedSite,
-              this.sims
-            );
+            //   'This is Local sims array',
+            //   this.selectedSite,
+            //   this.sims
+            // );
           }
         });
       });

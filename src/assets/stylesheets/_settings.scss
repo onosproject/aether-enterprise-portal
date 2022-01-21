@@ -37,7 +37,7 @@ $uploadTextColor: #004fc4;
 
 .form-field-big {
   height: 48px;
-  // border-bottom: 1px solid #3c4257;
+  border-bottom: 1px solid #3c4257;
   margin-top: 8px;
 }
 
@@ -97,4 +97,33 @@ $uploadTextColor: #004fc4;
 
 .ml-5 {
   margin-left: 5rem !important;
+}
+
+.add-btn {
+  button {
+    color: #ffffff !important;
+    background: #0063f7 !important;
+    border-radius: 4px !important;
+    text-align: left;
+    margin: 0 auto;
+    display: inherit;
+    position: relative;
+    padding: 10px 12px;
+    // width: 216px;
+  }
+  .button-medium-14 {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    color: red;
+    &::after {
+      content: "+";
+      position: absolute;
+      font-size: 1.5rem;
+      right: 8px;
+      top: 10px;
+    }
+  }
 }

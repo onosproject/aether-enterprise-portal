@@ -580,9 +580,9 @@ export class SlicesComponent implements OnInit {
       this.editSlices.push(index);
     }
     //console.log(
-      this.siteSlices[index]['slice-type'],
-      this.siteSlices[index]['traffic-class']
-    );
+    //   this.siteSlices[index]['slice-type'],
+    //   this.siteSlices[index]['traffic-class']
+    // );
   }
 
   closeEditView(): any {
