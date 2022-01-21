@@ -11,7 +11,7 @@ export class SitesService {
   password: string = 'k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt';
   encode = btoa(this.username + ':' + this.password);
   header: HttpHeaders = new HttpHeaders({
-    Authorization: `Basic $(this.encode)`,
+    // Authorization: `Basic $(this.encode)`,
   });
 
   constructor(public http: HttpClient) {}
