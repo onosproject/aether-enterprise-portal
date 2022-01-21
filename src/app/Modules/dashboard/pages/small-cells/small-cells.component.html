@@ -73,7 +73,7 @@
                   <div class="row">
                     <div class="col-lg-7 small-cell-accordion-lrft">
                       <div
-                        class="alert_info-low"
+                        class="alert_info-low small-cell-alert"
                         *ngIf="
                           smallcell.status === 'Acknowledged' ||
                           smallcell.status === 'Ignore'
@@ -212,15 +212,11 @@
                         class="accordion_controls small-cell-accordion_control"
                       >
                         <div class="ticket_raise" *ngIf="!isRaiseTicket">
-                          <a (click)="raiseTicket()">Raise a Ticket</a>
+                          <a (click)="raiseTicket()">Report Issue</a>
                         </div>
                         <div class="respond" [matMenuTriggerFor]="belowMenu">
                           respond
-                          <img
-                            src="assets/AdminPanel/expand.svg"
-                            mat-button
-                            [matMenuTriggerFor]="belowMenu"
-                          />
+                          <img src="assets/AdminPanel/expand.svg" mat-button />
 
                           <mat-menu
                             #belowMenu="matMenu"
@@ -351,7 +347,7 @@
                   class="alert_card_bx"
                   *ngIf="isRaiseTicket && !chatView"
                 >
-                  <h3>Raise a Ticket</h3>
+                  <h3>Report Issue</h3>
                   <mat-nav-list>
                     <mat-form-field appearance="fill">
                       <mat-label>Category 1</mat-label>

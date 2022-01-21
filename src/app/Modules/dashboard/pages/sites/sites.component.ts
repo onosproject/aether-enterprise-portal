@@ -123,7 +123,7 @@ export class SitesComponent {
       });
       siteData.slices[i]['services'] = selectedService;
     }
-    console.log('+++++', siteData);
+    // console.log('+++++', siteData);
     this.sitesService.siteIndex = siteIndex;
     this.sitesService.siteId = value;
     this.sitesService.siteData = siteData.slices;

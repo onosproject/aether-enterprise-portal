@@ -10,6 +10,7 @@
     padding: 10px 0 10px;
     opacity: 0.6;
     color: #97c1ff;
+    background-color: #ffffff;
     &:first-child {
       border-top-left-radius: 8px;
     }
@@ -139,6 +140,10 @@
         align-items: center;
         color: #fff;
         font-size: 12px;
+        @media only screen and (max-width: 1440px) {
+          justify-content: center;
+          margin-bottom: 5px;
+        }
         .mr-2 {
           margin-right: 5px;
         }
@@ -195,7 +200,7 @@
       .respond {
         color: #0063f7;
         margin-left: 10px;
-        font-weight: 500;
+        // font-weight: 500;
         text-transform: capitalize;
       }
     }
@@ -433,9 +438,11 @@
 }
 .notification {
   position: relative;
+  width: 70%;
+  margin: auto;
   .tab-group {
     [class~="mat-tab-header"] {
-      max-width: 600px;
+      max-width: 540px;
       margin-bottom: 25px;
       border-bottom: none;
     }
@@ -446,7 +453,7 @@
       margin-top: 0px !important;
     }
     .small-cell-accordion_control {
-      padding: 10px 0 0 !important;
+      padding: 10px 0 0;
     }
     .summary_data {
       max-width: 300px;

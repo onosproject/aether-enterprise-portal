@@ -87,7 +87,7 @@ export class SlicesComponent {
       this.TabValue.push('1h' + i);
     }
 
-    console.log('siteData||||', value.siteData);
+    // console.log('siteData||||', value.siteData);
   }
 
   getTotalDevices(
