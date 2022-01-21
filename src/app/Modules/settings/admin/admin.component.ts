@@ -289,7 +289,7 @@ export class AdminComponent implements OnInit {
       securityAlert: new FormControl(''),
       cities: new FormArray([]),
     });
-    this.userForm.controls;
+    this.userControls = this.userForm.controls;
   }
 
   addNewUser(): void {
@@ -305,19 +305,19 @@ export class AdminComponent implements OnInit {
     // let siteEquipmentAlert = this.userForm.value.siteEquipmentAlert;
     // let centralAlert = this.userForm.value.centralAlert;
     // let securityAlert = this.userForm.value.securityAlert;
-    if (this.userForm.value.emailAlert === '' || null) {
+    if (this.userForm.value.emailAlert === "" || null) {
       this.userForm.value.emailAlert = false;
     }
-    if (this.userForm.value.deviceAlert === '' || null) {
+    if (this.userForm.value.deviceAlert === "" || null) {
       this.userForm.value.deviceAlert = false;
     }
-    if (this.userForm.value.siteEquipmentAlert === '' || null) {
+    if (this.userForm.value.siteEquipmentAlert === "" || null) {
       this.userForm.value.siteEquipmentAlert = false;
     }
-    if (this.userForm.value.centralAlert == '' || null) {
+    if (this.userForm.value.centralAlert == "" || null) {
       this.userForm.value.centralAlert = false;
     }
-    if (this.userForm.value.securityAlert == '' || null) {
+    if (this.userForm.value.securityAlert == "" || null) {
       this.userForm.value.securityAlert = false;
     }
     if (this.userForm.valid) {
