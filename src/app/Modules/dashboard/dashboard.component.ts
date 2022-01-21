@@ -24,7 +24,7 @@ export class DashboardComponent {
     siteData: any[];
     siteIndex: number;
   }): void {
-    // console.log('||||||||||||||||||||', event.siteId);
+    // console.log('||||||||||||||||||||', event);
     this.navbar.getDataFromDashboard(event.siteId);
     this.siteId = event.siteId;
     if (!this.isExpand) {

@@ -1,6 +1,7 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { SitesService } from '../../../../services/sites/sites.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'aep-sites',
@@ -11,6 +12,7 @@ export class SitesComponent {
   sites: any;
   selected: string = 'freemont';
   sitesResponse: any;
+  baseUrl: string = environment.baseUrl.slice(0, -1);
 
   @Input() message: any;
   @Output() informParent = new EventEmitter();
