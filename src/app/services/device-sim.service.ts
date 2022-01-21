@@ -31,8 +31,8 @@ export class DeviceSimService {
 
   mySite(data: string): any {
     this.selectedSite = data;
-    // console.log(this.selectedSite)
-    // console.log(data)
+    // //console.log(this.selectedSite)
+    // //console.log(data)
     this.mySiteSubject.next(data);
   }
 
@@ -51,7 +51,7 @@ export class DeviceSimService {
 
   mySim(data: string): any {
     // this.selectedSim = data
-    // console.log(this.selectedSim)
+    // //console.log(this.selectedSim)
     this.mySimSubject.next(data);
   }
 
@@ -88,12 +88,12 @@ export class DeviceSimService {
     this.getData().subscribe((result) => {
       result.sites.map((site) => {
         this.siteIds.push(site['site-id']);
-        // console.log(this.siteIds)
+        // //console.log(this.siteIds)
       });
     });
   }
 
   selectedId(): any {
-    // console.log(this.selectedSite)
+    // //console.log(this.selectedSite)
   }
 }

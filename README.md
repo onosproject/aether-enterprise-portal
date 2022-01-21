@@ -25,7 +25,9 @@ For html like
 ```
 
 ## CI and build automation
-These will be copied over from aether-roc-gui in future
+This repo uses Jenkins for CI. A new version is published to Docker Hub when the file
+`VERSION` is changed from `<n.n.n>-dev` to just `<n.n.n>`. After publishing
+Jenkins will change the VERSION file to `<n.n.n+1>`.
 
 ## Other
 Please add in more details and links here as they develop.

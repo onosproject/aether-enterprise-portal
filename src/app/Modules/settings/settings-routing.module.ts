@@ -5,6 +5,7 @@ import { DeviceGroupsComponent } from './device-groups/device-groups.component';
 import { DeviceSimComponent } from './device-sim/device-sim.component';
 import { ServicesComponent } from './services/services.component';
 import { SlicesComponent } from './slices/slices.component';
+import { SmallCellComponent } from './small-cell/small-cell.component';
 
 const routes: Routes = [
   { path: 'admin', component: AdminComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'services', component: ServicesComponent },
   { path: 'device-groups', component: DeviceGroupsComponent },
   { path: 'slices', component: SlicesComponent },
+  { path: 'small-cells', component: SmallCellComponent },
 ];
 
 @NgModule({

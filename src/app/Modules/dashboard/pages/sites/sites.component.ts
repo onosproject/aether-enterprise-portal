@@ -2,6 +2,7 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { SitesService } from '../../../../services/sites/sites.service';
 import { environment } from '../../../../../environments/environment';
+import { Site } from 'src/app/models/site.model';
 
 @Component({
   selector: 'aep-sites',
@@ -22,7 +23,7 @@ export class SitesComponent {
     public deviceService: DeviceSimService
   ) {
     // this.sites = sites[0];
-    // console.log(sites);
+    // //console.log(sites);
     sitesService.GetAllConfig().subscribe(
       (response) => {
         // console.log('Site Response', response);
@@ -36,17 +37,17 @@ export class SitesComponent {
           this.sitesResponse.sites[0].devices,
           0
         );
-        // console.log('Site Response', this.sitesResponse);
+        // //console.log('Site Response', this.sitesResponse);
       },
       () => {
-        // console.log('Site Error', error);
+        // //console.log('Site Error', error);
       }
     );
   }
 
   onSelectCard(
     value: string,
-    siteData: { slices: any[] },
+    siteData: Site,
     deviceGroup: {
       'device-group-id': string;
       devices: any[];
@@ -56,6 +57,9 @@ export class SitesComponent {
     }[],
     siteIndex: number
   ): void {
+    this.sitesService.siteIndex = null;
+    this.sitesService.siteId = '';
+    this.sitesService.siteData = null;
     this.deviceService.mySite(value);
     this.selected = value;
     for (let i = 0; i < siteData.slices.length; i++) {
@@ -67,7 +71,7 @@ export class SitesComponent {
           ) {
             let groupName = '';
             const selecteddevice = [];
-            // console.log('|||||||||', deviceGroup[k]['display-name']);
+            // //console.log('|||||||||', deviceGroup[k]['display-name']);
             const devices = [];
             for (let m = 0; m < deviceGroup[k].devices.length; m++) {
               for (let n = 0; n < device.length; n++) {
@@ -95,15 +99,9 @@ export class SitesComponent {
       }
     }
     this.getServices(siteData, value, siteIndex);
-    // console.log('+++++', siteData.slices);
+    // //console.log('+++++', siteData.slices);
   }
-  getServices(
-    siteData: {
-      slices: any[];
-    },
-    value: string,
-    siteIndex: number
-  ): void {
+  getServices(siteData: Site, value: string, siteIndex: number): void {
     for (let i = 0; i < siteData.slices.length; i++) {
       const selectedService = [];
       const service = [];
@@ -113,7 +111,7 @@ export class SitesComponent {
             siteData.slices[i].applications[j] ===
             this.sitesResponse.applications[k]['application-id']
           ) {
-            // console.log('|||||||||', this.sitesResponse.applications[k]);
+            // //console.log('|||||||||', this.sitesResponse.applications[k]);
             service.push(this.sitesResponse.applications[k]);
           }
         }
@@ -125,7 +123,13 @@ export class SitesComponent {
       });
       siteData.slices[i]['services'] = selectedService;
     }
-    // console.log('+++++', siteData.slices);
+    console.log('+++++', siteData);
+    this.sitesService.siteIndex = siteIndex;
+    this.sitesService.siteId = value;
+    this.sitesService.siteData = siteData.slices;
+
+    // this.configResponse.siteData.push(siteData.slices)
+
     this.informParent.emit({
       siteId: value,
       siteData: siteData.slices,

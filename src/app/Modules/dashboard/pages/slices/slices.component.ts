@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modals/delet-card/modal.component';
+import { DeviceGroup } from 'src/app/models/device-group.model';
 
 @Component({
   selector: 'aep-slices',
@@ -86,7 +87,7 @@ export class SlicesComponent {
       this.TabValue.push('1h' + i);
     }
 
-    // console.log('siteData||||', value.siteData);
+    console.log('siteData||||', value.siteData);
   }
 
   getTotalDevices(
@@ -141,7 +142,7 @@ export class SlicesComponent {
   }
 
   onEdit(sliceId: number, index: number): void {
-    // console.log(this.sliceData[index]);
+    // //console.log(this.sliceData[index]);
     this.sliceId = sliceId;
     this.siteIndex = index;
     if (this.isEditable) {
@@ -249,16 +250,12 @@ export class SlicesComponent {
     this.serialNumber = JSON.stringify(event.serialNumber);
   }
 
-  calculateSVGHeight(
-    noOfDeviceGroups: number,
-    isExpanded: boolean,
-    deviceGroups: [{ 'display-name': string; devices: []; isExpanded: boolean }]
-  ): number {
+  calculateSVGHeight(deviceGroups: DeviceGroup[]): number {
     // const totalHeight = noOfDeviceGroups * (isExpanded ? 420 : 120);
     // return totalHeight > 450 ? totalHeight : 450;
     let totalHeight = 0;
     for (let i = 0; i < deviceGroups.length; i++) {
-      totalHeight += deviceGroups[i].isExpanded ? 420 : 120;
+      totalHeight += deviceGroups[i]?.isExpanded ? 420 : 120;
     }
     // totalHeight += 200;
 
@@ -278,10 +275,7 @@ export class SlicesComponent {
   //   }
   // }
 
-  calculateDeviceTop(
-    index: number,
-    deviceGroups: [{ 'display-name': string; devices: []; isExpanded: boolean }]
-  ): number {
+  calculateDeviceTop(index: number, deviceGroups: DeviceGroup): number {
     if (index === 0) {
       return 20;
     } else {

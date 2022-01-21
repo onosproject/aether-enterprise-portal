@@ -187,14 +187,11 @@
                   <div class="my-4 p-3 form-body">
                     <!-- <div class="select-devices">Add Device Groups</div> -->
                     <div class="col-12 d-flex">
-                      <div
-                        class="device-group-items d-flex flex-wrap"
-                        *ngFor="let deviceGroups of siteDeviceGroups"
-                      >
+                      <div class="device-group-items d-flex flex-wrap">
                         <div
                           class="device-group-item"
                           *ngFor="
-                            let deviceGroup of deviceGroups;
+                            let deviceGroup of deviceGroupsInventory;
                             let deviceGroupIndex = index
                           "
                         >
@@ -212,7 +209,7 @@
                             <div class="select">
                               <img
                                 [src]="
-                                  deviceGroup.selected === 0
+                                  deviceGroup.selected === 1
                                     ? 'assets/deviceSim/selected-card.svg'
                                     : 'assets/deviceSim/select.svg'
                                 "
@@ -258,7 +255,7 @@
                         <div
                           class="serive-item"
                           *ngFor="
-                            let services of siteServices;
+                            let services of servicesInventory;
                             let serviceIndex = index
                           "
                         >
@@ -275,7 +272,7 @@
                             <div class="select">
                               <img
                                 [src]="
-                                  services.selected === 0
+                                  services.selected === 1
                                     ? 'assets/deviceSim/selected-card.svg'
                                     : 'assets/deviceSim/select.svg'
                                 "
@@ -521,11 +518,19 @@
                               <div
                                 class="device-group-item"
                                 *ngFor="
-                                  let deviceGroups of selectedDeviceGroups
+                                  let deviceGroups of selectedDeviceGroups;
+                                  let deviceGroupIndex = index
                                 "
                               >
                                 <div class="mx-1 d-flex align-items-center">
-                                  <div class="select">
+                                  <div
+                                    class="select"
+                                    (click)="
+                                      deleteSummaryDeviceGroups(
+                                        deviceGroupIndex
+                                      )
+                                    "
+                                  >
                                     <img
                                       src="../../../assets/CommonAssets/delete-red-bg.svg"
                                     />
@@ -539,7 +544,7 @@
                                   </div>
 
                                   <div class="mx-1 device-group">
-                                    {{ deviceGroups.name }}
+                                    {{ deviceGroups["display-name"] }}
                                   </div>
                                   <div class="status-dot">
                                     <img
@@ -555,10 +560,18 @@
                             <div class="serive-items d-flex flex-wrap">
                               <div
                                 class="serive-item"
-                                *ngFor="let service of selectedServices"
+                                *ngFor="
+                                  let service of selectedServices;
+                                  let serviceIndex = index
+                                "
                               >
                                 <div class="mx-1 d-flex align-items-center">
-                                  <div class="select">
+                                  <div
+                                    class="select"
+                                    (click)="
+                                      deleteSummaryServices(serviceIndex)
+                                    "
+                                  >
                                     <img
                                       src="../../../assets/CommonAssets/delete-red-bg.svg"
                                     />
@@ -572,7 +585,7 @@
                                   </div>
 
                                   <div class="mx-1 serive">
-                                    {{ service.name }}
+                                    {{ service["display-name"] }}
                                   </div>
                                   <div class="status-dot">
                                     <img
@@ -610,6 +623,33 @@
       >
         <div class="row slices-cards-acc-cards">
           <!--Header part-->
+          <svg:svg
+            *ngIf="
+              expandSlices.indexOf(slicesIndex) < 0 &&
+              editSlices.indexOf(slicesIndex) < 0
+            "
+            height="135"
+            class="slices__joiner"
+          >
+            <svg:g
+              aep-joiner
+              [dash]="'4 5'"
+              [title]="''"
+              [startX]="250"
+              [startY]="60"
+              [endX]="225"
+              [endY]="60"
+            ></svg:g>
+            <svg:g
+              aep-joiner
+              [dash]="'4 5'"
+              [title]="''"
+              [startX]="655"
+              [startY]="60"
+              [endX]="685"
+              [endY]="60"
+            ></svg:g>
+          </svg:svg>
           <div
             *ngIf="
               expandSlices.indexOf(slicesIndex) < 0 &&
@@ -618,7 +658,7 @@
           >
             <div class="plush-min">
               <div
-                class="right-bx-shadow d-flex align-items-center"
+                class="right-bx-shadow d-flex align-items-center slices__expand"
                 (click)="expandTrigger(slicesIndex)"
                 *ngIf="expandSlices.indexOf(slicesIndex) < 0"
               >
@@ -651,9 +691,9 @@
                     "
                   >
                     {{ slices["device-groups"].length }} device groups |
-                    {{ slices["device-groups"][0].devices.length }} devices
+                    {{ getTotalDevices(slices["device-groups"]) }} devices
                   </div>
-                  <div class="label-view d-flex">
+                  <div class="label-view d-flex slices__device-group">
                     <!-- <span class="img file1"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span>
                                        <span class="desc">Conneted Devices </span>
                                        <span class="img dot"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span> -->
@@ -661,7 +701,7 @@
                       <div class="card-icon">
                         <img src="assets/AdminPanel/connected.svg" />
                       </div>
-                      <div class="desc">Connected Devices</div>
+                      <div class="desc slices__name">Connected Devices</div>
 
                       <div class="red-ellipse">
                         <img src="assets/deviceSim/success-dot.svg" />
@@ -707,7 +747,7 @@
                   >
                     {{ slices.applications.length }} Services
                   </div>
-                  <div class="label-view d-flex">
+                  <div class="label-view d-flex slices__services">
                     <button mat-raised-button class="conected-devices-bx">
                       <div class="card-icon">
                         <img src="assets/AdminPanel/service.svg" />
@@ -773,21 +813,52 @@
               class="connect-view"
               *ngIf="listViewSlices.indexOf(slicesIndex) < 0"
             >
-              <div class="device-group-items-acc d-flex flex-wrap">
+              <div class="align-items-start d-flex flex-wrap">
+                <svg:svg
+                  [attr.height]="calculateSVGHeight(slices)"
+                  class="slices__joiner slices__joiner--expanded"
+                >
+                  <svg:g
+                    aep-joiner
+                    [title]="''"
+                    [startX]="255"
+                    [startY]="60"
+                    [endX]="225"
+                    [endY]="calculateVerticalPosition(deviceGroupIndex)"
+                    *ngFor="
+                      let deviceGroup of slices['device-groups'];
+                      let deviceGroupIndex = index
+                    "
+                  ></svg:g>
+                  <svg:g
+                    aep-joiner
+                    [title]="''"
+                    [startX]="655"
+                    [startY]="60"
+                    [endX]="685"
+                    [endY]="calculateVerticalPosition(serviceIndex)"
+                    *ngFor="
+                      let services of slices.applications;
+                      let serviceIndex = index
+                    "
+                  ></svg:g>
+                </svg:svg>
                 <div class="connected-devices">
                   <div class="label">
                     {{ slices["device-groups"].length }} device groups |
-                    {{ slices["device-groups"][0].devices.length }} devices
+                    {{ getTotalDevices(slices["device-groups"]) }} devices
                   </div>
                   <div
-                    class="label-view d-flex"
+                    class="label-view d-flex slices__device-group"
                     *ngFor="let deviceGroup of slices['device-groups']"
                   >
                     <button mat-raised-button class="conected-devices-bx">
                       <div class="card-icon">
                         <img src="assets/AdminPanel/connected.svg" />
                       </div>
-                      <div class="desc">{{ deviceGroup["display-name"] }}</div>
+                      <div class="desc slices__name">
+                        {{ deviceGroup["display-name"] }}
+                      </div>
 
                       <div class="red-ellipse">
                         <img src="assets/deviceSim/success-dot.svg" />
@@ -821,14 +892,16 @@
                     {{ slices.applications.length }} Services
                   </div>
                   <div
-                    class="label-view d-flex"
+                    class="label-view d-flex slices__device-group"
                     *ngFor="let services of slices.applications"
                   >
                     <button mat-raised-button class="conected-devices-bx">
                       <div class="card-icon">
                         <img src="assets/AdminPanel/service.svg" />
                       </div>
-                      <div class="desc">{{ services["display-name"] }}</div>
+                      <div class="desc slices__name">
+                        {{ services["display-name"] }}
+                      </div>
 
                       <div class="red-ellipse">
                         <img src="assets/deviceSim/success-dot.svg" />
@@ -1131,25 +1204,23 @@
                           <div
                             class="device-group-item"
                             *ngFor="
-                              let deviceGroups of remainingDeviceGroups;
+                              let deviceGroups of deviceGroupsInventory;
                               let deviceGroupsIndex = index
                             "
+                            (click)="
+                              changeSelectionAddDeviceGroups(
+                                deviceGroups['device-group-id'],
+                                deviceGroups['display-name'],
+                                deviceGroups.devices,
+                                deviceGroupsIndex
+                              )
+                            "
                           >
-                            <div
-                              class="mx-1 d-flex align-items-center"
-                              (click)="
-                                changeSelectionAddDeviceGroups(
-                                  deviceGroups[0]['device-group-id'],
-                                  deviceGroups[0]['display-name'],
-                                  deviceGroups[0].devices,
-                                  deviceGroupsIndex
-                                )
-                              "
-                            >
+                            <div class="mx-1 d-flex align-items-center">
                               <div class="select">
                                 <img
                                   [src]="
-                                    deviceGroups[0].selected === 0
+                                    deviceGroups.selected === 1
                                       ? 'assets/deviceSim/selected-card.svg'
                                       : 'assets/deviceSim/select.svg'
                                   "
@@ -1164,7 +1235,7 @@
                               </div>
 
                               <div class="mx-1 camera">
-                                {{ deviceGroups[0]["display-name"] }}
+                                {{ deviceGroups["display-name"] }}
                               </div>
                               <div class="status-dot">
                                 <img
@@ -1233,7 +1304,7 @@
                         <div class="my-2 mx-4" *ngIf="editAddServices">
                           <div class="d-flex">
                             <div class="label-select">
-                              Select devices to add t0 the group
+                              Select devices to add to the group
                             </div>
                             <div
                               class="label mx-4 cancel"
@@ -1245,11 +1316,28 @@
                           </div>
 
                           <div class="device-group-items d-flex flex-wrap">
-                            <div class="device-group-item">
+                            <div
+                              class="device-group-item"
+                              *ngFor="
+                                let services of servicesInventory;
+                                let serviceIndex = index
+                              "
+                              (click)="
+                                changeSelectionAddServices(
+                                  services['application-id'],
+                                  services['display-name'],
+                                  serviceIndex
+                                )
+                              "
+                            >
                               <div class="mx-1 d-flex align-items-center">
                                 <div class="select">
                                   <img
-                                    src="../../../assets/deviceSim/select.svg"
+                                    [src]="
+                                      services.selected === 1
+                                        ? 'assets/deviceSim/selected-card.svg'
+                                        : 'assets/deviceSim/select.svg'
+                                    "
                                   />
                                 </div>
 
@@ -1260,76 +1348,9 @@
                                   />
                                 </div>
 
-                                <div class="mx-1 camera">Services</div>
-                                <div class="status-dot">
-                                  <img
-                                    src="../../assets/deviceSim/success-dot.svg"
-                                  />
+                                <div class="mx-1 camera">
+                                  {{ services["display-name"] }}
                                 </div>
-                              </div>
-                            </div>
-                            <div class="device-group-item">
-                              <div class="mx-1 d-flex align-items-center">
-                                <div class="select">
-                                  <img
-                                    src="../../../assets/deviceSim/select.svg"
-                                  />
-                                </div>
-
-                                <div class="img-bg-popup">
-                                  <img
-                                    src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                    class="mx-2"
-                                  />
-                                </div>
-
-                                <div class="mx-1 camera">Services</div>
-                                <div class="status-dot">
-                                  <img
-                                    src="../../assets/deviceSim/success-dot.svg"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <div class="device-group-item">
-                              <div class="mx-1 d-flex align-items-center">
-                                <div class="select">
-                                  <img
-                                    src="../../../assets/deviceSim/select.svg"
-                                  />
-                                </div>
-
-                                <div class="img-bg-popup">
-                                  <img
-                                    src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                    class="mx-2"
-                                  />
-                                </div>
-
-                                <div class="mx-1 camera">Services</div>
-                                <div class="status-dot">
-                                  <img
-                                    src="../../assets/deviceSim/success-dot.svg"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <div class="device-group-item">
-                              <div class="mx-1 d-flex align-items-center">
-                                <div class="select">
-                                  <img
-                                    src="../../../assets/deviceSim/select.svg"
-                                  />
-                                </div>
-
-                                <div class="img-bg-popup">
-                                  <img
-                                    src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                    class="mx-2"
-                                  />
-                                </div>
-
-                                <div class="mx-1 camera">Services</div>
                                 <div class="status-dot">
                                   <img
                                     src="../../assets/deviceSim/success-dot.svg"

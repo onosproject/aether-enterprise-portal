@@ -20,6 +20,7 @@ import * as d3Time from 'd3-timelines-edited';
 import * as d3 from 'd3';
 
 import { DeleteDevicesComponent } from '../dialogs/delete-devices/delete-devices.component';
+import { DeleteInventoryComponent } from '../dialogs/delete-inventory/delete-inventory.component';
 @Component({
   selector: 'aep-device-sim',
   templateUrl: './device-sim.component.html',
@@ -79,11 +80,13 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   simInventory: any[] = [];
 
+  editInventory: number[] = [];
+
   editDevices: number[] = [];
 
   deviceDetails: number[] = [];
 
-  deviceType: any[] = ['phone', 'camera'];
+  deviceType: any[] = ['Phone', 'Camera', 'Sensor', 'IOT', 'Other'];
 
   cancelledSimsStorage: any[] = [];
 
@@ -180,7 +183,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     inventoryDeviceType: new FormControl('', Validators.required),
   });
 
-  inventoryDeviceSimEditForm = new FormGroup({
+  inventoryEditForm = new FormGroup({
     inventoryDeviceName: new FormControl('', Validators.required),
     inventoryDeviceLocation: new FormControl('', Validators.required),
     inventoryDeviceSerialNum: new FormControl('', Validators.required),
@@ -207,7 +210,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.configService.fetchOther();
     this.deviceService.getSiteIds();
     this.deviceService.selectedId();
-    console.log(this.valuesArrayFinal);
+    //console.log(this.valuesArrayFinal);
 
     // setInterval(() => {
     //   console.log('lol', this.fetchData());
@@ -326,18 +329,19 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   addNewDevice1(): any {
-    console.log('addNewDevice');
+    //console.log('addNewDevice');
     this.siteConfig[0].push({
       sim: this.deviceSimForm.value.newSim,
       'display-name': this.deviceSimForm.value.deviceName,
       location: this.deviceSimForm.value.deviceLocation,
       'serial-number': this.deviceSimForm.value.deviceSerialNum,
     });
+    this.activeNewDeviceForm();
     // console.log(this.siteConfig);
   }
 
   addNewDeviceInventory(): any {
-    console.log('add NewDevice to Inventory');
+    //console.log('add NewDevice to Inventory');
     this.deviceInventory.push({
       'display-name': this.inventoryDeviceSimForm.value.inventoryDeviceName,
       location: this.inventoryDeviceSimForm.value.inventoryDeviceLocation,
@@ -345,14 +349,15 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         this.inventoryDeviceSimForm.value.inventoryDeviceSerialNum,
       type: this.inventoryDeviceSimForm.value.inventoryDeviceType,
     });
+    this.activeNewDeviceForm();
   }
 
   assignSelectedSite(): any {
-    console.log(this.deviceService.mySite1);
+    //console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       this.selectedSite = data;
-      // console.log(this.selectedSite);
+      // //console.log(this.selectedSite);
       this.fetchData();
     });
   }
@@ -360,7 +365,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   assignSelectedSim(): any {
     this.deviceService.mySim1.subscribe((data) => {
       this.selectedSim = data;
-      // console.log(this.selectedSim);
+      // //console.log(this.selectedSim);
     });
   }
 
@@ -369,30 +374,30 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       const configArray: any[] = [];
       configArray.push(result);
       this.config = configArray;
-      // console.log(this.config);
+      // //console.log(this.config);
       configArray.map((item) => {
         const sitesArray: any[] = [];
         const sitesConfig = item.sites;
-        // console.log(item.sites);
+        // //console.log(item.sites);
         sitesConfig.map((site) => {
-          console.log(site['display-name']);
-          console.log(this.selectedSite);
+          //console.log(site['display-name']);
+          //console.log(this.selectedSite);
           if (site['site-id'] === this.selectedSite) {
             sitesArray.push(site.devices);
-            console.log(
-              'This is Local sites array',
-              this.selectedSite,
-              sitesArray
-            );
+            //console.log(
+            //   'This is Local sites array',
+            //   this.selectedSite,
+            //   sitesArray
+            // );
           }
         });
         this.siteConfig = sitesArray;
       });
-      console.log('This is global sites array', this.siteConfig);
-      console.log(this.config);
+      //console.log('This is global sites array', this.siteConfig);
+      //console.log(this.config);
       for (let i = 0; i < this.siteConfig[0].length; i++) {
         this.fetchProm2(this.selectedSite, this.siteConfig[0][i].sim, i);
-        // console.log("+++++++++", this.siteConfig[0][i].sim)
+        // //console.log("+++++++++", this.siteConfig[0][i].sim)
       }
     });
   }
@@ -402,11 +407,11 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.closeDetails();
     const editDeviceIndex = this.editDevices.indexOf(index);
     if (editDeviceIndex >= 0) {
-      // console.log('if');
+      // //console.log('if');
       this.editDevices.splice(editDeviceIndex, 1);
     } else {
-      // console.log('else');
-      // console.log(this.siteConfig[0][index]);
+      // //console.log('else');
+      // //console.log(this.siteConfig[0][index]);
       this.siteConfig[0][index].form = new FormGroup({
         newSim: new FormControl(this.siteConfig[0][index].sim),
         deviceName: new FormControl(this.siteConfig[0][index]['display-name']),
@@ -417,15 +422,80 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       });
       this.editDevices.push(index);
     }
-    // console.log(editDeviceIndex);
-    // console.log(this.editDevices);
+    // //console.log(editDeviceIndex);
+    // //console.log(this.editDevices);
   }
 
   closeEdit(): any {
+    this.activeNewDevice = false;
     this.editDevices.pop();
   }
 
-  detailsTrigger(index: number, sim: string, serialNum: string): any {
+  getEditControl(deviceSimEditForm: FormGroup, param: string): FormControl {
+    return deviceSimEditForm.get(param) as FormControl;
+  }
+
+  actualEdit(index: number): void {
+    const form = this.siteConfig[0][index].form.value;
+    const device = this.siteConfig[0][index];
+    device.sim = form.newSim;
+    device['display-name'] = form.deviceName;
+    device.location = form.deviceLocation;
+    device['serial-number'] = form.deviceSerialNum;
+  }
+
+  inventoryEditTrigger(index: number): any {
+    this.addNewDevice = false;
+    this.closeEditInventory();
+    const editInventoryIndex = this.editInventory.indexOf(index);
+    if (editInventoryIndex >= 0) {
+      this.editInventory.splice(editInventoryIndex, 1);
+    } else {
+      this.deviceInventory[index].form = new FormGroup({
+        inventoryDeviceName: new FormControl(
+          this.deviceInventory[index]['display-name']
+        ),
+        inventoryDeviceLocation: new FormControl(
+          this.deviceInventory[index]['location']
+        ),
+        inventoryDeviceSerialNum: new FormControl(
+          this.deviceInventory[index]['serial-number']
+        ),
+        inventoryDeviceType: new FormControl(
+          this.deviceInventory[index]['type']
+        ),
+      });
+      this.editInventory.push(index);
+    }
+  }
+
+  closeEditInventory(): any {
+    this.editInventory.pop();
+  }
+
+  getEditInventoryControl(
+    inventoryEditForm: FormGroup,
+    param: string
+  ): FormControl {
+    return inventoryEditForm.get(param) as FormControl;
+  }
+
+  actualInventoryEdit(inventoryDeviceIndex: number): void {
+    this.closeEditInventory();
+    const form = this.deviceInventory[inventoryDeviceIndex].form.value;
+    const inventoryDevice = this.deviceInventory[inventoryDeviceIndex];
+    inventoryDevice['display-name'] = form.inventoryDeviceName;
+    inventoryDevice['type'] = form.inventoryDeviceType;
+    inventoryDevice.location = form.inventoryDeviceLocation;
+    inventoryDevice['serial-number'] = form.inventoryDeviceSerialNum;
+    //console.log(this.deviceInventory);
+  }
+
+  deleteInventoryDevice(inventoryDeviceIndex: number): void {
+    this.deviceInventory.splice(inventoryDeviceIndex, 1);
+  }
+
+  detailsTrigger(index: number, sim: string): any {
     this.selectedDate = -1;
     this.zoomIn = 0;
     this.isZoomIn = false;
@@ -444,10 +514,11 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.deviceDetails.push(index);
     }
     this.fetchProm(this.selectedSite, sim, index);
-    this.fetchDots(this.selectedSite, serialNum);
+    // this.fetchDots(this.selectedSite, serialNum);
   }
 
   closeDetails(): any {
+    this.activeNewDevice = false;
     this.deviceDetails.pop();
   }
 
@@ -458,37 +529,26 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   // }
   // }
 
-  getEditControl(deviceSimEditForm: FormGroup, param: string): FormControl {
-    return deviceSimEditForm.get(param) as FormControl;
-  }
-
-  actualEdit(index: number): void {
-    const form = this.siteConfig[0][index].form.value;
-    const device = this.siteConfig[0][index];
-    device.sim = form.newSim;
-    device['display-name'] = form.deviceName;
-    device.location = form.deviceLocation;
-    device['serial-number'] = form.deviceSerialNum;
-  }
-
   deleteDevice(index: number): any {
     const simIccid = this.siteConfig[0][index].sim;
     // const siteName = this.siteConfig[0][index]['display-name'];
-    // console.log(siteName);
+    // //console.log(siteName);
     this.simInventory.push({ simIccid });
-    console.log('The Detached sims are: ', this.simInventory);
+    //console.log('The Detached sims are: ', this.simInventory);
     delete this.siteConfig[0][index].sim;
-    console.log('Before deleting the device', this.siteConfig);
+    //console.log('Before deleting the device', this.siteConfig);
     this.deviceInventory.push(this.siteConfig[0][index]);
-    // console.log(this.deviceInventory);
+    // //console.log(this.deviceInventory);
     this.siteConfig[0].splice(index, 1);
+    //console.log(this.deviceInventory);
   }
 
   cancelSim(index: number): any {
     const simIccid = this.siteConfig[0][index].sim;
     this.cancelledSimsStorage.push({ simIccid });
-    console.log('THe Cancelled SIMS are: -->', this.cancelledSimsStorage);
+    //console.log('THe Cancelled SIMS are: -->', this.cancelledSimsStorage);
     delete this.siteConfig[0][index].sim;
+    this.closeEditInventory();
   }
 
   openDialog(): void {
@@ -499,7 +559,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
       this.animal = result;
     });
   }
@@ -511,7 +571,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
       this.animal = result;
     });
   }
@@ -526,6 +586,19 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         this.deleteDevice(deviceIndex);
       }
       this.closeEdit();
+    });
+  }
+
+  openDeleteInventoryDialog(inventoryDeviceIndex: number): void {
+    const dialogRef = this.dialog.open(DeleteInventoryComponent, {
+      width: '450px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result == 'true') {
+        this.deleteInventoryDevice(inventoryDeviceIndex);
+      }
+      this.closeEditInventory();
     });
   }
 
@@ -575,10 +648,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.apiCurrentTime +
       '.000Z&step=60m';
 
-    console.log(
-      '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
-      query
-    );
+    //console.log(query);
     return this.http.get(this.deviceService.promApiUrl + query, { headers });
   }
 
@@ -645,72 +715,72 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   fetchProm(site: string, iccid: string, index: number): any {
-    console.log(this.apiPreviousDate);
-    console.log(this.apiCurrentDate);
+    //console.log(this.apiPreviousDate);
+    //console.log(this.apiCurrentDate);
     this.timesArray.splice(0, this.timesArray.length);
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApi(site, iccid).subscribe((data) => {
-      // console.log(data.data.result[0]);
+      // //console.log(data.data.result[0]);
       let valuesArray: any[] = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
-      console.log(valuesArray);
+      //console.log(valuesArray);
       const timesObject: any = {};
       timesObject.starting_time = '';
       timesObject.ending_time = '';
       timesObject.display = 'rect';
       const timesArray: any[] = [];
-      // console.log(valuesArray);
+      // //console.log(valuesArray);
       valuesArray.forEach((el, index) => {
-        // console.log(el[1], timesObject);
-        // console.log(timesObject.starting_time);
+        // //console.log(el[1], timesObject);
+        // //console.log(timesObject.starting_time);
         if (el[1] === '1' && timesObject.starting_time === '') {
-          // console.log('if1');
+          // //console.log('if1');
           timesObject.starting_time = valuesArray[index][0];
 
-          // console.log(timesObject.starting_time);
+          // //console.log(timesObject.starting_time);
         } else if (el[1] === '0' && timesObject.starting_time !== '') {
-          // console.log('else-if1');
+          // //console.log('else-if1');
           timesObject.ending_time = valuesArray[index - 1][0];
           timesArray.push({ ...timesObject });
           timesObject.starting_time = '';
           timesObject.ending_time = '';
         }
         if (index === valuesArray.length - 1 && el[1] === '1') {
-          // console.log('if2');
+          // //console.log('if2');
           timesObject.ending_time = valuesArray[index][0];
           timesArray.push({ ...timesObject });
           timesObject.starting_time = '';
           timesObject.ending_time = '';
         }
       });
-      console.log(timesArray);
+      //console.log(timesArray);
       this.timesArray = timesArray;
       // valuesArray.forEach((eachItem, index) => {
-      // console.log(eachItem, index);
+      // //console.log(eachItem, index);
       //   if (index == valuesArray.length - 1 || index == 0) {
-      // console.log(valuesArray[index]);
+      // //console.log(valuesArray[index]);
       //   }
       // });
-      // console.log(timesObject);
-      // console.log(this.timesArray);
+      // //console.log(timesObject);
+      // //console.log(this.timesArray);
       this.valuesArrayFinal[0].times = timesArray;
       const finalArray = this.valuesArrayFinal;
-      console.log(finalArray);
+      //console.log(finalArray);
       this.displayChart(finalArray, index);
       this.valuesArrayFinal[0].times = [];
     });
 
-    console.log(this.timesArray);
-    console.log(this.valuesArrayFinal);
+    //console.log(this.timesArray);
+    //console.log(this.valuesArrayFinal);
   }
 
   fetchDotsApi(site: string, serialNum: string): any {
     this.formatDate();
     const headers = {
       Accept: 'application/json',
-      Authorization:
-        'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
+      // Authorization:
+      //   'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
     };
     const query: string =
       '/query_range?query=device_connection_event_core{site="' +
@@ -725,19 +795,19 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.apiCurrentDate +
       'T' +
       this.apiCurrentTime +
-      '.000Z&step=60m';
+      '.000Z&step=1h';
 
-    console.log(query);
+    //console.log(query);
     return this.http.get(this.deviceService.promApiUrl + query, { headers });
   }
 
-  fetchDots(site: string, serialNum: string): any {
-    this.fetchDotsApi(site, serialNum).subscribe((data) => {
-      console.log('++++++++++++', data);
-    });
-  }
+  // fetchDots(site: string, serialNum: string): void {
+  //   this.fetchDotsApi(site, serialNum).subscribe(() => {
+  //     //console.log(data);
+  //   });
+  // }
 
-  displayChart(chartData: any[], index: number): any {
+  displayChart(chartData: any[], index: number): void {
     // alert("test");
     const width = 800;
     const height = 50;
@@ -760,7 +830,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       .call(chart);
   }
 
-  displaySmallChart(chartData: any[], index: number): any {
+  displaySmallChart(chartData: any[], index: number): void {
     // alert("test");
     const width = 100;
     const height = 50;
@@ -783,68 +853,68 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       .call(chart);
   }
 
-  test5(deviceIndex: number, simNumber: string): any {
+  test5(deviceIndex: number, simNumber: string): void {
     this.fetchProm2(this.selectedSite, simNumber, deviceIndex);
   }
 
-  fetchProm2(site: string, iccid: string, index: number): any {
-    console.log(this.apiPreviousDate);
-    console.log(this.apiCurrentDate);
+  fetchProm2(site: string, iccid: string, index: number): void {
+    //console.log(this.apiPreviousDate);
+    //console.log(this.apiCurrentDate);
     this.timesArray.splice(0, this.timesArray.length);
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApi(site, iccid).subscribe((data) => {
-      // console.log(data.data.result[0]);
+      // //console.log(data.data.result[0]);
       let valuesArray: any[] = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
-      // console.log(valuesArray);
+      // //console.log(valuesArray);
       const timesObject: any = {};
       timesObject.starting_time = '';
       timesObject.ending_time = '';
       timesObject.display = 'rect';
       const timesArray: any[] = [];
-      // console.log(valuesArray);
+      // //console.log(valuesArray);
       valuesArray.forEach((el, index) => {
-        console.log(el[1], timesObject);
-        // console.log(timesObject.starting_time);
+        //console.log(el[1], timesObject);
+        // //console.log(timesObject.starting_time);
         if (el[1] === '1' && timesObject.starting_time === '') {
-          // console.log('if1');
+          // //console.log('if1');
           timesObject.starting_time = valuesArray[index][0];
 
-          console.log(timesObject.starting_time);
+          //console.log(timesObject.starting_time);
         } else if (el[1] === '0' && timesObject.starting_time !== '') {
-          // console.log('else-if1');
+          // //console.log('else-if1');
           timesObject.ending_time = valuesArray[index - 1][0];
           timesArray.push({ ...timesObject });
           timesObject.starting_time = '';
           timesObject.ending_time = '';
         }
         if (index === valuesArray.length - 1 && el[1] === '1') {
-          // console.log('if2');
+          // //console.log('if2');
           timesObject.ending_time = valuesArray[index][0];
           timesArray.push({ ...timesObject });
           timesObject.starting_time = '';
           timesObject.ending_time = '';
         }
       });
-      // console.log(timesArray);
+      // //console.log(timesArray);
       this.timesArray = timesArray;
-      // console.log(timesObject);
-      // console.log(this.timesArray);
+      // //console.log(timesObject);
+      // //console.log(this.timesArray);
       this.valuesArrayFinal[0].times = timesArray;
       const finalArray = this.valuesArrayFinal;
-      console.log(finalArray);
+      //console.log(finalArray);
       this.displaySmallChart(finalArray, index);
       // this.valuesArrayFinal[0].times = [];
     });
   }
 
-  formatDate(): any {
+  formatDate(): void {
     const currentDate = new Date(new Date().getTime());
     const previousDate = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
     const reqPreviousDate = new Date(previousDate);
     const reqCurrentDate = new Date(currentDate);
-    // console.log(reqCurrentDate);
+    // //console.log(reqCurrentDate);
 
     let reqPreviousMonth = '' + (reqPreviousDate.getMonth() + 1);
     let reqPreviousDay = '' + reqPreviousDate.getDate();
@@ -898,7 +968,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.apiPreviousTime = apiPreviousTime;
     this.apiCurrentDate = apiCurrentDate;
     this.apiCurrentTime = apiCurrentTime;
-    console.log('prev: ', apiPreviousDate, 'current: ', apiCurrentDate);
+    //console.log('prev: ', apiPreviousDate, 'current: ', apiCurrentDate);
   }
 
   deviceSimsDetailItemDetailsPopUpFun(): void {
@@ -945,13 +1015,15 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     );
   }
   activeNewDeviceForm(): void {
+    this.closeEdit();
+    this.closeDetails();
     this.activeNewDevice = true;
     this.deviceSimsDetailItemDetailsPopUp = false;
     this.deviceSimsDetailViewEditForm = false;
   }
   addNewDeviceFun(): void {
-    this.addNewDevice = true;
-    this.inventoryDeviceEditForm = false;
+    this.closeEditInventory();
+    this.addNewDevice = !this.addNewDevice;
   }
   inventoryDeviceEditFormFun(): void {
     this.inventoryDeviceEditForm = true;
@@ -962,6 +1034,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   simsView(): void {
+    this.fetchData();
     this.inventorySimsTabStyle = 'false';
     this.inventoryDeviceTabStyle = 'false';
     this.deviceSimView = 'true';
@@ -975,7 +1048,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.activeNewDevice = false;
     this.addNewDevice = false;
     this.inventoryDeviceEditForm = false;
-    // console.log(a)
+    // //console.log(a)
   }
   inventoryDeviceTab(): void {
     this.deviceSimView = 'false';
@@ -1025,7 +1098,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('onDestroy');
+    //console.log('onDestroy');
     this.siteSubscription.unsubscribe();
   }
 }

@@ -66,6 +66,10 @@ export class AdminComponent implements OnInit {
   subscription: Subscription;
   citySubscription: Subscription;
 
+  // Image variables
+  fileUrl: any = '';
+  imageLoaded: boolean = false;
+
   ngOnInit(): void {
     // subscriptions
     this.subscription = this.userService.usersSubject.subscribe(
@@ -85,7 +89,7 @@ export class AdminComponent implements OnInit {
     this.assignCitiesUsers();
     this.setUpCities();
     this.setUpEditedCities();
-    console.log(this.doneActive);
+    //console.log(this.doneActive);
   }
 
   task: Task = {
@@ -110,7 +114,7 @@ export class AdminComponent implements OnInit {
   // formGroups
   userForm = new FormGroup({
     name: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
     emailAlert: new FormControl('', Validators.required),
     deviceAlert: new FormControl('', Validators.required),
     centralAlert: new FormControl('', Validators.required),
@@ -118,6 +122,10 @@ export class AdminComponent implements OnInit {
     securityAlert: new FormControl('', Validators.required),
     cities: new FormArray([]),
   });
+
+  userControls = this.userForm.controls;
+
+  userFormSubmit = false;
 
   editForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -130,13 +138,19 @@ export class AdminComponent implements OnInit {
     cities: new FormArray([]),
   });
 
+  editFormControl1 = this.editForm.controls;
+
+  editFormSubmit = false;
+
+  editControls;
+
   // Toggling userView and SiteView
   userView(): void {
     this.userViewToggle = true;
     this.siteViewToggle = false;
     this.userViewStyle = 'true';
     this.siteViewStyle = 'false';
-    // console.log(a)
+    // //console.log(a)
   }
 
   siteView(): void {
@@ -144,7 +158,7 @@ export class AdminComponent implements OnInit {
     this.userViewToggle = false;
     this.siteViewStyle = 'true';
     this.userViewStyle = 'false';
-    // console.log(a)
+    // //console.log(a)
   }
 
   // functions
@@ -165,9 +179,21 @@ export class AdminComponent implements OnInit {
       });
       user.cities = cities1;
       user.form = new FormGroup({});
-      console.log(user, user.cities);
+      //console.log(user, user.cities);
       return user;
     });
+  }
+
+  fileTrigger(event: Event): void {
+    // console.log(event.target.files);
+    const file = (<HTMLInputElement>event.target).files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.fileUrl = reader.result;
+      console.log(this.fileUrl);
+      this.imageLoaded = true;
+    };
+    reader.readAsDataURL(file);
   }
 
   assignCitiesUsers(): void {
@@ -181,19 +207,19 @@ export class AdminComponent implements OnInit {
       });
       return city;
     });
-    console.log(this.cities);
+    //console.log(this.cities);
   }
 
   // for userView edit
   toggleEdit(id: number, index: number): void {
     this.AddNew = false;
-    console.log(id, index);
+    //console.log(id, index);
     const editIndex = this.editUsers.indexOf(id);
     if (editIndex >= 0) {
-      console.log('if');
+      //console.log('if');
       this.editUsers.splice(editIndex, 1);
     } else {
-      console.log('else');
+      //console.log('else');
       const cities = new FormArray([]);
       for (let i = 0; i < this.cities.length; i++) {
         const cityIndex = this.users[index].cities.findIndex(
@@ -205,11 +231,14 @@ export class AdminComponent implements OnInit {
           )
         );
       }
-      console.log(this.users[index]);
+      //console.log(this.users[index]);
       this.users[index].form = new FormGroup({
         ppic: new FormControl(this.users[index].ppic),
         name: new FormControl(this.users[index].name, Validators.required),
-        email: new FormControl(this.users[index].email, Validators.required),
+        email: new FormControl(this.users[index].email, [
+          Validators.required,
+          Validators.email,
+        ]),
         emailAlert: new FormControl(
           this.users[index].emailAlert,
           Validators.required
@@ -232,10 +261,12 @@ export class AdminComponent implements OnInit {
         ),
         cities: cities,
       });
-      console.log(this.users[index].form);
+      const editControls = this.users[index].form.controls;
+      this.editControls = editControls;
+      // console.log(this.users[index].form);
       this.editUsers.push(id);
     }
-    console.log(this.editUsers);
+    //console.log(this.editUsers);
   }
 
   closeUserViewEdit(): any {
@@ -277,23 +308,51 @@ export class AdminComponent implements OnInit {
 
   onSubmit(): void {
     // this.userService.addUser(this.userForm.value);
+    this.userFormSubmit = true;
+    // let emailAlert = this.userForm.value.emailAlert;
+    // let deviceAlert = this.userForm.value.deviceAlert;
+    // let siteEquipmentAlert = this.userForm.value.siteEquipmentAlert;
+    // let centralAlert = this.userForm.value.centralAlert;
+    // let securityAlert = this.userForm.value.securityAlert;
+    // if (this.userForm.value.emailAlert === '' || null) {
+    //   this.userForm.value.emailAlert = false;
+    // }
+    // if (this.userForm.value.deviceAlert === '' || null) {
+    //   this.userForm.value.deviceAlert = false;
+    // }
+    // if (this.userForm.value.siteEquipmentAlert === '' || null) {
+    //   this.userForm.value.siteEquipmentAlert = false;
+    // }
+    // if (this.userForm.value.centralAlert == '' || null) {
+    //   this.userForm.value.centralAlert = false;
+    // }
+    // if (this.userForm.value.securityAlert == '' || null) {
+    //   this.userForm.value.securityAlert = false;
+    // }
+    // if (this.userForm.valid) {
     const id =
       this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
+
     this.users.push({
       id: id,
-      ppic: this.userForm.value.ppic,
+      ppic: this.fileUrl,
       active: this.userForm.value.active,
       name: this.userForm.value.name,
       email: this.userForm.value.email,
       cities: this.userForm.value.cities,
       emailAlert: this.userForm.value.emailAlert,
+      // emailAlert: emailAlert,
       deviceAlert: this.userForm.value.deviceAlert,
+      // deviceAlert: deviceAlert,
       siteEquipmentAlert: this.userForm.value.siteEquipmentAlert,
+      // siteEquipmentAlert: siteEquipmentAlert,
       centralAlert: this.userForm.value.centralAlert,
+      // centralAlert: centralAlert,
       securityAlert: this.userForm.value.securityAlert,
+      // securityAlert: securityAlert,
     });
     for (let i = 0; i < this.cities.length; i++) {
-      console.log('forloop');
+      // console.log('forloop');
       if (this.userForm.value.cities[i] > 0) {
         this.cities[i].users.push({
           userId: id,
@@ -302,7 +361,14 @@ export class AdminComponent implements OnInit {
       }
     }
     this.assignCitiesUsers();
-    console.log(this.cities, this.users);
+    this.userForm.reset();
+    this.fileUrl = '';
+    this.imageLoaded = false;
+    // console.log(this.cities, this.users);
+    this.AddNew = !this.AddNew;
+    // } else {
+    //   return;
+    // }
   }
 
   // getControlEdit(cityIndex):FormControl {
@@ -319,49 +385,59 @@ export class AdminComponent implements OnInit {
   }
 
   onEdit(index: number): void {
-    console.log(this.userService.getUser(index));
+    //console.log(this.userService.getUser(index));
     const id = this.users[index].id;
     const form = this.users[index].form.value;
     const user = this.users[index];
-    user.ppic = form.ppic;
-    user.name = form.name;
-    user.email = form.email;
-    user.emailAlert = form.emailAlert;
-    user.deviceAlert = form.deviceAlert;
-    user.centralAlert = form.centralAlert;
-    user.securityAlert = form.securityAlert;
-    user.siteEquipmentAlert = form.siteEquipmentAlert;
-    user.cities = [];
-    for (let i = 0; i < this.cities.length; i++) {
-      const userIndex = this.cities[i].users.findIndex(
-        (cityUser) => cityUser.userId === id
-      );
-      const accessLevel = form.cities[i];
-      if (userIndex >= 0) {
-        if (accessLevel === 0) {
-          this.cities[i].users.splice(userIndex, 1);
-        } else {
-          this.cities[i].users[userIndex].accessLevel = accessLevel;
+    this.editFormSubmit = true;
+    if (this.users[index].form.valid) {
+      user.ppic = form.ppic;
+      user.name = form.name;
+      user.email = form.email;
+      user.emailAlert = form.emailAlert;
+      user.deviceAlert = form.deviceAlert;
+      user.centralAlert = form.centralAlert;
+      user.securityAlert = form.securityAlert;
+      user.siteEquipmentAlert = form.siteEquipmentAlert;
+      user.cities = [];
+      for (let i = 0; i < this.cities.length; i++) {
+        const userIndex = this.cities[i].users.findIndex(
+          (cityUser) => cityUser.userId === id
+        );
+        const accessLevel = form.cities[i];
+        if (userIndex >= 0) {
+          if (accessLevel === 0) {
+            this.cities[i].users.splice(userIndex, 1);
+          } else {
+            this.cities[i].users[userIndex].accessLevel = accessLevel;
+          }
+        } else if (accessLevel > 0) {
+          this.cities[i].users.push({
+            userId: user.id,
+            accessLevel: accessLevel,
+          });
         }
-      } else if (accessLevel > 0) {
-        this.cities[i].users.push({
-          userId: user.id,
-          accessLevel: accessLevel,
-        });
       }
+      this.userService.updateUser(index, user);
+      this.userService.updateCities(this.cities);
+      this.assignUsersCities();
+      this.assignCitiesUsers();
+      this.toggleEdit(id, index);
+    } else {
+      return;
     }
     this.userService.updateUser(index, user);
     this.userService.updateCities(this.cities);
     this.assignUsersCities();
     this.assignCitiesUsers();
     this.toggleEdit(id, index);
-    console.log(this.cities, this.users);
+    //console.log(this.cities, this.users);
   }
 
   editSubmit(userIndex: number): void {
-    console.log(userIndex, 'yes');
+    //console.log(userIndex, 'yes');
     this.userService.updateUser(userIndex, this.userForm.value);
-    console.log(userIndex);
+    //console.log(userIndex);
   }
 
   confirmDelete(userIndex: number): void {
