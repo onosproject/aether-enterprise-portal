@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { Subscription } from 'rxjs';
-import { DeleteDevicegroupsComponent } from '../dialogs/delete-devicegroups/delete-devicegroups.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DeleteDevicegroupsComponent } from '../dialogs/delete-devicegroups/delete-devicegroups.component';
 
 @Component({
   selector: 'aep-device-groups',
@@ -26,6 +26,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class DeviceGroupsComponent implements OnInit {
   //var
   //anankiFormGroup: FormGroup;
+  expandDeviceGroups: number[] = [];
 
   addNewdeviceGroupForm: boolean = false;
   expandId: boolean = true;
@@ -154,7 +155,6 @@ export class DeviceGroupsComponent implements OnInit {
   editDeviceGroup: number[] = [];
 
   selectedAddDevices: any[] = [];
-  I;
 
   remainingDevices: any[] = [];
 
@@ -176,7 +176,7 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   addNewdeviceGroupFormFun(): void {
-    this.closeEdit();
+    this.newFormGroup();
     this.addNewdeviceGroupForm = true;
   }
   addNewdeviceGroupFormClose(): void {
@@ -186,18 +186,15 @@ export class DeviceGroupsComponent implements OnInit {
     this.panelOpenState = true;
     this.hideRightBx = true;
   }
+  openContent: boolean = false;
   openPanel(): void {
     this.panelOpenState = false;
     this.hideRightBx = false;
+    this.openContent = true;
   }
 
   // forms
-  firstFormGroup = new FormGroup({
-    newDeviceGroup: new FormControl('', Validators.required),
-    newIpDomain: new FormControl('', Validators.required),
-    newDescription: new FormControl('', Validators.required),
-    newDevice: new FormControl('', Validators.required),
-  });
+  firstFormGroup = new FormGroup({});
 
   deviceGroupEditForm = new FormGroup({
     newDeviceGroup: new FormControl('', Validators.required),
@@ -246,6 +243,15 @@ export class DeviceGroupsComponent implements OnInit {
       }
     }
     // console.log(this.selectedDevices, this.deviceInventory, this.siteDevices);
+  }
+
+  newFormGroup(): void {
+    this.firstFormGroup = new FormGroup({
+      newDeviceGroup: new FormControl('', Validators.required),
+      newIpDomain: new FormControl('', Validators.required),
+      newDescription: new FormControl('', Validators.required),
+      newDevice: new FormControl('', Validators.required),
+    });
   }
 
   summaryTrigger(): any {
@@ -323,11 +329,11 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   assignSelectedSite(): any {
-    //console.log(this.deviceService.mySite1);
+    console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-      // //console.log(data);
+      // console.log(data);
       this.selectedSite = data;
-      //console.log(this.selectedSite);
+      console.log(this.selectedSite);
       this.fetchData();
     });
   }
@@ -427,6 +433,21 @@ export class DeviceGroupsComponent implements OnInit {
     });
   }
 
+  expandTrigger(deviceGroupIndex: number): void {
+    this.closeExpand();
+    const expandDeviceGroupIndex =
+      this.expandDeviceGroups.indexOf(deviceGroupIndex);
+    if (expandDeviceGroupIndex >= 0) {
+      this.expandDeviceGroups.splice(deviceGroupIndex, 1);
+    } else {
+      this.expandDeviceGroups.push(deviceGroupIndex);
+    }
+  }
+
+  closeExpand(): void {
+    this.expandDeviceGroups.pop();
+  }
+
   editTrigger(index: number): any {
     this.addNewdeviceGroupForm = false;
     console.log(this.siteDeviceGroups);
@@ -446,36 +467,6 @@ export class DeviceGroupsComponent implements OnInit {
       });
       this.editDeviceGroup.push(index);
     }
-  }
-
-  onEdit(deviceGroupIndex: number): void {
-    const deviceGroup = this.siteDeviceGroups[0][deviceGroupIndex];
-    const editForm = this.siteDeviceGroups[0][deviceGroupIndex].form.value;
-    deviceGroup['display-name'] = editForm.newDeviceGroup;
-    deviceGroup.ipDomain = editForm.newIpDomain;
-    deviceGroup.description = editForm.newDescription;
-    for (
-      let selectedIndex = 0;
-      selectedIndex < this.selectedAddDevices.length;
-      selectedIndex++
-    ) {
-      deviceGroup.devices.push(this.selectedAddDevices[selectedIndex]);
-      for (
-        let inventoryIndex = 0;
-        inventoryIndex < this.deviceInventory.length;
-        inventoryIndex++
-      ) {
-        if (
-          this.deviceInventory[inventoryIndex]['serial-number'] ==
-          this.selectedAddDevices[selectedIndex]['serial-number']
-        ) {
-          this.deviceInventory.splice(inventoryIndex, 1);
-        }
-      }
-    }
-    this.selectedAddDevices.splice(0, this.selectedAddDevices.length);
-    this.editAddDeviceGroup = false;
-    this.closeEdit();
   }
 
   closeEdit(): void {
@@ -522,6 +513,36 @@ export class DeviceGroupsComponent implements OnInit {
     }
   }
 
+  onEdit(deviceGroupIndex: number): void {
+    const deviceGroup = this.siteDeviceGroups[0][deviceGroupIndex];
+    const editForm = this.siteDeviceGroups[0][deviceGroupIndex].form.value;
+    deviceGroup['display-name'] = editForm.newDeviceGroup;
+    deviceGroup.ipDomain = editForm.newIpDomain;
+    deviceGroup.description = editForm.newDescription;
+    for (
+      let selectedIndex = 0;
+      selectedIndex < this.selectedAddDevices.length;
+      selectedIndex++
+    ) {
+      deviceGroup.devices.push(this.selectedAddDevices[selectedIndex]);
+      for (
+        let inventoryIndex = 0;
+        inventoryIndex < this.deviceInventory.length;
+        inventoryIndex++
+      ) {
+        if (
+          this.deviceInventory[inventoryIndex]['serial-number'] ==
+          this.selectedAddDevices[selectedIndex]['serial-number']
+        ) {
+          this.deviceInventory.splice(inventoryIndex, 1);
+        }
+      }
+    }
+    this.selectedAddDevices.splice(0, this.selectedAddDevices.length);
+    this.editAddDeviceGroup = false;
+    this.closeEdit();
+  }
+
   deleteDeviceGroup(deviceGroupIndex: number): any {
     this.siteDeviceGroups[0].splice(deviceGroupIndex, 1);
   }
@@ -542,7 +563,7 @@ export class DeviceGroupsComponent implements OnInit {
   // testing
   // test1(): any {
   //   this.siteDevices.forEach((device, deviceIndex) => {
-  //     //console.log(device, deviceIndex);
+  //     console.log(device, deviceIndex);
   //   });
   // }
 
