@@ -48,7 +48,12 @@
   >
     Cancel
   </button>
-  <button mat-button class="select-device-finalButtons-select" cdkFocusInitial>
+  <button
+    mat-button
+    class="select-device-finalButtons-select"
+    cdkFocusInitial
+    (click)="selectDeviceFinal()"
+  >
     Select
   </button>
 </div>

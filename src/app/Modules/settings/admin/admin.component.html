@@ -30,6 +30,10 @@
                     src="../../assets/AdminPanel/Rectangle 966.svg"
                     alt="profile-pic-outline"
                     *ngIf="imageLoaded === false"
+                    [ngClass]="{
+                      'is-invalid':
+                        userForm.get('profilePic').invalid && addUserError
+                    }"
                   />
                   <img
                     *ngIf="fileUrl"
@@ -72,16 +76,19 @@
                             placeholder="Name"
                             [ngClass]="{
                               'is-invalid':
-                                userFormSubmit && userControls.name.errors
+                                (addUserError ||
+                                  userForm.get('name').touched) &&
+                                userForm.get('name').invalid
                             }"
                           />
                           <div
-                            *ngIf="userFormSubmit && userControls.name.errors"
+                            *ngIf="
+                              (addUserError || userForm.get('name').touched) &&
+                              userForm.get('name').invalid
+                            "
                             class="invalid-feedback"
                           >
-                            <div *ngIf="userControls.name.errors.required">
-                              First Name is required
-                            </div>
+                            <div>First Name is required</div>
                           </div>
                         </div>
                       </div>
@@ -102,17 +109,22 @@
                             placeholder="Email ID"
                             [ngClass]="{
                               'is-invalid':
-                                userFormSubmit && userControls.email.errors
+                                (addUserError ||
+                                  userForm.get('email').touched) &&
+                                userForm.get('email').invalid
                             }"
                           />
                           <div
-                            *ngIf="userFormSubmit && userControls.email.errors"
+                            *ngIf="
+                              (addUserError || userForm.get('email').touched) &&
+                              userForm.get('email').invalid
+                            "
                             class="invalid-feedback"
                           >
-                            <div *ngIf="userControls.email.errors.required">
+                            <div *ngIf="userForm.get('email').errors.required">
                               Email is required
                             </div>
-                            <div *ngIf="userControls.email.errors.email">
+                            <div *ngIf="userForm.get('email').errors.email">
                               Email must be a valid email address
                             </div>
                           </div>
@@ -144,6 +156,11 @@
                         <div
                           class="btn admin-addNew-form-permissions my-3"
                           appearance="fill"
+                          [ngClass]="{
+                            'is-invalid':
+                              addUserError &&
+                              isCitiesValid(userForm.value.cities)
+                          }"
                         >
                           <mat-label></mat-label>
                           <mat-select
@@ -217,8 +234,8 @@
           <mat-card-actions class="bottom-button">
             <div class="admin-addNew-form-lastButtons admin-addnew-group">
               <button
-                class="admin-addNew-form-addButton add-button-gray"
-                type="submit"
+                class="admin-addNew-form-addButton"
+                type="button"
                 mat-raised-button
                 color="primary"
                 (click)="onSubmit(); assignUsersCities()"
@@ -263,14 +280,14 @@
             <div class="admin-usersites-switch-text mt-2">Filter by</div>
             <div class="mx-4">
               <button
-                class="admin-usersites-switch"
+                class="admin-usersites-switch-site"
                 (click)="siteView()"
                 [ngClass]="siteViewStyle === 'true' ? 'highlight' : 'normal'"
               >
                 Site
               </button>
               <button
-                class="admin-usersites-switch"
+                class="admin-usersites-switch-user"
                 (click)="userView()"
                 [ngClass]="userViewStyle === 'true' ? 'highlight' : 'normal'"
               >
@@ -287,7 +304,7 @@
       >
         <button
           class="btn button-medium-14 col-3 admin-addUser-btnCenter1"
-          (click)="AddNew = !AddNew; closeUserViewEdit()"
+          (click)="addNewUser(); closeUserViewEdit()"
         >
           Add new user
         </button>

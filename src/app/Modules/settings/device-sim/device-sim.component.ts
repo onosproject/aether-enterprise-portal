@@ -73,6 +73,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   selectedSim: any = '';
 
+  selectedDevice: number = 0;
+
   siteSubscription: Subscription;
   siteConfig: any[] = [];
 
@@ -162,12 +164,11 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     },
   ];
 
-  deviceSimForm = new FormGroup({
-    newSim: new FormControl('', Validators.required),
-    deviceName: new FormControl('', Validators.required),
-    deviceLocation: new FormControl('', Validators.required),
-    deviceSerialNum: new FormControl('', Validators.required),
-  });
+  deviceSimForm = new FormGroup({});
+
+  deviceSimControls = this.deviceSimForm.controls;
+
+  deviceSimSubmit = false;
 
   deviceSimEditForm = new FormGroup({
     newSim: new FormControl('', Validators.required),
@@ -205,6 +206,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
 
     this.assignSelectedSim();
+    this.assignSelectedDevice();
     this.assignSelectedSite();
     this.configService.fetchDeviceConfig();
     this.configService.fetchOther();
@@ -217,6 +219,15 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     // }, 100000);
     // console.log('||||||||||||||||||', this.getLastWeek());
     this.getLastWeek();
+  }
+
+  configDeviceSim(): void {
+    this.deviceSimForm = new FormGroup({
+      newSim: new FormControl('', Validators.required),
+      deviceName: new FormControl('', Validators.required),
+      deviceLocation: new FormControl('', Validators.required),
+      deviceSerialNum: new FormControl('', Validators.required),
+    });
   }
 
   getLastWeek(): void {
@@ -271,7 +282,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
     this.lastWeekDates = lastWeeks.reverse();
     this.lastWeekDatesLength = this.lastWeekDates.length;
-    console.log(lastWeeks);
+    // console.log(lastWeeks);
   }
 
   getDateForZoom(
@@ -338,6 +349,9 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
     this.activeNewDeviceForm();
     // console.log(this.siteConfig);
+    // } else {
+    //   return;
+    // }
   }
 
   addNewDeviceInventory(): any {
@@ -362,10 +376,20 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
   }
 
-  assignSelectedSim(): any {
+  assignSelectedSim(): void {
     this.deviceService.mySim1.subscribe((data) => {
       this.selectedSim = data;
       // //console.log(this.selectedSim);
+    });
+  }
+
+  assignSelectedDevice(): void {
+    this.deviceService.getDevice().subscribe((data) => {
+      // this.selectedDevice = data;
+      // //console.log(this.selectedSim);
+      this.deviceSimForm.patchValue({
+        deviceSerialNum: data,
+      });
     });
   }
 
@@ -392,13 +416,15 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
           }
         });
         this.siteConfig = sitesArray;
+        if (this.siteConfig.length > 0) {
+          for (let i = 0; i < this.siteConfig[0].length; i++) {
+            this.fetchProm2(this.selectedSite, this.siteConfig[0][i].sim, i);
+            // //console.log("+++++++++", this.siteConfig[0][i].sim)
+          }
+        }
       });
       //console.log('This is global sites array', this.siteConfig);
       //console.log(this.config);
-      for (let i = 0; i < this.siteConfig[0].length; i++) {
-        this.fetchProm2(this.selectedSite, this.siteConfig[0][i].sim, i);
-        // //console.log("+++++++++", this.siteConfig[0][i].sim)
-      }
     });
   }
 
@@ -1018,6 +1044,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.closeEdit();
     this.closeDetails();
     this.activeNewDevice = true;
+    this.configDeviceSim();
     this.deviceSimsDetailItemDetailsPopUp = false;
     this.deviceSimsDetailViewEditForm = false;
   }

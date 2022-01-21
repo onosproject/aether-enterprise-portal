@@ -1,12 +1,12 @@
 <!-- <p>device-sim works!</p> -->
-<div class="container device-sim-view">
+<div class="container-fluid device-sim-view">
   <div class="row">
     <!--left side section-->
-    <div class="col-3">
+    <div class="col-2">
       <aep-side-navbar></aep-side-navbar>
     </div>
     <!--RIGHT SIDE SECTION-->
-    <div class="col-9 right-section">
+    <div class="col-10 right-section">
       <div class="row sec-1">
         <div class="title-tab d-flex">
           <div
@@ -75,6 +75,7 @@
           </mat-card>
           <!--active new device form-->
           <mat-card
+            style="width: 90%"
             class="active-new-device-form my-1 forms-block"
             *ngIf="activeNewDevice"
             [@inOutAnimation]
@@ -166,8 +167,8 @@
                               name="deviceLocation"
                               id="deviceLocation"
                               class="form-control form-field-big"
-                              formControlName="deviceLocation"
                               placeholder="eg.Floor 1, Floor 2 etc"
+                              formControlName="deviceLocation"
                             />
                           </div>
                           <div class="mx-2">
@@ -243,7 +244,7 @@
         </div>
 
         <!--device+sim view-->
-        <div class="row" *ngFor="let sites of siteConfig">
+        <div class="row" style="width: 98%" *ngFor="let sites of siteConfig">
           <div *ngFor="let device of sites; let deviceIndex = index">
             <mat-card
               class="
@@ -553,7 +554,7 @@
                     <div class="delete-label">Delete</div>
                   </div>
                   <div class="button-sec" (click)="editTrigger(deviceIndex)">
-                    <button
+                    <!-- <button
                       type="button"
                       mat-button
                       class="cancel"
@@ -561,7 +562,7 @@
                       *ngIf="editDevices.indexOf(deviceIndex) >= 0"
                     >
                       Cancel
-                    </button>
+                    </button> -->
                     <button
                       class="add"
                       type="button"
@@ -572,7 +573,12 @@
                     >
                       Save
                     </button>
-                    <button type="button" mat-button class="cancel">
+                    <button
+                      type="button"
+                      mat-button
+                      class="cancel"
+                      (click)="closeEdit()"
+                    >
                       Cancel
                     </button>
                   </div>
@@ -1038,7 +1044,7 @@
                   </span>
                 </span>
                 <div class="button-sec">
-                  <button
+                  <!-- <button
                     mat-button
                     type="button"
                     class="cancel"
@@ -1046,7 +1052,7 @@
                     [@inOutAnimation]
                   >
                     Cancel
-                  </button>
+                  </button> -->
                   <button
                     class="add"
                     type="button"
@@ -1059,7 +1065,7 @@
                   <button
                     mat-button
                     class="cancel"
-                    (click)="addNewDevice = !addNewDevice"
+                    (click)="addNewDeviceFun()"
                     [@inOutAnimation]
                   >
                     Cancel
