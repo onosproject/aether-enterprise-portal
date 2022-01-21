@@ -12,8 +12,8 @@ import { ModalComponent } from './pages/modals/delet-card/modal.component';
 import { GraphComponent } from './pages/modals/graph-modal/graph.component';
 import { SmallCellsComponent } from './pages/small-cells/small-cells.component';
 import { FormsModule } from '@angular/forms';
-import { ConnectComponent } from '../../components/connect/connect.component';
-import { JoinerComponent } from '../../Modules/joiner/joiner.component';
+// import { JoinerComponent } from '../../Modules/joiner/joiner.component';
+import { JoinerModule } from '../joiner/joiner.module';
 
 @NgModule({
   declarations: [
@@ -24,8 +24,7 @@ import { JoinerComponent } from '../../Modules/joiner/joiner.component';
     GraphComponent,
     SmallCellsComponent,
     NavbarComponent,
-    JoinerComponent,
-    ConnectComponent,
+    // JoinerComponent,
   ],
   imports: [
     CommonModule,
@@ -34,7 +33,7 @@ import { JoinerComponent } from '../../Modules/joiner/joiner.component';
     CdkAccordionModule,
     DragDropModule,
     FormsModule,
-    // JoinerModule,
+    JoinerModule,
   ],
 })
 export class DashboardModule {}

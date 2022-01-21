@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { trigger, style, animate, transition } from '@angular/animations';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { Subscription } from 'rxjs';
@@ -49,6 +44,10 @@ export class DeviceGroupsComponent implements OnInit {
 
   selectedDevices: any[] = [];
 
+  editDeviceGroup: number[] = [];
+
+  remainingDevices: any[] = [];
+
   editDeviceGroupFormFun(): any {
     this.editDeviceGroupForm = true;
     // this.hideRightBx = false;
@@ -89,10 +88,14 @@ export class DeviceGroupsComponent implements OnInit {
     newDevice: new FormControl('', Validators.required),
   });
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    public deviceService: DeviceSimService
-  ) {}
+  deviceGroupEditForm = new FormGroup({
+    newDeviceGroup: new FormControl('', Validators.required),
+    newIpDomain: new FormControl('', Validators.required),
+    newDescription: new FormControl('', Validators.required),
+    newDevice: new FormControl('', Validators.required),
+  });
+
+  constructor(public deviceService: DeviceSimService) {}
 
   ngOnInit(): void {
     this.assignSelectedSite();
@@ -206,15 +209,54 @@ export class DeviceGroupsComponent implements OnInit {
                 const deviceInfo: any = {
                   'display-name': siteDevices[siteDeviceIndex]['display-name'],
                   location: siteDevices[siteDeviceIndex].location,
+                  'serial-number':
+                    siteDevices[siteDeviceIndex]['serial-number'],
                 };
                 deviceGroup.devices.splice(groupedDeviceIndex, 1, deviceInfo);
                 // console.log('alert');
+              } else {
+                const remainingDevices: any[] = [];
+                const deviceInfo: any = {
+                  'display-name': siteDevices[siteDeviceIndex]['display-name'],
+                  location: siteDevices[siteDeviceIndex].location,
+                  'serial-number':
+                    siteDevices[siteDeviceIndex]['serial-number'],
+                };
+                remainingDevices.push({ deviceInfo });
+                this.remainingDevices = remainingDevices;
               }
             });
           });
         });
       });
     });
+  }
+
+  editTrigger(index: number): any {
+    const editDeviceGroupIndex = this.editDeviceGroup.indexOf(index);
+    if (editDeviceGroupIndex >= 0) {
+      this.editDeviceGroup.splice(editDeviceGroupIndex, 1);
+    } else {
+      this.siteDeviceGroups[0][index].form = new FormGroup({
+        newDeviceGroup: new FormControl(
+          this.siteDeviceGroups[0][index]['display-name']
+        ),
+        // newIpDomain: new FormControl(this.siteDeviceGroups[0][index]),
+        newDescription: new FormControl(
+          this.siteDeviceGroups[0][index].description
+        ),
+      });
+      this.editDeviceGroup.push(index);
+    }
+  }
+
+  getEditControl(deviceGroupEditForm: FormGroup, param: string): FormControl {
+    return deviceGroupEditForm.get(param) as FormControl;
+  }
+
+  deleteDevicesInGroups(groupIndex: number, deviceIndex: number): any {
+    this.siteDeviceGroups[0][groupIndex].devices.splice(deviceIndex, 1);
+    console.log(this.siteDeviceGroups);
   }
 
   // testing

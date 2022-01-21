@@ -275,82 +275,85 @@
               class="mat-card-actions-content"
               *ngFor="let groups of siteDeviceGroups"
             >
-              <mat-accordion [multi]="panelOpenState">
-                <mat-expansion-panel
-                  class="my-3"
-                  hideToggle="true"
-                  #mapanel="matExpansionPanel"
-                  [expanded]="panelOpenState"
-                  *ngFor="let group of groups; let groupIndex = index"
-                >
-                  <mat-expansion-panel-header hideToggle="true">
-                    <div class="plush-min" *ngIf="!editDeviceGroupForm">
+              <div *ngFor="let group of groups; let groupIndex = index">
+                <mat-accordion [multi]="panelOpenState">
+                  <mat-expansion-panel
+                    class="my-3"
+                    hideToggle="true"
+                    #mapanel="matExpansionPanel"
+                    [expanded]="panelOpenState"
+                  >
+                    <mat-expansion-panel-header hideToggle="true">
                       <div
-                        *ngIf="!hideRightBx"
-                        class="minimise-bx"
-                        (click)="mapanel.close(); collapseSlice()"
+                        class="plush-min"
+                        *ngIf="editDeviceGroup.indexOf(groupIndex) >= 0"
                       >
-                        <img src="assets/AdminPanel/negative.svg" />
-                      </div>
+                        <div
+                          *ngIf="!hideRightBx"
+                          class="minimise-bx"
+                          (click)="mapanel.close(); collapseSlice()"
+                        >
+                          <img src="assets/AdminPanel/negative.svg" />
+                        </div>
 
-                      <div
-                        class="right-bx-shadow d-flex align-items-center"
-                        *ngIf="hideRightBx"
-                        (click)="openPanel()"
-                      >
-                        <div class="plush-blue" *ngIf="hideRightBx">
-                          <img
-                            class="mx-auto plush-blue"
-                            src="assets/AdminPanel/plush-blue.svg"
-                          />
+                        <div
+                          class="right-bx-shadow d-flex align-items-center"
+                          *ngIf="hideRightBx"
+                          (click)="openPanel()"
+                        >
+                          <div class="plush-blue" *ngIf="hideRightBx">
+                            <img
+                              class="mx-auto plush-blue"
+                              src="assets/AdminPanel/plush-blue.svg"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <!-- <mat-panel-title class="card-titles align-items-center col-12" (click)="$event.stopPropagation()"> -->
-                    <mat-panel-title
-                      class="card-titles align-items-center col-12"
-                    >
-                      <div class="device-group card-title-item">
-                        <img
-                          src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                        />
-                        {{ groups[groupIndex]["display-name"] }}
-                        <img src="../../assets/deviceSim/success-dot.svg" />
-                      </div>
-                      <div class="device-count card-title-item">
-                        {{ groups[groupIndex].devices.length }} devices
-                      </div>
-                      <div class="device-domain card-title-item">
-                        IP Domine : 198.123.21.001
-                      </div>
-                      <div
-                        class="col-1 card-list-item text-center edit"
-                        *ngIf="!editDeviceGroupForm"
-                        (click)="editDeviceGroupFormFun()"
+                      <!-- <mat-panel-title class="card-titles align-items-center col-12" (click)="$event.stopPropagation()"> -->
+                      <mat-panel-title
+                        class="card-titles align-items-center col-12"
                       >
-                        <img
-                          src="../../assets/services/pencil.svg"
-                          class="ng-tns-c138-2"
-                        />
-                        Edit
-                      </div>
-                      <div
-                        class="
-                          col-1
-                          card-list-item
-                          text-center
-                          add-new-service-close
-                          close
-                        "
-                        (click)="editDeviceGroupFormFunClose()"
-                        *ngIf="editDeviceGroupForm"
-                      >
-                        Close
-                      </div>
-                    </mat-panel-title>
+                        <div class="device-group card-title-item">
+                          <img
+                            src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+                          />
+                          {{ groups[groupIndex]["display-name"] }}
+                          <img src="../../assets/deviceSim/success-dot.svg" />
+                        </div>
+                        <div class="device-count card-title-item">
+                          {{ groups[groupIndex].devices.length }} devices
+                        </div>
+                        <div class="device-domain card-title-item">
+                          IP Domine : 198.123.21.001
+                        </div>
+                        <div
+                          class="col-1 card-list-item text-center edit"
+                          (click)="editTrigger(groupIndex)"
+                          *ngIf="editDeviceGroup.indexOf(groupIndex) < 0"
+                        >
+                          <img
+                            src="../../assets/services/pencil.svg"
+                            class="ng-tns-c138-2"
+                          />
+                          Edit
+                        </div>
+                        <div
+                          class="
+                            col-1
+                            card-list-item
+                            text-center
+                            add-new-service-close
+                            close
+                          "
+                          (click)="editTrigger(groupIndex)"
+                          *ngIf="editDeviceGroup.indexOf(groupIndex) >= 0"
+                        >
+                          Close
+                        </div>
+                      </mat-panel-title>
 
-                    <!-- <mat-panel-description
+                      <!-- <mat-panel-description
                       id="special"
                       class="col"
                       (click)="$event.stopPropagation()"
@@ -359,347 +362,296 @@
                         let deviceIndex = index
                       "
                     > -->
-                    <mat-panel-description
-                      id="special"
-                      class="col"
-                      *ngFor="
-                        let devices of group.devices;
-                        let deviceIndex = index
-                      "
-                    >
-                      <div class="device-group-items flex-wrap">
-                        <div class="device-group-item col d-flex">
-                          <div class="mx-1 d-flex col align-items-center">
-                            <div class="img-bg">
-                              <img
-                                src="../../../assets/deviceSim/cc-cam-big.svg"
-                                class="mx-2"
-                              />
-                            </div>
+                      <mat-panel-description
+                        id="special"
+                        class="col"
+                        *ngFor="
+                          let devices of group.devices;
+                          let deviceIndex = index
+                        "
+                      >
+                        <div class="device-group-items flex-wrap">
+                          <div class="device-group-item col d-flex">
+                            <div class="mx-1 d-flex col align-items-center">
+                              <div class="img-bg">
+                                <img
+                                  src="../../../assets/deviceSim/cc-cam-big.svg"
+                                  class="mx-2"
+                                />
+                              </div>
 
-                            <div class="mx-1 camera">
-                              {{ devices["display-name"] }}
+                              <div class="mx-1 camera">
+                                {{ devices["display-name"] }}
+                              </div>
+                              <div class="mx-1 location">
+                                {{ devices.location }}
+                              </div>
+                              <div class="status-dot">
+                                <img
+                                  src="../../assets/deviceSim/success-dot.svg"
+                                />
+                              </div>
                             </div>
-                            <div class="mx-1 location">
-                              {{ devices.location }}
-                            </div>
-                            <div class="status-dot">
-                              <img
-                                src="../../assets/deviceSim/success-dot.svg"
-                              />
-                            </div>
+                          </div>
+                        </div>
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                  </mat-expansion-panel>
+                </mat-accordion>
+                <div class="acc-content"></div>
+
+                <!--DEVICE GROUP EDIT FORM-->
+                <div
+                  class="edit-device-goup-form forms-block col-12"
+                  *ngIf="editDeviceGroup.indexOf(groupIndex) >= 0"
+                  [@inOutAnimation]
+                >
+                  <form [formGroup]="deviceGroupEditForm">
+                    <div class="mx-3 edit-section">
+                      <div class="d-flex my-4 p-2 form-body">
+                        <div class="left-sec col-6">
+                          <div class="my-2 mx-3">
+                            <mat-label class="form-label"
+                              >Device group name
+                            </mat-label>
+                            <input
+                              class="form-control form-field-big"
+                              type="text"
+                              [formControl]="
+                                getEditControl(
+                                  groups[groupIndex].form,
+                                  'newDeviceGroup'
+                                )
+                              "
+                              name="newDeviceGroup"
+                              id="newDeviceGroup"
+                              placeholder="device group name"
+                            />
+                          </div>
+                          <div class="my-2 mx-3">
+                            <mat-label class="form-label">IP Domain </mat-label>
+                            <input
+                              class="form-control form-field-big"
+                              type="text"
+                              name="newIpDomain"
+                              id="newIpDomain"
+                              placeholder="IP Domain"
+                            />
+                          </div>
+                        </div>
+                        <div class="right-sec col-6">
+                          <div class="my-2 mx-3">
+                            <mat-label class="form-label"
+                              >Description
+                            </mat-label>
+                            <textarea class="my-2" rows="6" cols="45">
+                            </textarea>
                           </div>
                         </div>
                       </div>
-                    </mat-panel-description>
-                  </mat-expansion-panel-header>
-
-                  <div class="acc-content"></div>
-                </mat-expansion-panel>
-              </mat-accordion>
-              <!--DEVICE GROUP EDIT FORM-->
-              <div
-                class="edit-device-goup-form forms-block col-12"
-                *ngIf="editDeviceGroupForm"
-                [@inOutAnimation]
-              >
-                <form>
-                  <div class="mx-3 edit-section">
-                    <div class="d-flex my-4 p-2 form-body">
-                      <div class="left-sec col-6">
-                        <div class="my-2 mx-3">
-                          <mat-label class="form-label"
-                            >Device group name
-                          </mat-label>
-                          <input
-                            class="form-control"
-                            type="text"
-                            name="devicegroupname"
-                            id="devicegroupname"
-                            placeholder="device group name"
-                          />
-                        </div>
-                        <div class="my-2 mx-3">
-                          <mat-label class="form-label"
-                            >Device group name
-                          </mat-label>
-                          <input
-                            class="form-control"
-                            type="text"
-                            name="devicegroupname"
-                            id="devicegroupname"
-                            placeholder="device group name"
-                          />
-                        </div>
+                      <div class="remove-device-label mx-4">
+                        Select Devices to remove form group
                       </div>
-                      <div class="right-sec col-6">
-                        <div class="my-2 mx-3">
-                          <mat-label class="form-label">Description </mat-label>
-                          <textarea rows="6" cols="45"> </textarea>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="remove-device-label mx-4">
-                      Select Devices to remove form group
-                    </div>
-                    <div class="my-2 mx-4">
-                      <div class="device-group-items d-flex flex-wrap">
-                        <div class="device-group-item">
-                          <div class="mx-1 d-flex align-items-center">
-                            <div class="select">
-                              <img
-                                src="../../../assets/CommonAssets/delete-red-bg.svg"
-                              />
-                            </div>
-
-                            <div class="img-bg-popup">
-                              <img
-                                src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                class="mx-2"
-                              />
-                            </div>
-
-                            <div class="mx-1 camera">Camera 1</div>
-                            <div class="mx-1 location">Location 1</div>
-                            <div class="status-dot">
-                              <img
-                                src="../../assets/deviceSim/success-dot.svg"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="device-group-item">
-                          <div class="mx-1 d-flex align-items-center">
-                            <div class="select">
-                              <img
-                                src="../../../assets/CommonAssets/delete-red-bg.svg"
-                              />
-                            </div>
-
-                            <div class="img-bg-popup">
-                              <img
-                                src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                class="mx-2"
-                              />
-                            </div>
-
-                            <div class="mx-1 camera">Camera 1</div>
-                            <div class="mx-1 location">Location 1</div>
-                            <div class="status-dot">
-                              <img
-                                src="../../assets/deviceSim/success-dot.svg"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="device-group-item">
-                          <div class="mx-1 d-flex align-items-center">
-                            <div class="select">
-                              <img
-                                src="../../../assets/CommonAssets/delete-red-bg.svg"
-                              />
-                            </div>
-
-                            <div class="img-bg-popup">
-                              <img
-                                src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                class="mx-2"
-                              />
-                            </div>
-
-                            <div class="mx-1 camera">Camera 1</div>
-                            <div class="mx-1 location">Location 1</div>
-                            <div class="status-dot">
-                              <img
-                                src="../../assets/deviceSim/success-dot.svg"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="device-group-item">
-                          <div class="mx-1 d-flex align-items-center">
-                            <div class="select">
-                              <img
-                                src="../../../assets/CommonAssets/delete-red-bg.svg"
-                              />
-                            </div>
-
-                            <div class="img-bg-popup">
-                              <img
-                                src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                class="mx-2"
-                              />
-                            </div>
-
-                            <div class="mx-1 camera">Camera 1</div>
-                            <div class="mx-1 location">Location 1</div>
-                            <div class="status-dot">
-                              <img
-                                src="../../assets/deviceSim/success-dot.svg"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="edit-add-new-device">
-                      <div class="d-flex">
+                      <div class="my-2 mx-4 d-flex flex-wrap">
                         <div
-                          class="label mx-4 my-3"
-                          (click)="editAddDeviceGroupFun()"
-                          *ngIf="!editAddDeviceGroup"
+                          class="device-group-items d-flex flex-wrap"
+                          *ngFor="
+                            let devices of group.devices;
+                            let deviceIndex = index
+                          "
                         >
-                          +Add new devices
+                          <div class="device-group-item">
+                            <div class="mx-1 d-flex align-items-center">
+                              <div
+                                class="select"
+                                (click)="
+                                  deleteDevicesInGroups(groupIndex, deviceIndex)
+                                "
+                              >
+                                <img
+                                  src="../../../assets/CommonAssets/delete-red-bg.svg"
+                                />
+                              </div>
+
+                              <div class="img-bg-popup">
+                                <img
+                                  src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+                                  class="mx-2"
+                                />
+                              </div>
+
+                              <div class="mx-1 camera">
+                                {{ devices["display-name"] }}
+                              </div>
+                              <div class="mx-1 location">Location 1</div>
+                              <div class="status-dot">
+                                <img
+                                  src="../../assets/deviceSim/success-dot.svg"
+                                />
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-
-                      <div class="my-2 mx-4" *ngIf="editAddDeviceGroup">
+                      <div class="edit-add-new-device">
                         <div class="d-flex">
-                          <div class="label-select">
-                            Select devices to add t the group
-                          </div>
                           <div
-                            class="label mx-4 cancel"
-                            (click)="editAddDeviceGroup = !editAddDeviceGroup"
-                            *ngIf="editAddDeviceGroup"
+                            class="label mx-4 my-3"
+                            (click)="editAddDeviceGroupFun()"
+                            *ngIf="!editAddDeviceGroup"
                           >
-                            Cancel
+                            +Add new devices
                           </div>
                         </div>
 
-                        <div class="device-group-items d-flex flex-wrap">
-                          <div class="device-group-item">
-                            <div class="mx-1 d-flex align-items-center">
-                              <div class="select">
-                                <img
-                                  src="../../../assets/deviceSim/select.svg"
-                                />
-                              </div>
-
-                              <div class="img-bg-popup">
-                                <img
-                                  src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                  class="mx-2"
-                                />
-                              </div>
-
-                              <div class="mx-1 camera">Camera 1</div>
-                              <div class="mx-1 location">Location 1</div>
-                              <div class="status-dot">
-                                <img
-                                  src="../../assets/deviceSim/success-dot.svg"
-                                />
-                              </div>
+                        <div class="my-2 mx-4" *ngIf="editAddDeviceGroup">
+                          <div class="d-flex">
+                            <div class="label-select">
+                              Select devices to add the group
+                            </div>
+                            <div
+                              class="label mx-4 cancel"
+                              (click)="editAddDeviceGroup = !editAddDeviceGroup"
+                              *ngIf="editAddDeviceGroup"
+                            >
+                              Cancel
                             </div>
                           </div>
-                          <div class="device-group-item">
-                            <div class="mx-1 d-flex align-items-center">
-                              <div class="select">
-                                <img
-                                  src="../../../assets/deviceSim/select.svg"
-                                />
-                              </div>
 
-                              <div class="img-bg-popup">
-                                <img
-                                  src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                  class="mx-2"
-                                />
-                              </div>
+                          <div class="device-group-items d-flex flex-wrap">
+                            <div class="device-group-item">
+                              <div class="mx-1 d-flex align-items-center">
+                                <div class="select">
+                                  <img
+                                    src="../../../assets/deviceSim/select.svg"
+                                  />
+                                </div>
 
-                              <div class="mx-1 camera">Camera 1</div>
-                              <div class="mx-1 location">Location 1</div>
-                              <div class="status-dot">
-                                <img
-                                  src="../../assets/deviceSim/success-dot.svg"
-                                />
+                                <div class="img-bg-popup">
+                                  <img
+                                    src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+                                    class="mx-2"
+                                  />
+                                </div>
+
+                                <div class="mx-1 camera">Camera 1</div>
+                                <div class="mx-1 location">Location 1</div>
+                                <div class="status-dot">
+                                  <img
+                                    src="../../assets/deviceSim/success-dot.svg"
+                                  />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div class="device-group-item">
-                            <div class="mx-1 d-flex align-items-center">
-                              <div class="select">
-                                <img
-                                  src="../../../assets/deviceSim/select.svg"
-                                />
-                              </div>
+                            <div class="device-group-item">
+                              <div class="mx-1 d-flex align-items-center">
+                                <div class="select">
+                                  <img
+                                    src="../../../assets/deviceSim/select.svg"
+                                  />
+                                </div>
 
-                              <div class="img-bg-popup">
-                                <img
-                                  src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                  class="mx-2"
-                                />
-                              </div>
+                                <div class="img-bg-popup">
+                                  <img
+                                    src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+                                    class="mx-2"
+                                  />
+                                </div>
 
-                              <div class="mx-1 camera">Camera 1</div>
-                              <div class="mx-1 location">Location 1</div>
-                              <div class="status-dot">
-                                <img
-                                  src="../../assets/deviceSim/success-dot.svg"
-                                />
+                                <div class="mx-1 camera">Camera 1</div>
+                                <div class="mx-1 location">Location 1</div>
+                                <div class="status-dot">
+                                  <img
+                                    src="../../assets/deviceSim/success-dot.svg"
+                                  />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div class="device-group-item">
-                            <div class="mx-1 d-flex align-items-center">
-                              <div class="select">
-                                <img
-                                  src="../../../assets/deviceSim/select.svg"
-                                />
-                              </div>
+                            <div class="device-group-item">
+                              <div class="mx-1 d-flex align-items-center">
+                                <div class="select">
+                                  <img
+                                    src="../../../assets/deviceSim/select.svg"
+                                  />
+                                </div>
 
-                              <div class="img-bg-popup">
-                                <img
-                                  src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                  class="mx-2"
-                                />
-                              </div>
+                                <div class="img-bg-popup">
+                                  <img
+                                    src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+                                    class="mx-2"
+                                  />
+                                </div>
 
-                              <div class="mx-1 camera">Camera 1</div>
-                              <div class="mx-1 location">Location 1</div>
-                              <div class="status-dot">
-                                <img
-                                  src="../../assets/deviceSim/success-dot.svg"
-                                />
+                                <div class="mx-1 camera">Camera 1</div>
+                                <div class="mx-1 location">Location 1</div>
+                                <div class="status-dot">
+                                  <img
+                                    src="../../assets/deviceSim/success-dot.svg"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="device-group-item">
+                              <div class="mx-1 d-flex align-items-center">
+                                <div class="select">
+                                  <img
+                                    src="../../../assets/deviceSim/select.svg"
+                                  />
+                                </div>
+
+                                <div class="img-bg-popup">
+                                  <img
+                                    src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+                                    class="mx-2"
+                                  />
+                                </div>
+
+                                <div class="mx-1 camera">Camera 1</div>
+                                <div class="mx-1 location">Location 1</div>
+                                <div class="status-dot">
+                                  <img
+                                    src="../../assets/deviceSim/success-dot.svg"
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <mat-card-actions class="form-actions d-flex mx-auto my-3">
-                    <div class="card-item-delete d-flex mx-2">
-                      <div>
-                        <img
-                          class="ng-tns-c119-0"
-                          src="../../assets/services/delete.svg"
-                        />
+                    <mat-card-actions class="form-actions d-flex mx-auto my-3">
+                      <div class="card-item-delete d-flex mx-2">
+                        <div>
+                          <img
+                            class="ng-tns-c119-0"
+                            src="../../assets/services/delete.svg"
+                          />
+                        </div>
+                        <div class="delete-label">Delete Device Group</div>
                       </div>
-                      <div class="delete-label">Delete Device Group</div>
-                    </div>
-                    <div class="button-sec">
-                      <button
-                        mat-button
-                        class="cancel btn btn-white mx-2"
-                        (click)="editDeviceGroupForm = !editDeviceGroupForm"
-                        [@inOutAnimation]
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        class="add btn btn-save mx-2"
-                        (click)="editDeviceGroupForm = !editDeviceGroupForm"
-                        [@inOutAnimation]
-                        type="submit"
-                        mat-raised-button
-                        color="primary"
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </mat-card-actions>
-                </form>
+                      <div class="button-sec">
+                        <button
+                          mat-button
+                          class="cancel btn btn-white mx-2"
+                          (click)="editTrigger(groupIndex)"
+                          [@inOutAnimation]
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          class="add btn btn-save mx-2"
+                          (click)="editDeviceGroupForm = !editDeviceGroupForm"
+                          [@inOutAnimation]
+                          type="submit"
+                          mat-raised-button
+                          color="primary"
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </mat-card-actions>
+                  </form>
+                </div>
               </div>
               <!--END DEVICE GROUP EDIT FORM-->
             </div>

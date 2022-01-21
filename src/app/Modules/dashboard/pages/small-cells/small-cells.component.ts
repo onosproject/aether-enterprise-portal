@@ -1,11 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { smallCell } from '../../../../shared/classes/dashboard-data';
 import { Router, ActivatedRoute } from '@angular/router';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'aep-small-cells',
@@ -117,7 +113,7 @@ export class SmallCellsComponent {
         this.snackBar.openFromComponent(PizzaPartyComponent, {
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
-          duration: 20000000,
+          duration: 2000,
         });
       } else {
         this.smallCells[index].status = status;
@@ -129,6 +125,11 @@ export class SmallCellsComponent {
         let object = [];
         object = this.tickets.splice(index, 1);
         smallCell[0][0].history.push(object[0]);
+        this.snackBar.openFromComponent(PizzaPartyComponent, {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 2000,
+        });
       } else {
         this.tickets[index].status = status;
       }
@@ -172,7 +173,7 @@ export class SmallCellsComponent {
 }
 
 @Component({
-  selector: 'snack-bar-component-example-snack',
+  selector: 'aep-snack-bar-component-example-snack',
   template:
     '<div class="snack-div"><p>Alert has been resolved</p> <img src="assets/AdminPanel/close-snack.svg" /></div>',
   styles: [

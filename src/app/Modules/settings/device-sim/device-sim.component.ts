@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs';
 // chart imports
 import * as d3Time from 'd3-timelines-edited';
 import * as d3 from 'd3';
+
 import { DeleteDevicesComponent } from '../dialogs/delete-devices/delete-devices.component';
 @Component({
   selector: 'aep-device-sim',
@@ -82,7 +83,18 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   deviceDetails: number[] = [];
 
+  deviceType: any[] = ['phone', 'camera'];
+
   cancelledSimsStorage: any[] = [];
+
+  lastWeekDates: any[] = [];
+  lastWeekDatesLength: number;
+  selectedDate: number = -1;
+  isZoomIn: boolean = false;
+  selectedSimDetails: string;
+  selectedIndexDetails: number;
+  zoomIn: number = 0;
+  dateSelected: { date: string; string_date: string };
 
   // Prometheus Data
   // valuesArray: any[] = [
@@ -197,9 +209,120 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.deviceService.selectedId();
     console.log(this.valuesArrayFinal);
 
-    setInterval(() => {
-      console.log('lol', this.fetchData());
-    }, 100000);
+    // setInterval(() => {
+    //   console.log('lol', this.fetchData());
+    // }, 100000);
+    // console.log('||||||||||||||||||', this.getLastWeek());
+    this.getLastWeek();
+  }
+
+  getLastWeek(): void {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    const today = new Date();
+    const lastDay = new Date();
+    // let nextDay = new Date();
+    const lastWeeks = [];
+
+    for (let i = 0; i < 8; i++) {
+      const obj = {};
+      if (today.getDate() - i === today.getDate()) {
+        // for (let i = 0; i < 2; i++) {
+        //   var obj2 = {};
+
+        //   if (i === 0) {
+        //     nextDay.setDate(nextDay.getDate() + 2);
+        //     obj2['date'] = nextDay.getDate() + ' ' + months[nextDay.getMonth()];
+        //     obj2['string_date'] = nextDay.toISOString();
+        //     lastWeeks.push(obj2);
+        //   }
+        //   if (i === 1) {
+        //     nextDay.setDate(nextDay.getDate() - 1);
+        //     obj2['date'] = nextDay.getDate() + ' ' + months[nextDay.getMonth()];
+        //     obj2['string_date'] = nextDay.toISOString();
+        //     lastWeeks.push(obj2);
+        //   }
+        // }
+        obj['date'] = 'Now';
+        obj['string_date'] = today.toISOString();
+        lastWeeks.push(obj);
+      } else {
+        lastDay.setDate(lastDay.getDate() - 1);
+        obj['date'] = today.getDate() - i + ' ' + months[today.getMonth()];
+        obj['string_date'] = lastDay.toISOString();
+        lastWeeks.push(obj);
+      }
+    }
+
+    this.lastWeekDates = lastWeeks.reverse();
+    this.lastWeekDatesLength = this.lastWeekDates.length;
+    console.log(lastWeeks);
+  }
+
+  getDateForZoom(
+    index: number,
+    date: { date: string; string_date: string }
+  ): void {
+    if (index !== this.lastWeekDates.length - 1) {
+      this.selectedDate = index;
+      this.dateSelected = date;
+    }
+  }
+  zoomgraph(value: boolean, zoomIn: number): void {
+    if (zoomIn >= 0 && zoomIn <= 2) {
+      this.zoomIn = zoomIn;
+      // if (
+      //   document.body.contains(
+      //     document.getElementById('device_timeline' + this.selectedIndexDetails)
+      //   )
+      // ) {
+      //   var myobj = document.getElementById(
+      //     'device_timeline' + this.selectedIndexDetails
+      //   );
+      //   myobj.remove();
+      //   alert('Element exists!');
+      // } else {
+      //   alert('Element does not exist!');
+      // }
+      if (zoomIn === 1) {
+        this.apiPreviousDate =
+          this.lastWeekDates[this.selectedDate].string_date;
+        this.apiCurrentDate =
+          this.lastWeekDates[this.selectedDate + 1].string_date;
+      }
+      if (zoomIn === 2) {
+        this.isZoomIn = true;
+        this.apiPreviousDate =
+          this.lastWeekDates[this.selectedDate - 1].string_date;
+        this.apiCurrentDate = this.lastWeekDates[this.selectedDate].string_date;
+      }
+      console.log(this.lastWeekDates[this.selectedDate + 1].string_date);
+      if (zoomIn === 0) {
+        this.apiPreviousDate = this.lastWeekDates[1].string_date;
+        this.apiCurrentDate =
+          this.lastWeekDates[this.lastWeekDates.length - 1].string_date;
+        this.isZoomIn = false;
+      }
+      setTimeout(() => {
+        this.fetchPromWeek(
+          this.selectedSite,
+          this.selectedSimDetails,
+          this.selectedIndexDetails
+        );
+      }, 100);
+    }
   }
 
   addNewDevice1(): any {
@@ -302,7 +425,15 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.editDevices.pop();
   }
 
-  detailsTrigger(index: number, sim: string): any {
+  detailsTrigger(index: number, sim: string, serialNum: string): any {
+    this.selectedDate = -1;
+    this.zoomIn = 0;
+    this.isZoomIn = false;
+
+    this.deviceSimsDetailsProgressToggleDay = true;
+    this.deviceSimsDetailsProgressToggleWeek = false;
+    this.selectedSimDetails = sim;
+    this.selectedIndexDetails = index;
     // this.removePreviousChart();
     this.closeDetails();
     this.closeEdit();
@@ -313,6 +444,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.deviceDetails.push(index);
     }
     this.fetchProm(this.selectedSite, sim, index);
+    this.fetchDots(this.selectedSite, serialNum);
   }
 
   closeDetails(): any {
@@ -360,6 +492,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   openDialog(): void {
+    this.deviceService.mySims(this.simInventory);
     const dialogRef = this.dialog.open(SelectSimsComponent, {
       width: '690px',
       data: { name: this.name, animal: this.animal },
@@ -392,7 +525,32 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       if (result == 'true') {
         this.deleteDevice(deviceIndex);
       }
+      this.closeEdit();
     });
+  }
+
+  fetchPromApiWeek(site: string, iccid: string): any {
+    const headers = {
+      Accept: 'application/json',
+      Authorization:
+        'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
+    };
+    const query: string =
+      '/query_range?query=device_connected_status{site="' +
+      site +
+      '", iccid="' +
+      iccid +
+      '"}&start=' +
+      this.apiPreviousDate +
+      '&end=' +
+      this.apiCurrentDate +
+      '&step=60m';
+
+    console.log(
+      '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
+      query
+    );
+    return this.http.get(this.deviceService.promApiUrl + query, { headers });
   }
 
   fetchPromApi(site: string, iccid: string): any {
@@ -417,8 +575,73 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.apiCurrentTime +
       '.000Z&step=60m';
 
-    console.log(query);
+    console.log(
+      '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
+      query
+    );
     return this.http.get(this.deviceService.promApiUrl + query, { headers });
+  }
+
+  fetchPromWeek(site: string, iccid: string, index: number): any {
+    console.log(this.apiPreviousDate);
+    console.log(this.apiCurrentDate);
+    this.timesArray.splice(0, this.timesArray.length);
+    this.timesDiffArray.splice(0, this.timesDiffArray.length);
+    this.fetchPromApiWeek(site, iccid).subscribe((data) => {
+      console.log(data);
+      let valuesArray: any[] = [];
+      // valuesArray.push(data.data.result[0].values);
+      valuesArray = data.data.result[0].values;
+      console.log(valuesArray);
+      const timesObject: any = {};
+      timesObject.starting_time = '';
+      timesObject.ending_time = '';
+      timesObject.display = 'rect';
+      const timesArray: any[] = [];
+      // console.log(valuesArray);
+      valuesArray.forEach((el, index) => {
+        // console.log(el[1], timesObject);
+        // console.log(timesObject.starting_time);
+        if (el[1] === '1' && timesObject.starting_time === '') {
+          // console.log('if1');
+          timesObject.starting_time = valuesArray[index][0];
+
+          // console.log(timesObject.starting_time);
+        } else if (el[1] === '0' && timesObject.starting_time !== '') {
+          // console.log('else-if1');
+          timesObject.ending_time = valuesArray[index - 1][0];
+          timesArray.push({ ...timesObject });
+          timesObject.starting_time = '';
+          timesObject.ending_time = '';
+        }
+        if (index === valuesArray.length - 1 && el[1] === '1') {
+          // console.log('if2');
+          timesObject.ending_time = valuesArray[index][0];
+          timesArray.push({ ...timesObject });
+          timesObject.starting_time = '';
+          timesObject.ending_time = '';
+        }
+      });
+      console.log(timesArray);
+      this.timesArray = timesArray;
+      // valuesArray.forEach((eachItem, index) => {
+      // console.log(eachItem, index);
+      //   if (index == valuesArray.length - 1 || index == 0) {
+      // console.log(valuesArray[index]);
+      //   }
+      // });
+      // console.log(timesObject);
+      // console.log(this.timesArray);
+      this.valuesArrayFinal[0].times = timesArray;
+      const finalArray = this.valuesArrayFinal;
+      console.log(finalArray);
+      this.displayChart(finalArray, index);
+
+      // this.valuesArrayFinal[0].times = [];
+    });
+
+    console.log(this.timesArray);
+    console.log(this.valuesArrayFinal);
   }
 
   fetchProm(site: string, iccid: string, index: number): any {
@@ -480,6 +703,38 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
     console.log(this.timesArray);
     console.log(this.valuesArrayFinal);
+  }
+
+  fetchDotsApi(site: string, serialNum: string): any {
+    this.formatDate();
+    const headers = {
+      Accept: 'application/json',
+      Authorization:
+        'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
+    };
+    const query: string =
+      '/query_range?query=device_connection_event_core{site="' +
+      site +
+      '", serial_number="' +
+      serialNum +
+      '"}&start=' +
+      this.apiPreviousDate +
+      'T' +
+      this.apiPreviousTime +
+      '.000Z&end=' +
+      this.apiCurrentDate +
+      'T' +
+      this.apiCurrentTime +
+      '.000Z&step=60m';
+
+    console.log(query);
+    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+  }
+
+  fetchDots(site: string, serialNum: string): any {
+    this.fetchDotsApi(site, serialNum).subscribe((data) => {
+      console.log('++++++++++++', data);
+    });
   }
 
   displayChart(chartData: any[], index: number): any {
@@ -666,12 +921,28 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   deviceSimsDetailsProgressToggleDayFun(): void {
+    this.selectedDate = -1;
+    this.zoomIn = 0;
+    this.isZoomIn = false;
     this.deviceSimsDetailsProgressToggleDay = true;
     this.deviceSimsDetailsProgressToggleWeek = false;
+    this.fetchProm(
+      this.selectedSite,
+      this.selectedSimDetails,
+      this.selectedIndexDetails
+    );
   }
   deviceSimsDetailsProgressToggleWeekFun(): void {
     this.deviceSimsDetailsProgressToggleWeek = true;
     this.deviceSimsDetailsProgressToggleDay = false;
+    this.apiPreviousDate = this.lastWeekDates[1].string_date;
+    this.apiCurrentDate =
+      this.lastWeekDates[this.lastWeekDates.length - 1].string_date;
+    this.fetchPromWeek(
+      this.selectedSite,
+      this.selectedSimDetails,
+      this.selectedIndexDetails
+    );
   }
   activeNewDeviceForm(): void {
     this.activeNewDevice = true;

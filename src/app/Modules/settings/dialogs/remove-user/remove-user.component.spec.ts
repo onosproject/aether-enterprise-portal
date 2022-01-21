@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JoinerComponent } from './joiner.component';
+import { RemoveUserComponent } from './remove-user.component';
 
-describe('JoinerComponent', () => {
-  let component: JoinerComponent;
-  let fixture: ComponentFixture<JoinerComponent>;
+describe('RemoveUserComponent', () => {
+  let component: RemoveUserComponent;
+  let fixture: ComponentFixture<RemoveUserComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [JoinerComponent],
+      declarations: [RemoveUserComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JoinerComponent);
+    fixture = TestBed.createComponent(RemoveUserComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

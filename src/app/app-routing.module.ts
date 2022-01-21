@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ConnectComponent } from './components/connect/connect.component';
 
 const routes: Routes = [
   {
@@ -14,10 +13,6 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('./Modules/auth/auth.module').then((m) => m.AuthModule),
-  },
-  {
-    path: 'connect',
-    component: ConnectComponent,
   },
 ];
 

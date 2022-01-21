@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JoinerComponent } from './joiner.component';
+import { DeleteSlicesComponent } from './delete-slices.component';
 
-describe('JoinerComponent', () => {
-  let component: JoinerComponent;
-  let fixture: ComponentFixture<JoinerComponent>;
+describe('DeleteSlicesComponent', () => {
+  let component: DeleteSlicesComponent;
+  let fixture: ComponentFixture<DeleteSlicesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [JoinerComponent],
+      declarations: [DeleteSlicesComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JoinerComponent);
+    fixture = TestBed.createComponent(DeleteSlicesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

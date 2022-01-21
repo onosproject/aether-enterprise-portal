@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { JoinerComponent } from './joiner.component';
+import { JoinerComponent } from './joiner.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [JoinerComponent],
   imports: [CommonModule],
+  exports: [JoinerComponent],
 })
 export class JoinerModule {}

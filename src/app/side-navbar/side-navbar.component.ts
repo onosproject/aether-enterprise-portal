@@ -59,7 +59,7 @@ export class SideNavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchSites();
-    this.deviceService.mySite('freemont');
+    // this.deviceService.mySite('freemont');
   }
 
   fetchSites(): any {
