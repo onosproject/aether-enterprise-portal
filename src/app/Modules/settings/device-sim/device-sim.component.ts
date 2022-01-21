@@ -162,12 +162,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     },
   ];
 
-  deviceSimForm = new FormGroup({
-    newSim: new FormControl('', Validators.required),
-    deviceName: new FormControl('', Validators.required),
-    deviceLocation: new FormControl('', Validators.required),
-    deviceSerialNum: new FormControl('', Validators.required),
-  });
+  deviceSimForm = new FormGroup({});
 
   deviceSimEditForm = new FormGroup({
     newSim: new FormControl('', Validators.required),
@@ -217,6 +212,15 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     // }, 100000);
     // console.log('||||||||||||||||||', this.getLastWeek());
     this.getLastWeek();
+  }
+
+  configDeviceSim() {
+    this.deviceSimForm = new FormGroup({
+      newSim: new FormControl('', Validators.required),
+      deviceName: new FormControl('', Validators.required),
+      deviceLocation: new FormControl('', Validators.required),
+      deviceSerialNum: new FormControl('', Validators.required),
+    });
   }
 
   getLastWeek(): void {
@@ -1018,6 +1022,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.closeEdit();
     this.closeDetails();
     this.activeNewDevice = true;
+    this.configDeviceSim();
     this.deviceSimsDetailItemDetailsPopUp = false;
     this.deviceSimsDetailViewEditForm = false;
   }
