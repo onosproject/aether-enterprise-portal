@@ -6,12 +6,12 @@ import { DeviceSimService } from 'src/app/services/device-sim.service';
   selector: 'aep-select-sims',
   templateUrl: './select-sims.component.html',
   styles: [],
-  providers: [
-    {
-      provide: MatDialogRef,
-      useValue: {},
-    },
-  ],
+  // providers: [
+  //   {
+  //     provide: MatDialogRef,
+  //     useValue: {},
+  //   },
+  // ],
 })
 export class SelectSimsComponent implements OnInit {
   selectedSim: string = '';
@@ -132,6 +132,7 @@ export class SelectSimsComponent implements OnInit {
   selectSimFinal(): void {
     //console.log(this.selectedSim);
     this.deviceService.mySim(this.selectedSim);
+    this.dialogRef.close();
   }
 
   assignSelectedSims(): any {

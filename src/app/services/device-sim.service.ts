@@ -24,6 +24,7 @@ export class DeviceSimService {
 
   mySim1: Observable<any>;
   private mySimSubject = new Subject<any>();
+  private myDeviceSubject = new BehaviorSubject<number>(0);
 
   constructor(public http: HttpClient) {
     this.mySim1 = this.mySimSubject.asObservable();
@@ -40,7 +41,7 @@ export class DeviceSimService {
     return this.mySiteSubject.asObservable();
   }
 
-  mySims(data: any[]): any {
+  mySims(data: any[]): void {
     this.selectedSims = data;
     this.mySimsSubject.next(data);
   }
@@ -49,10 +50,20 @@ export class DeviceSimService {
     return this.mySimsSubject.asObservable();
   }
 
-  mySim(data: string): any {
+  mySim(data: string): void {
     // this.selectedSim = data
     // //console.log(this.selectedSim)
     this.mySimSubject.next(data);
+  }
+
+  getDevice(): Observable<number> {
+    return this.myDeviceSubject.asObservable();
+  }
+
+  setDevice(data: number): void {
+    // this.selectedSim = data
+    // //console.log(this.selectedSim)
+    this.myDeviceSubject.next(data);
   }
 
   getData(): any {

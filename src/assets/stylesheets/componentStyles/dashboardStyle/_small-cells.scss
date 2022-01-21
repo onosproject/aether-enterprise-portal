@@ -30,6 +30,9 @@
     margin-bottom: 30px;
     min-height: 45px;
     align-items: center;
+    &.notification_fixed_tab_header {
+      display: none;
+    }
     .filter {
       color: #0063f7;
     }
@@ -429,31 +432,50 @@
   }
 }
 .notification {
-  .small-cell-alert {
-    margin-top: 0px !important;
-  }
-  .small-cell-condition_bx {
-    margin-top: 0px !important;
-  }
-  .small-cell-accordion_control {
-    padding: 10px 0 0 !important;
-  }
-  .summary_data {
-    max-width: 300px;
-  }
-  .small-cell-expansion-panel-child {
-    .mat-action-row {
-      padding: 10px 18px !important;
+  position: relative;
+  .tab-group {
+    [class~="mat-tab-header"] {
+      max-width: 600px;
+      margin-bottom: 25px;
+      border-bottom: none;
+    }
+    .small-cell-alert {
+      margin-top: 0px !important;
+    }
+    .small-cell-condition_bx {
+      margin-top: 0px !important;
+    }
+    .small-cell-accordion_control {
+      padding: 10px 0 0 !important;
+    }
+    .summary_data {
+      max-width: 300px;
+    }
+    .small-cell-expansion-panel-child {
+      .mat-action-row {
+        padding: 10px 18px !important;
+      }
+    }
+
+    .open-ticket-tab {
+      .alert_info,
+      .alert_info-medium,
+      .alert_info-high,
+      .alert_info-low,
+      .condition_bx {
+        margin: 0px;
+      }
     }
   }
-
-  .open-ticket-tab {
-    .alert_info,
-    .alert_info-medium,
-    .alert_info-high,
-    .alert_info-low,
-    .condition_bx {
-      margin: 0px;
+  .fixed_tab_header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 26px;
+    background: transparent;
+    min-width: 275px;
+    &.notification_fixed_tab_header {
+      display: flex;
     }
   }
 }

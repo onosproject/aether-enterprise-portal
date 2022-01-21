@@ -169,18 +169,20 @@
               class="section-group-btn"
               [(ngModel)]="viewType"
             >
-              <mat-button-toggle value="Logical">Logical</mat-button-toggle>
+              <mat-button-toggle value="Logical" (click)="getSlices()"
+                >Logical</mat-button-toggle
+              >
               <mat-button-toggle value="Physical" class="border-none"
                 >Physical</mat-button-toggle
               >
             </mat-button-toggle-group>
           </div>
         </div>
-        <aep-slices
+        <!-- <aep-slices
           #slices
           (informParent)="parentWillTakeActionSlice()"
           *ngIf="viewType === 'Logical'"
-        ></aep-slices>
+        ></aep-slices> -->
       </div>
       <div *ngIf="isAcknowledged === 8" class="col-lg-4">
         <div class="site-visite-bx">
