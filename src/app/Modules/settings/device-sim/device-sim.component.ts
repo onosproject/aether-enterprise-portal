@@ -164,6 +164,10 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   deviceSimForm = new FormGroup({});
 
+  deviceSimControls = this.deviceSimForm.controls;
+
+  deviceSimSubmit = false;
+
   deviceSimEditForm = new FormGroup({
     newSim: new FormControl('', Validators.required),
     deviceName: new FormControl('', Validators.required),
@@ -214,7 +218,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.getLastWeek();
   }
 
-  configDeviceSim() {
+  configDeviceSim(): void {
     this.deviceSimForm = new FormGroup({
       newSim: new FormControl('', Validators.required),
       deviceName: new FormControl('', Validators.required),
@@ -342,6 +346,9 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
     this.activeNewDeviceForm();
     // console.log(this.siteConfig);
+    // } else {
+    //   return;
+    // }
   }
 
   addNewDeviceInventory(): any {

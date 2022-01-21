@@ -217,8 +217,8 @@
           <mat-card-actions class="bottom-button">
             <div class="admin-addNew-form-lastButtons admin-addnew-group">
               <button
-                class="admin-addNew-form-addButton add-button-gray"
-                type="submit"
+                class="admin-addNew-form-addButton"
+                type="button"
                 mat-raised-button
                 color="primary"
                 (click)="onSubmit(); assignUsersCities()"
@@ -263,14 +263,14 @@
             <div class="admin-usersites-switch-text mt-2">Filter by</div>
             <div class="mx-4">
               <button
-                class="admin-usersites-switch"
+                class="admin-usersites-switch-site"
                 (click)="siteView()"
                 [ngClass]="siteViewStyle === 'true' ? 'highlight' : 'normal'"
               >
                 Site
               </button>
               <button
-                class="admin-usersites-switch"
+                class="admin-usersites-switch-user"
                 (click)="userView()"
                 [ngClass]="userViewStyle === 'true' ? 'highlight' : 'normal'"
               >
@@ -287,7 +287,7 @@
       >
         <button
           class="btn button-medium-14 col-3 admin-addUser-btnCenter1"
-          (click)="AddNew = !AddNew; closeUserViewEdit()"
+          (click)="addNewUser(); closeUserViewEdit()"
         >
           Add new user
         </button>

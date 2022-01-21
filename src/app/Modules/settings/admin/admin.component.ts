@@ -105,36 +105,21 @@ export class AdminComponent implements OnInit {
     { viewValue: 'R/W' },
   ];
 
-  // form controls
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
   // formGroups
-  userForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    emailAlert: new FormControl('', Validators.required),
-    deviceAlert: new FormControl('', Validators.required),
-    centralAlert: new FormControl('', Validators.required),
-    siteEquipmentAlert: new FormControl('', Validators.required),
-    securityAlert: new FormControl('', Validators.required),
-    cities: new FormArray([]),
-  });
+  userForm = new FormGroup({});
 
-  userControls = this.userForm.controls;
+  userControls
 
   userFormSubmit = false;
 
   editForm = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
-    emailAlert: new FormControl('', Validators.required),
-    deviceAlert: new FormControl('', Validators.required),
-    centralAlert: new FormControl('', Validators.required),
-    siteEquipmentAlert: new FormControl('', Validators.required),
-    securityAlert: new FormControl('', Validators.required),
+    emailAlert: new FormControl(''),
+    deviceAlert: new FormControl(''),
+    centralAlert: new FormControl(''),
+    siteEquipmentAlert: new FormControl(''),
+    securityAlert: new FormControl(''),
     cities: new FormArray([]),
   });
 
@@ -239,26 +224,13 @@ export class AdminComponent implements OnInit {
           Validators.required,
           Validators.email,
         ]),
-        emailAlert: new FormControl(
-          this.users[index].emailAlert,
-          Validators.required
-        ),
-        deviceAlert: new FormControl(
-          this.users[index].deviceAlert,
-          Validators.required
-        ),
-        centralAlert: new FormControl(
-          this.users[index].centralAlert,
-          Validators.required
-        ),
+        emailAlert: new FormControl(this.users[index].emailAlert),
+        deviceAlert: new FormControl(this.users[index].deviceAlert),
+        centralAlert: new FormControl(this.users[index].centralAlert),
         siteEquipmentAlert: new FormControl(
-          this.users[index].siteEquipmentAlert,
-          Validators.required
+          this.users[index].siteEquipmentAlert
         ),
-        securityAlert: new FormControl(
-          this.users[index].securityAlert,
-          Validators.required
-        ),
+        securityAlert: new FormControl(this.users[index].securityAlert),
         cities: cities,
       });
       const editControls = this.users[index].form.controls;
@@ -306,6 +278,25 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  addNewForm(): void {
+    this.userForm = new FormGroup({
+      name: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      emailAlert: new FormControl(''),
+      deviceAlert: new FormControl(''),
+      centralAlert: new FormControl(''),
+      siteEquipmentAlert: new FormControl(''),
+      securityAlert: new FormControl(''),
+      cities: new FormArray([]),
+    });
+    this.userForm.controls;
+  }
+
+  addNewUser(): void {
+    this.addNewForm()
+    this.AddNew = !this.AddNew
+  }
+
   onSubmit(): void {
     // this.userService.addUser(this.userForm.value);
     this.userFormSubmit = true;
@@ -314,61 +305,61 @@ export class AdminComponent implements OnInit {
     // let siteEquipmentAlert = this.userForm.value.siteEquipmentAlert;
     // let centralAlert = this.userForm.value.centralAlert;
     // let securityAlert = this.userForm.value.securityAlert;
-    // if (this.userForm.value.emailAlert === '' || null) {
-    //   this.userForm.value.emailAlert = false;
-    // }
-    // if (this.userForm.value.deviceAlert === '' || null) {
-    //   this.userForm.value.deviceAlert = false;
-    // }
-    // if (this.userForm.value.siteEquipmentAlert === '' || null) {
-    //   this.userForm.value.siteEquipmentAlert = false;
-    // }
-    // if (this.userForm.value.centralAlert == '' || null) {
-    //   this.userForm.value.centralAlert = false;
-    // }
-    // if (this.userForm.value.securityAlert == '' || null) {
-    //   this.userForm.value.securityAlert = false;
-    // }
-    // if (this.userForm.valid) {
-    const id =
-      this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
-
-    this.users.push({
-      id: id,
-      ppic: this.fileUrl,
-      active: this.userForm.value.active,
-      name: this.userForm.value.name,
-      email: this.userForm.value.email,
-      cities: this.userForm.value.cities,
-      emailAlert: this.userForm.value.emailAlert,
-      // emailAlert: emailAlert,
-      deviceAlert: this.userForm.value.deviceAlert,
-      // deviceAlert: deviceAlert,
-      siteEquipmentAlert: this.userForm.value.siteEquipmentAlert,
-      // siteEquipmentAlert: siteEquipmentAlert,
-      centralAlert: this.userForm.value.centralAlert,
-      // centralAlert: centralAlert,
-      securityAlert: this.userForm.value.securityAlert,
-      // securityAlert: securityAlert,
-    });
-    for (let i = 0; i < this.cities.length; i++) {
-      // console.log('forloop');
-      if (this.userForm.value.cities[i] > 0) {
-        this.cities[i].users.push({
-          userId: id,
-          accessLevel: this.userForm.value.cities[i],
-        });
-      }
+    if (this.userForm.value.emailAlert === '' || null) {
+      this.userForm.value.emailAlert = false;
     }
-    this.assignCitiesUsers();
-    this.userForm.reset();
-    this.fileUrl = '';
-    this.imageLoaded = false;
-    // console.log(this.cities, this.users);
-    this.AddNew = !this.AddNew;
-    // } else {
-    //   return;
-    // }
+    if (this.userForm.value.deviceAlert === '' || null) {
+      this.userForm.value.deviceAlert = false;
+    }
+    if (this.userForm.value.siteEquipmentAlert === '' || null) {
+      this.userForm.value.siteEquipmentAlert = false;
+    }
+    if (this.userForm.value.centralAlert == '' || null) {
+      this.userForm.value.centralAlert = false;
+    }
+    if (this.userForm.value.securityAlert == '' || null) {
+      this.userForm.value.securityAlert = false;
+    }
+    if (this.userForm.valid) {
+      const id =
+        this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
+
+      this.users.push({
+        id: id,
+        ppic: this.fileUrl,
+        active: this.userForm.value.active,
+        name: this.userForm.value.name,
+        email: this.userForm.value.email,
+        cities: this.userForm.value.cities,
+        emailAlert: this.userForm.value.emailAlert,
+        // emailAlert: emailAlert,
+        deviceAlert: this.userForm.value.deviceAlert,
+        // deviceAlert: deviceAlert,
+        siteEquipmentAlert: this.userForm.value.siteEquipmentAlert,
+        // siteEquipmentAlert: siteEquipmentAlert,
+        centralAlert: this.userForm.value.centralAlert,
+        // centralAlert: centralAlert,
+        securityAlert: this.userForm.value.securityAlert,
+        // securityAlert: securityAlert,
+      });
+      for (let i = 0; i < this.cities.length; i++) {
+        // console.log('forloop');
+        if (this.userForm.value.cities[i] > 0) {
+          this.cities[i].users.push({
+            userId: id,
+            accessLevel: this.userForm.value.cities[i],
+          });
+        }
+      }
+      this.assignCitiesUsers();
+      this.userForm.reset();
+      this.fileUrl = '';
+      this.imageLoaded = false;
+      // console.log(this.cities, this.users);
+      this.AddNew = !this.AddNew;
+    } else {
+      return;
+    }
   }
 
   // getControlEdit(cityIndex):FormControl {
