@@ -160,6 +160,10 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     deviceSerialNum: new FormControl('', Validators.required),
   });
 
+  deviceSimControls = this.deviceSimForm.controls;
+
+  deviceSimSubmit = false;
+
   deviceSimEditForm = new FormGroup({
     newSim: new FormControl('', Validators.required),
     deviceName: new FormControl('', Validators.required),
@@ -209,7 +213,9 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   addNewDevice1(): any {
+    this.deviceSimSubmit = true;
     console.log('addNewDevice');
+    // if (this.deviceSimForm.valid) {
     this.siteConfig[0].push({
       sim: this.deviceSimForm.value.newSim,
       'display-name': this.deviceSimForm.value.deviceName,
@@ -218,6 +224,9 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
     this.activeNewDeviceForm();
     // console.log(this.siteConfig);
+    // } else {
+    //   return;
+    // }
   }
 
   addNewDeviceInventory(): any {

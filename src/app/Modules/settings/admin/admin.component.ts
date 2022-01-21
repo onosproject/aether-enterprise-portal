@@ -105,21 +105,15 @@ export class AdminComponent implements OnInit {
     { viewValue: 'R/W' },
   ];
 
-  // form controls
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
   // formGroups
   userForm = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    emailAlert: new FormControl('', Validators.required),
-    deviceAlert: new FormControl('', Validators.required),
-    centralAlert: new FormControl('', Validators.required),
-    siteEquipmentAlert: new FormControl('', Validators.required),
-    securityAlert: new FormControl('', Validators.required),
+    emailAlert: new FormControl(''),
+    deviceAlert: new FormControl(''),
+    centralAlert: new FormControl(''),
+    siteEquipmentAlert: new FormControl(''),
+    securityAlert: new FormControl(''),
     cities: new FormArray([]),
   });
 
@@ -130,11 +124,11 @@ export class AdminComponent implements OnInit {
   editForm = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
-    emailAlert: new FormControl('', Validators.required),
-    deviceAlert: new FormControl('', Validators.required),
-    centralAlert: new FormControl('', Validators.required),
-    siteEquipmentAlert: new FormControl('', Validators.required),
-    securityAlert: new FormControl('', Validators.required),
+    emailAlert: new FormControl(''),
+    deviceAlert: new FormControl(''),
+    centralAlert: new FormControl(''),
+    siteEquipmentAlert: new FormControl(''),
+    securityAlert: new FormControl(''),
     cities: new FormArray([]),
   });
 
@@ -314,22 +308,22 @@ export class AdminComponent implements OnInit {
     // let siteEquipmentAlert = this.userForm.value.siteEquipmentAlert;
     // let centralAlert = this.userForm.value.centralAlert;
     // let securityAlert = this.userForm.value.securityAlert;
-    // if (this.userForm.value.emailAlert === '' || null) {
-    //   this.userForm.value.emailAlert = false;
-    // }
-    // if (this.userForm.value.deviceAlert === '' || null) {
-    //   this.userForm.value.deviceAlert = false;
-    // }
-    // if (this.userForm.value.siteEquipmentAlert === '' || null) {
-    //   this.userForm.value.siteEquipmentAlert = false;
-    // }
-    // if (this.userForm.value.centralAlert == '' || null) {
-    //   this.userForm.value.centralAlert = false;
-    // }
-    // if (this.userForm.value.securityAlert == '' || null) {
-    //   this.userForm.value.securityAlert = false;
-    // }
-    // if (this.userForm.valid) {
+    if (this.userForm.value.emailAlert === '' || '' || null) {
+      this.userForm.value.emailAlert = false;
+    }
+    if (this.userForm.value.deviceAlert === '' || '' || null) {
+      this.userForm.value.deviceAlert = false;
+    }
+    if (this.userForm.value.siteEquipmentAlert === '' || '' || null) {
+      this.userForm.value.siteEquipmentAlert = false;
+    }
+    if (this.userForm.value.centralAlert == '' || '' || null) {
+      this.userForm.value.centralAlert = false;
+    }
+    if (this.userForm.value.securityAlert == '' || '' || null) {
+      this.userForm.value.securityAlert = false;
+    }
+    if (this.userForm.valid) {
       const id =
         this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
 
@@ -366,9 +360,9 @@ export class AdminComponent implements OnInit {
       this.imageLoaded = false;
       console.log(this.cities, this.users);
       this.AddNew = !this.AddNew;
-    // } else {
-    //   return;
-    // }
+    } else {
+      return;
+    }
   }
 
   // getControlEdit(cityIndex):FormControl {

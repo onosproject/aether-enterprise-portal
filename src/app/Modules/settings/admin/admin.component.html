@@ -99,7 +99,6 @@
                             class="form-control form-field-big"
                             required
                             formControlName="email"
-                            [formControl]="emailFormControl"
                             placeholder="Email ID"
                             [ngClass]="{
                               'is-invalid':
@@ -264,14 +263,14 @@
             <div class="admin-usersites-switch-text mt-2">Filter by</div>
             <div class="mx-4">
               <button
-                class="admin-usersites-switch"
+                class="admin-usersites-switch-site"
                 (click)="siteView()"
                 [ngClass]="siteViewStyle === 'true' ? 'highlight' : 'normal'"
               >
                 Site
               </button>
               <button
-                class="admin-usersites-switch"
+                class="admin-usersites-switch-user"
                 (click)="userView()"
                 [ngClass]="userViewStyle === 'true' ? 'highlight' : 'normal'"
               >
