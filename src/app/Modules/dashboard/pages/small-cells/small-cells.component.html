@@ -17,6 +17,7 @@
       animationDuration="0ms"
       (selectedTabChange)="selectedTabValue($event)"
       mat-align-tabs="start"
+      class="tab-group"
     >
       <div
         [ngClass]="{
@@ -744,5 +745,26 @@
         </div>
       </mat-tab>
     </mat-tab-group>
+    <div class="fixed_tab_header notification_fixed_tab_header">
+      <div class="filter" [matMenuTriggerFor]="filter">
+        filter: {{ selectedFilter }}
+        <img src="assets/AdminPanel/expand.svg" mat-button />
+        <mat-menu #filter="matMenu" yPosition="below" class="ctm_filter">
+          <button mat-menu-item (click)="selectFilter('All')">All</button>
+          <button mat-menu-item (click)="selectFilter('Ignore')">Ignore</button>
+          <button mat-menu-item (click)="selectFilter('Acknowledged')">
+            Acknowledged
+          </button>
+        </mat-menu>
+      </div>
+      <div class="sort" [matMenuTriggerFor]="Sort">
+        Sort by Severity
+        <img src="assets/AdminPanel/expand.svg" mat-button />
+        <mat-menu #Sort="matMenu" yPosition="below" class="ctm_filter">
+          <button mat-menu-item (click)="sortData('high')">High To Low</button>
+          <button mat-menu-item (click)="sortData('Low')">Low To High</button>
+        </mat-menu>
+      </div>
+    </div>
   </div>
 </div>

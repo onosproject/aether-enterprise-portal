@@ -150,7 +150,7 @@ export class DashboardComponent implements OnInit {
     siteData: any[];
     siteIndex: number;
   }): void {
-    // //console.log('||||||||||||||||||||', event.siteId);
+    // console.log('||||||||||||||||||||', event);
     this.navbar.getDataFromDashboard(event.siteId);
     this.siteId = event.siteId;
     if (!this.isExpand) {
@@ -208,5 +208,13 @@ export class DashboardComponent implements OnInit {
     //     this.sliceData[this.siteIndex].services.splice(0, 1);
     //   }
     // });
+  }
+
+  getSlices(): void {
+    this.slices.onSelectCard({
+      siteId: this.sitesService.siteId,
+      siteData: this.sitesService.siteData,
+      siteIndex: this.sitesService.siteIndex,
+    });
   }
 }
