@@ -86,11 +86,11 @@ export class ServicesComponent implements OnInit {
   }
 
   assignSelectedSite(): any {
-    console.log(this.deviceService.mySite1);
+    // console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
       // console.log(data);
       this.selectedSite = data;
-      console.log(this.selectedSite);
+      // console.log(this.selectedSite);
       this.fetchData();
     });
   }
@@ -105,7 +105,7 @@ export class ServicesComponent implements OnInit {
       portEnd: this.addServiceFormGroup.value.newPortEnd,
       deviceName: 'device-1',
     });
-    console.log(this.siteApplications);
+    // console.log(this.siteApplications);
     this.addNewServiceForm = !this.addNewServiceForm;
   }
 
@@ -154,26 +154,26 @@ export class ServicesComponent implements OnInit {
       const globalApplications: any[] = [];
       configArray.push(result);
       this.config = configArray;
-      console.log(this.config);
+      // console.log(this.config);
       configArray.forEach((config) => {
         config.applications.forEach((configApp) => {
           globalApplications.push(configApp);
         });
 
-        console.log(globalApplications);
-        console.log(config.sites);
+        // console.log(globalApplications);
+        // console.log(config.sites);
         config.sites.forEach((siteConfig) => {
-          console.log(siteConfig);
+          // console.log(siteConfig);
           if (siteConfig['site-id'] == this.selectedSite) {
             siteSlices.push(siteConfig.slices);
-            console.log(siteSlices);
+            // console.log(siteSlices);
             siteSlices[0].forEach((siteSlice) => {
               // console.log(siteSlice.applications)
               // siteApplications.push(siteSlice.applications);
               siteSlice.applications.forEach((application) => {
-                console.log(application);
+                // console.log(application);
                 siteApplications.push({ application });
-                console.log(siteApplications);
+                // console.log(siteApplications);
               });
               for (
                 let siteAppIndex = 0;
@@ -185,11 +185,11 @@ export class ServicesComponent implements OnInit {
                   appIndex < globalApplications.length;
                   appIndex++
                 ) {
-                  console.log(
-                    globalApplications.length,
-                    siteApplications,
-                    globalApplications[appIndex]['application-id']
-                  );
+                  // console.log(
+                  //   globalApplications.length,
+                  //   siteApplications,
+                  //   globalApplications[appIndex]['application-id']
+                  // );
                   if (
                     siteApplications[siteAppIndex].application ==
                     globalApplications[appIndex]['application-id']
@@ -204,7 +204,7 @@ export class ServicesComponent implements OnInit {
                   }
                 }
               }
-              console.log(siteApplications);
+              // console.log(siteApplications);
             });
             for (let i = 0; i < siteApplications.length; i++) {
               siteApplications[i].protocol = 'protocol-1';
@@ -218,7 +218,7 @@ export class ServicesComponent implements OnInit {
         });
       });
       this.siteApplications = siteApplications;
-      console.log(this.siteApplications);
+      // console.log(this.siteApplications);
     });
   }
 

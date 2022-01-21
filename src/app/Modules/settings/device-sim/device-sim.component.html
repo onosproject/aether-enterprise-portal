@@ -167,8 +167,8 @@
                               name="deviceLocation"
                               id="deviceLocation"
                               class="form-control form-field-big"
-                              formControlName="deviceLocation"
                               placeholder="eg.Floor 1, Floor 2 etc"
+                              formControlName="deviceLocation"
                             />
                           </div>
                           <div class="mx-2">
@@ -554,7 +554,7 @@
                     <div class="delete-label">Delete</div>
                   </div>
                   <div class="button-sec" (click)="editTrigger(deviceIndex)">
-                    <button
+                    <!-- <button
                       type="button"
                       mat-button
                       class="cancel"
@@ -562,7 +562,7 @@
                       *ngIf="editDevices.indexOf(deviceIndex) >= 0"
                     >
                       Cancel
-                    </button>
+                    </button> -->
                     <button
                       class="add"
                       type="button"
@@ -573,7 +573,12 @@
                     >
                       Save
                     </button>
-                    <button type="button" mat-button class="cancel">
+                    <button
+                      type="button"
+                      mat-button
+                      class="cancel"
+                      (click)="closeEdit()"
+                    >
                       Cancel
                     </button>
                   </div>
@@ -1039,7 +1044,7 @@
                   </span>
                 </span>
                 <div class="button-sec">
-                  <button
+                  <!-- <button
                     mat-button
                     type="button"
                     class="cancel"
@@ -1047,7 +1052,7 @@
                     [@inOutAnimation]
                   >
                     Cancel
-                  </button>
+                  </button> -->
                   <button
                     class="add"
                     type="button"
@@ -1060,7 +1065,7 @@
                   <button
                     mat-button
                     class="cancel"
-                    (click)="addNewDevice = !addNewDevice"
+                    (click)="addNewDeviceFun()"
                     [@inOutAnimation]
                   >
                     Cancel

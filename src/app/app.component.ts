@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events.subscribe(() => {
-      console.log(window.location.hash);
       this.showNavbar =
         window.location.hash !== '#/' &&
         window.location.hash !== '#/login' &&

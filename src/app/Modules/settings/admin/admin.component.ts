@@ -69,6 +69,7 @@ export class AdminComponent implements OnInit {
   // Image variables
   fileUrl: any = '';
   imageLoaded: boolean = false;
+  addUserError: boolean = false;
 
   ngOnInit(): void {
     // subscriptions
@@ -85,6 +86,7 @@ export class AdminComponent implements OnInit {
     );
 
     // functions on Init
+    this.addNewForm();
     this.assignUsersCities();
     this.assignCitiesUsers();
     this.setUpCities();
@@ -108,7 +110,7 @@ export class AdminComponent implements OnInit {
   // formGroups
   userForm = new FormGroup({});
 
-  userControls
+  userControls;
 
   userFormSubmit = false;
 
@@ -146,6 +148,10 @@ export class AdminComponent implements OnInit {
     // //console.log(a)
   }
 
+  isCitiesValid(cities: number[]): boolean {
+    return !(cities.includes(1) || cities.includes(2) || cities.includes(3));
+  }
+
   // functions
   assignUsersCities(): void {
     this.users = this.users.map((user) => {
@@ -175,6 +181,7 @@ export class AdminComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = () => {
       this.fileUrl = reader.result;
+      this.userForm.patchValue({ profilePic: reader.result });
       console.log(this.fileUrl);
       this.imageLoaded = true;
     };
@@ -282,45 +289,58 @@ export class AdminComponent implements OnInit {
     this.userForm = new FormGroup({
       name: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, Validators.email]),
-      emailAlert: new FormControl(''),
-      deviceAlert: new FormControl(''),
-      centralAlert: new FormControl(''),
-      siteEquipmentAlert: new FormControl(''),
-      securityAlert: new FormControl(''),
+      emailAlert: new FormControl(false),
+      deviceAlert: new FormControl(false),
+      centralAlert: new FormControl(false),
+      siteEquipmentAlert: new FormControl(false),
+      securityAlert: new FormControl(false),
       cities: new FormArray([]),
+      profilePic: new FormControl(null, [Validators.required]),
     });
-    this.userForm.controls;
+    const cities = this.userForm.get('cities') as FormArray;
+    for (let i = 0; i < this.cities.length; i++) {
+      cities.push(new FormControl(0));
+    }
+    this.userControls = this.userForm.controls;
   }
 
   addNewUser(): void {
-    this.addNewForm()
-    this.AddNew = !this.AddNew
+    this.addNewForm();
+    this.AddNew = !this.AddNew;
   }
 
   onSubmit(): void {
     // this.userService.addUser(this.userForm.value);
     this.userFormSubmit = true;
+    this.addUserError = false;
     // let emailAlert = this.userForm.value.emailAlert;
     // let deviceAlert = this.userForm.value.deviceAlert;
     // let siteEquipmentAlert = this.userForm.value.siteEquipmentAlert;
     // let centralAlert = this.userForm.value.centralAlert;
     // let securityAlert = this.userForm.value.securityAlert;
-    if (this.userForm.value.emailAlert === '' || null) {
-      this.userForm.value.emailAlert = false;
-    }
-    if (this.userForm.value.deviceAlert === '' || null) {
-      this.userForm.value.deviceAlert = false;
-    }
-    if (this.userForm.value.siteEquipmentAlert === '' || null) {
-      this.userForm.value.siteEquipmentAlert = false;
-    }
-    if (this.userForm.value.centralAlert == '' || null) {
-      this.userForm.value.centralAlert = false;
-    }
-    if (this.userForm.value.securityAlert == '' || null) {
-      this.userForm.value.securityAlert = false;
-    }
-    if (this.userForm.valid) {
+    // if (this.userForm.value.emailAlert === '' || null) {
+    //   this.userForm.value.emailAlert = false;
+    // }
+    // if (this.userForm.value.deviceAlert === '' || null) {
+    //   this.userForm.value.deviceAlert = false;
+    // }
+    // if (this.userForm.value.siteEquipmentAlert === '' || null) {
+    //   this.userForm.value.siteEquipmentAlert = false;
+    // }
+    // if (this.userForm.value.centralAlert == '' || null) {
+    //   this.userForm.value.centralAlert = false;
+    // }
+    // if (this.userForm.value.securityAlert == '' || null) {
+    //   this.userForm.value.securityAlert = false;
+    // }
+    console.log(this.userForm);
+    const isCitySelected =
+      this.userForm.value.cities.includes(1) ||
+      this.userForm.value.cities.includes(2) ||
+      this.userForm.value.cities.includes(3);
+    if (this.userForm.invalid || !isCitySelected) {
+      this.addUserError = true;
+    } else if (this.userForm.valid) {
       const id =
         this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
 
@@ -352,7 +372,7 @@ export class AdminComponent implements OnInit {
         }
       }
       this.assignCitiesUsers();
-      this.userForm.reset();
+      // this.userForm.reset();
       this.fileUrl = '';
       this.imageLoaded = false;
       // console.log(this.cities, this.users);
