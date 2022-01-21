@@ -131,7 +131,7 @@
                 </div>
 
                 <div class="row d-flex">
-                  <div>Select Access Level</div>
+                  <div class="select-level">Select Access Level</div>
                   <div class="col-6 d-flex" style="flex-wrap: wrap">
                     <div
                       class="d-flex mx-2"
@@ -214,10 +214,10 @@
               </div>
             </div>
           </mat-card-content>
-          <mat-card-actions>
-            <div class="admin-addNew-form-lastButtons">
+          <mat-card-actions class="bottom-button">
+            <div class="admin-addNew-form-lastButtons admin-addnew-group">
               <button
-                class="admin-addNew-form-addButton"
+                class="admin-addNew-form-addButton add-button-gray"
                 type="submit"
                 mat-raised-button
                 color="primary"
@@ -448,7 +448,8 @@
                                   placeholder="Email ID"
                                   [ngClass]="{
                                     'is-invalid':
-                                      editFormSubmit && editControls.email.errors
+                                      editFormSubmit &&
+                                      editControls.email.errors
                                   }"
                                 />
                                 <div
@@ -579,7 +580,7 @@
                   </div>
                 </mat-card-content>
 
-                <mat-card-actions>
+                <mat-card-actions class="bottom-button">
                   <div class="admin-addNew-form-lastButtons">
                     <span class="admin-addNew-form-audit" type="button">
                       <img

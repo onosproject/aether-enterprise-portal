@@ -224,7 +224,7 @@ export class DeviceGroupsComponent implements OnInit {
     type: string,
     deviceIndex: number
   ): void {
-    console.log(this.deviceInventory[deviceIndex].selected);
+    // console.log(this.deviceInventory[deviceIndex].selected);
     if (this.deviceInventory[deviceIndex].selected == 0) {
       this.deviceInventory[deviceIndex].selected = 1;
       const selectedDeviceInfo: any = {
@@ -245,7 +245,7 @@ export class DeviceGroupsComponent implements OnInit {
         }
       }
     }
-    console.log(this.selectedDevices, this.deviceInventory, this.siteDevices);
+    // console.log(this.selectedDevices, this.deviceInventory, this.siteDevices);
   }
 
   summaryTrigger(): any {
@@ -309,10 +309,10 @@ export class DeviceGroupsComponent implements OnInit {
         }
       }
     }
-    console.log(this.deviceInventory, this.domainList);
+    // console.log(this.deviceInventory, this.domainList);
     this.selectedDevices.splice(0, this.selectedDevices.length);
     this.emptySummaryArray();
-    console.log(this.siteDeviceGroups);
+    // console.log(this.siteDeviceGroups);
     // this.dataConvert();
     // console.log(this.selectedDevices);
     // this.selectedDevices = [];
@@ -323,11 +323,11 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   assignSelectedSite(): any {
-    console.log(this.deviceService.mySite1);
+    //console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-      // console.log(data);
+      // //console.log(data);
       this.selectedSite = data;
-      console.log(this.selectedSite);
+      //console.log(this.selectedSite);
       this.fetchData();
     });
   }
@@ -344,11 +344,11 @@ export class DeviceGroupsComponent implements OnInit {
         sitesConfig.map((site) => {
           if (site['site-id'] === this.selectedSite) {
             sitesDevicesGroups.push(site['device-groups']);
-            console.log(
-              'This is Local site-deviceGroups array',
-              this.selectedSite,
-              sitesDevicesGroups
-            );
+            //console.log(
+            //   'This is Local site-deviceGroups array',
+            //   this.selectedSite,
+            //   sitesDevicesGroups
+            // );
             sitesDevicesGroups[0].forEach((deviceGroup) => {
               deviceGroup.ipDomain = '162.153.31.005';
               deviceGroup.description =
@@ -357,11 +357,11 @@ export class DeviceGroupsComponent implements OnInit {
           }
           if (site['site-id'] === this.selectedSite) {
             sitesDevices.push(site.devices);
-            console.log(
-              'This is Local site-devices array',
-              this.selectedSite,
-              sitesDevices
-            );
+            //console.log(
+            //   'This is Local site-devices array',
+            //   this.selectedSite,
+            //   sitesDevices
+            // );
             sitesDevices.forEach((siteDevice) => {
               siteDevice.forEach((singleDevice) => {
                 // siteDevice[singleDeviceIndex].selected = 1;
@@ -371,28 +371,28 @@ export class DeviceGroupsComponent implements OnInit {
             });
           }
         });
-        // console.log(sitesDevicesGroups);
-        // console.log(sitesDevices);
+        // //console.log(sitesDevicesGroups);
+        // //console.log(sitesDevices);
         this.siteDevices = sitesDevices;
         this.siteDeviceGroups = sitesDevicesGroups;
         this.dataConvert();
         // this.test1();
       });
-      console.log(
-        'This is a global device-groups array for a site',
-        this.siteDeviceGroups
-      );
-      console.log(
-        'This is a global devices-array for a site',
-        this.siteDevices
-      );
-      console.log(this.config);
+      //console.log(
+      // 'This is a global device-groups array for a site',
+      // this.siteDeviceGroups
+      // );
+      //console.log(
+      //   'This is a global devices-array for a site',
+      //   this.siteDevices
+      // );
+      //console.log(this.config);
     });
   }
 
   dataConvert(): any {
     this.siteDeviceGroups.forEach((deviceGroups) => {
-      console.log(deviceGroups);
+      //console.log(deviceGroups);
       deviceGroups.forEach((deviceGroup) => {
         deviceGroup.devices.forEach((groupedDevice, groupedDeviceIndex) => {
           this.siteDevices.forEach((siteDevices) => {
@@ -408,7 +408,7 @@ export class DeviceGroupsComponent implements OnInit {
                     siteDevices[siteDeviceIndex]['serial-number'],
                 };
                 deviceGroup.devices.splice(groupedDeviceIndex, 1, deviceInfo);
-                // console.log('alert');
+                // //console.log('alert');
               } else {
                 const remainingDevices: any[] = [];
                 const deviceInfo: any = {
@@ -542,7 +542,7 @@ export class DeviceGroupsComponent implements OnInit {
   // testing
   // test1(): any {
   //   this.siteDevices.forEach((device, deviceIndex) => {
-  //     console.log(device, deviceIndex);
+  //     //console.log(device, deviceIndex);
   //   });
   // }
 

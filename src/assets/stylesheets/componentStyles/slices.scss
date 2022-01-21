@@ -202,6 +202,9 @@
         padding: 0 15px 0 15px;
         align-items: center;
         min-height: 60px;
+        width: 400px;
+        margin-top: 25px;
+        z-index: 11;
         .desc {
           font-family: Inter;
           font-style: normal;
@@ -530,5 +533,36 @@
         }
       }
     }
+  }
+}
+
+.slices {
+  &__joiner {
+    position: absolute;
+    z-index: 10;
+    &--expanded {
+      width: 990px;
+    }
+  }
+  &__device-group {
+    width: 225px;
+    button {
+      width: 100%;
+    }
+  }
+  &__services {
+    width: 180px;
+    button {
+      width: 100%;
+    }
+  }
+  &__name {
+    white-space: nowrap;
+    width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &__expand {
+    z-index: 11;
   }
 }

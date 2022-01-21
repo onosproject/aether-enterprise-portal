@@ -53,7 +53,7 @@ export class NavbarComponent {
   // Boolean Triggers
   trigger: boolean = false;
   controlMenuTrigger: boolean = false;
-  alert: boolean = false;
+  alert: string;
 
   // Static Values
   devices: number = 1040;
@@ -62,4 +62,13 @@ export class NavbarComponent {
   Layers: number = 30;
   Sites: number = 5;
   SmallCells: number = 234;
+
+  goToSmallCells(): void {
+    this.router.navigate(['/Small-Cells', { isNotification: true }]);
+  }
+
+  getDataFromDashboard(siteId: string): void {
+    this.alert = siteId;
+    // alert();
+  }
 }

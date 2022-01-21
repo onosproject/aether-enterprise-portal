@@ -145,16 +145,18 @@
                   </div>
                 </div>
               </mat-card-content>
-              <mat-card-actions class="form-actions d-flex mx-auto">
-                <div class="button-sec">
+              <mat-card-actions class="form-actions d-flex">
+                <div class="button-sec service-button-section">
                   <button
                     mat-button
                     type="button"
                     class="cancel btn btn-white mx-2"
                     (click)="addNewServiceForm = !addNewServiceForm"
                     [@inOutAnimation]
+                    type="submit"
+                    mat-raised-button
                   >
-                    Cancel
+                    Add
                   </button>
                   <button
                     class="add btn btn-gray mx-2"
@@ -164,7 +166,7 @@
                     mat-raised-button
                     color="primary"
                   >
-                    Add
+                    Cancel
                   </button>
                 </div>
               </mat-card-actions>

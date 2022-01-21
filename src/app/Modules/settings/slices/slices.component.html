@@ -623,6 +623,33 @@
       >
         <div class="row slices-cards-acc-cards">
           <!--Header part-->
+          <svg:svg
+            *ngIf="
+              expandSlices.indexOf(slicesIndex) < 0 &&
+              editSlices.indexOf(slicesIndex) < 0
+            "
+            height="135"
+            class="slices__joiner"
+          >
+            <svg:g
+              aep-joiner
+              [dash]="'4 5'"
+              [title]="''"
+              [startX]="250"
+              [startY]="60"
+              [endX]="225"
+              [endY]="60"
+            ></svg:g>
+            <svg:g
+              aep-joiner
+              [dash]="'4 5'"
+              [title]="''"
+              [startX]="655"
+              [startY]="60"
+              [endX]="685"
+              [endY]="60"
+            ></svg:g>
+          </svg:svg>
           <div
             *ngIf="
               expandSlices.indexOf(slicesIndex) < 0 &&
@@ -631,7 +658,7 @@
           >
             <div class="plush-min">
               <div
-                class="right-bx-shadow d-flex align-items-center"
+                class="right-bx-shadow d-flex align-items-center slices__expand"
                 (click)="expandTrigger(slicesIndex)"
                 *ngIf="expandSlices.indexOf(slicesIndex) < 0"
               >
@@ -666,7 +693,7 @@
                     {{ slices["device-groups"].length }} device groups |
                     {{ getTotalDevices(slices["device-groups"]) }} devices
                   </div>
-                  <div class="label-view d-flex">
+                  <div class="label-view d-flex slices__device-group">
                     <!-- <span class="img file1"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span>
                                        <span class="desc">Conneted Devices </span>
                                        <span class="img dot"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span> -->
@@ -674,7 +701,7 @@
                       <div class="card-icon">
                         <img src="assets/AdminPanel/connected.svg" />
                       </div>
-                      <div class="desc">Connected Devices</div>
+                      <div class="desc slices__name">Connected Devices</div>
 
                       <div class="red-ellipse">
                         <img src="assets/deviceSim/success-dot.svg" />
@@ -720,7 +747,7 @@
                   >
                     {{ slices.applications.length }} Services
                   </div>
-                  <div class="label-view d-flex">
+                  <div class="label-view d-flex slices__services">
                     <button mat-raised-button class="conected-devices-bx">
                       <div class="card-icon">
                         <img src="assets/AdminPanel/service.svg" />
@@ -786,21 +813,52 @@
               class="connect-view"
               *ngIf="listViewSlices.indexOf(slicesIndex) < 0"
             >
-              <div class="device-group-items-acc d-flex flex-wrap">
+              <div class="align-items-start d-flex flex-wrap">
+                <svg:svg
+                  [attr.height]="calculateSVGHeight(slices)"
+                  class="slices__joiner slices__joiner--expanded"
+                >
+                  <svg:g
+                    aep-joiner
+                    [title]="''"
+                    [startX]="255"
+                    [startY]="60"
+                    [endX]="225"
+                    [endY]="calculateVerticalPosition(deviceGroupIndex)"
+                    *ngFor="
+                      let deviceGroup of slices['device-groups'];
+                      let deviceGroupIndex = index
+                    "
+                  ></svg:g>
+                  <svg:g
+                    aep-joiner
+                    [title]="''"
+                    [startX]="655"
+                    [startY]="60"
+                    [endX]="685"
+                    [endY]="calculateVerticalPosition(serviceIndex)"
+                    *ngFor="
+                      let services of slices.applications;
+                      let serviceIndex = index
+                    "
+                  ></svg:g>
+                </svg:svg>
                 <div class="connected-devices">
                   <div class="label">
                     {{ slices["device-groups"].length }} device groups |
                     {{ getTotalDevices(slices["device-groups"]) }} devices
                   </div>
                   <div
-                    class="label-view d-flex"
+                    class="label-view d-flex slices__device-group"
                     *ngFor="let deviceGroup of slices['device-groups']"
                   >
                     <button mat-raised-button class="conected-devices-bx">
                       <div class="card-icon">
                         <img src="assets/AdminPanel/connected.svg" />
                       </div>
-                      <div class="desc">{{ deviceGroup["display-name"] }}</div>
+                      <div class="desc slices__name">
+                        {{ deviceGroup["display-name"] }}
+                      </div>
 
                       <div class="red-ellipse">
                         <img src="assets/deviceSim/success-dot.svg" />
@@ -834,14 +892,16 @@
                     {{ slices.applications.length }} Services
                   </div>
                   <div
-                    class="label-view d-flex"
+                    class="label-view d-flex slices__device-group"
                     *ngFor="let services of slices.applications"
                   >
                     <button mat-raised-button class="conected-devices-bx">
                       <div class="card-icon">
                         <img src="assets/AdminPanel/service.svg" />
                       </div>
-                      <div class="desc">{{ services["display-name"] }}</div>
+                      <div class="desc slices__name">
+                        {{ services["display-name"] }}
+                      </div>
 
                       <div class="red-ellipse">
                         <img src="assets/deviceSim/success-dot.svg" />

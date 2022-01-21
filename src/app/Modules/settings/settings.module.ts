@@ -18,6 +18,10 @@ import { RemoveUserComponent } from './dialogs/remove-user/remove-user.component
 import { SlicesComponent } from './slices/slices.component';
 import { DeleteSlicesComponent } from './dialogs/delete-slices/delete-slices.component';
 import { DeleteInventoryComponent } from './dialogs/delete-inventory/delete-inventory.component';
+import { SmallCellComponent } from './small-cell/small-cell.component';
+import { JoinerModule } from '../joiner/joiner.module';
+import { DecomissionComponent } from './dialogs/decomission/decomission.component';
+import { RecomissionComponent } from './dialogs/recomission/recomission.component';
 import { DeleteDevicegroupsComponent } from './dialogs/delete-devicegroups/delete-devicegroups.component';
 import { DeleteServiceComponent } from './dialogs/delete-service/delete-service.component';
 
@@ -36,6 +40,9 @@ import { DeleteServiceComponent } from './dialogs/delete-service/delete-service.
     SlicesComponent,
     DeleteSlicesComponent,
     DeleteInventoryComponent,
+    SmallCellComponent,
+    DecomissionComponent,
+    RecomissionComponent,
     DeleteDevicegroupsComponent,
     DeleteServiceComponent,
   ],
@@ -45,6 +52,7 @@ import { DeleteServiceComponent } from './dialogs/delete-service/delete-service.
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    JoinerModule,
   ],
 })
 export class SettingsModule {}

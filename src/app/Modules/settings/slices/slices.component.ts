@@ -200,7 +200,7 @@ export class SlicesComponent implements OnInit {
 
   summaryTrigger(): any {
     this.summaryBool = true;
-    console.log(this.summaryArray);
+    //console.log(this.summaryArray);
     this.summaryArray.push({
       summarySliceName: this.firstFormGroup.value.sliceName,
       summarySliceType: this.firstFormGroup.value.sliceType,
@@ -219,7 +219,7 @@ export class SlicesComponent implements OnInit {
       uplink: new FormControl(this.summaryArray[0].summaryUplink),
       downlink: new FormControl(this.summaryArray[0].summaryDownlink),
     });
-    console.log(this.summaryArray[0].summarySliceType);
+    //console.log(this.summaryArray[0].summarySliceType);
   }
 
   emptySummaryArray(): any {
@@ -237,9 +237,9 @@ export class SlicesComponent implements OnInit {
     devices: any[],
     deviceGroupIndex: number
   ): void {
-    console.log(this.siteDeviceGroups[0][deviceGroupIndex], id);
+    //console.log(this.siteDeviceGroups[0][deviceGroupIndex], id);
     if (this.deviceGroupsInventory[deviceGroupIndex].selected == 0) {
-      // console.log("if")
+      // //console.log("if")
       this.deviceGroupsInventory[deviceGroupIndex].selected = 1;
       const selectedDeviceGroupInfo: any = {
         'device-group-id': id,
@@ -249,23 +249,23 @@ export class SlicesComponent implements OnInit {
       };
       this.selectedDeviceGroups.push(selectedDeviceGroupInfo);
     } else {
-      // console.log("else")
+      // //console.log("else")
       this.deviceGroupsInventory[deviceGroupIndex].selected = 0;
       for (let i = 0; i < this.selectedDeviceGroups.length; i++) {
-        console.log(i);
+        //console.log(i);
         if (this.selectedDeviceGroups[i]['device-group-id'] == id) {
-          // console.log(this.selectedDeviceGroups[i]['device-group-id'])
+          // //console.log(this.selectedDeviceGroups[i]['device-group-id'])
           this.selectedDeviceGroups.splice(i, 1);
         }
       }
     }
-    console.log(this.selectedDeviceGroups);
+    //console.log(this.selectedDeviceGroups);
   }
 
   deleteSummaryDeviceGroups(deviceGroupIndex: number): any {
-    console.log(this.selectedDeviceGroups);
+    //console.log(this.selectedDeviceGroups);
     this.selectedDeviceGroups.splice(deviceGroupIndex, 1);
-    console.log(this.selectedDeviceGroups);
+    //console.log(this.selectedDeviceGroups);
   }
 
   changeSelectionServices(
@@ -289,13 +289,13 @@ export class SlicesComponent implements OnInit {
         }
       }
     }
-    console.log(this.selectedServices);
+    //console.log(this.selectedServices);
   }
 
   deleteSummaryServices(serviceIndex: number): any {
-    console.log(this.selectedServices);
+    //console.log(this.selectedServices);
     this.selectedServices.splice(serviceIndex, 1);
-    console.log(this.selectedServices);
+    //console.log(this.selectedServices);
   }
 
   onSubmit(): void {
@@ -315,9 +315,9 @@ export class SlicesComponent implements OnInit {
       'slice-type': summaryForm.sliceType,
       downlink: this.firstFormGroup.value.downlink,
       uplink: this.firstFormGroup.value.uplink,
-      'traffic-class': summaryForm.trafficClass,
-      mbr: summaryForm.mbr,
-      gbr: summaryForm.gbr,
+      'traffic-class': this.firstFormGroup.value.trafficClass,
+      mbr: this.firstFormGroup.value.mbr,
+      gbr: this.firstFormGroup.value.gbr,
     });
     for (
       let selectedIndex = 0;
@@ -360,19 +360,19 @@ export class SlicesComponent implements OnInit {
       }
     }
     this.selectedServices.splice(0, this.selectedServices.length);
-    console.log(this.selectedDeviceGroups, this.deviceGroupsInventory);
-    console.log(this.siteSlices);
+    //console.log(this.selectedDeviceGroups, this.deviceGroupsInventory);
+    //console.log(this.siteSlices);
     this.emptySummaryArray();
     this.firstFormGroup.reset();
     this.createNewSlices = false;
   }
 
   assignSelectedSite(): any {
-    console.log(this.deviceService.mySite1);
+    //console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-      // console.log(data);
+      // //console.log(data);
       this.selectedSite = data;
-      console.log(this.selectedSite);
+      //console.log(this.selectedSite);
       this.fetchData();
     });
   }
@@ -394,7 +394,7 @@ export class SlicesComponent implements OnInit {
           if (site['site-id'] === this.selectedSite) {
             sitesDevicesGroups.push(site['device-groups']);
             sitesDevicesGroups.forEach((siteDeviceGroup) => {
-              console.log(siteDeviceGroup);
+              //console.log(siteDeviceGroup);
               siteDeviceGroup.forEach(
                 (singleDeviceGroup, singleDeviceGroupIndex) => {
                   siteDeviceGroup[singleDeviceGroupIndex].selected = 1;
@@ -402,18 +402,18 @@ export class SlicesComponent implements OnInit {
               );
             });
             sitesServices.forEach((service, serviceIndex) => {
-              console.log(service, serviceIndex);
+              //console.log(service, serviceIndex);
               sitesServices[serviceIndex].selected = 1;
             });
-            // console.log(
+            // //console.log(
             //   'This is Local site-deviceGroups array',
             //   this.selectedSite,
             //   sitesDevicesGroups
             // );
-            // console.log(site.slices)
+            // //console.log(site.slices)
             site.slices.map((slices) => {
               sitesSlices.push(slices);
-              // console.log(
+              // //console.log(
               //   'This is local site-slices Array',
               //   this.selectedSite,
               //   sitesSlices
@@ -428,34 +428,34 @@ export class SlicesComponent implements OnInit {
         // const totalDevicesArray: any[] = [];
         // sitesSlices.map((slices) => {
         //   totalDevicesArray.push(...slices['device-groups'][0].devices);
-        //   console.log(totalDevicesArray);
+        //   //console.log(totalDevicesArray);
         // });
-        console.log(this.siteServices);
-        console.log(this.siteDeviceGroups);
-        console.log(this.siteSlices);
-        // console.log(this.config);
+        //console.log(this.siteServices);
+        //console.log(this.siteDeviceGroups);
+        //console.log(this.siteSlices);
+        // //console.log(this.config);
         // this.totalDevicesArray = totalDevicesArray
       });
     });
-    // console.log(this.totalDevicesArray);
+    // //console.log(this.totalDevicesArray);
   }
 
   dataConvert(): any {
     const remainingDeviceGroups: any[] = [];
     const remainingServices: any[] = [];
-    this.siteSlices.forEach((slices, slicesIndex) => {
-      console.log(slices, slicesIndex);
-      console.log(slices['device-groups']);
-      console.log(slices.applications);
+    this.siteSlices.forEach((slices) => {
+      //console.log(slices, slicesIndex);
+      //console.log(slices['device-groups']);
+      //console.log(slices.applications);
 
       slices['device-groups'].forEach(
         (sliceDeviceGroups, sliceDeviceGroupsIndex) => {
-          console.log(sliceDeviceGroups, sliceDeviceGroupsIndex);
-          this.siteDeviceGroups.forEach((deviceGroups, deviceGroupsIndex) => {
-            console.log(deviceGroups, deviceGroupsIndex);
-            deviceGroups.forEach((deviceGroup, deviceGroupIndex) => {
-              // console.log(deviceGroups[deviceGroupIndex]['device-group-id'])
-              console.log(deviceGroup['device-group-id'], deviceGroupIndex);
+          //console.log(sliceDeviceGroups, sliceDeviceGroupsIndex);
+          this.siteDeviceGroups.forEach((deviceGroups) => {
+            //console.log(deviceGroups, deviceGroupsIndex);
+            deviceGroups.forEach((deviceGroup) => {
+              // //console.log(deviceGroups[deviceGroupIndex]['device-group-id'])
+              //console.log(deviceGroup['device-group-id'], deviceGroupIndex);
               if (sliceDeviceGroups == deviceGroup['device-group-id']) {
                 slices['slice-type'] = sliceDeviceGroups;
                 slices['mbr'] = 5;
@@ -488,12 +488,12 @@ export class SlicesComponent implements OnInit {
       );
 
       slices.applications.forEach((service, serviceIndex) => {
-        console.log(service, serviceIndex);
-        this.siteServices.forEach((siteService, siteServiceIndex) => {
-          console.log(siteService['application-id'], siteServiceIndex);
+        //console.log(service, serviceIndex);
+        this.siteServices.forEach((siteService) => {
+          //console.log(siteService['application-id'], siteServiceIndex);
           if (service == siteService['application-id']) {
-            console.log(slices.applications[serviceIndex]);
-            console.log('yes');
+            //console.log(slices.applications[serviceIndex]);
+            //console.log('yes');
 
             const serviceInfo: any = {
               'application-id': siteService['application-id'],
@@ -579,14 +579,14 @@ export class SlicesComponent implements OnInit {
       });
       this.editSlices.push(index);
     }
-    console.log(
-      this.siteSlices[index]['slice-type'],
-      this.siteSlices[index]['traffic-class']
-    );
+    //console.log(
+    //   this.siteSlices[index]['slice-type'],
+    //   this.siteSlices[index]['traffic-class']
+    // );
   }
 
   closeEditView(): any {
-    console.log(this.siteSlices);
+    //console.log(this.siteSlices);
     this.editSlices.pop();
   }
 
@@ -647,22 +647,22 @@ export class SlicesComponent implements OnInit {
     this.selectedAddServices.splice(0, this.selectedAddServices.length);
     this.editAddServices = false;
     this.closeEditView();
-    console.log(this.siteSlices);
+    //console.log(this.siteSlices);
   }
 
   deleteDeviceGroups(sliceIndex: number, deviceGroupIndex: number): any {
-    console.log(this.siteSlices[sliceIndex]['device-groups'][deviceGroupIndex]);
+    //console.log(this.siteSlices[sliceIndex]['device-groups'][deviceGroupIndex]);
     this.siteSlices[sliceIndex]['device-groups'].splice(deviceGroupIndex, 1);
   }
 
   deleteServices(sliceIndex: number, serviceIndex: number): any {
-    console.log(this.siteSlices[sliceIndex].applications[serviceIndex]);
+    //console.log(this.siteSlices[sliceIndex].applications[serviceIndex]);
     this.siteSlices[sliceIndex].applications.splice(serviceIndex, 1);
   }
 
   deleteSlice(sliceIndex: number): any {
     const deviceGroupInfo = this.siteSlices[sliceIndex]['device-groups'];
-    console.log(deviceGroupInfo);
+    //console.log(deviceGroupInfo);
     const serviceInfo = this.siteSlices[sliceIndex].applications;
 
     // deviceGroupInfo.selected = 1;
@@ -673,7 +673,7 @@ export class SlicesComponent implements OnInit {
     }
     this.remainingServices.push(serviceInfo);
     this.siteSlices.splice(sliceIndex, 1);
-    // console.log(
+    // //console.log(
     //   this.siteSlices,
     //   this.remainingDeviceGroups,
     //   this.remainingServices
@@ -687,7 +687,7 @@ export class SlicesComponent implements OnInit {
     deviceGroupsIndex: number
   ): any {
     if (this.deviceGroupsInventory[deviceGroupsIndex].selected == 0) {
-      // console.log("if")
+      // //console.log("if")
       this.deviceGroupsInventory[deviceGroupsIndex].selected = 1;
       const selectedAddDeviceGroupInfo: any = {
         'device-group-id': id,
@@ -697,17 +697,17 @@ export class SlicesComponent implements OnInit {
       };
       this.selectedAddDeviceGroups.push(selectedAddDeviceGroupInfo);
     } else {
-      // console.log("else")
+      // //console.log("else")
       this.deviceGroupsInventory[deviceGroupsIndex].selected = 0;
       for (let i = 0; i < this.selectedAddDeviceGroups.length; i++) {
-        console.log(i);
-        // console.log(this.selectedAddDeviceGroups[i])
+        //console.log(i);
+        // //console.log(this.selectedAddDeviceGroups[i])
         if (this.selectedAddDeviceGroups[i]['device-group-id'] == id) {
           this.selectedAddDeviceGroups.splice(i, 1);
         }
       }
     }
-    console.log(this.selectedAddDeviceGroups, this.deviceGroupsInventory);
+    //console.log(this.selectedAddDeviceGroups, this.deviceGroupsInventory);
   }
 
   changeSelectionAddServices(
@@ -731,7 +731,7 @@ export class SlicesComponent implements OnInit {
         }
       }
     }
-    console.log(this.selectedAddServices, this.servicesInventory);
+    //console.log(this.selectedAddServices, this.servicesInventory);
   }
 
   openDeleteDialog(sliceIndex: number): void {
@@ -745,5 +745,28 @@ export class SlicesComponent implements OnInit {
       }
       this.closeEditView();
     });
+  }
+
+  calculateSVGHeight(slices: unknown): number {
+    const minimumHeight = 135;
+    let deviceGroupsHeight = 25;
+    let servicesHeight = 25;
+    slices['device-groups'].forEach(() => {
+      deviceGroupsHeight += 72;
+    });
+    slices['applications'].forEach(() => {
+      servicesHeight += 72;
+    });
+    if (deviceGroupsHeight < minimumHeight && servicesHeight < minimumHeight) {
+      return minimumHeight;
+    } else if (deviceGroupsHeight > servicesHeight) {
+      return deviceGroupsHeight;
+    } else {
+      return servicesHeight;
+    }
+  }
+
+  calculateVerticalPosition(index: number): number {
+    return 60 + index * 70;
   }
 }

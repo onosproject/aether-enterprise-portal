@@ -1,480 +1,714 @@
-<div>
-  <mat-tab-group
-    animationDuration="0ms"
-    (selectedTabChange)="selectedTabValue($event)"
+<div
+  [ngClass]="{
+    container: isNotification === true
+  }"
+>
+  <div
+    [ngClass]="{
+      'nomarLR mt-1 float-left col-12 small-cell notification':
+        isNotification === true
+    }"
   >
-    <mat-tab label="Alerts" class="tabs_header">
-      <ng-template mat-tab-label> Alerts </ng-template>
-      <div class="fixed_tab_header">
-        <div class="filter">
-          filter: {{ selectedFilter }}
-          <img
-            src="assets/AdminPanel/expand.svg"
-            mat-button
-            [matMenuTriggerFor]="filter"
-          />
-          <mat-menu #filter="matMenu" yPosition="below">
-            <button mat-menu-item (click)="selectFilter('All')">All</button>
-            <button mat-menu-item (click)="selectFilter('Ignore')">
-              Ignore
-            </button>
-            <button mat-menu-item (click)="selectFilter('Acknowledged')">
-              Acknowledged
-            </button>
-          </mat-menu>
-        </div>
-        <div class="sort">
-          Sort by Severity
-          <img
-            src="assets/AdminPanel/expand.svg"
-            mat-button
-            [matMenuTriggerFor]="Sort"
-          />
-          <mat-menu #Sort="matMenu" yPosition="below">
-            <button mat-menu-item (click)="sortData('high')">
-              High To Low
-            </button>
-            <button mat-menu-item (click)="sortData('Low')">Low To High</button>
-          </mat-menu>
-        </div>
-      </div>
-      <mat-accordion class="accordion_pannel">
-        <mat-expansion-panel
-          [expanded]="parent === cellIndex"
-          (opened)="
-            setparent(cellIndex);
-            selectedDevice(smallcell.group, smallcell.serialNumber)
-          "
-          hideToggle="true"
-          class="small-cell-expansion-panel-parent"
-          [class.selected-small-cell-panel]="parent === cellIndex"
-          *ngFor="let smallcell of smallCells; let cellIndex = index"
-        >
-          <mat-expansion-panel-header class="small-cell-expansion-panel-header">
-            <div class="alert_accordion_bx">
-              <div class="row">
-                <div class="col-lg-7 small-cell-accordion-lrft">
-                  <div
-                    class="alert_info-low"
-                    *ngIf="
-                      smallcell.status === 'Acknowledged' ||
-                      smallcell.status === 'Ignore'
-                    "
-                  >
-                    {{ smallcell.title }}
-                  </div>
+    <p *ngIf="isNotification" class="back-link" (click)="goToDashboard()">
+      <img src="assets/AdminPanel/goBack.svg" />Back To Dashboard
+    </p>
 
-                  <div
-                    class="alert_info"
-                    *ngIf="
-                      smallcell.priorty === 'High' &&
-                      smallcell.status !== 'Acknowledged' &&
-                      smallcell.status !== 'Ignore'
-                    "
-                  >
-                    {{ smallcell.title }}
-                  </div>
-
-                  <div
-                    class="alert_info-low"
-                    *ngIf="
-                      smallcell.priorty === 'Low' &&
-                      smallcell.status !== 'Acknowledged' &&
-                      smallcell.status !== 'Ignore'
-                    "
-                  >
-                    {{ smallcell.title }}
-                  </div>
-
-                  <div
-                    class="alert_info-medium"
-                    *ngIf="
-                      smallcell.priorty === 'Medium' &&
-                      smallcell.status !== 'Acknowledged' &&
-                      smallcell.status !== 'Ignore'
-                    "
-                  >
-                    {{ smallcell.title }}
-                  </div>
-
-                  <div class="summary_data">
-                    Summary of some 5G network related error that summarizes the
-                    error
-                  </div>
-                </div>
-                <div class="col-lg-5">
-                  <div
-                    class="condition_bx"
-                    *ngIf="
-                      smallcell.status === 'Acknowledged' ||
-                      smallcell.status === 'Ignore'
-                    "
-                  >
-                    <div class="priority-critical-responed">
-                      <img class="mr-2" src="assets/AdminPanel/complete.svg" />
-                      {{ smallcell.status }}
-                    </div>
-                    <div class="upload_time">12 mins ago</div>
-                  </div>
-
-                  <div
-                    class="condition_bx"
-                    *ngIf="smallcell.status === 'Critical'"
-                  >
-                    <div class="priority-critical">
-                      <img
-                        class="mr-2"
-                        src="assets/AdminPanel/critical-notification.svg"
-                      />
-                      Critical
-                    </div>
-                    <div class="upload_time">12 mins ago</div>
-                  </div>
-
-                  <div
-                    class="condition_bx"
-                    *ngIf="
-                      smallcell.priorty === 'High' &&
-                      smallcell.status !== 'Critical' &&
-                      smallcell.status !== 'Acknowledged' &&
-                      smallcell.status !== 'Ignore'
-                    "
-                  >
-                    <div class="priority-high">
-                      <img
-                        class="mr-2"
-                        src="assets/AdminPanel/high-notification.svg"
-                      />
-                      High
-                    </div>
-                    <div class="upload_time">12 mins ago</div>
-                  </div>
-
-                  <div
-                    class="condition_bx"
-                    *ngIf="
-                      smallcell.priorty === 'Medium' &&
-                      smallcell.status !== 'Acknowledged' &&
-                      smallcell.status !== 'Ignore'
-                    "
-                  >
-                    <div class="priority-medium">
-                      <img
-                        class="mr-2"
-                        src="assets/AdminPanel/medium-notification.svg"
-                      />
-                      Medium
-                    </div>
-                    <div class="upload_time">12 mins ago</div>
-                  </div>
-
-                  <div
-                    class="condition_bx"
-                    *ngIf="
-                      smallcell.priorty === 'Low' &&
-                      smallcell.status !== 'Acknowledged' &&
-                      smallcell.status !== 'Ignore'
-                    "
-                  >
-                    <div class="priority-low">
-                      <img
-                        class="mr-2"
-                        src="assets/AdminPanel/low-notification.svg"
-                      />
-                      Low
-                    </div>
-                    <div class="upload_time">12 mins ago</div>
-                  </div>
-                </div>
-                <div class="col-lg-12" (click)="$event.stopPropagation()">
-                  <div class="accordion_controls">
-                    <div class="ticket_raise" *ngIf="!isRaiseTicket">
-                      <a (click)="raiseTicket()">Raise a Ticket</a>
-                    </div>
-                    <div class="respond">
-                      respond
-                      <img
-                        src="assets/AdminPanel/expand.svg"
-                        mat-button
-                        [matMenuTriggerFor]="belowMenu"
-                      />
-                      <mat-menu #belowMenu="matMenu" yPosition="below">
-                        <button
-                          mat-menu-item
-                          (click)="setResponedStatus('Acknowledged', cellIndex)"
-                        >
-                          Acknowledged
-                        </button>
-                        <button
-                          mat-menu-item
-                          (click)="setResponedStatus('Resolved', cellIndex)"
-                        >
-                          Resolved
-                        </button>
-                        <button
-                          mat-menu-item
-                          (click)="setResponedStatus('Ignore', cellIndex)"
-                        >
-                          Ignore
-                        </button>
-                      </mat-menu>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <mat-tab-group
+      animationDuration="0ms"
+      (selectedTabChange)="selectedTabValue($event)"
+      mat-align-tabs="start"
+    >
+      <div
+        [ngClass]="{
+          'tabs-control': isNotification === true
+        }"
+      >
+        <mat-tab label="Alerts" class="tabs_header">
+          <ng-template mat-tab-label> Alerts </ng-template>
+          <div class="fixed_tab_header">
+            <div class="filter" [matMenuTriggerFor]="filter">
+              filter: {{ selectedFilter }}
+              <img src="assets/AdminPanel/expand.svg" mat-button />
+              <mat-menu #filter="matMenu" yPosition="below" class="ctm_filter">
+                <button mat-menu-item (click)="selectFilter('All')">All</button>
+                <button mat-menu-item (click)="selectFilter('Ignore')">
+                  Ignore
+                </button>
+                <button mat-menu-item (click)="selectFilter('Acknowledged')">
+                  Acknowledged
+                </button>
+              </mat-menu>
             </div>
-          </mat-expansion-panel-header>
+            <div class="sort" [matMenuTriggerFor]="Sort">
+              Sort by Severity
+              <img src="assets/AdminPanel/expand.svg" mat-button />
+              <mat-menu #Sort="matMenu" yPosition="below" class="ctm_filter">
+                <button mat-menu-item (click)="sortData('high')">
+                  High To Low
+                </button>
+                <button mat-menu-item (click)="sortData('Low')">
+                  Low To High
+                </button>
+              </mat-menu>
+            </div>
+          </div>
 
-          <mat-action-row>
-            <mat-card class="alert_card_bx" *ngIf="!isRaiseTicket && !chatView">
-              <h3>What can we help you with today?</h3>
-              <mat-nav-list>
-                <mat-expansion-panel
-                  class="small-cell-expansion-panel-child"
-                  [expanded]="child === 0"
-                  (opened)="setchild(0)"
-                  (closed)="setchild(null)"
+          <mat-accordion class="accordion_pannel">
+            <mat-expansion-panel
+              [expanded]="parent === cellIndex"
+              (opened)="
+                setparent(cellIndex);
+                selectedDevice(smallcell.group, smallcell.serialNumber)
+              "
+              hideToggle="true"
+              class="small-cell-expansion-panel-parent"
+              [class.selected-small-cell-panel]="parent === cellIndex"
+              *ngFor="let smallcell of smallCells; let cellIndex = index"
+            >
+              <mat-expansion-panel-header
+                class="small-cell-expansion-panel-header"
+              >
+                <div class="alert_accordion_bx">
+                  <div class="row">
+                    <div class="col-lg-7 small-cell-accordion-lrft">
+                      <div
+                        class="alert_info-low"
+                        *ngIf="
+                          smallcell.status === 'Acknowledged' ||
+                          smallcell.status === 'Ignore'
+                        "
+                      >
+                        {{ smallcell.title }}
+                      </div>
+
+                      <div
+                        class="alert_info small-cell-alert"
+                        *ngIf="
+                          smallcell.priorty === 'High' &&
+                          smallcell.status !== 'Acknowledged' &&
+                          smallcell.status !== 'Ignore'
+                        "
+                      >
+                        {{ smallcell.title }}
+                      </div>
+
+                      <div
+                        class="alert_info-low small-cell-alert"
+                        *ngIf="
+                          smallcell.priorty === 'Low' &&
+                          smallcell.status !== 'Acknowledged' &&
+                          smallcell.status !== 'Ignore'
+                        "
+                      >
+                        {{ smallcell.title }}
+                      </div>
+
+                      <div
+                        class="alert_info-medium small-cell-alert"
+                        *ngIf="
+                          smallcell.priorty === 'Medium' &&
+                          smallcell.status !== 'Acknowledged' &&
+                          smallcell.status !== 'Ignore'
+                        "
+                      >
+                        {{ smallcell.title }}
+                      </div>
+
+                      <div class="summary_data">
+                        Summary of some 5G network related error that summarizes
+                        the error
+                      </div>
+                    </div>
+                    <div class="col-lg-5">
+                      <div
+                        class="condition_bx small-cell-condition_bx"
+                        *ngIf="
+                          smallcell.status === 'Acknowledged' ||
+                          smallcell.status === 'Ignore'
+                        "
+                      >
+                        <div class="priority-critical-responed">
+                          <img
+                            class="mr-2"
+                            src="assets/AdminPanel/complete.svg"
+                          />
+                          {{ smallcell.status }}
+                        </div>
+                        <div class="upload_time">12 mins ago</div>
+                      </div>
+
+                      <div
+                        class="condition_bx small-cell-condition_bx"
+                        *ngIf="smallcell.status === 'Critical'"
+                      >
+                        <div class="priority-critical">
+                          <img
+                            class="mr-2"
+                            src="assets/AdminPanel/critical-notification.svg"
+                          />
+                          Critical
+                        </div>
+                        <div class="upload_time">12 mins ago</div>
+                      </div>
+
+                      <div
+                        class="condition_bx small-cell-condition_bx"
+                        *ngIf="
+                          smallcell.priorty === 'High' &&
+                          smallcell.status !== 'Critical' &&
+                          smallcell.status !== 'Acknowledged' &&
+                          smallcell.status !== 'Ignore'
+                        "
+                      >
+                        <div class="priority-high">
+                          <img
+                            class="mr-2"
+                            src="assets/AdminPanel/high-notification.svg"
+                          />
+                          High
+                        </div>
+                        <div class="upload_time">12 mins ago</div>
+                      </div>
+
+                      <div
+                        class="condition_bx small-cell-condition_bx"
+                        *ngIf="
+                          smallcell.priorty === 'Medium' &&
+                          smallcell.status !== 'Acknowledged' &&
+                          smallcell.status !== 'Ignore'
+                        "
+                      >
+                        <div class="priority-medium">
+                          <img
+                            class="mr-2"
+                            src="assets/AdminPanel/medium-notification.svg"
+                          />
+                          Medium
+                        </div>
+                        <div class="upload_time">12 mins ago</div>
+                      </div>
+
+                      <div
+                        class="condition_bx small-cell-condition_bx"
+                        *ngIf="
+                          smallcell.priorty === 'Low' &&
+                          smallcell.status !== 'Acknowledged' &&
+                          smallcell.status !== 'Ignore'
+                        "
+                      >
+                        <div class="priority-low">
+                          <img
+                            class="mr-2"
+                            src="assets/AdminPanel/low-notification.svg"
+                          />
+                          Low
+                        </div>
+                        <div class="upload_time">12 mins ago</div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12" (click)="$event.stopPropagation()">
+                      <div
+                        class="accordion_controls small-cell-accordion_control"
+                      >
+                        <div class="ticket_raise" *ngIf="!isRaiseTicket">
+                          <a (click)="raiseTicket()">Raise a Ticket</a>
+                        </div>
+                        <div class="respond" [matMenuTriggerFor]="belowMenu">
+                          respond
+                          <img
+                            src="assets/AdminPanel/expand.svg"
+                            mat-button
+                            [matMenuTriggerFor]="belowMenu"
+                          />
+
+                          <mat-menu
+                            #belowMenu="matMenu"
+                            yPosition="below"
+                            class="ctm_filter"
+                          >
+                            <button
+                              mat-menu-item
+                              (click)="
+                                setResponedStatus('Acknowledged', cellIndex)
+                              "
+                            >
+                              Acknowledged
+                            </button>
+                            <button
+                              mat-menu-item
+                              (click)="setResponedStatus('Resolved', cellIndex)"
+                            >
+                              Resolved
+                            </button>
+                            <button
+                              mat-menu-item
+                              (click)="setResponedStatus('Ignore', cellIndex)"
+                            >
+                              Ignore
+                            </button>
+                          </mat-menu>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel-header>
+
+              <mat-action-row>
+                <mat-card
+                  class="alert_card_bx"
+                  *ngIf="!isRaiseTicket && !chatView"
                 >
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      Question regarding the problem
-                    </mat-panel-title>
-                    <mat-panel-description>
-                      <img
-                        src="assets/AdminPanel/plush-blue.svg"
-                        *ngIf="child !== 0"
-                      />
-                      <img
-                        src="assets/AdminPanel/negative.svg"
-                        *ngIf="child === 0"
-                      />
-                    </mat-panel-description>
-                  </mat-expansion-panel-header>
+                  <h3>What can we help you with today?</h3>
+                  <mat-nav-list>
+                    <mat-expansion-panel
+                      class="small-cell-expansion-panel-child"
+                      [expanded]="child === 0"
+                      (opened)="setchild(0)"
+                      (closed)="setchild(null)"
+                    >
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Question regarding the problem
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          <img
+                            src="assets/AdminPanel/plush-blue.svg"
+                            *ngIf="child !== 0"
+                          />
+                          <img
+                            src="assets/AdminPanel/negative.svg"
+                            *ngIf="child === 0"
+                          />
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
 
-                  <mat-action-row>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book
-                  </mat-action-row>
-                </mat-expansion-panel>
+                      <mat-action-row>
+                        Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. Lorem Ipsum has been the
+                        industry's standard dummy text ever since the 1500s,
+                        when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book
+                      </mat-action-row>
+                    </mat-expansion-panel>
 
-                <mat-expansion-panel
-                  class="small-cell-expansion-panel-child"
-                  [expanded]="child === 1"
-                  (opened)="setchild(1)"
-                  (closed)="setchild(null)"
-                >
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      Question regarding the problem
-                    </mat-panel-title>
-                    <mat-panel-description>
-                      <img
-                        src="assets/AdminPanel/plush-blue.svg"
-                        *ngIf="child !== 1"
-                      />
-                      <img
-                        src="assets/AdminPanel/negative.svg"
-                        *ngIf="child === 1"
-                      />
-                    </mat-panel-description>
-                  </mat-expansion-panel-header>
+                    <mat-expansion-panel
+                      class="small-cell-expansion-panel-child"
+                      [expanded]="child === 1"
+                      (opened)="setchild(1)"
+                      (closed)="setchild(null)"
+                    >
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Question regarding the problem
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          <img
+                            src="assets/AdminPanel/plush-blue.svg"
+                            *ngIf="child !== 1"
+                          />
+                          <img
+                            src="assets/AdminPanel/negative.svg"
+                            *ngIf="child === 1"
+                          />
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
 
-                  <mat-action-row>
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
-                    standard dummy text ever since the 1500s, when an unknown
-                    printer took a galley of type and scrambled it to make a
-                    type specimen book
-                  </mat-action-row>
-                </mat-expansion-panel>
+                      <mat-action-row>
+                        Lorem Ipsum is simply dummy text of the printing and
+                        typesetting industry. Lorem Ipsum has been the
+                        industry's standard dummy text ever since the 1500s,
+                        when an unknown printer took a galley of type and
+                        scrambled it to make a type specimen book
+                      </mat-action-row>
+                    </mat-expansion-panel>
 
-                <mat-card class="parent-card" (click)="openChatView()"
-                  >Describe you problem...</mat-card
-                >
-                <!-- <mat-form-field
+                    <mat-card class="parent-card" (click)="openChatView()"
+                      >Describe you problem...</mat-card
+                    >
+                    <!-- <mat-form-field
                 class="example-full-width"
                 appearance="fill"
               >
                 <mat-label>Describe you problem...</mat-label>
                 <textarea matInput></textarea>
               </mat-form-field> -->
-              </mat-nav-list>
-              <div class="card-buttons">
-                <button mat-button class="can-btn" (click)="setparent(null)">
-                  Cancel
-                </button>
-                <button mat-raised-button class="sub-btn">Submit</button>
-              </div>
-            </mat-card>
-            <!-- If Raise a Ticket -->
-            <mat-card class="alert_card_bx" *ngIf="isRaiseTicket && !chatView">
-              <h3>Raise a Ticket</h3>
-              <mat-nav-list>
-                <mat-form-field appearance="fill">
-                  <mat-label>Category 1</mat-label>
-                  <mat-select>
-                    <mat-option> Test 1 </mat-option>
-                    <mat-option> Test 2 </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                  <mat-label>Category 2</mat-label>
-                  <mat-select>
-                    <mat-option> Test 1 </mat-option>
-                    <mat-option> Test 2 </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                  <mat-label>Category 3</mat-label>
-                  <mat-select>
-                    <mat-option> Test 1 </mat-option>
-                    <mat-option> Test 2 </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <mat-card class="parent-card" (click)="openChatView()"
-                  >Describe you problem...</mat-card
-                >
-              </mat-nav-list>
-              <div class="card-buttons">
-                <button mat-button class="can-btn" (click)="setparent(null)">
-                  Cancel
-                </button>
-                <button mat-raised-button class="sub-btn">Submit</button>
-              </div>
-            </mat-card>
-
-            <!-- if Chat view open -->
-
-            <mat-card class="alert_card_bx chat_bx" *ngIf="chatView">
-              <h3>You are now speaking with</h3>
-              <mat-nav-list>
-                <div class="msg_received_bx">
-                  <div class="msg_recived">Hello</div>
-                  <div class="received_time">11:29 p.m</div>
-                </div>
-                <div class="msg_send_bx">
-                  <div class="msg_send">Hey, I have a problem.</div>
-                  <div class="send_time">11:29 p.m</div>
-                </div>
-                <div class="msg_received_bx">
-                  <div class="msg_recived">
-                    <div class="msg_received_h">We found the solution</div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
+                  </mat-nav-list>
+                  <div class="card-buttons">
+                    <button
+                      mat-button
+                      class="can-btn"
+                      (click)="setparent(null)"
+                    >
+                      Cancel
+                    </button>
+                    <button mat-raised-button class="sub-btn">Submit</button>
                   </div>
-                  <div class="received_time">11:29 p.m</div>
-                </div>
-                <mat-form-field
-                  class="example-full-width"
-                  appearance="fill"
-                  class="problem_textarea"
+                </mat-card>
+                <!-- If Raise a Ticket -->
+                <mat-card
+                  class="alert_card_bx"
+                  *ngIf="isRaiseTicket && !chatView"
                 >
-                  <mat-label>Describe you problem...</mat-label>
-                  <textarea matInput></textarea>
-                </mat-form-field>
-              </mat-nav-list>
-              <div class="card-buttons">
+                  <h3>Raise a Ticket</h3>
+                  <mat-nav-list>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Category 1</mat-label>
+                      <mat-select>
+                        <mat-option> Test 1 </mat-option>
+                        <mat-option> Test 2 </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Category 2</mat-label>
+                      <mat-select>
+                        <mat-option> Test 1 </mat-option>
+                        <mat-option> Test 2 </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Category 3</mat-label>
+                      <mat-select>
+                        <mat-option> Test 1 </mat-option>
+                        <mat-option> Test 2 </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-card class="parent-card" (click)="openChatView()"
+                      >Describe you problem...</mat-card
+                    >
+                  </mat-nav-list>
+                  <div class="card-buttons">
+                    <button
+                      mat-button
+                      class="can-btn"
+                      (click)="setparent(null)"
+                    >
+                      Cancel
+                    </button>
+                    <button mat-raised-button class="sub-btn">Submit</button>
+                  </div>
+                </mat-card>
+
+                <!-- if Chat view open -->
+
+                <mat-card class="alert_card_bx chat_bx" *ngIf="chatView">
+                  <h3>You are now speaking with</h3>
+                  <mat-nav-list>
+                    <div class="msg_received_bx">
+                      <div class="msg_recived">Hello</div>
+                      <div class="received_time">11:29 p.m</div>
+                    </div>
+                    <div class="msg_send_bx">
+                      <div class="msg_send">Hey, I have a problem.</div>
+                      <div class="send_time">11:29 p.m</div>
+                    </div>
+                    <div class="msg_received_bx">
+                      <div class="msg_recived">
+                        <div class="msg_received_h">We found the solution</div>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua.
+                      </div>
+                      <div class="received_time">11:29 p.m</div>
+                    </div>
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                      class="problem_textarea"
+                    >
+                      <mat-label>Describe you problem...</mat-label>
+                      <textarea matInput></textarea>
+                    </mat-form-field>
+                  </mat-nav-list>
+                  <div class="card-buttons">
+                    <button
+                      mat-button
+                      class="can-btn"
+                      (click)="setparent(null)"
+                    >
+                      Cancel
+                    </button>
+                    <button mat-raised-button class="sub-btn">Submit</button>
+                  </div>
+                </mat-card>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-tab>
+      </div>
+      <mat-tab label="Open Tickets">
+        <div class="fixed_tab_header">
+          <div class="filter" [matMenuTriggerFor]="filter">
+            filter: {{ selectedFilter }}
+            <img src="assets/AdminPanel/expand.svg" mat-button />
+            <mat-menu #filter="matMenu" yPosition="below">
+              <button mat-menu-item (click)="selectFilter('All')">All</button>
+              <button mat-menu-item (click)="selectFilter('Ignore')">
+                Ignore
+              </button>
+              <button mat-menu-item (click)="selectFilter('Acknowledged')">
+                Acknowledged
+              </button>
+            </mat-menu>
+          </div>
+          <div class="sort" [matMenuTriggerFor]="Sort">
+            Sort by Severity
+            <img src="assets/AdminPanel/expand.svg" mat-button />
+            <mat-menu #Sort="matMenu" yPosition="below">
+              <button mat-menu-item>Item 1</button>
+              <button mat-menu-item>Item 2</button>
+            </mat-menu>
+          </div>
+        </div>
+        <mat-accordion class="accordion_pannel">
+          <mat-expansion-panel
+            [expanded]="parent === ticketIndex"
+            (opened)="setparent(ticketIndex)"
+            hideToggle="true"
+            class="small-cell-expansion-panel-parent"
+            [class.selected-small-cell-panel]="parent === ticketIndex"
+            *ngFor="let ticket of tickets; let ticketIndex = index"
+          >
+            <mat-expansion-panel-header
+              class="small-cell-expansion-panel-header open-ticket-tab"
+            >
+              <div class="alert_accordion_bx">
+                <div class="row">
+                  <div class="col-lg-7 small-cell-accordion-lrft">
+                    <div
+                      class="alert_info-low"
+                      *ngIf="
+                        ticket.status === 'Acknowledged' ||
+                        ticket.status === 'Ignore'
+                      "
+                    >
+                      {{ ticket.title }}
+                    </div>
+
+                    <div
+                      class="alert_info"
+                      *ngIf="
+                        ticket.priorty === 'High' &&
+                        ticket.status !== 'Acknowledged' &&
+                        ticket.status !== 'Ignore'
+                      "
+                    >
+                      {{ ticket.title }}
+                    </div>
+
+                    <div
+                      class="alert_info-low"
+                      *ngIf="
+                        ticket.priorty === 'Low' &&
+                        ticket.status !== 'Acknowledged' &&
+                        ticket.status !== 'Ignore'
+                      "
+                    >
+                      {{ ticket.title }}
+                    </div>
+
+                    <div
+                      class="alert_info-medium"
+                      *ngIf="
+                        ticket.priorty === 'Medium' &&
+                        ticket.status !== 'Acknowledged' &&
+                        ticket.status !== 'Ignore'
+                      "
+                    >
+                      {{ ticket.title }}
+                    </div>
+                    <div class="summary_data">
+                      Summary of some 5G network related error that summarizes
+                      the error
+                    </div>
+                  </div>
+                  <div class="col-lg-5">
+                    <div
+                      class="condition_bx"
+                      *ngIf="
+                        ticket.status === 'Acknowledged' ||
+                        ticket.status === 'Ignore'
+                      "
+                    >
+                      <div class="priority-critical-responed">
+                        <img
+                          class="mr-2"
+                          src="assets/AdminPanel/complete.svg"
+                        />
+                        {{ ticket.status }}
+                      </div>
+                      <div class="upload_time">12 mins ago</div>
+                    </div>
+
+                    <div
+                      class="condition_bx"
+                      *ngIf="ticket.status === 'Critical'"
+                    >
+                      <div class="priority-critical">
+                        <img
+                          class="mr-2"
+                          src="assets/AdminPanel/critical-notification.svg"
+                        />
+                        Critical
+                      </div>
+                      <div class="upload_time">12 mins ago</div>
+                    </div>
+
+                    <div
+                      class="condition_bx"
+                      *ngIf="
+                        ticket.priorty === 'High' &&
+                        ticket.status !== 'Critical' &&
+                        ticket.status !== 'Acknowledged' &&
+                        ticket.status !== 'Ignore'
+                      "
+                    >
+                      <div class="priority-high">
+                        <img
+                          class="mr-2"
+                          src="assets/AdminPanel/high-notification.svg"
+                        />
+                        High
+                      </div>
+                      <div class="upload_time">12 mins ago</div>
+                    </div>
+
+                    <div
+                      class="condition_bx"
+                      *ngIf="
+                        ticket.priorty === 'Medium' &&
+                        ticket.status !== 'Acknowledged' &&
+                        ticket.status !== 'Ignore'
+                      "
+                    >
+                      <div class="priority-medium">
+                        <img
+                          class="mr-2"
+                          src="assets/AdminPanel/medium-notification.svg"
+                        />
+                        Medium
+                      </div>
+                      <div class="upload_time">12 mins ago</div>
+                    </div>
+
+                    <div
+                      class="condition_bx"
+                      *ngIf="
+                        ticket.priorty === 'Low' &&
+                        ticket.status !== 'Acknowledged' &&
+                        ticket.status !== 'Ignore'
+                      "
+                    >
+                      <div class="priority-low">
+                        <img
+                          class="mr-2"
+                          src="assets/AdminPanel/low-notification.svg"
+                        />
+                        Low
+                      </div>
+                      <div class="upload_time">12 mins ago</div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12" (click)="$event.stopPropagation()">
+                    <div
+                      class="accordion_controls small-cell-accordion_control"
+                    >
+                      <div class="respond" [matMenuTriggerFor]="belowMenu">
+                        respond
+
+                        <img src="assets/AdminPanel/expand.svg" mat-button />
+                        <mat-menu
+                          #belowMenu="matMenu"
+                          yPosition="below"
+                          class="ctm_filter"
+                        >
+                          <button
+                            mat-menu-item
+                            (click)="
+                              setResponedStatus('Acknowledged', ticketIndex)
+                            "
+                          >
+                            Acknowledged
+                          </button>
+                          <button
+                            mat-menu-item
+                            (click)="setResponedStatus('Resolved', ticketIndex)"
+                          >
+                            Resolved
+                          </button>
+                          <button
+                            mat-menu-item
+                            (click)="setResponedStatus('Ignore', ticketIndex)"
+                          >
+                            Ignore
+                          </button>
+                        </mat-menu>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel-header>
+
+            <mat-action-row>
+              <mat-card class="alert_card_bx">
+                <h3>Ticket Details</h3>
+                <mat-nav-list>
+                  <mat-card class="ticket_category"
+                    >Lorem Ipsum is simply dummy Category 1</mat-card
+                  >
+                  <mat-card class="ticket_category"
+                    >Lorem Ipsum is simply dummy Category 2</mat-card
+                  >
+                  <mat-card class="ticket_category"
+                    >Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry. Lorem Ipsum has been the industry's
+                    standard dummy text ever since the 1500s</mat-card
+                  >
+                </mat-nav-list>
+                <!-- <div class="card-buttons">
                 <button mat-button class="can-btn" (click)="setparent(null)">
                   Cancel
                 </button>
                 <button mat-raised-button class="sub-btn">Submit</button>
-              </div>
-            </mat-card>
-          </mat-action-row>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </mat-tab>
-    <mat-tab label="Open Tickets">
-      <div class="fixed_tab_header">
-        <div class="filter">
-          filter: {{ selectedFilter }}
-          <img
-            src="assets/AdminPanel/expand.svg"
-            mat-button
-            [matMenuTriggerFor]="filter"
-          />
-          <mat-menu #filter="matMenu" yPosition="below">
-            <button mat-menu-item (click)="selectFilter('All')">All</button>
-            <button mat-menu-item (click)="selectFilter('Ignore')">
-              Ignore
-            </button>
-            <button mat-menu-item (click)="selectFilter('Acknowledged')">
-              Acknowledged
-            </button>
-          </mat-menu>
+              </div> -->
+              </mat-card>
+            </mat-action-row>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-tab>
+      <mat-tab label="History">
+        <div class="fixed_tab_header">
+          <div class="filter" [matMenuTriggerFor]="filter">
+            filter: {{ selectedFilter }}
+            <img src="assets/AdminPanel/expand.svg" mat-button />
+            <mat-menu #filter="matMenu" yPosition="below">
+              <button mat-menu-item (click)="selectFilter('All')">All</button>
+              <button mat-menu-item (click)="selectFilter('Ignore')">
+                Ignore
+              </button>
+              <button mat-menu-item (click)="selectFilter('Acknowledged')">
+                Acknowledged
+              </button>
+            </mat-menu>
+          </div>
+          <div class="sort" [matMenuTriggerFor]="Sort">
+            Sort by Severity
+            <img src="assets/AdminPanel/expand.svg" mat-button />
+            <mat-menu #Sort="matMenu" yPosition="below">
+              <button mat-menu-item>Item 1</button>
+              <button mat-menu-item>Item 2</button>
+            </mat-menu>
+          </div>
         </div>
-        <div class="sort">
-          Sort by Severity
-          <img
-            src="assets/AdminPanel/expand.svg"
-            mat-button
-            [matMenuTriggerFor]="Sort"
-          />
-          <mat-menu #Sort="matMenu" yPosition="below">
-            <button mat-menu-item>Item 1</button>
-            <button mat-menu-item>Item 2</button>
-          </mat-menu>
-        </div>
-      </div>
-      <mat-accordion class="accordion_pannel">
-        <mat-expansion-panel
-          [expanded]="parent === ticketIndex"
-          (opened)="setparent(ticketIndex)"
-          hideToggle="true"
-          class="small-cell-expansion-panel-parent"
-          [class.selected-small-cell-panel]="parent === ticketIndex"
-          *ngFor="let ticket of tickets; let ticketIndex = index"
-        >
-          <mat-expansion-panel-header class="small-cell-expansion-panel-header">
+        <div>
+          <mat-card *ngFor="let history of historys" class="history-card">
             <div class="alert_accordion_bx">
               <div class="row">
                 <div class="col-lg-7 small-cell-accordion-lrft">
-                  <div
-                    class="alert_info-low"
-                    *ngIf="
-                      ticket.status === 'Acknowledged' ||
-                      ticket.status === 'Ignore'
-                    "
-                  >
-                    {{ ticket.title }}
-                  </div>
-
-                  <div
-                    class="alert_info"
-                    *ngIf="
-                      ticket.priorty === 'High' &&
-                      ticket.status !== 'Acknowledged' &&
-                      ticket.status !== 'Ignore'
-                    "
-                  >
-                    {{ ticket.title }}
-                  </div>
-
-                  <div
-                    class="alert_info-low"
-                    *ngIf="
-                      ticket.priorty === 'Low' &&
-                      ticket.status !== 'Acknowledged' &&
-                      ticket.status !== 'Ignore'
-                    "
-                  >
-                    {{ ticket.title }}
-                  </div>
-
-                  <div
-                    class="alert_info-medium"
-                    *ngIf="
-                      ticket.priorty === 'Medium' &&
-                      ticket.status !== 'Acknowledged' &&
-                      ticket.status !== 'Ignore'
-                    "
-                  >
-                    {{ ticket.title }}
+                  <div class="alert_info_history">
+                    {{ history.title }}
                   </div>
                   <div class="summary_data">
                     Summary of some 5G network related error that summarizes the
@@ -482,226 +716,33 @@
                   </div>
                 </div>
                 <div class="col-lg-5">
-                  <div
-                    class="condition_bx"
-                    *ngIf="
-                      ticket.status === 'Acknowledged' ||
-                      ticket.status === 'Ignore'
-                    "
-                  >
-                    <div class="priority-critical-responed">
+                  <div class="condition_bx condition_status">
+                    <div class="priority-history">
                       <img class="mr-2" src="assets/AdminPanel/complete.svg" />
-                      {{ ticket.status }}
-                    </div>
-                    <div class="upload_time">12 mins ago</div>
-                  </div>
-
-                  <div
-                    class="condition_bx"
-                    *ngIf="ticket.status === 'Critical'"
-                  >
-                    <div class="priority-critical">
-                      <img
-                        class="mr-2"
-                        src="assets/AdminPanel/critical-notification.svg"
-                      />
-                      Critical
-                    </div>
-                    <div class="upload_time">12 mins ago</div>
-                  </div>
-
-                  <div
-                    class="condition_bx"
-                    *ngIf="
-                      ticket.priorty === 'High' &&
-                      ticket.status !== 'Critical' &&
-                      ticket.status !== 'Acknowledged' &&
-                      ticket.status !== 'Ignore'
-                    "
-                  >
-                    <div class="priority-high">
-                      <img
-                        class="mr-2"
-                        src="assets/AdminPanel/high-notification.svg"
-                      />
-                      High
-                    </div>
-                    <div class="upload_time">12 mins ago</div>
-                  </div>
-
-                  <div
-                    class="condition_bx"
-                    *ngIf="
-                      ticket.priorty === 'Medium' &&
-                      ticket.status !== 'Acknowledged' &&
-                      ticket.status !== 'Ignore'
-                    "
-                  >
-                    <div class="priority-medium">
-                      <img
-                        class="mr-2"
-                        src="assets/AdminPanel/medium-notification.svg"
-                      />
-                      Medium
-                    </div>
-                    <div class="upload_time">12 mins ago</div>
-                  </div>
-
-                  <div
-                    class="condition_bx"
-                    *ngIf="
-                      ticket.priorty === 'Low' &&
-                      ticket.status !== 'Acknowledged' &&
-                      ticket.status !== 'Ignore'
-                    "
-                  >
-                    <div class="priority-low">
-                      <img
-                        class="mr-2"
-                        src="assets/AdminPanel/low-notification.svg"
-                      />
-                      Low
+                      {{ history.status }}
                     </div>
                     <div class="upload_time">12 mins ago</div>
                   </div>
                 </div>
                 <div class="col-lg-12" (click)="$event.stopPropagation()">
-                  <div class="accordion_controls">
+                  <div class="accordion_controls small-cell-accordion_control">
                     <div class="respond">
                       respond
-                      <img
-                        src="assets/AdminPanel/expand.svg"
-                        mat-button
-                        [matMenuTriggerFor]="belowMenu"
-                      />
-                      <mat-menu #belowMenu="matMenu" yPosition="below">
-                        <button
-                          mat-menu-item
-                          (click)="
-                            setResponedStatus('Acknowledged', ticketIndex)
-                          "
-                        >
-                          Acknowledged
-                        </button>
-                        <button
-                          mat-menu-item
-                          (click)="setResponedStatus('Resolved', ticketIndex)"
-                        >
-                          Resolved
-                        </button>
-                        <button
-                          mat-menu-item
-                          (click)="setResponedStatus('Ignore', ticketIndex)"
-                        >
-                          Ignore
-                        </button>
-                      </mat-menu>
+                      <img src="assets/AdminPanel/expand.svg" mat-button />
+                      <!-- [matMenuTriggerFor]="belowMenu" -->
+
+                      <!-- <mat-menu #belowMenu="matMenu" yPosition="below">
+                      <button mat-menu-item>Item 1</button>
+                      <button mat-menu-item>Item 2</button>
+                    </mat-menu> -->
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </mat-expansion-panel-header>
-
-          <mat-action-row>
-            <mat-card class="alert_card_bx">
-              <h3>Ticket Details</h3>
-              <mat-nav-list>
-                <mat-card class="ticket_category"
-                  >Lorem Ipsum is simply dummy Category 1</mat-card
-                >
-                <mat-card class="ticket_category"
-                  >Lorem Ipsum is simply dummy Category 2</mat-card
-                >
-                <mat-card class="ticket_category"
-                  >Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s</mat-card
-                >
-              </mat-nav-list>
-              <div class="card-buttons">
-                <button mat-button class="can-btn" (click)="setparent(null)">
-                  Cancel
-                </button>
-                <button mat-raised-button class="sub-btn">Submit</button>
-              </div>
-            </mat-card>
-          </mat-action-row>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </mat-tab>
-    <mat-tab label="History">
-      <div class="fixed_tab_header">
-        <div class="filter">
-          filter: {{ selectedFilter }}
-          <img
-            src="assets/AdminPanel/expand.svg"
-            mat-button
-            [matMenuTriggerFor]="filter"
-          />
-          <mat-menu #filter="matMenu" yPosition="below">
-            <button mat-menu-item (click)="selectFilter('All')">All</button>
-            <button mat-menu-item (click)="selectFilter('Ignore')">
-              Ignore
-            </button>
-            <button mat-menu-item (click)="selectFilter('Acknowledged')">
-              Acknowledged
-            </button>
-          </mat-menu>
+          </mat-card>
         </div>
-        <div class="sort">
-          Sort by Severity
-          <img
-            src="assets/AdminPanel/expand.svg"
-            mat-button
-            [matMenuTriggerFor]="Sort"
-          />
-          <mat-menu #Sort="matMenu" yPosition="below">
-            <button mat-menu-item>Item 1</button>
-            <button mat-menu-item>Item 2</button>
-          </mat-menu>
-        </div>
-      </div>
-      <div>
-        <mat-card *ngFor="let history of historys" class="history-card">
-          <div class="alert_accordion_bx">
-            <div class="row">
-              <div class="col-lg-7 small-cell-accordion-lrft">
-                <div class="alert_info_history">
-                  {{ history.title }}
-                </div>
-                <div class="summary_data">
-                  Summary of some 5G network related error that summarizes the
-                  error
-                </div>
-              </div>
-              <div class="col-lg-5">
-                <div class="condition_bx condition_status">
-                  <div class="priority-history">
-                    <img class="mr-2" src="assets/AdminPanel/complete.svg" />
-                    {{ history.status }}
-                  </div>
-                  <div class="upload_time">12 mins ago</div>
-                </div>
-              </div>
-              <div class="col-lg-12" (click)="$event.stopPropagation()">
-                <div class="accordion_controls">
-                  <div class="respond">
-                    respond
-                    <img src="assets/AdminPanel/expand.svg" mat-button />
-                    <!-- [matMenuTriggerFor]="belowMenu" -->
-
-                    <!-- <mat-menu #belowMenu="matMenu" yPosition="below">
-                      <button mat-menu-item>Item 1</button>
-                      <button mat-menu-item>Item 2</button>
-                    </mat-menu> -->
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </mat-card>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>

@@ -11,6 +11,7 @@
     .card-chart {
       // min-height: 120px;
       height: 100%;
+      border: none;
       @media only screen and (max-width: 767px) {
         height: auto;
         margin-bottom: 15px;
@@ -51,10 +52,14 @@
             }
           }
           .card-category {
+            padding-top: 3px;
             p {
               @media only screen and (max-width: 768px) {
                 font-size: 12px;
               }
+            }
+            .no-highlights {
+              color: #0063f7;
             }
           }
         }
@@ -108,6 +113,9 @@
               font-size: 14px;
               color: #0063f7;
               text-decoration: none;
+            }
+            .disable-expand {
+              color: #a3a3a3;
             }
           }
         }

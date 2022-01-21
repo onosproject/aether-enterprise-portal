@@ -22,7 +22,10 @@
     appearance="fill"
   >
     <mat-label>site:</mat-label>
-    <mat-select [(value)]="selectSite" class="admin-addNew-form-permissionsSelect">
+    <mat-select
+      [(value)]="selectSite"
+      class="admin-addNew-form-permissionsSelect"
+    >
       <mat-option
         *ngFor="let site of sites; let siteIndex = index"
         value="site['siteID']"
@@ -83,9 +86,54 @@
     class="admin-sideCol-navCard-controlLine"
     src="../../assets/CommonAssets/ControlMenuLine.svg"
   />
-  <div class="menu d-flex align-items-center" (mouseover)="foreache()">
-    <div class="img-bg">
-      <div class="icon small-cells-link"></div>
+  <div class="" routerLink="/small-cells">
+    <div
+      class="d-flex"
+      [ngClass]="{
+        sideNavbar_optionStyling_active:
+          menuIcons.smallCells.smallCellsString ===
+          menuIcons.smallCells.smallCellsActive,
+        sideNavbar_optionStyling_inactive:
+          menuIcons.smallCells.smallCellsString ===
+          menuIcons.smallCells.smallCellsInactive
+      }"
+      (mouseover)="
+        menuIcons.smallCells.smallCellsString =
+          menuIcons.smallCells.smallCellsActive
+      "
+      (mouseout)="
+        menuIcons.smallCells.smallCellsString =
+          menuIcons.smallCells.smallCellsInactive
+      "
+    >
+      <div>
+        <span
+          class="sideNavbar_iconbg_inactive mx-1"
+          [ngStyle]="{
+            'background-color':
+              menuIcons.smallCells.smallCellsString ===
+              menuIcons.smallCells.smallCellsActive
+                ? '#0063F7'
+                : '#EDF4FF'
+          }"
+        >
+          <img
+            [src]="menuIcons.smallCells.smallCellsString"
+            height="12px"
+            width="12px"
+          />
+        </span>
+      </div>
+      <div
+        class="admin-sideCol-navCard-subHeading mx-2"
+        [ngClass]="{
+          sideNavbar_text_active:
+            menuIcons.smallCells.smallCellsString ===
+            menuIcons.smallCells.smallCellsActive
+        }"
+      >
+        Small Cells
+      </div>
     </div>
     <div class="label mx-2">Small Cells</div>
   </div>

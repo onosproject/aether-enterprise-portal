@@ -89,7 +89,7 @@ export class AdminComponent implements OnInit {
     this.assignCitiesUsers();
     this.setUpCities();
     this.setUpEditedCities();
-    console.log(this.doneActive);
+    //console.log(this.doneActive);
   }
 
   task: Task = {
@@ -144,7 +144,7 @@ export class AdminComponent implements OnInit {
     this.siteViewToggle = false;
     this.userViewStyle = 'true';
     this.siteViewStyle = 'false';
-    // console.log(a)
+    // //console.log(a)
   }
 
   siteView(): void {
@@ -152,7 +152,7 @@ export class AdminComponent implements OnInit {
     this.userViewToggle = false;
     this.siteViewStyle = 'true';
     this.userViewStyle = 'false';
-    // console.log(a)
+    // //console.log(a)
   }
 
   // functions
@@ -173,7 +173,7 @@ export class AdminComponent implements OnInit {
       });
       user.cities = cities1;
       user.form = new FormGroup({});
-      console.log(user, user.cities);
+      //console.log(user, user.cities);
       return user;
     });
   }
@@ -201,19 +201,19 @@ export class AdminComponent implements OnInit {
       });
       return city;
     });
-    console.log(this.cities);
+    //console.log(this.cities);
   }
 
   // for userView edit
   toggleEdit(id: number, index: number): void {
     this.AddNew = false;
-    console.log(id, index);
+    //console.log(id, index);
     const editIndex = this.editUsers.indexOf(id);
     if (editIndex >= 0) {
-      console.log('if');
+      //console.log('if');
       this.editUsers.splice(editIndex, 1);
     } else {
-      console.log('else');
+      //console.log('else');
       const cities = new FormArray([]);
       for (let i = 0; i < this.cities.length; i++) {
         const cityIndex = this.users[index].cities.findIndex(
@@ -225,7 +225,7 @@ export class AdminComponent implements OnInit {
           )
         );
       }
-      console.log(this.users[index]);
+      //console.log(this.users[index]);
       this.users[index].form = new FormGroup({
         ppic: new FormControl(this.users[index].ppic),
         name: new FormControl(this.users[index].name, Validators.required),
@@ -257,10 +257,10 @@ export class AdminComponent implements OnInit {
       });
       const editControls = this.users[index].form.controls;
       this.editControls = editControls;
-      console.log(this.users[index].form);
+      // console.log(this.users[index].form);
       this.editUsers.push(id);
     }
-    console.log(this.editUsers);
+    //console.log(this.editUsers);
   }
 
   closeUserViewEdit(): any {
@@ -308,61 +308,61 @@ export class AdminComponent implements OnInit {
     // let siteEquipmentAlert = this.userForm.value.siteEquipmentAlert;
     // let centralAlert = this.userForm.value.centralAlert;
     // let securityAlert = this.userForm.value.securityAlert;
-    if (this.userForm.value.emailAlert === '' || '' || null) {
-      this.userForm.value.emailAlert = false;
-    }
-    if (this.userForm.value.deviceAlert === '' || '' || null) {
-      this.userForm.value.deviceAlert = false;
-    }
-    if (this.userForm.value.siteEquipmentAlert === '' || '' || null) {
-      this.userForm.value.siteEquipmentAlert = false;
-    }
-    if (this.userForm.value.centralAlert == '' || '' || null) {
-      this.userForm.value.centralAlert = false;
-    }
-    if (this.userForm.value.securityAlert == '' || '' || null) {
-      this.userForm.value.securityAlert = false;
-    }
-    if (this.userForm.valid) {
-      const id =
-        this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
+    // if (this.userForm.value.emailAlert === '' || null) {
+    //   this.userForm.value.emailAlert = false;
+    // }
+    // if (this.userForm.value.deviceAlert === '' || null) {
+    //   this.userForm.value.deviceAlert = false;
+    // }
+    // if (this.userForm.value.siteEquipmentAlert === '' || null) {
+    //   this.userForm.value.siteEquipmentAlert = false;
+    // }
+    // if (this.userForm.value.centralAlert == '' || null) {
+    //   this.userForm.value.centralAlert = false;
+    // }
+    // if (this.userForm.value.securityAlert == '' || null) {
+    //   this.userForm.value.securityAlert = false;
+    // }
+    // if (this.userForm.valid) {
+    const id =
+      this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
 
-      this.users.push({
-        id: id,
-        ppic: this.fileUrl,
-        active: this.userForm.value.active,
-        name: this.userForm.value.name,
-        email: this.userForm.value.email,
-        cities: this.userForm.value.cities,
-        emailAlert: this.userForm.value.emailAlert,
-        // emailAlert: emailAlert,
-        deviceAlert: this.userForm.value.deviceAlert,
-        // deviceAlert: deviceAlert,
-        siteEquipmentAlert: this.userForm.value.siteEquipmentAlert,
-        // siteEquipmentAlert: siteEquipmentAlert,
-        centralAlert: this.userForm.value.centralAlert,
-        // centralAlert: centralAlert,
-        securityAlert: this.userForm.value.securityAlert,
-        // securityAlert: securityAlert,
-      });
-      for (let i = 0; i < this.cities.length; i++) {
-        console.log('forloop');
-        if (this.userForm.value.cities[i] > 0) {
-          this.cities[i].users.push({
-            userId: id,
-            accessLevel: this.userForm.value.cities[i],
-          });
-        }
+    this.users.push({
+      id: id,
+      ppic: this.fileUrl,
+      active: this.userForm.value.active,
+      name: this.userForm.value.name,
+      email: this.userForm.value.email,
+      cities: this.userForm.value.cities,
+      emailAlert: this.userForm.value.emailAlert,
+      // emailAlert: emailAlert,
+      deviceAlert: this.userForm.value.deviceAlert,
+      // deviceAlert: deviceAlert,
+      siteEquipmentAlert: this.userForm.value.siteEquipmentAlert,
+      // siteEquipmentAlert: siteEquipmentAlert,
+      centralAlert: this.userForm.value.centralAlert,
+      // centralAlert: centralAlert,
+      securityAlert: this.userForm.value.securityAlert,
+      // securityAlert: securityAlert,
+    });
+    for (let i = 0; i < this.cities.length; i++) {
+      // console.log('forloop');
+      if (this.userForm.value.cities[i] > 0) {
+        this.cities[i].users.push({
+          userId: id,
+          accessLevel: this.userForm.value.cities[i],
+        });
       }
-      this.assignCitiesUsers();
-      this.userForm.reset();
-      this.fileUrl = '';
-      this.imageLoaded = false;
-      console.log(this.cities, this.users);
-      this.AddNew = !this.AddNew;
-    } else {
-      return;
     }
+    this.assignCitiesUsers();
+    this.userForm.reset();
+    this.fileUrl = '';
+    this.imageLoaded = false;
+    // console.log(this.cities, this.users);
+    this.AddNew = !this.AddNew;
+    // } else {
+    //   return;
+    // }
   }
 
   // getControlEdit(cityIndex):FormControl {
@@ -379,7 +379,7 @@ export class AdminComponent implements OnInit {
   }
 
   onEdit(index: number): void {
-    console.log(this.userService.getUser(index));
+    //console.log(this.userService.getUser(index));
     const id = this.users[index].id;
     const form = this.users[index].form.value;
     const user = this.users[index];
@@ -420,13 +420,18 @@ export class AdminComponent implements OnInit {
     } else {
       return;
     }
-    console.log(this.cities, this.users);
+    this.userService.updateUser(index, user);
+    this.userService.updateCities(this.cities);
+    this.assignUsersCities();
+    this.assignCitiesUsers();
+    this.toggleEdit(id, index);
+    //console.log(this.cities, this.users);
   }
 
   editSubmit(userIndex: number): void {
-    console.log(userIndex, 'yes');
+    //console.log(userIndex, 'yes');
     this.userService.updateUser(userIndex, this.userForm.value);
-    console.log(userIndex);
+    //console.log(userIndex);
   }
 
   confirmDelete(userIndex: number): void {
