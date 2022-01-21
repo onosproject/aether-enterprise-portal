@@ -315,9 +315,9 @@ export class SlicesComponent implements OnInit {
       'slice-type': summaryForm.sliceType,
       downlink: this.firstFormGroup.value.downlink,
       uplink: this.firstFormGroup.value.uplink,
-      'traffic-class': summaryForm.trafficClass,
-      mbr: summaryForm.mbr,
-      gbr: summaryForm.gbr,
+      'traffic-class': this.firstFormGroup.value.trafficClass,
+      mbr: this.firstFormGroup.value.mbr,
+      gbr: this.firstFormGroup.value.gbr,
     });
     for (
       let selectedIndex = 0;
@@ -443,7 +443,7 @@ export class SlicesComponent implements OnInit {
   dataConvert(): any {
     const remainingDeviceGroups: any[] = [];
     const remainingServices: any[] = [];
-    this.siteSlices.forEach((slices, slicesIndex) => {
+    this.siteSlices.forEach((slices) => {
       //console.log(slices, slicesIndex);
       //console.log(slices['device-groups']);
       //console.log(slices.applications);
@@ -451,9 +451,9 @@ export class SlicesComponent implements OnInit {
       slices['device-groups'].forEach(
         (sliceDeviceGroups, sliceDeviceGroupsIndex) => {
           //console.log(sliceDeviceGroups, sliceDeviceGroupsIndex);
-          this.siteDeviceGroups.forEach((deviceGroups, deviceGroupsIndex) => {
+          this.siteDeviceGroups.forEach((deviceGroups) => {
             //console.log(deviceGroups, deviceGroupsIndex);
-            deviceGroups.forEach((deviceGroup, deviceGroupIndex) => {
+            deviceGroups.forEach((deviceGroup) => {
               // //console.log(deviceGroups[deviceGroupIndex]['device-group-id'])
               //console.log(deviceGroup['device-group-id'], deviceGroupIndex);
               if (sliceDeviceGroups == deviceGroup['device-group-id']) {
@@ -489,7 +489,7 @@ export class SlicesComponent implements OnInit {
 
       slices.applications.forEach((service, serviceIndex) => {
         //console.log(service, serviceIndex);
-        this.siteServices.forEach((siteService, siteServiceIndex) => {
+        this.siteServices.forEach((siteService) => {
           //console.log(siteService['application-id'], siteServiceIndex);
           if (service == siteService['application-id']) {
             //console.log(slices.applications[serviceIndex]);

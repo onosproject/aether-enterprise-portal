@@ -22,8 +22,7 @@ export class JoinerComponent {
     return this.startY + (this.endY - this.startY) / 2;
   }
 
-  curveCalculatorOrtho(hx: number, hy: number): string {
-    const halfWayY = (this.endY + this.startY) / 2;
+  curveCalculatorOrtho(): string {
     const halfWayX = (this.endX + this.startX) / 2;
 
     const ms = 'M ' + this.startX + ' ' + this.startY;

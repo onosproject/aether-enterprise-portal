@@ -1,4 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { SmallCellComponent } from './small-cell.component';
 
@@ -9,6 +11,7 @@ describe('SmallCellComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [SmallCellComponent],
+      imports: [HttpClientModule, MatDialogModule],
     }).compileComponents();
   });
 

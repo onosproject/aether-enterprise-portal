@@ -30,7 +30,7 @@ export class ConfigService {
   fetchOther(): any {
     // //console.log(this.fremontData)
     this.fremontData.forEach((device) => {
-      device.forEach((item3) => {
+      device.forEach(() => {
         //console.log(item3.imei);
       });
     });

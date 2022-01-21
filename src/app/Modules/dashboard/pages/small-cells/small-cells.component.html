@@ -213,7 +213,7 @@
                         <div class="ticket_raise" *ngIf="!isRaiseTicket">
                           <a (click)="raiseTicket()">Raise a Ticket</a>
                         </div>
-                        <div class="respond">
+                        <div class="respond" [matMenuTriggerFor]="belowMenu">
                           respond
                           <img
                             src="assets/AdminPanel/expand.svg"
@@ -471,7 +471,7 @@
             *ngFor="let ticket of tickets; let ticketIndex = index"
           >
             <mat-expansion-panel-header
-              class="small-cell-expansion-panel-header"
+              class="small-cell-expansion-panel-header open-ticket-tab"
             >
               <div class="alert_accordion_bx">
                 <div class="row">
@@ -614,14 +614,10 @@
                     <div
                       class="accordion_controls small-cell-accordion_control"
                     >
-                      <div class="respond">
+                      <div class="respond" [matMenuTriggerFor]="belowMenu">
                         respond
 
-                        <img
-                          src="assets/AdminPanel/expand.svg"
-                          mat-button
-                          [matMenuTriggerFor]="belowMenu"
-                        />
+                        <img src="assets/AdminPanel/expand.svg" mat-button />
                         <mat-menu
                           #belowMenu="matMenu"
                           yPosition="below"

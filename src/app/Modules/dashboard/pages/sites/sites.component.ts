@@ -23,7 +23,7 @@ export class SitesComponent {
     // //console.log(sites);
     sitesService.GetAllConfig().subscribe(
       (response) => {
-        //console.log('Site Response', response);
+        // console.log('Site Response', response);
 
         this.sitesResponse = response;
         this.sites = this.sitesResponse.sites;
@@ -147,4 +147,14 @@ export class SitesComponent {
     }
     return totalService;
   }
+
+  // getTotalDevices(
+  //   data: [{ 'display-name': string; devices: []; isExpanded: boolean }]
+  // ): number {
+  //   let count = 0;
+  //   for (let i = 0; i < data.length; i++) {
+  //     count = data[i].devices.length + count;
+  //   }
+  //   return count;
+  // }
 }

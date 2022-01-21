@@ -16,7 +16,7 @@ export class SlicesComponent {
   isExpand: boolean = false;
   deviceGroups: any;
   openAccordion: any = [];
-  openAccordion2: any = [];
+  // openAccordion2: any = [];
   openAccordionRight: any = [];
   isEditable: any = false;
   siteIndex: any = 0;
@@ -87,7 +87,17 @@ export class SlicesComponent {
       this.TabValue.push('1h' + i);
     }
 
-    //console.log('siteData||||', value.siteData);
+    // console.log('siteData||||', value.siteData);
+  }
+
+  getTotalDevices(
+    data: [{ 'display-name': string; devices: []; isExpanded: boolean }]
+  ): number {
+    let count = 0;
+    for (let i = 0; i < data.length; i++) {
+      count = data[i].devices.length + count;
+    }
+    return count;
   }
 
   getDevices(deviceGroup: unknown[]): number {
@@ -108,6 +118,9 @@ export class SlicesComponent {
         this.isExpand = true;
         this.isAcknowledged = 8;
         this.isEditable = false;
+        this.openAccordion = [];
+        this.openAccordionRight = [];
+
         for (
           let i = 0;
           i < this.sliceData[this.siteIndex].devices.length;
@@ -216,6 +229,8 @@ export class SlicesComponent {
   }
 
   hideAcknowledgedView(): void {
+    this.openAccordion = [];
+    this.openAccordionRight = [];
     this.isAcknowledged = 12;
     this.isExpand = false;
     this.group = '';
@@ -273,7 +288,12 @@ export class SlicesComponent {
     }
   }
 
-  calculateJointVerticalPosition(deviceGroups: any, index: number): number {
+  calculateJointVerticalPosition(
+    deviceGroups: [
+      { 'display-name': string; devices: []; isExpanded: boolean }
+    ],
+    index: number
+  ): number {
     let height =
       deviceGroups.length !== index
         ? deviceGroups[index].isExpanded

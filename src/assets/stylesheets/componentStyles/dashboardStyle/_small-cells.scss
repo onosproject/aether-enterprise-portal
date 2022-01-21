@@ -358,6 +358,10 @@
   }
   .history-card {
     padding: 16px 0px 0px 16px;
+    margin-bottom: 16px;
+    .accordion_controls {
+      padding-bottom: 21px !important;
+    }
   }
 }
 .selected-device {
@@ -440,6 +444,16 @@
   .small-cell-expansion-panel-child {
     .mat-action-row {
       padding: 10px 18px !important;
+    }
+  }
+
+  .open-ticket-tab {
+    .alert_info,
+    .alert_info-medium,
+    .alert_info-high,
+    .alert_info-low,
+    .condition_bx {
+      margin: 0px;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -12,16 +12,12 @@ import { MatDialogRef } from '@angular/material/dialog';
     },
   ],
 })
-export class SelectDevicesComponent implements OnInit {
+export class SelectDevicesComponent {
   selectedDevice: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<SelectDevicesComponent> // @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-
-  ngOnInit(): void {
-    //console.log(this.sims);
-  }
 
   sims = [
     {

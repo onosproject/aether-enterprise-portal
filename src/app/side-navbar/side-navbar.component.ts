@@ -84,14 +84,14 @@ export class SideNavbarComponent implements OnInit {
     //console.log(this.deviceService.selectedSite);
   }
 
-  foreache():any {
+  foreache(): any {
     // alert("ds");
-    const slides = document.getElementsByClassName("menu");
+    const slides = document.getElementsByClassName('menu');
     for (let i = 0; i < slides.length; i++) {
-     // alert("ds" + i);
-     // if(document.getElementsByClassName("menu").contains('active')){
-       // alert("active");
-     // }
+      // alert("ds" + i);
+      // if(document.getElementsByClassName("menu").contains('active')){
+      // alert("active");
+      // }
     }
-   }
+  }
 }

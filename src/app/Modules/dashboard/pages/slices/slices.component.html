@@ -48,8 +48,8 @@
                   (click)="$event.stopPropagation()"
                 >
                   <span *ngIf="slice.devices.length !== 0">
-                    {{ slice["device-groups"].length }} Device Groups |
-                    {{ slice.devices[0].devices.length }} Devices
+                    {{ slice.devices.length }} Device Groups |
+                    {{ getTotalDevices(slice.devices) }} Devices
                   </span>
                   <span *ngIf="slice.devices.length === 0">
                     {{ slice["device-groups"].length }} Device Groups | 0
@@ -619,7 +619,7 @@
                         <div class="card-icon">
                           <img src="assets/AdminPanel/stack.svg" />
                         </div>
-                        <h3>Mission Critical Slice</h3>
+                        <h3>{{ slice["display-name"] }}</h3>
                       </div>
                       <div
                         class="graph-detail-filter"

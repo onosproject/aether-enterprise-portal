@@ -318,13 +318,7 @@
                   device-details device-sims-details
                   ng-tns-c119-0 ng-star-inserted
                 "
-                (click)="
-                  detailsTrigger(
-                    deviceIndex,
-                    device.sim,
-                    device['serial-number']
-                  )
-                "
+                (click)="detailsTrigger(deviceIndex, device.sim)"
                 *ngIf="deviceDetails.indexOf(deviceIndex) < 0"
               >
                 Details
@@ -650,13 +644,87 @@
                         </div>
                       </div>
                       <div class="progress-bar-sec">
-                        <div class="col-12 d-flex my-1">
+                        <div
+                          class="col-12 d-flex my-1"
+                          *ngIf="deviceSimsDetailsProgressToggleDay"
+                        >
                           <span class="col-5 progress-hours-title1 mx-1"
                             >24H</span
                           >
                           <span class="col-2 progress-hours-title2">12H</span>
                           <span class="col-5 progress-hours-title3">Now</span>
                         </div>
+
+                        <div
+                          class="col-12 d-flex my-1 last-Week-dates"
+                          *ngIf="
+                            deviceSimsDetailsProgressToggleWeek && zoomIn === 0
+                          "
+                        >
+                          <ng-container
+                            *ngFor="
+                              let lastweek of lastWeekDates;
+                              let selectedDateIndex = index
+                            "
+                          >
+                            <span
+                              class="progress-hours-title1 mx-1"
+                              *ngIf="selectedDateIndex !== 0"
+                              (click)="
+                                getDateForZoom(selectedDateIndex, lastweek)
+                              "
+                              [class.selected-date]="
+                                selectedDate === selectedDateIndex
+                              "
+                              >{{ lastweek.date }}</span
+                            >
+                          </ng-container>
+                        </div>
+
+                        <div
+                          class="col-12 d-flex my-1 last-Week-dates"
+                          *ngIf="
+                            deviceSimsDetailsProgressToggleWeek && zoomIn === 1
+                          "
+                        >
+                          <span class="col-10 progress-hours-title1 mx-1"
+                            ><p class="selected-date">
+                              {{ lastWeekDates[selectedDate].date }}
+                            </p></span
+                          >
+                          <ng-container
+                            *ngFor="
+                              let lastweek of lastWeekDates;
+                              let i = index
+                            "
+                          >
+                            <span
+                              *ngIf="
+                                selectedDate + 2 === i || selectedDate + 1 === i
+                              "
+                              class="col-1 progress-hours-title1 mx-1"
+                              >{{ lastweek.date }}</span
+                            >
+                          </ng-container>
+                        </div>
+
+                        <div
+                          class="col-12 d-flex my-1"
+                          *ngIf="
+                            deviceSimsDetailsProgressToggleWeek && zoomIn === 2
+                          "
+                        >
+                          <span class="col-5 progress-hours-title1 mx-1"
+                            >24H-{{ dateSelected.date }}</span
+                          >
+                          <span class="col-2 progress-hours-title2"
+                            >12H-{{ dateSelected.date }}</span
+                          >
+                          <span class="col-5 progress-hours-title3"
+                            >Now-{{ dateSelected.date }}</span
+                          >
+                        </div>
+
                         <div
                           id="1D"
                           class="
@@ -680,17 +748,54 @@
                             col
                             device-details-blocks device-progress-bar
                           "
-                          *ngIf="deviceSimsDetailsProgressToggleWeek"
+                          *ngIf="
+                            deviceSimsDetailsProgressToggleWeek &&
+                            zoomIn !== 1 &&
+                            zoomIn !== 2
+                          "
                         >
-                          <div
-                            class="progress-bar bg-danger"
-                            style="width: 20%"
-                          ></div>
-                          <div
-                            class="progress-bar bg-success"
-                            style="width: 40%"
-                          ></div>
-                          <div class="progress-bar" style="width: 50%"></div>
+                          <div>
+                            <div
+                              class="dayChart"
+                              id="device_timeline{{ deviceIndex }}"
+                            ></div>
+                          </div>
+                        </div>
+                        <div
+                          id="1W"
+                          class="
+                            progress
+                            col
+                            device-details-blocks device-progress-bar
+                          "
+                          *ngIf="
+                            deviceSimsDetailsProgressToggleWeek && zoomIn === 1
+                          "
+                        >
+                          <div>
+                            <div
+                              class="dayChart"
+                              id="device_timeline{{ deviceIndex }}"
+                            ></div>
+                          </div>
+                        </div>
+                        <div
+                          id="1W"
+                          class="
+                            progress
+                            col
+                            device-details-blocks device-progress-bar
+                          "
+                          *ngIf="
+                            deviceSimsDetailsProgressToggleWeek && zoomIn === 2
+                          "
+                        >
+                          <div>
+                            <div
+                              class="dayChart"
+                              id="device_timeline{{ deviceIndex }}"
+                            ></div>
+                          </div>
                         </div>
                       </div>
                       <div class="button-sec d-flex">
@@ -707,6 +812,34 @@
                         </button>
                       </div>
                       <div class="ping-failed d-flex">
+                        <div class="zoom-filed" *ngIf="selectedDate !== -1">
+                          <button
+                            class="toggle-less"
+                            (click)="zoomgraph(true, zoomIn - 1)"
+                          >
+                            <img
+                              *ngIf="isZoomIn"
+                              src="assets/AdminPanel/negative.svg"
+                            />
+                            <img
+                              *ngIf="!isZoomIn"
+                              src="assets/AdminPanel/gray-negative.svg"
+                            />
+                          </button>
+                          <button
+                            class="toggle-more"
+                            (click)="zoomgraph(false, zoomIn + 1)"
+                          >
+                            <img
+                              *ngIf="!isZoomIn"
+                              src="assets/AdminPanel/plush-blue.svg"
+                            />
+                            <img
+                              *ngIf="isZoomIn"
+                              src="assets/AdminPanel/gray-plus.svg"
+                            />
+                          </button>
+                        </div>
                         <div class="failed-link">
                           <img src="../../assets/deviceSim/close-red.svg" />
                           Ping Failed
