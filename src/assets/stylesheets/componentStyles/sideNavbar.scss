@@ -142,3 +142,220 @@
     }
   }
 }
+
+.sideNavbar_navCard {
+  // .menu:hover {
+  //   ~.menu.active {
+  //     display: none  !important;
+  //   }
+  // }
+  .menu {
+    padding: 10px;
+    .img-bg {
+      margin-right: 5px;
+    background: #edf4ff;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    .icon {
+
+     height: 14px;
+     width: 14px;
+     background-repeat: no-repeat;
+     position: absolute;
+     top: 6px;
+     left: 6px;
+     &.admin-link {
+      background-image: url(/assets/SideCol-Navbar/admin.svg);
+
+     }
+     &.device-sim-link {
+      background-image: url(/assets/SideCol-Navbar/devices.svg);
+
+     }
+     &.services-link {
+      background-image: url(/assets/SideCol-Navbar/services.svg);
+
+     }
+     &.small-cells-link {
+      background-image: url(/assets/SideCol-Navbar/smallCells.svg);
+
+     }
+     &.device-groups-link {
+      background-image: url(/assets/SideCol-Navbar/deviceGroups.svg);
+
+     }
+     &.slices-link {
+      background-image: url(/assets/SideCol-Navbar/slices.svg);
+
+     }
+     &.audit-link {
+      background-image: url(/assets/SideCol-Navbar/slices.svg);
+
+     }
+     }
+
+    }
+
+    .label {
+      color: #3c4257;
+    font-family: "Inter", sans-serif;
+    font-size: 14px !important;
+    font-weight: 500;
+    margin-left: -20px;
+    }
+    &:hover {
+      background: #EDF4FF;
+      .img-bg {
+      background: #0063f7;
+      .icon {
+        &.admin-link {
+          background-image: url(/assets/SideCol-Navbar/admin-active.svg);
+
+         }
+         &.device-sim-link {
+          background-image: url(/assets/SideCol-Navbar/devices-active.svg);
+
+         }
+         &.services-link {
+          background-image: url(/assets/SideCol-Navbar/services-active.svg);
+
+         }
+         &.small-cells-link {
+          background-image: url(/assets/SideCol-Navbar/smallCells-active.svg);
+
+         }
+         &.device-groups-link {
+          background-image: url(/assets/SideCol-Navbar/deviceGroups-active.svg);
+
+         }
+         &.slices-link {
+          background-image: url(/assets/SideCol-Navbar/slices-active.svg);
+
+         }
+         &.audit-link {
+          background-image: url(/assets/SideCol-Navbar/slices-active.svg);
+
+         }
+
+       }
+
+      }
+
+      .label {
+        text-shadow: 0.5px 0 #3c4257 ;
+      }
+
+
+    }
+    &.active {
+      background: #EDF4FF;
+      .img-bg {
+      background: #0063f7;
+      .icon {
+        &.admin-link {
+          background-image: url(/assets/SideCol-Navbar/admin-active.svg);
+
+         }
+         &.device-sim-link {
+          background-image: url(/assets/SideCol-Navbar/devices-active.svg);
+
+         }
+         &.services-link {
+          background-image: url(/assets/SideCol-Navbar/services-active.svg);
+
+         }
+         &.small-cells-link {
+          background-image: url(/assets/SideCol-Navbar/smallCells-active.svg);
+
+         }
+         &.device-groups-link {
+          background-image: url(/assets/SideCol-Navbar/deviceGroups-active.svg);
+
+         }
+         &.slices-link {
+          background-image: url(/assets/SideCol-Navbar/slices-active.svg);
+
+         }
+         &.audit-link {
+          background-image: url(/assets/SideCol-Navbar/slices-active.svg);
+
+         }
+       }
+
+      }
+
+      .label {
+        text-shadow: 0.5px 0 #3c4257 ;
+      }
+
+    }
+
+
+
+  }
+
+
+}
+
+.menu:hover {
+  ~.menu.active {
+    background: none;
+    .img-bg {
+      margin-right: 5px;
+    background: #edf4ff;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    .icon {
+
+     height: 14px;
+     width: 14px;
+     background-repeat: no-repeat;
+     position: absolute;
+     top: 6px;
+     left: 6px;
+     &.admin-link {
+      background-image: url(/assets/SideCol-Navbar/admin.svg);
+
+     }
+     &.device-sim-link {
+      background-image: url(/assets/SideCol-Navbar/devices.svg);
+
+     }
+     &.services-link {
+      background-image: url(/assets/SideCol-Navbar/services.svg);
+
+     }
+     &.small-cells-link {
+      background-image: url(/assets/SideCol-Navbar/smallCells.svg);
+
+     }
+     &.device-groups-link {
+      background-image: url(/assets/SideCol-Navbar/deviceGroups.svg);
+
+     }
+     &.slices-link {
+      background-image: url(/assets/SideCol-Navbar/slices.svg);
+
+     }
+     &.audit-link {
+      background-image: url(/assets/SideCol-Navbar/slices.svg);
+
+     }
+     }
+
+    }
+  }
+
+}

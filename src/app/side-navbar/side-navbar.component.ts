@@ -13,7 +13,7 @@ export class SideNavbarComponent implements OnInit {
 
   sites: any[] = [];
 
-  selectSite: string = '';
+  selectSite: string = this.deviceService.selectedSite;
 
   @Output() newSiteEvent = new EventEmitter<string>();
 
@@ -83,4 +83,15 @@ export class SideNavbarComponent implements OnInit {
 
     console.log(this.deviceService.selectedSite);
   }
+
+  foreache():any {
+    // alert("ds");
+    const slides = document.getElementsByClassName("menu");
+    for (let i = 0; i < slides.length; i++) {
+     // alert("ds" + i);
+     // if(document.getElementsByClassName("menu").contains('active')){
+       // alert("active");
+     // }
+    }
+   }
 }

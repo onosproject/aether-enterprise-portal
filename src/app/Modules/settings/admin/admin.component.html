@@ -29,10 +29,26 @@
                   <img
                     src="../../assets/AdminPanel/Rectangle 966.svg"
                     alt="profile-pic-outline"
-                    widt
+                    *ngIf="imageLoaded === false"
+                  />
+                  <img
+                    *ngIf="fileUrl"
+                    [src]="fileUrl"
+                    class="admin-addNew-form-profile-style"
                   />
                   <br />
-                  <button mat-button class="admin-addNew-form-upload my-4">
+                  <input
+                    #file
+                    type="file"
+                    style="display: none"
+                    (change)="fileTrigger($event)"
+                    accept="image/*"
+                  />
+                  <button
+                    mat-button
+                    class="admin-addNew-form-upload my-4"
+                    (click)="file.click()"
+                  >
                     Upload
                   </button>
                 </div>
@@ -54,7 +70,19 @@
                             name="newuserName"
                             id="newuserName"
                             placeholder="Name"
+                            [ngClass]="{
+                              'is-invalid':
+                                userFormSubmit && userControls.name.errors
+                            }"
                           />
+                          <div
+                            *ngIf="userFormSubmit && userControls.name.errors"
+                            class="invalid-feedback"
+                          >
+                            <div *ngIf="userControls.name.errors.required">
+                              First Name is required
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="col-6 mx-2">
@@ -73,20 +101,22 @@
                             formControlName="email"
                             [formControl]="emailFormControl"
                             placeholder="Email ID"
+                            [ngClass]="{
+                              'is-invalid':
+                                userFormSubmit && userControls.email.errors
+                            }"
                           />
-                          <mat-error
-                            *ngIf="
-                              emailFormControl.hasError('email') &&
-                              !emailFormControl.hasError('required')
-                            "
+                          <div
+                            *ngIf="userFormSubmit && userControls.email.errors"
+                            class="invalid-feedback"
                           >
-                            Please enter a valid email address
-                          </mat-error>
-                          <mat-error
-                            *ngIf="emailFormControl.hasError('required')"
-                          >
-                            Email is <strong>required</strong>
-                          </mat-error>
+                            <div *ngIf="userControls.email.errors.required">
+                              Email is required
+                            </div>
+                            <div *ngIf="userControls.email.errors.email">
+                              Email must be a valid email address
+                            </div>
+                          </div>
                         </div>
 
                         <div class="col-5">
@@ -118,6 +148,7 @@
                         >
                           <mat-label></mat-label>
                           <mat-select
+                            value="0"
                             class="admin-addNew-form-permissionsSelect"
                             [formControl]="
                               getCitiesControl(cityIndex, userForm)
@@ -191,7 +222,7 @@
                 type="submit"
                 mat-raised-button
                 color="primary"
-                (click)="AddNew = !AddNew; onSubmit(); assignUsersCities()"
+                (click)="onSubmit(); assignUsersCities()"
               >
                 Add
               </button>
@@ -274,7 +305,11 @@
               "
             >
               <div class="mx-3 d-flex" style="margin-top: -5px">
-                <img src="{{ user.ppic }}" height="56px" /><sup
+                <img
+                  class="admin-users-card-ppic"
+                  src="{{ user.ppic }}"
+                  height="56px"
+                /><sup
                   ><img class="admin-users-card-active" src="{{ user.active }}"
                 /></sup>
               </div>
@@ -352,6 +387,12 @@
                         <img
                           src="../../assets/AdminPanel/Rectangle 966.svg"
                           alt="profile-pic-outline"
+                          *ngIf="!user.ppic"
+                        />
+                        <img
+                          *ngIf="user.ppic"
+                          [src]="user.ppic"
+                          class="admin-addNew-form-profile-style"
                         />
                         <br />
                       </div>
@@ -406,20 +447,26 @@
                                     getEditControl(user.form, 'email')
                                   "
                                   placeholder="Email ID"
+                                  [ngClass]="{
+                                    'is-invalid':
+                                      editFormSubmit && editControls.email.errors
+                                  }"
                                 />
-                                <mat-error
+                                <div
                                   *ngIf="
-                                    emailFormControl.hasError('email') &&
-                                    !emailFormControl.hasError('required')
+                                    editFormSubmit && editControls.email.errors
                                   "
+                                  class="invalid-feedback"
                                 >
-                                  Please enter a valid email address
-                                </mat-error>
-                                <mat-error
-                                  *ngIf="emailFormControl.hasError('required')"
-                                >
-                                  Email is <strong>required</strong>
-                                </mat-error>
+                                  <div
+                                    *ngIf="editControls.email.errors.required"
+                                  >
+                                    Email is required
+                                  </div>
+                                  <div *ngIf="editControls.email.errors.email">
+                                    Email must be a valid email address
+                                  </div>
+                                </div>
                               </div>
 
                               <div class="col-5">
@@ -635,8 +682,12 @@
                       editCities.indexOf(city.id) >= 0
                   }"
                 >
-                  <div class="d-flex admin-siteView-card-1-img mx-1">
-                    <img height="46px" src="{{ user.details.ppic }}" />
+                  <div class="d-flex mx-1">
+                    <img
+                      class="admin-siteView-card-1-img"
+                      height="46px"
+                      src="{{ user.details.ppic }}"
+                    />
                     <sup
                       ><img
                         class="admin-siteView-card-1-userDetails-active"
