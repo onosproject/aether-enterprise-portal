@@ -19,7 +19,7 @@ export class ConnectComponent implements OnInit {
   constructor(public sitesService: SitesService) {
     sitesService.GetAllConfig().subscribe(
       (response) => {
-        console.log('Site Response', response);
+        //console.log('Site Response', response);
 
         this.sitesResponse = response;
         this.sites = this.sitesResponse.sites;
@@ -30,10 +30,10 @@ export class ConnectComponent implements OnInit {
           this.sitesResponse.sites[0].devices,
           0
         );
-        // console.log('Site Response', this.sitesResponse);
+        // //console.log('Site Response', this.sitesResponse);
       },
       () => {
-        // console.log('Site Error', error);
+        // //console.log('Site Error', error);
       }
     );
   }
@@ -64,7 +64,7 @@ export class ConnectComponent implements OnInit {
           ) {
             let groupName = '';
             const selecteddevice = [];
-            // console.log('|||||||||', deviceGroup[k]['display-name']);
+            // //console.log('|||||||||', deviceGroup[k]['display-name']);
             const devices = [];
             for (let m = 0; m < deviceGroup[k].devices.length; m++) {
               for (let n = 0; n < device.length; n++) {
@@ -92,7 +92,7 @@ export class ConnectComponent implements OnInit {
       }
     }
     this.getServices(siteData, value, siteIndex);
-    // console.log('+++++', siteData.slices[0]);
+    // //console.log('+++++', siteData.slices[0]);
   }
   getServices(
     siteData: {
@@ -110,7 +110,7 @@ export class ConnectComponent implements OnInit {
             siteData.slices[i].applications[j] ===
             this.sitesResponse.applications[k]['application-id']
           ) {
-            // console.log('|||||||||', this.sitesResponse.applications[k]);
+            // //console.log('|||||||||', this.sitesResponse.applications[k]);
             service.push(this.sitesResponse.applications[k]);
           }
         }
@@ -122,7 +122,7 @@ export class ConnectComponent implements OnInit {
       siteData.slices[i]['services'] = selectedService;
     }
     this.slices = siteData.slices;
-    console.log('+++++', this.slices);
+    //console.log('+++++', this.slices);
 
     // this.informParent.emit({
     //   siteId: value,

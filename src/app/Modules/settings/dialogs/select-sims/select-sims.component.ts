@@ -85,12 +85,12 @@ export class SelectSimsComponent implements OnInit {
   }
 
   assignSelectedSite1(): any {
-    console.log('Hi');
-    console.log(this.deviceService.getSite());
+    //console.log('Hi');
+    //console.log(this.deviceService.getSite());
     this.deviceService.getSite().subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       this.selectedSite = data;
-      console.log(this.selectedSite);
+      //console.log(this.selectedSite);
       this.fetchSims();
     });
   }
@@ -102,13 +102,13 @@ export class SelectSimsComponent implements OnInit {
       configArray.map((item) => {
         // const simsArray: any[] = [];
         const sitesConfig = item.sites;
-        console.log(item.sites);
+        //console.log(item.sites);
         sitesConfig.map((site) => {
-          console.log(site['display-name']);
+          //console.log(site['display-name']);
           if (site['display-name'] === this.selectedSite) {
-            console.log(site.sims);
+            //console.log(site.sims);
             this.sims.push(site.sims);
-            console.log(
+            //console.log(
               'This is Local sims array',
               this.selectedSite,
               this.sims
@@ -117,7 +117,7 @@ export class SelectSimsComponent implements OnInit {
         });
       });
     });
-    console.log(this.sims);
+    //console.log(this.sims);
   }
 
   onNoClick(): void {
@@ -130,13 +130,13 @@ export class SelectSimsComponent implements OnInit {
   }
 
   selectSimFinal(): void {
-    console.log(this.selectedSim);
+    //console.log(this.selectedSim);
     this.deviceService.mySim(this.selectedSim);
   }
 
   assignSelectedSims(): any {
     this.deviceService.getSims().subscribe((data) => {
-      console.log(data);
+      //console.log(data);
       this.inventorySims = data;
     });
   }

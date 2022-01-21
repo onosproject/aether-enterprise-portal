@@ -148,11 +148,11 @@ export class SmallCellComponent implements OnInit {
   }
 
   assignSelectedSite(): any {
-    console.log(this.deviceService.mySite1);
+    //console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-      // console.log(data);
+      // //console.log(data);
       this.selectedSite = data;
-      console.log(this.selectedSite);
+      //console.log(this.selectedSite);
       this.fetchConfig();
     });
   }

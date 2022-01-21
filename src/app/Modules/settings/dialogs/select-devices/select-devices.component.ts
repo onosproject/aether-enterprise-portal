@@ -20,7 +20,7 @@ export class SelectDevicesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.sims);
+    //console.log(this.sims);
   }
 
   sims = [

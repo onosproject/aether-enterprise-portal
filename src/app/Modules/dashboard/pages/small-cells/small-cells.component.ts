@@ -44,7 +44,7 @@ export class SmallCellsComponent {
       this.isNotification = JSON.parse(data.isNotification);
     });
 
-    // console.log('||||||||||||||', this.smallCells[0].alerts);
+    // //console.log('||||||||||||||', this.smallCells[0].alerts);
   }
 
   setparent(index: number): void {
@@ -84,7 +84,7 @@ export class SmallCellsComponent {
   selectedTabValue(event: { index: any }): void {
     // alert();
     this.TabIndex = event.index;
-    // console.log(event);
+    // //console.log(event);
     this.parent = 0;
     this.child = null;
   }
@@ -133,7 +133,7 @@ export class SmallCellsComponent {
         this.tickets[index].status = status;
       }
     }
-    // console.log('-------------', this.smallCells[0].alerts[index]);
+    // //console.log('-------------', this.smallCells[0].alerts[index]);
   }
 
   sortData(priorty: string): void {

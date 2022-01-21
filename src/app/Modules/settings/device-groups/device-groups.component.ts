@@ -102,7 +102,7 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   changeSelection(id: number, deviceIndex: number): void {
-    console.log(this.siteDevices[0][deviceIndex].selected);
+    //console.log(this.siteDevices[0][deviceIndex].selected);
     if (this.siteDevices[0][deviceIndex].selected == 1) {
       this.siteDevices[0][deviceIndex].selected = 0;
       this.selectedDevices.push(id);
@@ -114,8 +114,8 @@ export class DeviceGroupsComponent implements OnInit {
         }
       }
     }
-    console.log(this.selectedDevices);
-    console.log(this.siteDevices);
+    //console.log(this.selectedDevices);
+    //console.log(this.siteDevices);
   }
 
   addNewDeviceG(): any {
@@ -127,18 +127,18 @@ export class DeviceGroupsComponent implements OnInit {
       devices: deviceSerialNumbers,
     });
     this.dataConvert();
-    // console.log(this.selectedDevices);
+    // //console.log(this.selectedDevices);
     this.selectedDevices = [];
     this.addNewdeviceGroupForm = !this.addNewdeviceGroupForm;
-    // console.log(this.siteDeviceGroups);
+    // //console.log(this.siteDeviceGroups);
   }
 
   assignSelectedSite(): any {
-    console.log(this.deviceService.mySite1);
+    //console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-      // console.log(data);
+      // //console.log(data);
       this.selectedSite = data;
-      console.log(this.selectedSite);
+      //console.log(this.selectedSite);
       this.fetchData();
     });
   }
@@ -155,7 +155,7 @@ export class DeviceGroupsComponent implements OnInit {
         sitesConfig.map((site) => {
           if (site['site-id'] === this.selectedSite) {
             sitesDevicesGroups.push(site['device-groups']);
-            console.log(
+            //console.log(
               'This is Local site-deviceGroups array',
               this.selectedSite,
               sitesDevicesGroups
@@ -163,7 +163,7 @@ export class DeviceGroupsComponent implements OnInit {
           }
           if (site['site-id'] === this.selectedSite) {
             sitesDevices.push(site.devices);
-            console.log(
+            //console.log(
               'This is Local site-devices array',
               this.selectedSite,
               sitesDevices
@@ -171,33 +171,33 @@ export class DeviceGroupsComponent implements OnInit {
             sitesDevices.forEach((siteDevice) => {
               siteDevice.forEach((singleDevice, singleDeviceIndex) => {
                 siteDevice[singleDeviceIndex].selected = 1;
-                // console.log(siteDevice[singleDeviceIndex])
+                // //console.log(siteDevice[singleDeviceIndex])
               });
             });
           }
         });
-        // console.log(sitesDevicesGroups);
-        // console.log(sitesDevices);
+        // //console.log(sitesDevicesGroups);
+        // //console.log(sitesDevices);
         this.siteDevices = sitesDevices;
         this.siteDeviceGroups = sitesDevicesGroups;
         this.dataConvert();
         // this.test1();
       });
-      console.log(
+      //console.log(
         'This is a global device-groups array for a site',
         this.siteDeviceGroups
       );
-      console.log(
+      //console.log(
         'This is a global devices-array for a site',
         this.siteDevices
       );
-      console.log(this.config);
+      //console.log(this.config);
     });
   }
 
   dataConvert(): any {
     this.siteDeviceGroups.forEach((deviceGroups) => {
-      console.log(deviceGroups);
+      //console.log(deviceGroups);
       deviceGroups.forEach((deviceGroup) => {
         deviceGroup.devices.forEach((groupedDevice, groupedDeviceIndex) => {
           this.siteDevices.forEach((siteDevices) => {
@@ -213,7 +213,7 @@ export class DeviceGroupsComponent implements OnInit {
                     siteDevices[siteDeviceIndex]['serial-number'],
                 };
                 deviceGroup.devices.splice(groupedDeviceIndex, 1, deviceInfo);
-                // console.log('alert');
+                // //console.log('alert');
               } else {
                 const remainingDevices: any[] = [];
                 const deviceInfo: any = {
@@ -256,13 +256,13 @@ export class DeviceGroupsComponent implements OnInit {
 
   deleteDevicesInGroups(groupIndex: number, deviceIndex: number): any {
     this.siteDeviceGroups[0][groupIndex].devices.splice(deviceIndex, 1);
-    console.log(this.siteDeviceGroups);
+    //console.log(this.siteDeviceGroups);
   }
 
   // testing
   // test1(): any {
   //   this.siteDevices.forEach((device, deviceIndex) => {
-  //     console.log(device, deviceIndex);
+  //     //console.log(device, deviceIndex);
   //   });
   // }
 

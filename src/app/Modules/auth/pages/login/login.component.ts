@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     // this.submitted = true;
     if (this.form.valid) {
-      console.log(JSON.stringify(this.form.value));
+      //console.log(JSON.stringify(this.form.value));
     }
   }
 

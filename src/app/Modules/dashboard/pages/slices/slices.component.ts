@@ -87,7 +87,7 @@ export class SlicesComponent {
       this.TabValue.push('1h' + i);
     }
 
-    console.log('siteData||||', value.siteData);
+    //console.log('siteData||||', value.siteData);
   }
 
   getDevices(deviceGroup: unknown[]): number {
@@ -129,7 +129,7 @@ export class SlicesComponent {
   }
 
   onEdit(sliceId: number, index: number): void {
-    // console.log(this.sliceData[index]);
+    // //console.log(this.sliceData[index]);
     this.sliceId = sliceId;
     this.siteIndex = index;
     if (this.isEditable) {
@@ -260,7 +260,7 @@ export class SlicesComponent {
   //   }
   // }
 
-  calculateDeviceTop(index: number, deviceGroups: any): number {
+  calculateDeviceTop(index: number, deviceGroups: DeviceGroup): number {
     if (index === 0) {
       return 20;
     } else {

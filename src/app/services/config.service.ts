@@ -11,27 +11,27 @@ export class ConfigService {
 
   fetchDeviceConfig(): any {
     this.config1.push(this.config);
-    // console.log(this.config1)
+    // //console.log(this.config1)
     this.config1.forEach((item) => {
-      // console.log(item.sites)
+      // //console.log(item.sites)
       item.sites.forEach((site) => {
-        // console.log(site['display-name'])
+        // //console.log(site['display-name'])
         if (site['display-name'] == 'Freemont, CA') {
           this.fremontData.push(site.devices);
-          // console.log(this.fremontData);
+          // //console.log(this.fremontData);
         } else if (site['display-name'] == 'Berlin, DE') {
           this.berlinData.push(site.devices);
-          // console.log(this.berlinData);
+          // //console.log(this.berlinData);
         }
       });
     });
   }
 
   fetchOther(): any {
-    // console.log(this.fremontData)
+    // //console.log(this.fremontData)
     this.fremontData.forEach((device) => {
       device.forEach((item3) => {
-        console.log(item3.imei);
+        //console.log(item3.imei);
       });
     });
   }
