@@ -13,7 +13,7 @@ export class SideNavbarComponent implements OnInit {
 
   sites: any[] = [];
 
-  selectSite: string = '';
+  selectSite: string = this.deviceService.selectedSite;
 
   @Output() newSiteEvent = new EventEmitter<string>();
 
@@ -59,17 +59,17 @@ export class SideNavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchSites();
-    this.deviceService.mySite('freemont');
+    // this.deviceService.mySite('freemont');
   }
 
   fetchSites(): any {
     this.deviceService.getData().subscribe((result) => {
       result.sites.map((site) => {
-        console.log(site['site-id']);
+        //console.log(site['site-id']);
         const siteID: string = site['site-id'];
         const siteName: string = site['display-name'];
         this.sites.push({ siteID, siteName });
-        console.log(this.sites);
+        //console.log(this.sites);
       });
     });
   }
@@ -79,8 +79,19 @@ export class SideNavbarComponent implements OnInit {
     this.newSiteEvent.emit(siteID);
     this.selectSite = siteID;
     this.deviceService.selectedSite = siteID;
-    console.log(this.selectSite);
+    //console.log(this.selectSite);
 
-    console.log(this.deviceService.selectedSite);
+    //console.log(this.deviceService.selectedSite);
+  }
+
+  foreache(): any {
+    // alert("ds");
+    const slides = document.getElementsByClassName('menu');
+    for (let i = 0; i < slides.length; i++) {
+      // alert("ds" + i);
+      // if(document.getElementsByClassName("menu").contains('active')){
+      // alert("active");
+      // }
+    }
   }
 }

@@ -1,5 +1,8 @@
 import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { SitesService } from '../../../../services/sites/sites.service';
+import { environment } from '../../../../../environments/environment';
+import { Site } from 'src/app/models/site.model';
 
 @Component({
   selector: 'aep-sites',
@@ -10,15 +13,21 @@ export class SitesComponent {
   sites: any;
   selected: string = 'freemont';
   sitesResponse: any;
+  baseUrl: string = environment.baseUrl.slice(0, -1);
 
   @Input() message: any;
   @Output() informParent = new EventEmitter();
 
-  constructor(public sitesService: SitesService) {
+  constructor(
+    public sitesService: SitesService,
+    public deviceService: DeviceSimService
+  ) {
     // this.sites = sites[0];
-    // console.log(sites);
+    // //console.log(sites);
     sitesService.GetAllConfig().subscribe(
       (response) => {
+        // console.log('Site Response', response);
+
         this.sitesResponse = response;
         this.sites = this.sitesResponse.sites;
         this.onSelectCard(
@@ -28,17 +37,17 @@ export class SitesComponent {
           this.sitesResponse.sites[0].devices,
           0
         );
-        // console.log('Site Response', this.sitesResponse);
+        // //console.log('Site Response', this.sitesResponse);
       },
       () => {
-        // console.log('Site Error', error);
+        // //console.log('Site Error', error);
       }
     );
   }
 
   onSelectCard(
     value: string,
-    siteData: { slices: any[] },
+    siteData: Site,
     deviceGroup: {
       'device-group-id': string;
       devices: any[];
@@ -48,6 +57,10 @@ export class SitesComponent {
     }[],
     siteIndex: number
   ): void {
+    this.sitesService.siteIndex = null;
+    this.sitesService.siteId = '';
+    this.sitesService.siteData = null;
+    this.deviceService.mySite(value);
     this.selected = value;
     for (let i = 0; i < siteData.slices.length; i++) {
       for (let j = 0; j < siteData.slices[i]['device-groups'].length; j++) {
@@ -58,7 +71,7 @@ export class SitesComponent {
           ) {
             let groupName = '';
             const selecteddevice = [];
-            // console.log('|||||||||', deviceGroup[k]['display-name']);
+            // //console.log('|||||||||', deviceGroup[k]['display-name']);
             const devices = [];
             for (let m = 0; m < deviceGroup[k].devices.length; m++) {
               for (let n = 0; n < device.length; n++) {
@@ -66,11 +79,19 @@ export class SitesComponent {
                   devices.push(device[n]);
                 }
               }
+              // groupName = deviceGroup[k]['display-name'];
+              // selecteddevice.push({
+              //   'display-name': groupName,
+              //   devices: devices,
+              //   isExpanded: false,
+              // });
+              // siteData.slices[i]['devices'] = selecteddevice;
             }
             groupName = deviceGroup[k]['display-name'];
             selecteddevice.push({
               'display-name': groupName,
               devices: devices,
+              isExpanded: false,
             });
             siteData.slices[i]['devices'] = selecteddevice;
           }
@@ -78,15 +99,9 @@ export class SitesComponent {
       }
     }
     this.getServices(siteData, value, siteIndex);
-    // console.log('+++++', siteData.slices);
+    // //console.log('+++++', siteData.slices);
   }
-  getServices(
-    siteData: {
-      slices: any[];
-    },
-    value: string,
-    siteIndex: number
-  ): void {
+  getServices(siteData: Site, value: string, siteIndex: number): void {
     for (let i = 0; i < siteData.slices.length; i++) {
       const selectedService = [];
       const service = [];
@@ -96,7 +111,7 @@ export class SitesComponent {
             siteData.slices[i].applications[j] ===
             this.sitesResponse.applications[k]['application-id']
           ) {
-            // console.log('|||||||||', this.sitesResponse.applications[k]);
+            // //console.log('|||||||||', this.sitesResponse.applications[k]);
             service.push(this.sitesResponse.applications[k]);
           }
         }
@@ -104,10 +119,17 @@ export class SitesComponent {
       selectedService.push({
         'display-name': 'Services',
         service: service,
+        isExpanded: false,
       });
       siteData.slices[i]['services'] = selectedService;
     }
-    // console.log('+++++', siteData.slices);
+    // console.log('+++++', siteData);
+    this.sitesService.siteIndex = siteIndex;
+    this.sitesService.siteId = value;
+    this.sitesService.siteData = siteData.slices;
+
+    // this.configResponse.siteData.push(siteData.slices)
+
     this.informParent.emit({
       siteId: value,
       siteData: siteData.slices,
@@ -131,4 +153,14 @@ export class SitesComponent {
     }
     return totalService;
   }
+
+  // getTotalDevices(
+  //   data: [{ 'display-name': string; devices: []; isExpanded: boolean }]
+  // ): number {
+  //   let count = 0;
+  //   for (let i = 0; i < data.length; i++) {
+  //     count = data[i].devices.length + count;
+  //   }
+  //   return count;
+  // }
 }

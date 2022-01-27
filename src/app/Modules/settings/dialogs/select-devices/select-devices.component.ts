@@ -1,27 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { DeviceSimService } from 'src/app/services/device-sim.service';
 
 @Component({
   selector: 'aep-select-devices',
   templateUrl: './select-devices.component.html',
   styles: [],
-  providers: [
-    {
-      provide: MatDialogRef,
-      useValue: {},
-    },
-  ],
+  // providers: [
+  //   {
+  //     provide: MatDialogRef,
+  //     useValue: {},
+  //   },
+  // ],
 })
-export class SelectDevicesComponent implements OnInit {
+export class SelectDevicesComponent {
   selectedDevice: number = 0;
 
   constructor(
+    public deviceService: DeviceSimService,
     public dialogRef: MatDialogRef<SelectDevicesComponent> // @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-
-  ngOnInit(): void {
-    console.log(this.sims);
-  }
 
   sims = [
     {
@@ -77,64 +75,64 @@ export class SelectDevicesComponent implements OnInit {
 
   devices = [
     {
-      id: 1,
+      id: 7529789,
       deviceName: 'Camera 1',
       locationName: 'Location 1',
     },
     {
-      id: 2,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529790,
+      deviceName: 'Camera 2',
+      locationName: 'Location 2',
     },
     {
-      id: 3,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529791,
+      deviceName: 'Camera 3',
+      locationName: 'Location 3',
     },
     {
-      id: 4,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529792,
+      deviceName: 'Camera 4',
+      locationName: 'Location 4',
     },
     {
-      id: 5,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529793,
+      deviceName: 'Camera 5',
+      locationName: 'Location 5',
     },
     {
-      id: 6,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529794,
+      deviceName: 'Camera 6',
+      locationName: 'Location 6',
     },
     {
-      id: 7,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529795,
+      deviceName: 'Camera 7',
+      locationName: 'Location 7',
     },
     {
-      id: 8,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529796,
+      deviceName: 'Camera 8',
+      locationName: 'Location 8',
     },
     {
-      id: 9,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529797,
+      deviceName: 'Camera 9',
+      locationName: 'Location 9',
     },
     {
-      id: 10,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529798,
+      deviceName: 'Camera 10',
+      locationName: 'Location 10',
     },
     {
-      id: 11,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529799,
+      deviceName: 'Camera 11',
+      locationName: 'Location 11',
     },
     {
-      id: 12,
-      deviceName: 'Camera 1',
-      locationName: 'Location 1',
+      id: 7529800,
+      deviceName: 'Camera 12',
+      locationName: 'Location 12',
     },
   ];
 
@@ -144,6 +142,13 @@ export class SelectDevicesComponent implements OnInit {
 
   changeSelection(id: number): void {
     this.selectedDevice = id;
+    // this.dialogRef.close();
     // this.getSelectedSims()
+  }
+
+  selectDeviceFinal(): void {
+    //console.log(this.selectedSim);
+    this.deviceService.setDevice(this.selectedDevice);
+    this.dialogRef.close();
   }
 }

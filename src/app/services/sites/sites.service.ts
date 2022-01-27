@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Slice } from 'src/app/models/slice.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,16 @@ export class SitesService {
     // Authorization: `Basic $(this.encode)`,
   });
 
+  siteId: string;
+  siteIndex: number;
+  siteData: Slice[];
+
   constructor(public http: HttpClient) {}
 
   GetAllConfig(): Observable<unknown> {
-    return this.http.get(environment.baseUrl + 'chronos-exporter/config', {
-      headers: this.header,
-    });
+    // return this.http.get(environment.baseUrl + 'chronos-exporter/config', {
+    //   headers: this.header,
+    // });
+    return this.http.get(environment.baseUrl + 'chronos-exporter/config');
   }
 }

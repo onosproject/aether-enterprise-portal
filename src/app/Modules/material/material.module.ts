@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [],
   exports: [
@@ -37,6 +37,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatStepperModule,
     MatListModule,
     MatFormFieldModule,
+    MatSnackBarModule,
   ],
 })
 export class MaterialModule {}

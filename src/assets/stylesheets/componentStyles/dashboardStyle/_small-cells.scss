@@ -10,6 +10,7 @@
     padding: 10px 0 10px;
     opacity: 0.6;
     color: #97c1ff;
+    background-color: #ffffff;
     &:first-child {
       border-top-left-radius: 8px;
     }
@@ -30,11 +31,11 @@
     margin-bottom: 30px;
     min-height: 45px;
     align-items: center;
+    &.notification_fixed_tab_header {
+      display: none;
+    }
     .filter {
       color: #0063f7;
-    }
-    .ctm_filter {
-      max-width: 45px;
     }
     .sort {
       color: #0063f7;
@@ -73,6 +74,9 @@
       font-size: 14px;
       font-weight: 400;
       margin: 30px 0 0;
+      @media only screen and (max-width: 991px) {
+        margin: 40px 0 0;
+      }
     }
     .alert_info-medium {
       color: #fb8500;
@@ -108,6 +112,10 @@
       @media only screen and (max-width: 1440px) {
         display: block;
       }
+      @media only screen and (max-width: 991px) {
+        width: max-content;
+        margin: 0 auto;
+      }
       .priority-critical {
         background: #ef233c;
         border-radius: 38px;
@@ -132,6 +140,10 @@
         align-items: center;
         color: #fff;
         font-size: 12px;
+        @media only screen and (max-width: 1440px) {
+          justify-content: center;
+          margin-bottom: 5px;
+        }
         .mr-2 {
           margin-right: 5px;
         }
@@ -188,7 +200,7 @@
       .respond {
         color: #0063f7;
         margin-left: 10px;
-        font-weight: 500;
+        // font-weight: 500;
         text-transform: capitalize;
       }
     }
@@ -354,6 +366,10 @@
   }
   .history-card {
     padding: 16px 0px 0px 16px;
+    margin-bottom: 16px;
+    .accordion_controls {
+      padding-bottom: 21px !important;
+    }
   }
 }
 .selected-device {
@@ -382,4 +398,91 @@
   color: #0063f7;
   font-size: 14px;
   font-weight: 500;
+}
+.ctm_filter {
+  [class~="mat-menu-content"] {
+    padding: 0 !important;
+    button {
+      border-bottom: 1px solid #c9deff;
+      color: #0063f7;
+      &:last-child {
+        border: none;
+      }
+      &:hover {
+        background-color: #edf4ff;
+      }
+    }
+  }
+}
+
+.back-link {
+  color: #0063f7;
+  font-weight: 500;
+  margin-top: 20px !important;
+  img {
+    margin-right: 5px;
+  }
+}
+.small-cell {
+}
+.tabs-control {
+  display: flex;
+  [class~="mat-tab-label-container"] {
+    @media only screen and (min-width: 991px) {
+      max-width: 80%;
+    }
+  }
+  .small-cell .alert_accordion_bx .alert_info .alert_info {
+    margin-top: 0;
+  }
+}
+.notification {
+  position: relative;
+  width: 70%;
+  margin: auto;
+  .tab-group {
+    [class~="mat-tab-header"] {
+      max-width: 540px;
+      margin-bottom: 25px;
+      border-bottom: none;
+    }
+    .small-cell-alert {
+      margin-top: 0px !important;
+    }
+    .small-cell-condition_bx {
+      margin-top: 0px !important;
+    }
+    .small-cell-accordion_control {
+      padding: 10px 0 0;
+    }
+    .summary_data {
+      max-width: 300px;
+    }
+    .small-cell-expansion-panel-child {
+      .mat-action-row {
+        padding: 10px 18px !important;
+      }
+    }
+
+    .open-ticket-tab {
+      .alert_info,
+      .alert_info-medium,
+      .alert_info-high,
+      .alert_info-low,
+      .condition_bx {
+        margin: 0px;
+      }
+    }
+  }
+  .fixed_tab_header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 26px;
+    background: transparent;
+    min-width: 275px;
+    &.notification_fixed_tab_header {
+      display: flex;
+    }
+  }
 }

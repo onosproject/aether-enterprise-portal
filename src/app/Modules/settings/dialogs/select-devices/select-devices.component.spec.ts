@@ -1,4 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/Modules/material/material.module';
 
 import { SelectDevicesComponent } from './select-devices.component';
@@ -9,8 +11,14 @@ describe('SelectDevicesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MaterialModule],
+      imports: [MaterialModule, HttpClientModule],
       declarations: [SelectDevicesComponent],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useValue: {},
+        },
+      ],
     }).compileComponents();
   });
 

@@ -14,12 +14,14 @@
       }
     }
   }
-  .mat-expansion-panel-header {
-    padding: 0;
-    margin: 0 24px;
+  .mat-expansion-panel-header1 {
+    padding: 0 0 0 15px;
+    .con {
+      flex-basis: 100%;
+    }
   }
   .device-groups-view-cards {
-    .mat-expansion-panel-header {
+    .mat-expansion-panel-header1 {
       height: auto;
       .mat-content {
         flex-wrap: wrap;
@@ -123,7 +125,7 @@
     );
     width: 25px;
     height: 100%;
-    position: absolute;
+    position: static;
     right: -24px;
     top: 0;
     z-index: 1;
@@ -140,10 +142,9 @@
     }
   }
   .minimise-bx {
-    position: absolute;
-    right: -18px;
-    top: 12px;
+    padding-right: 10px;
     z-index: 99;
+    cursor: pointer;
     img {
       width: 14px;
     }
@@ -176,7 +177,7 @@
         background: none !important;
       }
     }
-    .next-btn {
+    .next-btn-active {
       color: #fff;
       height: 49px;
       width: 108px;
@@ -185,6 +186,16 @@
       border: 1px solid #0063f7;
       border-radius: 4px;
       background: #0063f7;
+    }
+    .next-btn-inactive {
+      color: #fff;
+      height: 49px;
+      width: 108px;
+      text-align: start;
+      margin-right: 1rem;
+      border: 1px solid #d8d8d8;
+      border-radius: 4px;
+      background: #d8d8d8;
     }
     .back-btn {
       color: #0063f7;
@@ -253,29 +264,34 @@
       }
     }
   }
-  .mat-expansion-panel
-    .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled="true"]),
-  .mat-expansion-panel
-    .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled="true"]),
-  .mat-expansion-panel:not(.mat-expanded)
-    .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
-    background: none;
+
+  .acc-content {
+    padding-left: 15px;
   }
 }
 .mat-card-actions-content {
   position: relative;
 }
+.card-item {
+  background: #fff;
+  .card-list {
+    margin-top: 30px;
+  }
+}
 .edit-device-goup-form {
   background-color: #fff;
-  position: absolute;
-  top: 48px;
   .edit-section {
-    background: #eff1f3;
+    .form-sec {
+      background: #eff1f3;
+    }
   }
   .device-group-items {
     .device-group-item {
       background-color: #ffffff !important;
     }
+  }
+  .mat-card-actions {
+    padding-bottom: 25px !important;
   }
 }
 .edit-add-new-device {
@@ -297,4 +313,37 @@
 
 #special {
   display: contents !important;
+}
+
+.ip-domain-box {
+  h4 {
+    margin: 0 0 10px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .mat-form-field-wrapper {
+    height: 48px;
+  }
+  .mat-form-field-flex {
+    background: #eff1f3;
+  }
+  .mat-form-field-infix {
+    background: #ffffff;
+    width: 386px;
+    height: 48px;
+    // border-bottom: 1px solid;
+  }
+  .mat-form-field-label-wrapper {
+    left: 8px;
+    top: -8px;
+  }
+  .mat-select-arrow-wrapper {
+    display: inline-block !important;
+  }
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding: 0;
+  }
 }

@@ -14,13 +14,17 @@ export class DeviceSimService {
 
   selectedSite: string = '';
 
-  selectedSim: string = '';
+  selectedSims: any[] = [];
 
   mySite1: Observable<any>;
   private mySiteSubject = new BehaviorSubject<any>('');
 
+  mySims1: Observable<any>;
+  private mySimsSubject = new BehaviorSubject<any>('');
+
   mySim1: Observable<any>;
   private mySimSubject = new Subject<any>();
+  private myDeviceSubject = new BehaviorSubject<number>(0);
 
   constructor(public http: HttpClient) {
     this.mySim1 = this.mySimSubject.asObservable();
@@ -28,8 +32,8 @@ export class DeviceSimService {
 
   mySite(data: string): any {
     this.selectedSite = data;
-    // console.log(this.selectedSite)
-    // console.log(data)
+    // //console.log(this.selectedSite)
+    // //console.log(data)
     this.mySiteSubject.next(data);
   }
 
@@ -37,10 +41,29 @@ export class DeviceSimService {
     return this.mySiteSubject.asObservable();
   }
 
-  mySim(data: string): any {
-    this.selectedSim = data;
-    // console.log(this.selectedSim)
+  mySims(data: any[]): void {
+    this.selectedSims = data;
+    this.mySimsSubject.next(data);
+  }
+
+  getSims(): Observable<any> {
+    return this.mySimsSubject.asObservable();
+  }
+
+  mySim(data: string): void {
+    // this.selectedSim = data
+    // //console.log(this.selectedSim)
     this.mySimSubject.next(data);
+  }
+
+  getDevice(): Observable<number> {
+    return this.myDeviceSubject.asObservable();
+  }
+
+  setDevice(data: number): void {
+    // this.selectedSim = data
+    // //console.log(this.selectedSim)
+    this.myDeviceSubject.next(data);
   }
 
   getData(): any {
@@ -76,12 +99,12 @@ export class DeviceSimService {
     this.getData().subscribe((result) => {
       result.sites.map((site) => {
         this.siteIds.push(site['site-id']);
-        // console.log(this.siteIds)
+        // //console.log(this.siteIds)
       });
     });
   }
 
   selectedId(): any {
-    // console.log(this.selectedSite)
+    // //console.log(this.selectedSite)
   }
 }

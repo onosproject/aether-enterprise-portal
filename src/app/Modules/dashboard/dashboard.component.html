@@ -1,4 +1,4 @@
-<!-- <aep-navbar></aep-navbar> -->
+<aep-navbar #navbar></aep-navbar>
 
 <div class="main-content">
   <div class="bg-gray">
@@ -8,7 +8,7 @@
   </div>
   <div class="container-fluid ctm-container bottom_bx">
     <div class="row">
-      <div class="col-md-4 col-sm-6">
+      <div class="col-md-4 col-sm-6" (click)="openDialog()">
         <div class="card card-chart">
           <div class="card-body p-0 d-grid">
             <div class="row">
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 col-sm-6">
+      <div class="col-md-4 col-sm-6" (click)="openDialog()">
         <div class="card card-chart">
           <div class="card-body p-0 d-grid">
             <div class="row">
@@ -77,7 +77,10 @@
                       <h4 class="highlights-txt">Highlights</h4>
                     </div>
                     <div class="col-lg-6 col-md-6">
-                      <div class="highlighted-counting">
+                      <div
+                        class="highlighted-counting"
+                        *ngIf="siteId !== 'berlin'"
+                      >
                         <div class="card-icon">
                           <img src="assets/AdminPanel/red-alert.svg" />
                         </div>
@@ -88,13 +91,30 @@
                           <p class="">5 Alerts</p>
                         </div>
                       </div>
+                      <div
+                        class="highlighted-counting"
+                        *ngIf="siteId === 'berlin'"
+                      >
+                        <div class="card-icon">
+                          <img src="assets/AdminPanel/alert.svg" />
+                        </div>
+                        <div class="card-category">
+                          <p class="no-highlights">0 Alerts</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <p class="compare-detail mb-0">
-                    B16 anamoulous behaviours detected
+                  <p class="compare-detail mb-0" *ngIf="siteId !== 'berlin'">
+                    16 anamoulous behaviours detected
                   </p>
-                  <p class="compare-detail">
+                  <p class="compare-detail" *ngIf="siteId !== 'berlin'">
                     26 devices blocked from accessing apps
+                  </p>
+                  <p class="compare-detail mb-0" *ngIf="siteId === 'berlin'">
+                    0 anamoulous behaviours detected
+                  </p>
+                  <p class="compare-detail" *ngIf="siteId === 'berlin'">
+                    0 devices blocked from accessing apps
                   </p>
                 </div>
               </div>
@@ -108,48 +128,66 @@
             <h4>
               Site View
               <span>
-                <a *ngIf="isExpand" (click)="parentWillTakeForExpand()"
+                <a class="disable-expand" *ngIf="isAcknowledged === 8"
                   >Expand All</a
                 >
-                <a *ngIf="!isExpand" (click)="parentWillTakeForExpand()"
+                <a
+                  *ngIf="isExpand && isAcknowledged !== 8"
+                  (click)="parentWillTakeForExpand()"
+                  >Expand All</a
+                >
+                <a
+                  *ngIf="!isExpand && isAcknowledged !== 8"
+                  (click)="parentWillTakeForExpand()"
                   >Collapse</a
                 >
               </span>
             </h4>
           </div>
+          <div *ngIf="viewType === 'Physical'">
+            <mat-button-toggle-group
+              [(ngModel)]="selectedPlan"
+              name="fontStyle"
+              aria-label="Font Style"
+              class="section-group-btn"
+            >
+              <mat-button-toggle
+                *ngFor="
+                  let plan of config?.sites[0]['site-plans']['site-plan-list'];
+                  let planIndex = index
+                "
+                [value]="planIndex"
+              >
+                {{ plan.id }}
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
           <div class="section-tabs">
             <mat-button-toggle-group
               name="fontStyle"
               aria-label="Font Style"
-              value="Logical"
               class="section-group-btn"
+              [(ngModel)]="viewType"
             >
-              <mat-button-toggle value="Logical">Logical</mat-button-toggle>
+              <mat-button-toggle value="Logical" (click)="getSlices()"
+                >Logical</mat-button-toggle
+              >
               <mat-button-toggle value="Physical" class="border-none"
                 >Physical</mat-button-toggle
               >
             </mat-button-toggle-group>
           </div>
         </div>
-        <aep-slices
+        <!-- <aep-slices
           #slices
           (informParent)="parentWillTakeActionSlice()"
-        ></aep-slices>
+          *ngIf="viewType === 'Logical'"
+        ></aep-slices> -->
       </div>
       <div *ngIf="isAcknowledged === 8" class="col-lg-4">
         <div class="site-visite-bx">
           <div class="section-h">
-            <h4>
-              Notification
-              <!-- <span>
-                <a *ngIf="isExpand" (click)="parentWillTakeForExpand()"
-                  >Expand All</a
-                >
-                <a *ngIf="!isExpand" (click)="parentWillTakeForExpand()"
-                  >Collapse</a
-                >
-              </span> -->
-            </h4>
+            <h4>Notification</h4>
           </div>
           <div class="section-tabs section_close">
             <p (click)="hideAcknowledgedView()">Close</p>
@@ -159,7 +197,102 @@
       <aep-slices
         #slices
         (informParent)="parentWillTakeActionSlice()"
+        *ngIf="viewType === 'Logical'"
       ></aep-slices>
+      <div *ngIf="viewType === 'Physical'" class="dashboard__physical-view">
+        <!-- <svg></svg> -->
+        <img
+          class="dashboard__physical-view__image"
+          [src]="
+            baseUrl +
+            config?.sites[0]['site-plans']['site-plan-list'][selectedPlan][
+              'svg-file'
+            ]
+          "
+          #physicalViewImage
+        />
+        <ng-container *ngFor="let device of devices">
+          <div
+            class="dashboard__physical-view__device"
+            *ngIf="
+              device['position'] &&
+              config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+                .id === device['position']['site-plan']
+            "
+            [style]="
+              'top: ' +
+              device['position']['position-y'] +
+              'px; ' +
+              'left: ' +
+              device['position']['position-x'] +
+              'px;'
+            "
+            [matMenuTriggerFor]="deviceMenu"
+          >
+            <mat-icon class="dashboard__device-icon">videocam</mat-icon>
+            <mat-menu #deviceMenu="matMenu">
+              <div class="dashboard__menu">
+                <span>Device: {{ device["display-name"] }}</span>
+                <span class="dashboard__menu__site">{{
+                  device["position"]["site-plan"]
+                }}</span>
+                <span class="dashboard__menu__details">Details</span>
+              </div>
+            </mat-menu>
+          </div>
+        </ng-container>
+        <svg:svg height="800" width="800">
+          <ng-container *ngFor="let device of devices">
+            <svg:line
+              *ngIf="
+                device['position'] &&
+                config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+                  .id === device['position']['site-plan']
+              "
+              [attr.x1]="device['position']['position-x']"
+              [attr.y1]="device['position']['position-y'] + 20"
+              [attr.x2]="device['site-position']['position-x']"
+              [attr.y2]="device['site-position']['position-y'] + 30"
+              style="stroke: #0063f7; stroke-width: 2"
+              stroke-dasharray="5,5"
+            />
+          </ng-container>
+        </svg:svg>
+        <ng-container *ngFor="let smallCell of smallCells">
+          <div
+            class="dashboard__physical-view__small-cell"
+            *ngIf="
+              smallCell['position'] &&
+              config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+                .id === smallCell['position']['site-plan']
+            "
+            [style]="
+              'top: ' +
+              smallCell['position']['position-y'] +
+              'px; ' +
+              'left: ' +
+              smallCell['position']['position-x'] +
+              'px;'
+            "
+            [matMenuTriggerFor]="menu"
+          >
+            <mat-icon class="dashboard__cell-icon">cell_tower</mat-icon>
+            <mat-menu #menu="matMenu">
+              <div class="dashboard__menu dashboard__menu__centered">
+                <span class="dashboard__menu__small-cell"
+                  ><mat-icon>wifi_tethering</mat-icon>
+                  {{ smallCell["display-name"] }}</span
+                >
+                <span
+                  class="dashboard__menu__site dashboard__menu__site--big"
+                  >{{ smallCell["position"]["site-plan"] }}</span
+                >
+                <span class="dashboard__menu__details">Details</span>
+              </div>
+            </mat-menu>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>

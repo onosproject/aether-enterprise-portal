@@ -24,7 +24,8 @@
           background-image: url('../../../../../assets/AdminPanel/card-header-bg.png');
         "
       >
-        <!-- [ngStyle]="{ 'background-image': 'url(' + site.image + ')' }" -->
+        <!-- [ngStyle]="{ 'background-image': 'url(' + baseUrl + site.image + ')' }" -->
+
         <h3 class="card-title">{{ site["display-name"] }}</h3>
         <div *ngIf="site.status === 1" class="alert-bx">ALERT</div>
         <div *ngIf="site.status === 0" class="success-bx">HEALTHY</div>

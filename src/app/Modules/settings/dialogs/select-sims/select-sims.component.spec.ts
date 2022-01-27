@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/Modules/material/material.module';
 
 import { SelectSimsComponent } from './select-sims.component';
@@ -12,6 +13,12 @@ describe('SelectSimsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MaterialModule, HttpClientModule],
       declarations: [SelectSimsComponent],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useValue: {},
+        },
+      ],
     }).compileComponents();
   });
 
