@@ -1,13 +1,36 @@
 .services {
+  margin-top: 40px;
+  &-view {
+    margin-top: 40px;
+    &-col-2 {
+      flex: 0 0 auto;
+      width: 15.666667%;
+    }
+  }
   .aether-sideCol-NavCard {
     margin-left: 0 !important;
     width: auto !important;
   }
   .right-section {
+    position: relative;
+    padding-left: 0px;
+    &-col-lg-9 {
+      flex: 0 0 auto;
+      width: 72%;
+      @media screen and (min-width: 1300px) {
+        flex: 0 0 auto;
+        width: 73%;
+      }
+      @media screen and (min-width: 1630px) {
+        flex: 0 0 auto;
+        width: 74%;
+      }
+    }
     .sec-1 {
       .title-tab {
+        margin-top: -4px;
         .title-block {
-          color: #000000;
+          color: #3c4257;
           font-family: Inter;
           font-style: normal;
           font-weight: normal;
@@ -17,6 +40,7 @@
       }
     }
     .services-cards {
+      max-width: 98%;
       .card-list-items {
         .card-list-item {
           margin-right: 15px !important;
@@ -67,6 +91,12 @@
           }
         }
       }
+      &-edit-service-form {
+        border-top: 1px solid #97c1ff;
+        margin-top: -18px;
+        border-top-right-radius: 0px !important;
+        border-top-left-radius: 0 !important;
+      }
     }
   }
 }
@@ -102,9 +132,12 @@
   color: #0063f7;
   cursor: pointer;
 }
-.add-button {
-  border-radius: 6px;
+
+.add-button-services {
+  border-radius: 4px;
   button {
+    height: 48px;
+    width: 216px;
     color: #ffffff !important;
     background: #0063f7 !important;
     border-radius: 4px !important;
@@ -117,15 +150,17 @@
       content: "+";
       position: absolute;
       right: 8px;
+      font-size: 31px;
+      top: 10px;
     }
   }
 }
-.button-medium-14 {
+.button-medium-14-services {
   font-family: Inter;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
-  line-height: 150%;
+  line-height: 21px;
 }
 .form-field-bg {
   border-radius: 5px;

@@ -2,19 +2,72 @@
   margin-left: 0 !important;
 }
 .confi-slices-view {
+  margin-top: 40px;
+  &-col-2 {
+    flex: 0 0 auto;
+    width: 15.666667%;
+  }
+
+  &-add-new-slice {
+    height: 48px;
+    width: 240px;
+    color: #ffffff !important;
+    background: #0063f7 !important;
+    margin-top: -3.9px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    margin: 0 auto;
+    display: inherit;
+    position: relative;
+    border-radius: 4px;
+    &:after {
+      content: "+";
+      position: absolute;
+      right: 8px;
+      font-size: 31px;
+      top: 10px;
+    }
+  }
+  &-button-medium-14-slices {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
   .right-section {
+    position: relative;
+    padding-left: 0px;
+    &-col-lg-9 {
+      flex: 0 0 auto;
+      width: 72%;
+      @media screen and (min-width: 1300px) {
+        flex: 0 0 auto;
+        width: 73%;
+      }
+      @media screen and (min-width: 1630px) {
+        flex: 0 0 auto;
+        width: 74%;
+      }
+    }
     .sec-1 {
-      .title-tab .title-block {
-        color: #000000;
-        font-family: Inter;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 28px;
-        line-height: 36px;
+      .title-tab {
+        margin-top: -4px;
+        .title-block {
+          color: #000000;
+          font-family: Inter;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 28px;
+          line-height: 36px;
+        }
       }
     }
   }
   .slices-view-cards {
+    max-width: 98%;
     .mat-expansion-panel-header {
       padding: 0;
       margin: 0 24px;
@@ -364,8 +417,21 @@
       }
       .mat-step-label {
         color: #d8d8d8;
+        font-weight: 400;
+        font-size: 28px;
+        overflow: unset;
+        .mat-step-text-label {
+          overflow: inherit;
+        }
         &.mat-step-label-selected {
           color: #0063f7;
+          font-family: "Inter";
+          font-weight: 400;
+          font-size: 28px;
+          overflow: unset;
+          .mat-step-text-label {
+            overflow: inherit;
+          }
         }
       }
       .mat-step-icon-content {

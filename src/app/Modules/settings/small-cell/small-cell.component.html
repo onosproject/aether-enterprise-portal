@@ -1,495 +1,483 @@
 <!-- <p>services works!</p> -->
-<div class="container small-cells my-4">
-  <div class="row">
-    <!--left side section-->
-    <div class="col-3">
-      <aep-side-navbar></aep-side-navbar>
-    </div>
-    <!--RIGHT SIDE SECTION-->
-    <div class="col-9 right-section">
-      <div class="row sec-1">
-        <div class="title-tab d-flex">
-          <div class="title-block">Small Cells</div>
-          <div *ngIf="viewType === 'Physical'" class="ms-auto me-2">
-            <mat-button-toggle-group
-              [(ngModel)]="selectedPlan"
-              name="fontStyle"
-              aria-label="Font Style"
-              class="section-group-btn"
+<div class="row container-fluid small-cells">
+  <!-- <div class="row"> -->
+  <!--left side section-->
+  <div class="small-cells-col-2 ml-6">
+    <aep-side-navbar></aep-side-navbar>
+  </div>
+  <!--RIGHT SIDE SECTION-->
+  <div class="right-section-col-lg-9 right-section">
+    <div class="sec-1">
+      <div class="title-tab d-flex">
+        <div class="title-block">Small Cells</div>
+        <div *ngIf="viewType === 'Physical'" class="ms-auto me-2">
+          <mat-button-toggle-group
+            [(ngModel)]="selectedPlan"
+            name="fontStyle"
+            aria-label="Font Style"
+            class="section-group-btn"
+          >
+            <mat-button-toggle
+              *ngFor="
+                let plan of config?.sites[0]['site-plans']['site-plan-list'];
+                let planIndex = index
+              "
+              [value]="planIndex"
             >
-              <mat-button-toggle
-                *ngFor="
-                  let plan of config?.sites[0]['site-plans']['site-plan-list'];
-                  let planIndex = index
-                "
-                [value]="planIndex"
-              >
-                {{ plan.id }}
-              </mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
-          <div class="section-tabs ms-auto">
-            <mat-button-toggle-group
-              name="fontStyle"
-              aria-label="Font Style"
-              class="section-group-btn"
-              [(ngModel)]="viewType"
+              {{ plan.id }}
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div class="section-tabs ms-auto">
+          <mat-button-toggle-group
+            name="fontStyle"
+            aria-label="Font Style"
+            class="section-group-btn"
+            [(ngModel)]="viewType"
+          >
+            <mat-button-toggle value="List">List</mat-button-toggle>
+            <mat-button-toggle value="Physical" class="border-none"
+              >Physical</mat-button-toggle
             >
-              <mat-button-toggle value="List">List</mat-button-toggle>
-              <mat-button-toggle value="Physical" class="border-none"
-                >Physical</mat-button-toggle
-              >
-            </mat-button-toggle-group>
-          </div>
+          </mat-button-toggle-group>
         </div>
       </div>
-      <div *ngIf="viewType === 'List'" class="small-cells__list-container">
-        <div
-          *ngFor="let smallCell of smallCells; let smallCellIndex = index"
-          class="small-cells__list-container__item"
-        >
-          <div class="small-cells__list-container__item--main">
-            <span
-              class="small-cells__list-container__item--main--icon-container"
+    </div>
+    <div *ngIf="viewType === 'List'" class="small-cells__list-container">
+      <div
+        *ngFor="let smallCell of smallCells; let smallCellIndex = index"
+        class="small-cells__list-container__item"
+      >
+        <div class="small-cells__list-container__item--main">
+          <span class="small-cells__list-container__item--main--icon-container">
+            <mat-icon
+              class="
+                small-cells__list-container__item--main--icon-container--icon
+              "
+              >wifi_tethering</mat-icon
             >
-              <mat-icon
-                class="
-                  small-cells__list-container__item--main--icon-container--icon
-                "
-                >wifi_tethering</mat-icon
-              >
-            </span>
-            <div class="small-cells__list-container__item--main__text-block">
-              <span
-                class="
-                  small-cells__list-container__item--main__text-block--label
-                "
-                >Small Cell name</span
-              >
-              <span
-                class="
-                  small-cells__list-container__item--main__text-block--text
-                "
-                >{{ smallCell["display-name"] }}</span
-              >
-            </div>
-            <div class="small-cells__list-container__item--main__text-block">
-              <span
-                class="
-                  small-cells__list-container__item--main__text-block--label
-                "
-                >Device Location</span
-              >
-              <span
-                class="
-                  small-cells__list-container__item--main__text-block--text
-                "
-                >{{ smallCell["position"]["site-plan"] }}</span
-              >
-            </div>
-            <div
-              class="small-cells__list-container__item--main__chip"
-              [ngClass]="{
-                'small-cells__list-container__item--main__chip--alert':
-                  smallCell.status !== 1
-              }"
-            >
-              {{
-                smallCell.status === 1
-                  ? "ACTIVE"
-                  : smallCell.status === 2
-                  ? "ALERT"
-                  : smallCell.status === 3
-                  ? "DECOMISSIONED"
-                  : ""
-              }}
-            </div>
+          </span>
+          <div class="small-cells__list-container__item--main__text-block">
             <span
-              class="ms-auto small-cells__list-container__item--main__details"
-              *ngIf="smallCell.status === 2"
-              >Raise a ticket</span
+              class="small-cells__list-container__item--main__text-block--label"
+              >Small Cell name</span
             >
             <span
-              class="ms-auto small-cells__list-container__item--main__details"
-              *ngIf="smallCell.status === 3"
-              (click)="recomissionSmallCell()"
-              >Recomission</span
+              class="small-cells__list-container__item--main__text-block--text"
+              >{{ smallCell["display-name"] }}</span
+            >
+          </div>
+          <div class="small-cells__list-container__item--main__text-block">
+            <span
+              class="small-cells__list-container__item--main__text-block--label"
+              >Device Location</span
             >
             <span
-              *ngIf="smallCell.status !== 3"
-              (click)="toggleDisplayDetails(smallCellIndex)"
-              class="small-cells__list-container__item--main__details"
-              [ngClass]="{
-                'small-cells__list-container__item--main__close':
-                  displayDetails.includes(smallCellIndex),
-                'ms-auto': smallCell.status === 1
-              }"
-              >{{
-                displayDetails.includes(smallCellIndex) ? "Close" : "Details"
-              }}</span
+              class="small-cells__list-container__item--main__text-block--text"
+              >{{ smallCell["position"]["site-plan"] }}</span
             >
           </div>
           <div
-            class="small-cells__list-container__item--sub"
-            *ngIf="displayDetails.includes(smallCellIndex)"
+            class="small-cells__list-container__item--main__chip"
+            [ngClass]="{
+              'small-cells__list-container__item--main__chip--alert':
+                smallCell.status !== 1
+            }"
           >
-            <div class="small-cells__list-container__item--sub__graphs">
-              <div
-                class="
-                  small-cells__list-container__item--sub__graphs__graph-container
-                "
-              >
-                <div
-                  class="
-                    small-cells__list-container__item--sub__graphs__graph-container--title
-                  "
-                >
-                  Bandwidth
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__graphs__graph-container--increment
-                  "
-                >
-                  <mat-icon>arrow_drop_up</mat-icon>10%
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__graphs__graph-container__graph
-                  "
-                >
-                  <img src="../../../../assets/Images/green-graph.svg" />
-                </div>
-              </div>
-              <div
-                class="
-                  small-cells__list-container__item--sub__graphs__graph-container
-                "
-              >
-                <div
-                  class="
-                    small-cells__list-container__item--sub__graphs__graph-container--title
-                  "
-                >
-                  Latency
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__graphs__graph-container--decrement
-                  "
-                >
-                  <mat-icon>arrow_drop_down</mat-icon>10%
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__graphs__graph-container__graph
-                    small-cells__list-container__item--sub__graphs__graph-container__graph--alert
-                  "
-                >
-                  <img src="../../../../assets/Images/red-graph.svg" />
-                </div>
-              </div>
-              <div
-                class="
-                  small-cells__list-container__item--sub__graphs__graph-container
-                "
-              >
-                <div
-                  class="
-                    small-cells__list-container__item--sub__graphs__graph-container--title
-                  "
-                >
-                  Packet Loss
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__graphs__graph-container--increment
-                  "
-                >
-                  <mat-icon>arrow_drop_up</mat-icon>10%
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__graphs__graph-container__graph
-                  "
-                >
-                  <img src="../../../../assets/Images/green-graph.svg" />
-                </div>
-              </div>
-            </div>
-            <div
-              class="small-cells__list-container__item--sub__counts-container"
-            >
-              <div
-                class="
-                  small-cells__list-container__item--sub__counts-container__count
-                "
-              >
-                <div
-                  class="
-                    small-cells__list-container__item--sub__counts-container__count--label
-                  "
-                >
-                  No. of devices attached
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__counts-container__count--text
-                  "
-                >
-                  80
-                </div>
-              </div>
-              <div
-                class="
-                  small-cells__list-container__item--sub__counts-container__count
-                "
-              >
-                <div
-                  class="
-                    small-cells__list-container__item--sub__counts-container__count--label
-                  "
-                >
-                  No. of devices in session
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__counts-container__count--text
-                  "
-                >
-                  0
-                </div>
-              </div>
-              <div
-                class="
-                  small-cells__list-container__item--sub__counts-container__count
-                "
-              >
-                <div
-                  class="
-                    small-cells__list-container__item--sub__counts-container__count--label
-                  "
-                >
-                  No. of dropped connections
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__counts-container__count--text
-                  "
-                >
-                  80
-                </div>
-              </div>
-              <div
-                class="
-                  small-cells__list-container__item--sub__counts-container__count
-                "
-              >
-                <div
-                  class="
-                    small-cells__list-container__item--sub__counts-container__count--label
-                  "
-                >
-                  No. of slice members
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__counts-container__count--text
-                  "
-                >
-                  4
-                </div>
-              </div>
-            </div>
+            {{
+              smallCell.status === 1
+                ? "ACTIVE"
+                : smallCell.status === 2
+                ? "ALERT"
+                : smallCell.status === 3
+                ? "DECOMISSIONED"
+                : ""
+            }}
+          </div>
+          <span
+            class="ms-auto small-cells__list-container__item--main__details"
+            *ngIf="smallCell.status === 2"
+            >Raise a ticket</span
+          >
+          <span
+            class="ms-auto small-cells__list-container__item--main__details"
+            *ngIf="smallCell.status === 3"
+            (click)="recomissionSmallCell()"
+            >Recomission</span
+          >
+          <span
+            *ngIf="smallCell.status !== 3"
+            (click)="toggleDisplayDetails(smallCellIndex)"
+            class="small-cells__list-container__item--main__details"
+            [ngClass]="{
+              'small-cells__list-container__item--main__close':
+                displayDetails.includes(smallCellIndex),
+              'ms-auto': smallCell.status === 1
+            }"
+            >{{
+              displayDetails.includes(smallCellIndex) ? "Close" : "Details"
+            }}</span
+          >
+        </div>
+        <div
+          class="small-cells__list-container__item--sub"
+          *ngIf="displayDetails.includes(smallCellIndex)"
+        >
+          <div class="small-cells__list-container__item--sub__graphs">
             <div
               class="
-                small-cells__list-container__item--sub__connections-container
+                small-cells__list-container__item--sub__graphs__graph-container
               "
             >
               <div
                 class="
-                  small-cells__list-container__item--sub__connections-container--connection
+                  small-cells__list-container__item--sub__graphs__graph-container--title
                 "
               >
-                <div
-                  class="
-                    small-cells__list-container__item--sub__connections-container--connection--title
-                  "
-                >
-                  Slices Connected
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__connections-container--connection--name
-                  "
-                >
-                  Mission Critical Slice
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__connections-container--connection--name
-                  "
-                >
-                  CCTV Slice
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__connections-container--connection--name
-                  "
-                >
-                  Massive IoT Slice
-                </div>
+                Bandwidth
               </div>
               <div
                 class="
-                  small-cells__list-container__item--sub__connections-container--connection
+                  small-cells__list-container__item--sub__graphs__graph-container--increment
                 "
               >
-                <div
-                  class="
-                    small-cells__list-container__item--sub__connections-container--connection--title
-                  "
-                >
-                  Device Connected
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__connections-container--connection--name
-                  "
-                >
-                  Device 1
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__connections-container--connection--name
-                  "
-                >
-                  Device 2
-                </div>
-                <div
-                  class="
-                    small-cells__list-container__item--sub__connections-container--connection--name
-                  "
-                >
-                  Device 3
-                </div>
+                <mat-icon>arrow_drop_up</mat-icon>10%
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__graphs__graph-container__graph
+                "
+              >
+                <img src="../../../../assets/Images/green-graph.svg" />
               </div>
             </div>
-            <div class="small-cells__list-container__item--sub__actions">
+            <div
+              class="
+                small-cells__list-container__item--sub__graphs__graph-container
+              "
+            >
               <div
                 class="
-                  small-cells__list-container__item--sub__actions__decomission
+                  small-cells__list-container__item--sub__graphs__graph-container--title
                 "
-                (click)="decomissionSmallCell('temporary')"
               >
-                Temporarily decomission
+                Latency
               </div>
               <div
                 class="
-                  small-cells__list-container__item--sub__actions__decomission--permanent
+                  small-cells__list-container__item--sub__graphs__graph-container--decrement
                 "
-                (click)="decomissionSmallCell('permanent')"
               >
-                Permanently decomission
+                <mat-icon>arrow_drop_down</mat-icon>10%
               </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__graphs__graph-container__graph
+                  small-cells__list-container__item--sub__graphs__graph-container__graph--alert
+                "
+              >
+                <img src="../../../../assets/Images/red-graph.svg" />
+              </div>
+            </div>
+            <div
+              class="
+                small-cells__list-container__item--sub__graphs__graph-container
+              "
+            >
+              <div
+                class="
+                  small-cells__list-container__item--sub__graphs__graph-container--title
+                "
+              >
+                Packet Loss
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__graphs__graph-container--increment
+                "
+              >
+                <mat-icon>arrow_drop_up</mat-icon>10%
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__graphs__graph-container__graph
+                "
+              >
+                <img src="../../../../assets/Images/green-graph.svg" />
+              </div>
+            </div>
+          </div>
+          <div class="small-cells__list-container__item--sub__counts-container">
+            <div
+              class="
+                small-cells__list-container__item--sub__counts-container__count
+              "
+            >
+              <div
+                class="
+                  small-cells__list-container__item--sub__counts-container__count--label
+                "
+              >
+                No. of devices attached
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__counts-container__count--text
+                "
+              >
+                80
+              </div>
+            </div>
+            <div
+              class="
+                small-cells__list-container__item--sub__counts-container__count
+              "
+            >
+              <div
+                class="
+                  small-cells__list-container__item--sub__counts-container__count--label
+                "
+              >
+                No. of devices in session
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__counts-container__count--text
+                "
+              >
+                0
+              </div>
+            </div>
+            <div
+              class="
+                small-cells__list-container__item--sub__counts-container__count
+              "
+            >
+              <div
+                class="
+                  small-cells__list-container__item--sub__counts-container__count--label
+                "
+              >
+                No. of dropped connections
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__counts-container__count--text
+                "
+              >
+                80
+              </div>
+            </div>
+            <div
+              class="
+                small-cells__list-container__item--sub__counts-container__count
+              "
+            >
+              <div
+                class="
+                  small-cells__list-container__item--sub__counts-container__count--label
+                "
+              >
+                No. of slice members
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__counts-container__count--text
+                "
+              >
+                4
+              </div>
+            </div>
+          </div>
+          <div
+            class="
+              small-cells__list-container__item--sub__connections-container
+            "
+          >
+            <div
+              class="
+                small-cells__list-container__item--sub__connections-container--connection
+              "
+            >
+              <div
+                class="
+                  small-cells__list-container__item--sub__connections-container--connection--title
+                "
+              >
+                Slices Connected
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__connections-container--connection--name
+                "
+              >
+                Mission Critical Slice
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__connections-container--connection--name
+                "
+              >
+                CCTV Slice
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__connections-container--connection--name
+                "
+              >
+                Massive IoT Slice
+              </div>
+            </div>
+            <div
+              class="
+                small-cells__list-container__item--sub__connections-container--connection
+              "
+            >
+              <div
+                class="
+                  small-cells__list-container__item--sub__connections-container--connection--title
+                "
+              >
+                Device Connected
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__connections-container--connection--name
+                "
+              >
+                Device 1
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__connections-container--connection--name
+                "
+              >
+                Device 2
+              </div>
+              <div
+                class="
+                  small-cells__list-container__item--sub__connections-container--connection--name
+                "
+              >
+                Device 3
+              </div>
+            </div>
+          </div>
+          <div class="small-cells__list-container__item--sub__actions">
+            <div
+              class="
+                small-cells__list-container__item--sub__actions__decomission
+              "
+              (click)="decomissionSmallCell('temporary')"
+            >
+              Temporarily decomission
+            </div>
+            <div
+              class="
+                small-cells__list-container__item--sub__actions__decomission--permanent
+              "
+              (click)="decomissionSmallCell('permanent')"
+            >
+              Permanently decomission
             </div>
           </div>
         </div>
       </div>
-      <div *ngIf="viewType === 'Physical'" class="small-cells__physical-view">
-        <!-- <svg></svg> -->
-        <img
-          class="small-cells__physical-view__image"
-          [src]="
-            baseUrl +
-            config?.sites[0]['site-plans']['site-plan-list'][selectedPlan][
-              'svg-file'
-            ]
+    </div>
+    <div *ngIf="viewType === 'Physical'" class="small-cells__physical-view">
+      <!-- <svg></svg> -->
+      <img
+        class="small-cells__physical-view__image"
+        [src]="
+          baseUrl +
+          config?.sites[0]['site-plans']['site-plan-list'][selectedPlan][
+            'svg-file'
+          ]
+        "
+        #physicalViewImage
+      />
+      <ng-container *ngFor="let device of devices">
+        <div
+          class="small-cells__physical-view__device"
+          *ngIf="
+            device['position'] &&
+            config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+              .id === device['position']['site-plan']
           "
-          #physicalViewImage
-        />
+          [style]="
+            'top: ' +
+            device['position']['position-y'] +
+            'px; ' +
+            'left: ' +
+            device['position']['position-x'] +
+            'px;'
+          "
+          [matMenuTriggerFor]="deviceMenu"
+        >
+          <mat-icon class="small-cells__device-icon">videocam</mat-icon>
+          <mat-menu #deviceMenu="matMenu">
+            <div class="small-cells__menu">
+              <span>Device: {{ device["display-name"] }}</span>
+              <span class="small-cells__menu__site">{{
+                device["position"]["site-plan"]
+              }}</span>
+              <span class="small-cells__menu__details">Details</span>
+            </div>
+          </mat-menu>
+        </div>
+      </ng-container>
+      <svg:svg height="800" width="800">
         <ng-container *ngFor="let device of devices">
-          <div
-            class="small-cells__physical-view__device"
+          <svg:line
             *ngIf="
               device['position'] &&
               config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
                 .id === device['position']['site-plan']
             "
-            [style]="
-              'top: ' +
-              device['position']['position-y'] +
-              'px; ' +
-              'left: ' +
-              device['position']['position-x'] +
-              'px;'
-            "
-            [matMenuTriggerFor]="deviceMenu"
-          >
-            <mat-icon class="small-cells__device-icon">videocam</mat-icon>
-            <mat-menu #deviceMenu="matMenu">
-              <div class="small-cells__menu">
-                <span>Device: {{ device["display-name"] }}</span>
-                <span class="small-cells__menu__site">{{
-                  device["position"]["site-plan"]
-                }}</span>
-                <span class="small-cells__menu__details">Details</span>
-              </div>
-            </mat-menu>
-          </div>
+            [attr.x1]="device['position']['position-x']"
+            [attr.y1]="device['position']['position-y'] + 20"
+            [attr.x2]="device['site-position']['position-x']"
+            [attr.y2]="device['site-position']['position-y'] + 30"
+            style="stroke: #0063f7; stroke-width: 2"
+            stroke-dasharray="5,5"
+          />
         </ng-container>
-        <svg:svg height="800" width="800">
-          <ng-container *ngFor="let device of devices">
-            <svg:line
-              *ngIf="
-                device['position'] &&
-                config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
-                  .id === device['position']['site-plan']
-              "
-              [attr.x1]="device['position']['position-x']"
-              [attr.y1]="device['position']['position-y'] + 20"
-              [attr.x2]="device['site-position']['position-x']"
-              [attr.y2]="device['site-position']['position-y'] + 30"
-              style="stroke: #0063f7; stroke-width: 2"
-              stroke-dasharray="5,5"
-            />
-          </ng-container>
-        </svg:svg>
-        <ng-container *ngFor="let smallCell of smallCells">
-          <div
-            class="small-cells__physical-view__small-cell"
-            *ngIf="
-              smallCell['position'] &&
-              config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
-                .id === smallCell['position']['site-plan']
-            "
-            [style]="
-              'top: ' +
-              smallCell['position']['position-y'] +
-              'px; ' +
-              'left: ' +
-              smallCell['position']['position-x'] +
-              'px;'
-            "
-            [matMenuTriggerFor]="menu"
-          >
-            <mat-icon class="small-cells__cell-icon">cell_tower</mat-icon>
-            <mat-menu #menu="matMenu">
-              <div class="small-cells__menu small-cells__menu__centered">
-                <span class="small-cells__menu__small-cell"
-                  ><mat-icon>wifi_tethering</mat-icon>
-                  {{ smallCell["display-name"] }}</span
-                >
-                <span
-                  class="small-cells__menu__site small-cells__menu__site--big"
-                  >{{ smallCell["position"]["site-plan"] }}</span
-                >
-                <span class="small-cells__menu__details">Details</span>
-              </div>
-            </mat-menu>
-          </div>
-        </ng-container>
-      </div>
+      </svg:svg>
+      <ng-container *ngFor="let smallCell of smallCells">
+        <div
+          class="small-cells__physical-view__small-cell"
+          *ngIf="
+            smallCell['position'] &&
+            config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+              .id === smallCell['position']['site-plan']
+          "
+          [style]="
+            'top: ' +
+            smallCell['position']['position-y'] +
+            'px; ' +
+            'left: ' +
+            smallCell['position']['position-x'] +
+            'px;'
+          "
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon class="small-cells__cell-icon">cell_tower</mat-icon>
+          <mat-menu #menu="matMenu">
+            <div class="small-cells__menu small-cells__menu__centered">
+              <span class="small-cells__menu__small-cell"
+                ><mat-icon>wifi_tethering</mat-icon>
+                {{ smallCell["display-name"] }}</span
+              >
+              <span
+                class="small-cells__menu__site small-cells__menu__site--big"
+                >{{ smallCell["position"]["site-plan"] }}</span
+              >
+              <span class="small-cells__menu__details">Details</span>
+            </div>
+          </mat-menu>
+        </div>
+      </ng-container>
     </div>
   </div>
+  <!-- </div> -->
 </div>

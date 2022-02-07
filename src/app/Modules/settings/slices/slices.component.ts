@@ -5,7 +5,7 @@ import {
   FormBuilder,
   Validators,
 } from '@angular/forms';
-import { trigger, style, animate, transition } from '@angular/animations';
+// import { trigger, style, animate, transition } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,18 +14,18 @@ import { DeleteSlicesComponent } from '../dialogs/delete-slices/delete-slices.co
 @Component({
   selector: 'aep-slices1',
   templateUrl: './slices.component.html',
-  animations: [
-    trigger('inOutAnimation', [
-      transition(':enter', [
-        style({ height: 0, opacity: 0 }),
-        animate('0.5s ease-out', style({ height: 500, opacity: 1 })),
-      ]),
-      transition(':leave', [
-        style({ height: 500, opacity: 1 }),
-        animate('0.5s ease-in', style({ height: 0, opacity: 0 })),
-      ]),
-    ]),
-  ],
+  // animations: [
+  //   trigger('inOutAnimation', [
+  //     transition(':enter', [
+  //       style({ height: 0, opacity: 0 }),
+  //       animate('0.5s ease-out', style({ height: 500, opacity: 1 })),
+  //     ]),
+  //     transition(':leave', [
+  //       style({ height: 500, opacity: 1 }),
+  //       animate('0.5s ease-in', style({ height: 0, opacity: 0 })),
+  //     ]),
+  //   ]),
+  // ],
   styles: [],
 })
 export class SlicesComponent implements OnInit {
@@ -652,11 +652,19 @@ export class SlicesComponent implements OnInit {
 
   deleteDeviceGroups(sliceIndex: number, deviceGroupIndex: number): any {
     //console.log(this.siteSlices[sliceIndex]['device-groups'][deviceGroupIndex]);
+    this.siteSlices[sliceIndex]['device-groups'][deviceGroupIndex].selected = 0;
+    this.deviceGroupsInventory.push(
+      this.siteSlices[sliceIndex]['device-groups'][deviceGroupIndex]
+    );
     this.siteSlices[sliceIndex]['device-groups'].splice(deviceGroupIndex, 1);
   }
 
   deleteServices(sliceIndex: number, serviceIndex: number): any {
     //console.log(this.siteSlices[sliceIndex].applications[serviceIndex]);
+    this.siteSlices[sliceIndex].applications[serviceIndex].selected = 0;
+    this.servicesInventory.push(
+      this.siteSlices[sliceIndex].applications[serviceIndex]
+    );
     this.siteSlices[sliceIndex].applications.splice(serviceIndex, 1);
   }
 

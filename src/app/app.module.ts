@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NavbarModule } from './components/header/navbar/navbar.module';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent, HeaderComponent,],
   imports: [
     HttpClientModule,
     BrowserModule,
