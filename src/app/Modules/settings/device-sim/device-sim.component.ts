@@ -236,8 +236,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     // }, 100000);
     // console.log('||||||||||||||||||', this.getLastWeek());
     this.getLastWeek();
-    this.getCompleteData();
-    this.getCurrentSite();
+    // this.getCompleteData();
+    // this.getCurrentSite();
     // this.globalService.fetchSubCompleteData();
   }
 
@@ -453,7 +453,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     if (this.deviceSimForm.invalid) {
       this.addNewDeviceSimError = true;
     } else if (this.deviceSimForm.valid) {
-      this.deviceSimHelper.addDeviceSim({
+      // this.deviceSimHelper.addDeviceSim({
+      this.siteConfig[0].push({
         sim: this.deviceSimForm.value.newSim,
         'display-name': this.deviceSimForm.value.deviceName,
         imei: '300-365-3001',
@@ -474,18 +475,18 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   assignSelectedSite(): any {
     //console.log(this.deviceService.mySite1);
-    // this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-    this.siteSubscription = this.globalService.getSite().subscribe((data) => {
+    this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
+      // this.siteSubscription = this.globalService.getSite().subscribe((data) => {
       //console.log(data);
-      // this.selectedSite = data;
+      this.selectedSite = data;
       // this.deviceSimHelper.selectedSite = data;
       //console.log(this.selectedSite);
       this.fetchData();
-      this.fetchDataNew();
-      this.fetchDevicesInventory();
+      // this.fetchDataNew();
+      // this.fetchDevicesInventory();
 
-      this.globalService.fetchDeviceSims(data);
-      this.globalService.fetchDeviceInventory(data);
+      // this.globalService.fetchDeviceSims(data);
+      // this.globalService.fetchDeviceInventory(data);
     });
   }
 
@@ -516,26 +517,26 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     } else {
       //console.log('else');
       //console.log(this.siteConfig[0][index]);
-      this.siteConfigNew[index].form = new FormGroup({
+      this.siteConfig[0][index].form = new FormGroup({
         newSim: new FormControl(
-          this.siteConfigNew[index].sim,
+          this.siteConfig[0][index].sim,
           Validators.required
         ),
         deviceName: new FormControl(
-          this.siteConfigNew[index]['display-name'],
+          this.siteConfig[0][index]['display-name'],
           Validators.required
         ),
         deviceLocation: new FormControl(
-          this.siteConfigNew[index].location,
+          this.siteConfig[0][index].location,
           Validators.required
         ),
         deviceSerialNum: new FormControl(
-          this.siteConfigNew[index]['serial-number'],
+          this.siteConfig[0][index]['serial-number'],
           Validators.required
         ),
       });
       this.editDevices.push(index);
-      this.deviceSimEditForm = this.siteConfigNew[index].form;
+      this.deviceSimEditForm = this.siteConfig[0][index].form;
     }
     // * console.log(typeof this.siteConfigNew[index].form);
     // * console.log(editDeviceIndex);
@@ -547,7 +548,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   deleteDevice(index: number): any {
-    const simIccid = this.siteConfigNew[index].sim;
+    const simIccid = this.siteConfig[0][index].sim;
     // const siteName = this.siteConfig[0][index]['display-name'];
     //console.log(siteName);
     this.simInventory.push({ simIccid });
@@ -616,13 +617,13 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     if (this.deviceSimEditForm.invalid) {
       this.editDeviceSimError = true;
     } else if (this.deviceSimEditForm.valid) {
-      const form = this.siteConfigNew[index].form.value;
-      this.deviceSimHelper.editDeviceSim(index, form);
-      // const device = this.siteConfig[0][index];
-      // device.sim = form.newSim;
-      // device['display-name'] = form.deviceName;
-      // device.location = form.deviceLocation;
-      // device['serial-number'] = form.deviceSerialNum;
+      const form = this.siteConfig[0][index].form.value;
+      // this.deviceSimHelper.editDeviceSim(index, form);
+      const device = this.siteConfig[0][index];
+      device.sim = form.newSim;
+      device['display-name'] = form.deviceName;
+      device.location = form.deviceLocation;
+      device['serial-number'] = form.deviceSerialNum;
       this.closeEdit();
     }
   }

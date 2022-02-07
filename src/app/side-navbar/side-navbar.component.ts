@@ -86,7 +86,7 @@ export class SideNavbarComponent implements OnInit {
 
   selectedSite(siteID: string): any {
     this.deviceService.mySite(siteID);
-    this.globalService.mySite(siteID);
+    // this.globalService.mySite(siteID);
     this.newSiteEvent.emit(siteID);
     this.selectSite = siteID;
     this.deviceService.selectedSite = siteID;

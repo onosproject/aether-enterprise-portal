@@ -39,9 +39,9 @@ export class GlobalDataService {
     this.selectedSite = data;
     // console.log(this.selectedSite);
     this.mySiteSubject.next(data);
-    this.fetchDeviceSims(data);
-    this.fetchDeviceInventory(data);
-    this.fetchActivatedDevices(data);
+    // this.fetchDeviceSims(data);
+    // this.fetchDeviceInventory(data);
+    // this.fetchActivatedDevices(data);
     this.loggedIn = false;
   }
 

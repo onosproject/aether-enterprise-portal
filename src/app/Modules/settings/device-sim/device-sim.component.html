@@ -304,8 +304,8 @@
       </div>
 
       <!--device+sim view-->
-      <div class="device-sim-holder">
-        <div *ngFor="let device of siteConfigNew; let deviceIndex = index">
+      <div class="device-sim-holder" *ngFor="let sites of siteConfig">
+        <div *ngFor="let device of sites; let deviceIndex = index">
           <mat-card
             class="
               device-view device-sims-view
