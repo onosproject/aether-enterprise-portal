@@ -1,14 +1,15 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { smallCell } from '../../../../shared/classes/dashboard-data';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SitesService } from 'src/app/services/sites/sites.service';
 
 @Component({
   selector: 'aep-small-cells',
   templateUrl: './small-cells.component.html',
   styleUrls: ['./small-cells.component.scss'],
 })
-export class SmallCellsComponent {
+export class SmallCellsComponent implements OnInit {
   @Output() informParent = new EventEmitter();
 
   parent: number = 0;
@@ -19,7 +20,7 @@ export class SmallCellsComponent {
   isRaiseTicket: boolean = false;
   chatView: boolean = false;
   ResponedStatus: string = 'Critical';
-  smallCells: any;
+  smallCells: any = [];
   tickets: any;
   historys: any;
   respondIndex: number;
@@ -30,9 +31,9 @@ export class SmallCellsComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private route: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private sitesService: SitesService
   ) {
-    this.smallCells = smallCell[0][0].alerts;
     this.tickets = smallCell[0][0].tickets;
     this.historys = smallCell[0][0].history;
 
@@ -40,7 +41,16 @@ export class SmallCellsComponent {
       this.isNotification = JSON.parse(data.isNotification);
     });
 
-    // //console.log('||||||||||||||', this.smallCells[0].alerts);
+    // console.log('||||||||||||||', this.smallCells[0].alerts);
+  }
+
+  ngOnInit() {
+    // for (let i = 0; i < this.sitesService.numberOfAlerts; i++) {
+    //   this.smallCells.push(smallCell[0][0].alerts[i]);
+    //   // console.log(smallCell[0][0].alerts[i]);
+    // }
+    this.smallCells = smallCell[0][0].alerts;
+    // console.log(smallCell[0][0].alerts);
   }
 
   setparent(index: number): void {
@@ -48,6 +58,9 @@ export class SmallCellsComponent {
     this.isRaiseTicket = false;
     this.chatView = false;
   }
+
+  // setAlertFromSlice(serialnumber: number): void {}
+
   setchild(index: number): void {
     this.child = index;
   }
@@ -183,7 +196,10 @@ export class SmallCellsComponent {
         display: flex;
         height: 10px;
         img {
-          margin: 0px 5px;
+          margin: 5px 6px;
+          position: absolute;
+          right: 8px;
+          width: 11px;
         }
       }
     `,

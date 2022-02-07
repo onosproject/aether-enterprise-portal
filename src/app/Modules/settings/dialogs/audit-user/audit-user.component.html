@@ -1,0 +1,187 @@
+<div class="userEdit Header">
+  <div class="row">
+    <div class="col-4">
+      <div class="left-section">
+        <div class="user-detail-box">
+          <div class="mx-3 d-flex ng-tns-c131-2" style="margin-top: -5px">
+            <img
+              height="56px"
+              class="admin-users-card-ppic ng-tns-c131-2"
+              src="../../assets/CommonAssets/john-fivegee.svg"
+            />
+            <sup class="ng-tns-c131-2"
+              ><img
+                class="admin-users-card-active ng-tns-c131-2"
+                src="../../assets/CommonAssets/active-dot.svg"
+            /></sup>
+          </div>
+          <div class="user-detail">
+            <h3>Guy Gooey</h3>
+            <p>guy.gooey@tesla.com</p>
+          </div>
+        </div>
+        <div class="userIdBox">
+          <h3>User ID</h3>
+          <p>1564-8974-651</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="middle-section">Audit User</div>
+    </div>
+    <div class="col-4">
+      <div class="right-section">
+        <div class="fixed_tab_header">
+          <div class="sort" [matMenuTriggerFor]="Sort">
+            Sort by
+            <img src="assets/AdminPanel/expand.svg" mat-button />
+            <mat-menu #Sort="matMenu" yPosition="below" class="ctm_filter">
+              <button mat-menu-item>Latest to Oldest</button>
+              <button mat-menu-item>Oldest to Latest</button>
+            </mat-menu>
+          </div>
+        </div>
+        <div mat-dialog-close>
+          <div class="close-button">Close</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="row">
+  <div class="col-1">
+    <p>Guy Gooey</p>
+  </div>
+  <div class="col-1">
+    <p>User ID</p>
+  </div>
+  <div class="col-5">
+    <p>Audit User</p>
+  </div>
+  <div class="col-3">
+    <div class="fixed_tab_header">
+      <div class="sort" [matMenuTriggerFor]="Sort">
+        Time Service
+        <img src="assets/AdminPanel/expand.svg" mat-button />
+        <mat-menu #Sort="matMenu" yPosition="below" class="ctm_filter">
+          <button mat-menu-item>Bar chart</button>
+          <button mat-menu-item>Combo</button>
+        </mat-menu>
+      </div>
+    </div>
+  </div>
+  <div class="col-2" mat-dialog-close style="padding: 0">
+    <p class="close-button">Close</p>
+  </div>
+</div> -->
+
+<div class="example-container mat-elevation-z8">
+  <div class="header-table">
+    <div class="row">
+      <div class="col-4">
+        <div class="header-title">ChangeID</div>
+      </div>
+      <div class="col-8">
+        <div class="header-timestamp">TimeStamp</div>
+      </div>
+    </div>
+  </div>
+  <mat-accordion>
+    <mat-expansion-panel
+      hideToggle
+      *ngFor="let data of dataSource; let i = index"
+      [expanded]="indexIs === i"
+      (opened)="setIndex(i)"
+      (closed)="setIndex(null)"
+    >
+      <mat-expansion-panel-header>
+        <div class="row">
+          <div class="col-4">
+            <mat-panel-title>{{ data.TimeStamp }}</mat-panel-title>
+          </div>
+
+          <div class="col-8">
+            <mat-panel-description>
+              <div class="descripton-box">
+                <div class="description-id">{{ data.ChangeID }}</div>
+                <div class="description-control">
+                  <span *ngIf="indexIs !== i">Details</span>
+                  <span *ngIf="indexIs === i" style="color: #ef233c"
+                    >Close</span
+                  >
+                </div>
+              </div>
+            </mat-panel-description>
+          </div>
+        </div>
+        <!-- <mat-panel-title>
+          <div class="row">
+            <div class="col-4">{{ data.TimeStamp }}</div>
+            <div class="col-8">{{ data.TimeStamp }}</div>
+          </div>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ data.ChangeID }}
+          <span *ngIf="indexIs !== i">Details</span>
+          <span *ngIf="indexIs === i">Close</span>
+        </mat-panel-description> -->
+      </mat-expansion-panel-header>
+      <div class="table-box">
+        <div class="row">
+          <div class="col-lg-6"><div class="table-title">Change Path</div></div>
+          <div class="col-lg-3">
+            <div class="table-title">Change Value</div>
+          </div>
+          <div class="col-lg-3">
+            <div class="table-title">Change Value</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="table-data">
+              /sites/site[site-id=freemont]/device-group[device-group-id=phones]/display-name
+            </div>
+          </div>
+          <div class="col-lg-3"><div class="table-data">Phone Group</div></div>
+          <div class="col-lg-3">
+            <div class="table-data"><div class="update">updated</div></div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="table-data">
+              /sites/site[site-id=freemont]/device-group[device-group-id=phones]/display-name
+            </div>
+          </div>
+          <div class="col-lg-3"><div class="table-data">Phone Group</div></div>
+          <div class="col-lg-3">
+            <div class="table-data"><div class="remove">removed</div></div>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <!-- <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="TimeStamp">
+      <th mat-header-cell *matHeaderCellDef>TimeStamp</th>
+      <td mat-cell *matCellDef="let element">{{ element.TimeStamp }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="ChangeID">
+      <th mat-header-cell *matHeaderCellDef>ChangeID</th>
+      <td mat-cell *matCellDef="let element">{{ element.ChangeID }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table> -->
+</div>
+<div class="downloadBox">
+  <img src="assets/AdminPanel/download.svg" mat-button />
+  <div>Download Report</div>
+</div>
+<!-- Copyright 2019 Google Inc. All Rights Reserved.
+      Use of this source code is governed by an MIT-style license that
+      can be found in the LICENSE file at http://angular.io/license -->

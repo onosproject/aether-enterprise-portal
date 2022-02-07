@@ -1,8 +1,12 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, HostListener } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../modals/delet-card/modal.component';
 import { DeviceGroup } from 'src/app/models/device-group.model';
+import { SitesService } from 'src/app/services/sites/sites.service';
+import { smallCell } from '../../../../shared/classes/dashboard-data';
+import { SitePlan } from 'src/app/models/site-plan.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'aep-slices',
@@ -10,7 +14,9 @@ import { DeviceGroup } from 'src/app/models/device-group.model';
   styleUrls: ['./slices.component.scss'],
 })
 export class SlicesComponent {
-  @Output() informParent = new EventEmitter();
+  @HostListener('window:resize', ['onWindowResize($event)'])
+  @Output()
+  informParent = new EventEmitter();
   sliceData: any;
   panelOpenState = false;
   isExpand: boolean = false;
@@ -31,18 +37,22 @@ export class SlicesComponent {
   serialNumber: any;
   panelIndex: number;
   TabValue = [];
-
-  innerWidth = 2000;
+  innerWidth: number = window.innerWidth;
   innerHeight = 2000;
+  sitePlans: SitePlan;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    private sitesService: SitesService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  onWindowResize(event) {
+    this.innerWidth = event.target.innerWidth;
+  }
 
   dragAndDrop(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(
-      this.sliceData.data,
-      event.previousIndex,
-      event.currentIndex
-    );
+    moveItemInArray(this.sliceData, event.previousIndex, event.currentIndex);
   }
 
   expandSlice(): void {
@@ -54,15 +64,26 @@ export class SlicesComponent {
     // alert(this.siteIndex);
     // this.panelOpenState = false;
     if (this.isExpand) {
-      this.informParent.emit();
+      this.informParent.emit({ isalert: false, viewType: false });
       this.isExpand = false;
     }
   }
 
   cancelEdit(index: number): void {
-    this.isEditable = !this.isEditable;
+    this.sliceId = null;
+    this.siteIndex = 0;
+    if (this.isEditable) {
+      this.isEditable = false;
+    }
+    // this.isEditable = !this.isEditable;
     for (let i = 0; i < this.sliceData[index].devices.length; i++) {
-      this.sliceData[index].devices[i].isExpanded = false;
+      if (this.sliceData[index].alerts === 0) {
+        this.sliceData[index].devices[i].isExpanded = false;
+      }
+      // if (this.sliceData[index].alerts !== 0) {
+      //   let element = <HTMLElement>document.getElementById('deviceGroup');
+      //   element.className = 'show';
+      // }
     }
     for (let i = 0; i < this.sliceData[index].services.length; i++) {
       this.sliceData[index].services[i].isExpanded = false;
@@ -79,15 +100,77 @@ export class SlicesComponent {
     siteId: string;
     siteData: any[];
     siteIndex: number;
+    sitePlans: SitePlan;
   }): void {
+    this.TabValue = [];
     this.siteIndex = value.siteIndex;
-    this.sliceData = value.siteData;
+    console.log('this.sitePlans', value.sitePlans);
+    this.sitePlans = value.sitePlans;
 
+    // if (this.sitePlans === null) {
+    //   this.sitePlans = null;
+    // } else {
+    //   this.sitePlans = value.sitePlans;
+    // }
     for (let i = 0; i < value.siteData.length; i++) {
       this.TabValue.push('1h' + i);
+      if (value.siteData[i].alerts !== 0) {
+        value.siteData[i].devices[0].isExpanded = true;
+        // console.log('-----', value.siteData[i].devices[0]);
+      }
+      // console.log('-----', this.sliceData[i].alerts);
+      // console.log('-----', { ...this.sliceData[i] });
     }
+    setTimeout(() => {
+      this.sliceData = value.siteData;
+      this.logicforAlertData(value.siteData);
+      console.log('siteData||||', this.sliceData);
+    }, 20);
+  }
 
-    // console.log('siteData||||', value.siteData);
+  logicforAlertData(sliceData: any[]): void {
+    smallCell[0][0].alerts = [];
+    let priorty = 'High';
+    let status = 'Critical';
+    for (let i = 0; i < this.sliceData.length; i++) {
+      if (this.sliceData[i].alerts !== 0) {
+        for (let j = 0; j < this.sliceData[i].alerts; j++) {
+          let obj = {};
+          obj = {
+            id: j,
+            title:
+              'Alert Causing Entity ' +
+              this.sliceData[i].devices[0].devices[j]['display-name'] +
+              '(CG)',
+            priorty: priorty,
+            status: status,
+            group: this.sliceData[i].devices[0]['display-name'],
+            serialNumber:
+              this.sliceData[i].devices[0].devices[j]['serial-number'],
+          };
+
+          if (priorty === 'Low') {
+            priorty = 'Medium';
+          } else {
+            if (priorty === 'Medium') {
+              priorty = 'High';
+            } else {
+              if (priorty === 'High') {
+                priorty = 'Low';
+              }
+            }
+          }
+
+          if (status === 'Critical') {
+            status = 'null';
+          }
+
+          smallCell[0][0].alerts.push(obj);
+        }
+        this.sitesService.allSmallCellsData = smallCell[0][0].alerts;
+        console.log('+++++++++++++', smallCell[0][0].alerts);
+      }
+    }
   }
 
   getTotalDevices(
@@ -121,13 +204,16 @@ export class SlicesComponent {
         this.openAccordion = [];
         this.openAccordionRight = [];
 
-        for (
-          let i = 0;
-          i < this.sliceData[this.siteIndex].devices.length;
-          i++
-        ) {
-          this.sliceData[this.siteIndex].devices[i].isExpanded = false;
+        if (this.sliceData[this.siteIndex].alerts === 0) {
+          for (
+            let i = 0;
+            i < this.sliceData[this.siteIndex].devices.length;
+            i++
+          ) {
+            this.sliceData[this.siteIndex].devices[i].isExpanded = false;
+          }
         }
+
         for (
           let i = 0;
           i < this.sliceData[this.siteIndex].services.length;
@@ -141,8 +227,34 @@ export class SlicesComponent {
     }, 10);
   }
 
+  openAlerts(numberOfAlerts: number, groupName: string) {
+    this.sitesService.numberOfAlerts = numberOfAlerts;
+    // smallCell[0][0].alerts = [];
+    console.log(groupName);
+
+    const filteredArray = this.sitesService.allSmallCellsData.filter((res) => {
+      return res.group === groupName;
+    });
+    smallCell[0][0].alerts = filteredArray;
+    console.log(filteredArray);
+
+    this.isExpand = true;
+    this.isAcknowledged = 8;
+    this.isEditable = false;
+    this.openAccordion = [];
+    this.openAccordionRight = [];
+    // for (let i = 0; i < this.sliceData[this.siteIndex].devices.length; i++) {
+    //   this.sliceData[this.siteIndex].devices[i].isExpanded = false;
+    // }
+    // for (let i = 0; i < this.sliceData[this.siteIndex].services.length; i++) {
+    //   this.sliceData[this.siteIndex].services[i].isExpanded = false;
+    // }
+    this.informParent.emit({ isalert: true, viewType: false });
+  }
+
   onEdit(sliceId: number, index: number): void {
-    // //console.log(this.sliceData[index]);
+    // console.log(this.sliceData[index]);
+    // alert(sliceId);
     this.sliceId = sliceId;
     this.siteIndex = index;
     if (this.isEditable) {
@@ -162,9 +274,12 @@ export class SlicesComponent {
     if (!this.isEditable) {
       this.openAccordion[sliceIndex + deviceIndex] =
         !this.openAccordion[sliceIndex + deviceIndex];
+
       setTimeout(() => {
-        this.sliceData[sliceIndex].devices[deviceIndex].isExpanded =
-          !this.sliceData[sliceIndex].devices[deviceIndex].isExpanded;
+        if (this.sliceData[sliceIndex].alerts === 0) {
+          this.sliceData[sliceIndex].devices[deviceIndex].isExpanded =
+            !this.sliceData[sliceIndex].devices[deviceIndex].isExpanded;
+        }
       }, 10);
     }
   }
@@ -229,6 +344,8 @@ export class SlicesComponent {
   }
 
   hideAcknowledgedView(): void {
+    // this.sliceId = null;
+    // this.siteIndex = 0;
     this.openAccordion = [];
     this.openAccordionRight = [];
     this.isAcknowledged = 12;
@@ -237,8 +354,13 @@ export class SlicesComponent {
     this.serialNumber = '';
     // this.panelOpenState = false;
     this.panelIndex = undefined;
-    for (let i = 0; i < this.sliceData[this.siteIndex].devices.length; i++) {
-      this.sliceData[this.siteIndex].devices[i].isExpanded = false;
+    // console.log(this.sliceData[this.siteIndex].devices[i]);
+
+    if (this.sliceData[this.siteIndex].alerts === 0) {
+      for (let i = 0; i < this.sliceData[this.siteIndex].devices.length; i++) {
+        // console.log(this.sliceData[this.siteIndex].devices[i]);
+        this.sliceData[this.siteIndex].devices[i].isExpanded = false;
+      }
     }
     for (let i = 0; i < this.sliceData[this.siteIndex].services.length; i++) {
       this.sliceData[this.siteIndex].services[i].isExpanded = false;
@@ -247,7 +369,8 @@ export class SlicesComponent {
 
   selectedDevice(event: { group: string; serialNumber: number }): void {
     this.group = event.group;
-    this.serialNumber = JSON.stringify(event.serialNumber);
+    // this.serialNumber = JSON.stringify(event.serialNumber);
+    this.serialNumber = event.serialNumber;
   }
 
   calculateSVGHeight(deviceGroups: DeviceGroup[]): number {
@@ -301,7 +424,7 @@ export class SlicesComponent {
           : 56
         : 56;
     for (let i = 0; i < index; i++) {
-      height += deviceGroups[i].isExpanded ? 250 : 85;
+      height += deviceGroups[i].isExpanded ? 315 : 85;
     }
     return height;
   }
@@ -312,4 +435,42 @@ export class SlicesComponent {
   //   }
   //   return height;
   // }
+
+  goToPhysicalView(): void {
+    if (this.sitePlans !== null && this.sitePlans !== undefined) {
+      this.informParent.emit({ isalert: false, viewType: true });
+    } else {
+      this.showSnackBar();
+    }
+  }
+
+  showSnackBar(): void {
+    this.snackBar.openFromComponent(PizzaPartyComponent, {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      duration: 3000,
+    });
+  }
 }
+
+@Component({
+  selector: 'aep-snack-bar-component-example-snack',
+  template:
+    '<div class="snack-div"><p>No SitePlans available for this site.</p> <img src="assets/AdminPanel/close-snack.svg" /></div>',
+  styles: [
+    `
+      .snack-div {
+        justify-content: space-between;
+        display: flex;
+        height: 10px;
+        img {
+          margin: 5px 6px;
+          position: absolute;
+          right: 8px;
+          width: 11px;
+        }
+      }
+    `,
+  ],
+})
+export class PizzaPartyComponent {}

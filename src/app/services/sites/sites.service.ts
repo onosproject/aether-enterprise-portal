@@ -18,6 +18,8 @@ export class SitesService {
   siteId: string;
   siteIndex: number;
   siteData: Slice[];
+  numberOfAlerts: number;
+  allSmallCellsData: any;
 
   constructor(public http: HttpClient) {}
 

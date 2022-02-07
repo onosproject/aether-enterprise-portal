@@ -67,7 +67,18 @@
     </div>
     <div class="col-12" style="padding: 0">
       <div class="graph-modal">
-        <img src="assets/AdminPanel/graph.png" />
+        <!-- <img src="assets/AdminPanel/graph.png" /> -->
+        <canvas
+          #myCanvas
+          baseChart
+          [options]="lineChartOptions"
+          [labels]="lineChartLabels"
+          [datasets]="lineChartData"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"
+        >
+        </canvas>
       </div>
     </div>
   </div>

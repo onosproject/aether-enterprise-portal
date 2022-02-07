@@ -11,6 +11,7 @@ import { City } from '../../../models/city.model';
 import { UserService } from '../../../services/user.service';
 import { RemoveUserComponent } from '../dialogs/remove-user/remove-user.component';
 import { DeleteUserComponent } from '../dialogs/delete-user/delete-user.component';
+import { AuditUserComponent } from '../dialogs/audit-user/audit-user.component';
 
 export interface Task {
   name: string;
@@ -488,6 +489,17 @@ export class AdminComponent implements OnInit {
         this.confirmDelete(userIndex);
       }
       // this.closeEdit()
+    });
+  }
+
+  openAuditUser(): void {
+    const dialogRef = this.dialog.open(AuditUserComponent, {
+      width: '80%',
+      panelClass: 'audit-user-modal-container',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 }

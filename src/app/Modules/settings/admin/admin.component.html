@@ -599,7 +599,11 @@
 
                 <mat-card-actions class="bottom-button">
                   <div class="admin-addNew-form-lastButtons">
-                    <span class="admin-addNew-form-audit" type="button">
+                    <span
+                      class="admin-addNew-form-audit"
+                      type="button"
+                      (click)="openAuditUser()"
+                    >
                       <img
                         style="margin-top: -4px"
                         src="../../assets/AdminPanel/audit.svg"

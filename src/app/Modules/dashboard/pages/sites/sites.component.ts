@@ -30,6 +30,27 @@ export class SitesComponent {
 
         this.sitesResponse = response;
         this.sites = this.sitesResponse.sites;
+
+        // logic for alerts start
+        let valueOfAlerts = 2;
+        for (let i = 0; i < this.sites.length; i++) {
+          if (i % 2 !== 1 || i === 0) {
+            valueOfAlerts += 2;
+            if (valueOfAlerts <= 6) {
+              this.sites[i]['alerts'] = valueOfAlerts;
+            } else {
+              valueOfAlerts = 2;
+              this.sites[i]['alerts'] = valueOfAlerts;
+            }
+          } else {
+            this.sites[i]['alerts'] = 0;
+          }
+        }
+
+        // logic for alerts end
+
+        // console.log('Site Response', this.sites);
+
         this.onSelectCard(
           this.sitesResponse.sites[0]['site-id'],
           this.sitesResponse.sites[0],
@@ -37,7 +58,7 @@ export class SitesComponent {
           this.sitesResponse.sites[0].devices,
           0
         );
-        // //console.log('Site Response', this.sitesResponse);
+        console.log('Site Response', this.sitesResponse);
       },
       () => {
         // //console.log('Site Error', error);
@@ -63,15 +84,19 @@ export class SitesComponent {
     this.deviceService.mySite(value);
     this.selected = value;
     for (let i = 0; i < siteData.slices.length; i++) {
+      const selecteddevice = [];
       for (let j = 0; j < siteData.slices[i]['device-groups'].length; j++) {
+        // console.log(
+        //   '||||||||||||||||||||',
+        //   siteData.slices[i]['device-groups'][j]
+        // );
         for (let k = 0; k < deviceGroup.length; k++) {
+          // console.log('+++++++++++++++++', deviceGroup[k]['device-group-id']);
           if (
             siteData.slices[i]['device-groups'][j] ===
             deviceGroup[k]['device-group-id']
           ) {
             let groupName = '';
-            const selecteddevice = [];
-            // //console.log('|||||||||', deviceGroup[k]['display-name']);
             const devices = [];
             for (let m = 0; m < deviceGroup[k].devices.length; m++) {
               for (let n = 0; n < device.length; n++) {
@@ -79,13 +104,6 @@ export class SitesComponent {
                   devices.push(device[n]);
                 }
               }
-              // groupName = deviceGroup[k]['display-name'];
-              // selecteddevice.push({
-              //   'display-name': groupName,
-              //   devices: devices,
-              //   isExpanded: false,
-              // });
-              // siteData.slices[i]['devices'] = selecteddevice;
             }
             groupName = deviceGroup[k]['display-name'];
             selecteddevice.push({
@@ -98,8 +116,34 @@ export class SitesComponent {
         }
       }
     }
+
+    // logic for alerts start
+
+    for (let i = 0; i < this.sites[siteIndex].slices.length; i++) {
+      if (this.sites[siteIndex].slices.length - 1 === 1) {
+        this.sites[siteIndex].slices[i]['alerts'] =
+          this.sites[siteIndex].alerts;
+      } else {
+        if (i === 0 || i === 1) {
+          this.sites[siteIndex].slices[i]['alerts'] =
+            this.sites[siteIndex].alerts / 2;
+        } else {
+          this.sites[siteIndex].slices[i]['alerts'] = 0;
+        }
+      }
+      // console.log('+++++', this.sites[siteIndex].slices[i]);
+    }
+
+    if (this.sites[siteIndex].slices.length === 2) {
+      this.sites[siteIndex].slices[this.sites[siteIndex].slices.length - 1][
+        'alerts'
+      ] = 0;
+    }
     this.getServices(siteData, value, siteIndex);
-    // //console.log('+++++', siteData.slices);
+
+    // logic for alerts end
+
+    // console.log('+++++', siteData.slices);
   }
   getServices(siteData: Site, value: string, siteIndex: number): void {
     for (let i = 0; i < siteData.slices.length; i++) {
@@ -129,11 +173,18 @@ export class SitesComponent {
     this.sitesService.siteData = siteData.slices;
 
     // this.configResponse.siteData.push(siteData.slices)
+    let plans = null;
+    if (siteData['site-plans']) {
+      plans = siteData['site-plans'];
+      // console.log('-++-+-+-+-+-+-+-++', siteData);
+    }
 
     this.informParent.emit({
       siteId: value,
       siteData: siteData.slices,
       siteIndex: siteIndex,
+      alerts: this.sites[siteIndex].alerts,
+      sitePlans: plans,
     });
   }
 

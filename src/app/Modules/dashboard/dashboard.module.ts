@@ -14,6 +14,7 @@ import { SmallCellsComponent } from './pages/small-cells/small-cells.component';
 import { FormsModule } from '@angular/forms';
 import { JoinerModule } from '../joiner/joiner.module';
 import { NavbarModule } from 'src/app/components/header/navbar/navbar.module';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NavbarModule } from 'src/app/components/header/navbar/navbar.module';
     FormsModule,
     JoinerModule,
     NavbarModule,
+    ChartsModule,
   ],
 })
 export class DashboardModule {}
