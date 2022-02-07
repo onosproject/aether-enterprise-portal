@@ -1,6 +1,16 @@
-import { Directive, ElementRef, Renderer2, HostListener, Input } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  Renderer2,
+  HostListener,
+  Input,
+} from '@angular/core';
 import { MatMenuTrigger, MatMenuPanel } from '@angular/material/menu';
-import { FlexibleConnectedPositionStrategy, OverlayRef, OverlayConfig } from '@angular/cdk/overlay'
+import {
+  FlexibleConnectedPositionStrategy,
+  OverlayRef,
+  OverlayConfig,
+} from '@angular/cdk/overlay';
 
 @Directive({
   selector: '[aetherMenu]',

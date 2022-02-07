@@ -8,7 +8,7 @@ describe('DeviceGroupsHelperService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule]
+      imports: [HttpClientModule],
     });
     service = TestBed.inject(DeviceGroupsHelperService);
   });

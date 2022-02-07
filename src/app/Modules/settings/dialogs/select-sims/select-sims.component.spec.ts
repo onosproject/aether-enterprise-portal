@@ -3,8 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/Modules/material/material.module';
 
-import { MatDialogRef } from '@angular/material/dialog';
-
 import { SelectSimsComponent } from './select-sims.component';
 
 describe('SelectSimsComponent', () => {

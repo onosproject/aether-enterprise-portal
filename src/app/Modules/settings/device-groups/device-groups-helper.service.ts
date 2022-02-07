@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DeviceGroupsHelperService {
-
   selectedSite: string = '';
 
-  constructor(public globalService: GlobalDataService) { }
+  constructor(public globalService: GlobalDataService) {}
 
   getCurrentSite(): void {
     this.globalService.getSite().subscribe((data) => {
@@ -25,7 +24,6 @@ export class DeviceGroupsHelperService {
         // sitesConfig['device-groups'].push(connectedDevice);
         // console.log(sitesConfig.devices)
       }
-    })
+    });
   }
-
 }

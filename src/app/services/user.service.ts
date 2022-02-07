@@ -34,7 +34,7 @@ export class UserService {
         {
           accessLevel: 3,
           userId: 5,
-        }
+        },
       ],
     },
     // {
