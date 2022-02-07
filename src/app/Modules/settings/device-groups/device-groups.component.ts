@@ -228,9 +228,9 @@ export class DeviceGroupsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getCompleteData();
+    // this.getCompleteData();
     this.assignSelectedSite();
-    this.getCurrentSite();
+    // this.getCurrentSite();
   }
 
   getCompleteData(): void {
@@ -387,16 +387,16 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   assignSelectedSite(): any {
-    console.log(this.deviceService.mySite1);
+    // console.log(this.deviceService.mySite1);
     // this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
     this.siteSubscription = this.globalService.getSite().subscribe((data) => {
       // console.log(data);
-      // this.selectedSite = data;
+      this.selectedSite = data;
       // console.log(this.selectedSite);
       this.fetchData();
-      this.fetchDataNew();
+      // this.fetchDataNew();
 
-      this.globalService.fetchActivatedDevices(data);
+      // this.globalService.fetchActivatedDevices(data);
     });
   }
 
