@@ -159,7 +159,7 @@ export class DashboardComponent {
     sitePlans: SitePlan;
   }): void {
     // this.siteIndex = event.siteIndex;
-    console.log('||||||||||||||||||||', event);
+    // console.log('||||||||||||||||||||', event);
     this.navbar.getDataFromDashboard(event.siteId);
     this.siteId = event.alerts;
     if (event.sitePlans === null) {

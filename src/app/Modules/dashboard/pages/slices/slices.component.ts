@@ -104,7 +104,7 @@ export class SlicesComponent {
   }): void {
     this.TabValue = [];
     this.siteIndex = value.siteIndex;
-    console.log('this.sitePlans', value.sitePlans);
+    // console.log('this.sitePlans', value.sitePlans);
     this.sitePlans = value.sitePlans;
 
     // if (this.sitePlans === null) {
@@ -124,7 +124,7 @@ export class SlicesComponent {
     setTimeout(() => {
       this.sliceData = value.siteData;
       this.logicforAlertData(value.siteData);
-      console.log('siteData||||', this.sliceData);
+      // console.log('siteData||||', this.sliceData);
     }, 20);
   }
 
@@ -168,7 +168,7 @@ export class SlicesComponent {
           smallCell[0][0].alerts.push(obj);
         }
         this.sitesService.allSmallCellsData = smallCell[0][0].alerts;
-        console.log('+++++++++++++', smallCell[0][0].alerts);
+        // console.log('+++++++++++++', smallCell[0][0].alerts);
       }
     }
   }
@@ -230,13 +230,13 @@ export class SlicesComponent {
   openAlerts(numberOfAlerts: number, groupName: string) {
     this.sitesService.numberOfAlerts = numberOfAlerts;
     // smallCell[0][0].alerts = [];
-    console.log(groupName);
+    // console.log(groupName);
 
     const filteredArray = this.sitesService.allSmallCellsData.filter((res) => {
       return res.group === groupName;
     });
     smallCell[0][0].alerts = filteredArray;
-    console.log(filteredArray);
+    // console.log(filteredArray);
 
     this.isExpand = true;
     this.isAcknowledged = 8;

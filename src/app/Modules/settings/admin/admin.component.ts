@@ -337,7 +337,7 @@ export class AdminComponent implements OnInit {
     // if (this.userForm.value.securityAlert == '' || null) {
     //   this.userForm.value.securityAlert = false;
     // }
-    console.log(this.userForm);
+    // console.log(this.userForm);
     const isCitySelected =
       this.userForm.value.cities.includes(1) ||
       this.userForm.value.cities.includes(2) ||
@@ -522,7 +522,7 @@ export class AdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      // console.log(`Dialog result: ${result}`);
     });
   }
 }

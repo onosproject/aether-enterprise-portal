@@ -3,7 +3,7 @@ import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { SitesService } from '../../../../services/sites/sites.service';
 import { environment } from '../../../../../environments/environment';
 import { Site } from 'src/app/models/site.model';
-
+import { GlobalDataService } from 'src/app/services/global-data.service';
 @Component({
   selector: 'aep-sites',
   templateUrl: './sites.component.html',
@@ -20,7 +20,8 @@ export class SitesComponent {
 
   constructor(
     public sitesService: SitesService,
-    public deviceService: DeviceSimService
+    public deviceService: DeviceSimService,
+    public globalService: GlobalDataService
   ) {
     // this.sites = sites[0];
     // //console.log(sites);
@@ -58,7 +59,7 @@ export class SitesComponent {
           this.sitesResponse.sites[0].devices,
           0
         );
-        console.log('Site Response', this.sitesResponse);
+        // console.log('Site Response', this.sitesResponse);
       },
       () => {
         // //console.log('Site Error', error);
@@ -81,7 +82,10 @@ export class SitesComponent {
     this.sitesService.siteIndex = null;
     this.sitesService.siteId = '';
     this.sitesService.siteData = null;
-    this.deviceService.mySite(value);
+    // this.deviceService.mySite(value);
+    setTimeout(() => {
+      this.globalService.mySite(value);
+    }, 10);
     this.selected = value;
     for (let i = 0; i < siteData.slices.length; i++) {
       const selecteddevice = [];

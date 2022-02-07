@@ -37,7 +37,7 @@ export class GlobalDataService {
 
   mySite(data: string): any {
     this.selectedSite = data;
-    console.log(this.selectedSite);
+    // console.log(this.selectedSite);
     this.mySiteSubject.next(data);
     this.fetchDeviceSims(data);
     this.fetchDeviceInventory(data);
@@ -65,10 +65,10 @@ export class GlobalDataService {
   fetchUntouchedCompleteData(): any {
     this.getData().subscribe((untouchedTotalResult) => {
       this.untouchedTotalConfig.push(untouchedTotalResult);
-      console.log(
-        '-----------> Global Untouched Total config Data is: ',
-        this.untouchedTotalConfig
-      );
+      // console.log(
+      //   '-----------> Global Untouched Total config Data is: ',
+      //   this.untouchedTotalConfig
+      // );
     });
   }
 
@@ -76,19 +76,19 @@ export class GlobalDataService {
     // this.getSite().subscribe((site) => {
     // this.currentSite = site;
     const totalConfigArray: any[] = [];
-    console.log('-------------> The selected Site is: ', this.selectedSite);
+    // console.log('-------------> The selected Site is: ', this.selectedSite);
     this.getData().subscribe((totalResult) => {
       totalConfigArray.push(totalResult);
-      console.log(
-        '-----------> Global Total config Data is: ',
-        this.totalConfig
-      );
-      console.log(
-        '-----------> Local Total config Data is: ',
-        totalConfigArray
-      );
+      // console.log(
+      //   '-----------> Global Total config Data is: ',
+      //   this.totalConfig
+      // );
+      // console.log(
+      //   '-----------> Local Total config Data is: ',
+      //   totalConfigArray
+      // );
       totalConfigArray[0].sites.forEach((sitesConfig) => {
-        console.log('-----------> These are Sites config: ', sitesConfig);
+        // console.log('-----------> These are Sites config: ', sitesConfig);
         if (sitesConfig['site-id'] === 'fremont') {
           sitesConfig['domain-list'] = [
             '128.137.51.006',
@@ -275,27 +275,27 @@ export class GlobalDataService {
       });
       this.totalConfig = totalConfigArray;
     });
-    console.log(this.totalConfig);
+    // console.log(this.totalConfig);
     // });
   }
 
   // * Device-SIM data
 
   getDeviceSims(): Observable<any> {
-    console.log(this.deviceSims);
+    // console.log(this.deviceSims);
     return this.deviceSims.asObservable();
   }
 
   fetchDeviceSims(site: string): any {
-    console.log(this.totalConfig);
+    // console.log(this.totalConfig);
     // this.getSite().subscribe((site) => {
     this.currentSite = site;
-    console.log(site);
+    // console.log(site);
     this.totalConfig[0].sites.forEach((siteConfig) => {
-      console.log(siteConfig);
+      // console.log(siteConfig);
       if (this.currentSite === siteConfig['site-id']) {
-        console.log('lol');
-        console.log(this.currentSite);
+        // console.log('lol');
+        // console.log(this.currentSite);
         this.deviceSims.next(siteConfig.devices);
       }
     });
@@ -303,7 +303,7 @@ export class GlobalDataService {
   }
 
   getDeviceInventory(): Observable<any> {
-    console.log(this.deviceInventory);
+    // console.log(this.deviceInventory);
     return this.deviceInventory.asObservable();
   }
 
@@ -323,12 +323,12 @@ export class GlobalDataService {
   // * Device-Groups data
 
   getActivatedDevices(): Observable<any> {
-    console.log(this.activatedDevices);
+    // console.log(this.activatedDevices);
     return this.activatedDevices.asObservable();
   }
 
   fetchActivatedDevices(site: string): any {
-    console.log(this.activatedDevices);
+    // console.log(this.activatedDevices);
     this.currentSite = site;
     this.totalConfig[0].sites.forEach((siteConfig) => {
       if (this.currentSite === siteConfig['site-id']) {

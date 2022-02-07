@@ -20,7 +20,7 @@ export class DeviceSimHelperService {
 
   addDeviceSim(connectedDevice: ConnectedDevice): void {
     this.getCurrentSite();
-    console.log(this.globalService.totalConfig[0], this.selectedSite);
+    // console.log(this.globalService.totalConfig[0], this.selectedSite);
     let siteID: string;
     this.globalService.totalConfig[0].sites.forEach((sitesConfig) => {
       siteID = sitesConfig['site-id'];

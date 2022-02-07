@@ -367,7 +367,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
           this.lastWeekDates[this.selectedDate - 1].string_date;
         this.apiCurrentDate = this.lastWeekDates[this.selectedDate].string_date;
       }
-      console.log(this.lastWeekDates[this.selectedDate + 1].string_date);
+      // console.log(this.lastWeekDates[this.selectedDate + 1].string_date);
       if (zoomIn === 0) {
         this.apiPreviousDate = this.lastWeekDates[1].string_date;
         this.apiCurrentDate =
@@ -391,7 +391,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   fetchDataNew(): any {
     this.globalService.getDeviceSims().subscribe((data: any[]) => {
       this.getCurrentSite();
-      console.log(data);
+      // console.log(data);
       this.siteConfigNew = data;
       if (this.siteConfigNew.length > 0) {
         for (let i = 0; i < this.siteConfigNew.length; i++) {
@@ -403,10 +403,10 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   fetchDevicesInventory(): any {
-    console.log('lol');
+    // console.log('lol');
     this.globalService.getDeviceInventory().subscribe((data: any[]) => {
       this.getCurrentSite();
-      console.log(data);
+      // console.log(data);
       this.siteDeviceInventory = data;
     });
   }
@@ -628,13 +628,13 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   addNewDeviceInventory(): any {
-    console.log('add NewDevice to Inventory');
+    // console.log('add NewDevice to Inventory');
     this.addNewInventoryDeviceError = false;
     if (this.inventoryDeviceSimForm.invalid) {
       this.addNewInventoryDeviceError = true;
     } else if (this.inventoryDeviceSimForm.valid) {
       // this.deviceSimHelper.addDeviceToInventory({
-        this.deviceInventory.push({
+      this.deviceInventory.push({
         'display-name': this.inventoryDeviceSimForm.value.inventoryDeviceName,
         imei: '700-765-7001',
         location: this.inventoryDeviceSimForm.value.inventoryDeviceLocation,
@@ -774,10 +774,10 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.apiCurrentDate +
       '&step=60m';
 
-    console.log(
-      '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
-      query
-    );
+    // console.log(
+    //   '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
+    //   query
+    // );
     return this.http.get(this.deviceService.promApiUrl + query, { headers });
   }
 
@@ -808,16 +808,16 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   fetchPromWeek(site: string, iccid: string, index: number): any {
-    console.log(this.apiPreviousDate);
-    console.log(this.apiCurrentDate);
+    // console.log(this.apiPreviousDate);
+    // console.log(this.apiCurrentDate);
     this.timesArray.splice(0, this.timesArray.length);
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApiWeek(site, iccid).subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       let valuesArray: any[] = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
-      console.log(valuesArray);
+      // console.log(valuesArray);
       const timesObject: any = {};
       timesObject.starting_time = '';
       timesObject.ending_time = '';
@@ -847,7 +847,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
           timesObject.ending_time = '';
         }
       });
-      console.log(timesArray);
+      // console.log(timesArray);
       this.timesArray = timesArray;
       // valuesArray.forEach((eachItem, index) => {
       // console.log(eachItem, index);
@@ -859,14 +859,14 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       // console.log(this.timesArray);
       this.valuesArrayFinal[0].times = timesArray;
       const finalArray = this.valuesArrayFinal;
-      console.log(finalArray);
+      // console.log(finalArray);
       this.displayChart(finalArray, index);
 
       // this.valuesArrayFinal[0].times = [];
     });
 
-    console.log(this.timesArray);
-    console.log(this.valuesArrayFinal);
+    // console.log(this.timesArray);
+    // console.log(this.valuesArrayFinal);
   }
 
   fetchProm(site: string, iccid: string, index: number): any {
@@ -909,7 +909,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
           timesObject.ending_time = '';
         }
       });
-      console.log(timesArray);
+      // console.log(timesArray);
       this.timesArray = timesArray;
       const eventArray = [];
       this.fetchDotsApi(site, iccid).subscribe((eventData) => {
@@ -921,7 +921,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         eventObject.starting_time = eventData.data.result[0].values[0][0];
         eventObject.display = 'circle';
         eventArray.push({ ...eventObject });
-        console.log(eventArray);
+        // console.log(eventArray);
         mainObject.times = eventArray;
 
         this.valuesArrayFinal[0].times = timesArray;
@@ -931,7 +931,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
         this.displayChart(finalArray, index);
         this.valuesArrayFinal[0].times = [];
-        console.log(finalArray);
+        // console.log(finalArray);
         // this.valuesArrayFinal.push(mainObject);
         // console.log(this.valuesArrayFinal);
       });
@@ -994,7 +994,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   fetchDots(site: string, serialNum: string): void {
     this.fetchDotsApi(site, serialNum).subscribe((data) => {
-      console.log(data.data.result[0]);
+      // console.log(data.data.result[0]);
     });
   }
 

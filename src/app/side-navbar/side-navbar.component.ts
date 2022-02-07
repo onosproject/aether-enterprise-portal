@@ -16,7 +16,7 @@ export class SideNavbarComponent implements OnInit {
 
   // elements: any[] = [];
 
-  selectSite: string = this.deviceService.selectedSite;
+  selectSite: string = this.globalService.selectedSite;
 
   @Output() newSiteEvent = new EventEmitter<string>();
 
@@ -97,6 +97,6 @@ export class SideNavbarComponent implements OnInit {
 
   getCurrentRoute(): any {
     this.currentUrl = this.router.url;
-    console.log(this.router.url, 'Current URL');
+    // console.log(this.router.url, 'Current URL');
   }
 }
