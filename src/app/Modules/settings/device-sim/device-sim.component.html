@@ -1,92 +1,439 @@
 <!-- <p>device-sim works!</p> -->
-<div class="container-fluid device-sim-view">
-  <div class="row">
-    <!--left side section-->
-    <div class="col-2">
-      <aep-side-navbar></aep-side-navbar>
-    </div>
-    <!--RIGHT SIDE SECTION-->
-    <div class="col-10 right-section">
-      <div class="row sec-1">
-        <div class="title-tab d-flex">
-          <div
-            class="title-block device-sim-tab"
-            (click)="simsView()"
-            [ngClass]="deviceSimView === 'true' ? 'active' : 'in-active'"
-          >
-            Device + SIM
-          </div>
-          <div
-            class="title-block inventory-tab"
-            (click)="inventoryDeviceTab()"
-            [ngClass]="inventoryViewStyle === 'true' ? 'active' : 'in-active'"
-          >
-            Inventory
-          </div>
-          <div
-            class="inventory-block"
-            [ngClass]="inventoryViewStyle === 'true' ? 'active' : 'in-active'"
-          >
-            <div class="mx-3 d-flex">
-              <button
-                class="device-switch device-btn"
-                (click)="inventoryDeviceTab()"
-                [ngClass]="
-                  inventoryDeviceTabStyle === 'true' ? 'highlight' : 'normal'
-                "
-              >
-                Device
-              </button>
-              <button
-                class="sims-switch sims-btn"
-                (click)="inventorySimsTab()"
-                [ngClass]="
-                  inventorySimsTabStyle === 'true' ? 'highlight' : 'normal'
-                "
-              >
-                Sims
-              </button>
-            </div>
-          </div>
-          <div
-            class="title-block cancelled-sims"
-            (click)="cancelledSims()"
-            [ngClass]="cancelledSimsStyle === 'true' ? 'active' : 'in-active'"
-          >
-            Cancelled SIMs
+<div class="row container-fluid device-sim-view">
+  <!-- <div class="row"> -->
+  <!--left side section-->
+  <div class="device-sim-view-col-2 ml-6">
+    <aep-side-navbar></aep-side-navbar>
+  </div>
+  <!--RIGHT SIDE SECTION-->
+  <div class="right-section-col-lg-9 right-section my-2">
+    <div class="sec-1">
+      <div class="title-tab d-flex">
+        <div
+          class="title-block device-sim-tab"
+          (click)="simsView()"
+          [ngClass]="deviceSimView === 'true' ? 'active' : 'in-active'"
+        >
+          Device + SIM
+        </div>
+        <div
+          class="title-block inventory-tab"
+          (click)="inventoryDeviceTab()"
+          [ngClass]="inventoryViewStyle === 'true' ? 'active' : 'in-active'"
+        >
+          Inventory
+        </div>
+        <div
+          class="inventory-block"
+          [ngClass]="inventoryViewStyle === 'true' ? 'active' : 'in-active'"
+        >
+          <div class="mx-3 d-flex">
+            <button
+              class="device-switch device-btn"
+              (click)="inventoryDeviceTab()"
+              [ngClass]="
+                inventoryDeviceTabStyle === 'true' ? 'highlight' : 'normal'
+              "
+            >
+              Device
+            </button>
+            <button
+              class="sims-switch sims-btn"
+              (click)="inventorySimsTab()"
+              [ngClass]="
+                inventorySimsTabStyle === 'true' ? 'highlight' : 'normal'
+              "
+            >
+              Sims
+            </button>
           </div>
         </div>
+        <div
+          class="title-block cancelled-sims"
+          (click)="cancelledSims()"
+          [ngClass]="cancelledSimsStyle === 'true' ? 'active' : 'in-active'"
+        >
+          Cancelled SIMs
+        </div>
       </div>
-      <!--DEVICE + SIMS BLOCK-->
-      <div class="device-sims-block pt-3" *ngIf="simsViewToggle">
-        <div class="row">
-          <!--temp-->
-          <!--button for Active new device-->
-          <mat-card
-            class="aether-add-active-device active-new-device col-12 my-1"
-            *ngIf="!activeNewDevice"
+    </div>
+    <!--DEVICE + SIMS BLOCK-->
+    <div class="device-sims-block pt-3" *ngIf="simsViewToggle">
+      <div class="">
+        <!--temp-->
+        <!--button for Active new device-->
+        <mat-card
+          class="aether-add-active-device active-new-device col-12 my-1"
+          *ngIf="!activeNewDevice"
+        >
+          <button
+            class="btn col-3 add-active button-medium-14-device-sim"
+            (click)="activeNewDeviceForm()"
           >
-            <button
-              class="btn col-3 add-active button-medium-14"
-              (click)="activeNewDeviceForm()"
+            Activate new device
+          </button>
+        </mat-card>
+        <!--active new device form-->
+        <mat-card
+          class="active-new-device-form my-1 forms-block"
+          *ngIf="activeNewDevice"
+        >
+          <mat-card-title class="activate-title my-4 mx-2"
+            >Activate a Device</mat-card-title
+          >
+          <form [formGroup]="deviceSimForm">
+            <mat-card-content>
+              <div class="actice-new-device-form form-content my-4 mx-2 d-flex">
+                <div class="row my-3">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="activate-sim-title">Select a SIM</div>
+                      <div
+                        id="activate-a-device-select-a-sim"
+                        class="col-12 my-2 d-flex"
+                      >
+                        <div class="my-1">
+                          <mat-label class="activate-sim-subtitle1" for="newSim"
+                            >ICCID Number</mat-label
+                          >
+
+                          <input
+                            class="form-control form-field-big"
+                            type="text"
+                            formControlName="newSim"
+                            value="{{ selectedSim }}"
+                            name="newSim"
+                            id="newSim"
+                            placeholder="Enter or Scan the SIM number"
+                            [ngClass]="{
+                              'is-invalid':
+                                (addNewDeviceSimError ||
+                                  deviceSimForm.get('newSim').touched) &&
+                                deviceSimForm.get('newSim').invalid
+                            }"
+                          />
+                          <div
+                            *ngIf="
+                              (addNewDeviceSimError ||
+                                deviceSimForm.get('newSim').touched) &&
+                              deviceSimForm.get('newSim').invalid
+                            "
+                            class="error-field"
+                          >
+                            Sim Number is required
+                          </div>
+                        </div>
+                        <div class="mx-3 activate-or">OR</div>
+                        <div class="my-1">
+                          <mat-label class="browse-label" for="browseSims"
+                            >Select SIM from inventory</mat-label
+                          >
+                          <div
+                            type="button"
+                            class="browse my-2"
+                            (click)="openDialog()"
+                          >
+                            Browse
+                            <img
+                              class="browse-searchIcon"
+                              src="../../assets/deviceSim/search.svg"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="activate-device-title">
+                        Connect with a device
+                      </div>
+                      <div
+                        id="activate-a-device-connect-with-a-device align-items-center"
+                        class="col-12 my-2 d-flex"
+                      >
+                        <div class="mx-1">
+                          <mat-label class="form-field-title" for="deviceName"
+                            >Device name</mat-label
+                          >
+                          <input
+                            class="form-control form-field-big"
+                            type="text"
+                            formControlName="deviceName"
+                            name="deviceName"
+                            id="deviceName"
+                            placeholder="Name"
+                            [ngClass]="{
+                              'is-invalid':
+                                (addNewDeviceSimError ||
+                                  deviceSimForm.get('deviceName').touched) &&
+                                deviceSimForm.get('deviceName').invalid
+                            }"
+                          />
+                          <div
+                            *ngIf="
+                              (addNewDeviceSimError ||
+                                deviceSimForm.get('deviceName').touched) &&
+                              deviceSimForm.get('deviceName').invalid
+                            "
+                            class="error-field"
+                          >
+                            Device Name is required
+                          </div>
+                        </div>
+                        <div class="mx-2">
+                          <mat-label
+                            class="form-field-title"
+                            for="deviceLocation"
+                            >Device location</mat-label
+                          >
+                          <input
+                            type="text"
+                            name="deviceLocation"
+                            id="deviceLocation"
+                            class="form-control form-field-big"
+                            placeholder="eg.Floor 1, Floor 2 etc"
+                            formControlName="deviceLocation"
+                            [ngClass]="{
+                              'is-invalid':
+                                (addNewDeviceSimError ||
+                                  deviceSimForm.get('deviceLocation')
+                                    .touched) &&
+                                deviceSimForm.get('deviceLocation').invalid
+                            }"
+                          />
+                          <div
+                            *ngIf="
+                              (addNewDeviceSimError ||
+                                deviceSimForm.get('deviceLocation').touched) &&
+                              deviceSimForm.get('deviceLocation').invalid
+                            "
+                            class="error-field"
+                          >
+                            Location is required
+                          </div>
+                        </div>
+                        <div class="mx-2">
+                          <mat-label
+                            class="form-field-title"
+                            for="deviceSerialNum"
+                            >Device serial number</mat-label
+                          >
+                          <input
+                            type="text"
+                            name="deviceSerialNum"
+                            id="deviceSerialNum"
+                            class="form-control form-field-big"
+                            formControlName="deviceSerialNum"
+                            placeholder="XXX-XXX-XXXX"
+                            [ngClass]="{
+                              'is-invalid':
+                                (addNewDeviceSimError ||
+                                  deviceSimForm.get('deviceSerialNum')
+                                    .touched) &&
+                                deviceSimForm.get('deviceSerialNum').invalid
+                            }"
+                          />
+                          <div
+                            *ngIf="
+                              (addNewDeviceSimError ||
+                                deviceSimForm.get('deviceSerialNum').touched) &&
+                              deviceSimForm.get('deviceSerialNum').invalid
+                            "
+                            class="error-field"
+                          >
+                            Device Serial number is required
+                          </div>
+                        </div>
+                        <div class="activate-or">OR</div>
+                        <div class="col-3 mx-4">
+                          <mat-label
+                            class="activate-device-subtitle2"
+                            for="browseSims"
+                            >Select a device from inventory</mat-label
+                          >
+                          <div
+                            type="button"
+                            class="activate-device-subtitle2-button my-2"
+                            (click)="openDialog1()"
+                          >
+                            Browse
+                            <img
+                              class="
+                                activate-device-subtitle2-button-searchIcon
+                              "
+                              src="../../assets/deviceSim/search.svg"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-card-content>
+            <mat-card-actions class="mat-card-actions d-flex bottom-button">
+              <div class="button-sec">
+                <button
+                  class="add"
+                  type="button"
+                  mat-raised-button
+                  color="primary"
+                  (click)="addNewDevice1()"
+                  [ngClass]="{ 'add-button-gray': deviceSimForm.pristine }"
+                >
+                  Activate
+                </button>
+                <button
+                  mat-button
+                  class="cancel"
+                  (click)="
+                    activeNewDevice = !activeNewDevice;
+                    this.addNewDeviceSimError = false
+                  "
+                >
+                  Cancel
+                </button>
+              </div>
+            </mat-card-actions>
+          </form>
+        </mat-card>
+        <!-- end active new device form-->
+        <!--temp end-->
+      </div>
+
+      <!--device+sim view-->
+      <div class="device-sim-holder">
+        <div *ngFor="let device of siteConfigNew; let deviceIndex = index">
+          <mat-card
+            class="
+              device-view device-sims-view
+              col-12
+              d-flex
+              my-1
+              device-sims-detail-card
+            "
+          >
+            <div class="ng-tns-c119-0 vector">
+              <div class="vector-bg">
+                <img
+                  class="ng-tns-c119-0"
+                  src="../../assets/deviceSim/cc-cam-big.svg"
+                />
+              </div>
+            </div>
+            <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
+              <div class="title">Device Name</div>
+              <div class="desc">{{ device["display-name"] }}</div>
+            </div>
+            <div
+              class="mx-3 device-details-blocks device-location ng-tns-c119-0"
             >
-              Activate new device
-            </button>
+              <div class="title">Device Location</div>
+              <div class="desc">{{ device.location }}</div>
+            </div>
+            <div
+              class="mx-3 device-details-blocks device-serial-no ng-tns-c119-0"
+            >
+              <div class="title">Device Serial No.</div>
+              <div class="desc">{{ device["serial-number"] }}</div>
+            </div>
+            <div class="mx-3 device-details-blocks device-type ng-tns-c119-0">
+              <div class="title">Device Type</div>
+              <div class="desc">{{ device.type }}</div>
+            </div>
+            <div
+              class="
+                progress
+                col
+                mx-3
+                device-details-blocks device-progress-bar
+                bg-light
+              "
+              [ngClass]="
+                deviceSimsDetailItemDetailsPopUp === true
+                  ? 'v-hidden'
+                  : 'v-show'
+              "
+            >
+              <div
+                class="dayChart"
+                id="small_device_timeline{{ deviceIndex }}"
+              ></div>
+            </div>
+            <div class="mx-3 ng-tns-c119-0 connected" style="margin-top: -5px">
+              <div>CONNECTED</div>
+            </div>
+
+            <div
+              class="
+                col-1
+                device-details device-sims-details
+                ng-tns-c119-0 ng-star-inserted
+              "
+              (click)="detailsTrigger(deviceIndex, device.sim)"
+              *ngIf="deviceDetails.indexOf(deviceIndex) < 0"
+            >
+              Details
+            </div>
+            <div
+              class="col-1 device-details close ng-tns-c119-0 ng-star-inserted"
+              (click)="closeDetails()"
+              *ngIf="deviceDetails.indexOf(deviceIndex) >= 0"
+            >
+              Close
+            </div>
+
+            <div
+              class="
+                col-1
+                device-details-view-edit device-sims-details-view-edit
+                ng-tns-c119-0 ng-star-inserted
+              "
+              (click)="editTrigger(deviceIndex)"
+              *ngIf="editDevices.indexOf(deviceIndex) < 0"
+            >
+              <img
+                src="../../assets/deviceSim/pencil.svg"
+                class="ng-tns-c119-0"
+              />
+              Edit
+            </div>
+            <div
+              class="
+                col-1
+                device-details-view-edit-close
+                ng-tns-c119-0 ng-star-inserted
+              "
+              (click)="closeEdit()"
+              *ngIf="editDevices.indexOf(deviceIndex) >= 0"
+            >
+              Close
+            </div>
           </mat-card>
-          <!--active new device form-->
+          <!--DEVICE SIMS DETAILS VIEW EDIT FORM-->
           <mat-card
-            style="width: 90%"
-            class="active-new-device-form my-1 forms-block"
-            *ngIf="activeNewDevice"
-            [@inOutAnimation]
+            class="
+              active-new-device-form active-new-device-form
+              device-sims-detail-view-edit-form
+              forms-block
+            "
+            *ngIf="editDevices.indexOf(deviceIndex) >= 0"
           >
-            <mat-card-title class="activate-title my-4 mx-2"
-              >Activate a Device</mat-card-title
+            <form
+              class="forms-block-deviceSim-edit-form-spacings"
+              [formGroup]="deviceSimEditForm"
             >
-            <form [formGroup]="deviceSimForm">
               <mat-card-content>
                 <div
-                  class="actice-new-device-form form-content my-4 mx-2 d-flex"
+                  class="
+                    device-sims-detail-view-card-edit-form
+                    form-content
+                    my-4
+                    mx-2
+                    d-flex
+                  "
                 >
                   <div class="row my-3">
                     <div class="row">
@@ -102,16 +449,32 @@
                               for="newSim"
                               >ICCID Number</mat-label
                             >
-
                             <input
                               class="form-control form-field-big"
                               type="text"
-                              formControlName="newSim"
-                              value="{{ selectedSim }}"
+                              [formControl]="
+                                getEditControl(device.form, 'newSim')
+                              "
                               name="newSim"
                               id="newSim"
                               placeholder="Enter or Scan the SIM number"
+                              [ngClass]="{
+                                'is-invalid':
+                                  (editDeviceSimError ||
+                                    device.form.get('newSim').touched) &&
+                                  device.form.get('newSim').invalid
+                              }"
                             />
+                            <div
+                              *ngIf="
+                                (editDeviceSimError ||
+                                  device.form.get('newSim').touched) &&
+                                device.form.get('newSim').invalid
+                              "
+                              class="error-field"
+                            >
+                              Sim Number is required
+                            </div>
                           </div>
                           <div class="mx-3 activate-or">OR</div>
                           <div class="my-1">
@@ -130,6 +493,12 @@
                               />
                             </div>
                           </div>
+                          <div
+                            class="my-1 cancel-sim"
+                            (click)="cancelSim(deviceIndex)"
+                          >
+                            Cancel Sim
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -147,14 +516,33 @@
                             <mat-label class="form-field-title" for="deviceName"
                               >Device name</mat-label
                             >
+
                             <input
                               class="form-control form-field-big"
                               type="text"
-                              formControlName="deviceName"
+                              [formControl]="
+                                getEditControl(device.form, 'deviceName')
+                              "
                               name="deviceName"
                               id="deviceName"
                               placeholder="Name"
+                              [ngClass]="{
+                                'is-invalid':
+                                  (editDeviceSimError ||
+                                    device.form.get('deviceName').touched) &&
+                                  device.form.get('deviceName').invalid
+                              }"
                             />
+                            <div
+                              *ngIf="
+                                (editDeviceSimError ||
+                                  device.form.get('deviceName').touched) &&
+                                device.form.get('deviceName').invalid
+                              "
+                              class="error-field"
+                            >
+                              Device Name is required
+                            </div>
                           </div>
                           <div class="mx-2">
                             <mat-label
@@ -167,9 +555,28 @@
                               name="deviceLocation"
                               id="deviceLocation"
                               class="form-control form-field-big"
+                              [formControl]="
+                                getEditControl(device.form, 'deviceLocation')
+                              "
                               placeholder="eg.Floor 1, Floor 2 etc"
-                              formControlName="deviceLocation"
+                              [ngClass]="{
+                                'is-invalid':
+                                  (editDeviceSimError ||
+                                    device.form.get('deviceLocation')
+                                      .touched) &&
+                                  device.form.get('deviceLocation').invalid
+                              }"
                             />
+                            <div
+                              *ngIf="
+                                (editDeviceSimError ||
+                                  device.form.get('deviceLocation').touched) &&
+                                device.form.get('deviceLocation').invalid
+                              "
+                              class="error-field"
+                            >
+                              Device location is required
+                            </div>
                           </div>
                           <div class="mx-2">
                             <mat-label
@@ -182,9 +589,28 @@
                               name="deviceSerialNum"
                               id="deviceSerialNum"
                               class="form-control form-field-big"
-                              formControlName="deviceSerialNum"
+                              [formControl]="
+                                getEditControl(device.form, 'deviceSerialNum')
+                              "
                               placeholder="XXX-XXX-XXXX"
+                              [ngClass]="{
+                                'is-invalid':
+                                  (editDeviceSimError ||
+                                    device.form.get('deviceSerialNum')
+                                      .touched) &&
+                                  device.form.get('deviceSerialNum').invalid
+                              }"
                             />
+                            <div
+                              *ngIf="
+                                (editDeviceSimError ||
+                                  device.form.get('deviceSerialNum').touched) &&
+                                device.form.get('deviceSerialNum').invalid
+                              "
+                              class="error-field"
+                            >
+                              Device location is required
+                            </div>
                           </div>
                           <div class="activate-or">OR</div>
                           <div class="col-3 mx-4">
@@ -195,7 +621,11 @@
                             >
                             <div
                               type="button"
-                              class="activate-device-subtitle2-button my-2"
+                              class="
+                                activate-device-subtitle2-button
+                                col-10
+                                my-2
+                              "
                               (click)="openDialog1()"
                             >
                               Browse
@@ -208,353 +638,36 @@
                             </div>
                           </div>
                         </div>
+                        <div class="info-block d-flex">
+                          <div class="info-icon">
+                            <img src="../../assets/deviceSim/info.svg" />
+                          </div>
+                          <div class="info-text">
+                            This device is present In
+                            <span>Device group 4</span> and
+                            <span>CCTV Slices</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </mat-card-content>
               <mat-card-actions class="mat-card-actions d-flex bottom-button">
-                <div class="button-sec">
-                  <button
-                    class="add add-button-gray"
-                    type="submit"
-                    mat-raised-button
-                    color="primary"
-                    (click)="
-                      addNewDevice1(); activeNewDevice = !activeNewDevice
-                    "
-                    [@inOutAnimation]
-                  >
-                    Activate
-                  </button>
-                  <button
-                    mat-button
-                    class="cancel"
-                    (click)="activeNewDevice = !activeNewDevice"
-                    [@inOutAnimation]
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </mat-card-actions>
-            </form>
-          </mat-card>
-          <!-- end active new device form-->
-          <!--temp end-->
-        </div>
-
-        <!--device+sim view-->
-        <div class="row" style="width: 98%" *ngFor="let sites of siteConfig">
-          <div *ngFor="let device of sites; let deviceIndex = index">
-            <mat-card
-              class="
-                device-view device-sims-view
-                col-12
-                d-flex
-                my-1
-                device-sims-detail-card
-              "
-            >
-              <div class="ng-tns-c119-0 vector">
-                <div class="vector-bg">
-                  <img
-                    class="ng-tns-c119-0"
-                    src="../../assets/deviceSim/cc-cam-big.svg"
-                  />
-                </div>
-              </div>
-              <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
-                <div class="title">Device Name</div>
-                <div class="desc">{{ device["display-name"] }}</div>
-              </div>
-              <div
-                class="mx-3 device-details-blocks device-location ng-tns-c119-0"
-              >
-                <div class="title">Device Location</div>
-                <div class="desc">{{ device.location }}</div>
-              </div>
-              <div
-                class="
-                  mx-3
-                  device-details-blocks device-serial-no
-                  ng-tns-c119-0
-                "
-              >
-                <div class="title">Device Serial No.</div>
-                <div class="desc">{{ device["serial-number"] }}</div>
-              </div>
-              <div class="mx-3 device-details-blocks device-type ng-tns-c119-0">
-                <div class="title">Device Type</div>
-                <div class="desc">{{ device.type }}</div>
-              </div>
-              <div
-                class="
-                  progress
-                  col
-                  mx-3
-                  device-details-blocks device-progress-bar
-                  bg-light
-                "
-                [ngClass]="
-                  deviceSimsDetailItemDetailsPopUp === true
-                    ? 'v-hidden'
-                    : 'v-show'
-                "
-              >
                 <div
-                  class="dayChart"
-                  id="small_device_timeline{{ deviceIndex }}"
-                ></div>
-              </div>
-              <div
-                class="mx-3 ng-tns-c119-0 connected"
-                style="margin-top: -5px"
-              >
-                <div>CONNECTED</div>
-              </div>
-
-              <div
-                class="
-                  col-1
-                  device-details device-sims-details
-                  ng-tns-c119-0 ng-star-inserted
-                "
-                (click)="detailsTrigger(deviceIndex, device.sim)"
-                *ngIf="deviceDetails.indexOf(deviceIndex) < 0"
-              >
-                Details
-              </div>
-              <div
-                class="
-                  col-1
-                  device-details
-                  close
-                  ng-tns-c119-0 ng-star-inserted
-                "
-                (click)="closeDetails()"
-                *ngIf="deviceDetails.indexOf(deviceIndex) >= 0"
-              >
-                Close
-              </div>
-
-              <div
-                class="
-                  col-1
-                  device-details-view-edit device-sims-details-view-edit
-                  ng-tns-c119-0 ng-star-inserted
-                "
-                (click)="editTrigger(deviceIndex)"
-                *ngIf="editDevices.indexOf(deviceIndex) < 0"
-              >
-                <img
-                  src="../../assets/deviceSim/pencil.svg"
-                  class="ng-tns-c119-0"
-                />
-                Edit
-              </div>
-              <div
-                class="
-                  col-1
-                  device-details
-                  close
-                  ng-tns-c119-0 ng-star-inserted
-                "
-                (click)="closeEdit()"
-                *ngIf="editDevices.indexOf(deviceIndex) >= 0"
-              >
-                Close
-              </div>
-            </mat-card>
-            <!--DEVICE SIMS DETAILS VIEW EDIT FORM-->
-            <mat-card
-              class="
-                active-new-device-form active-new-device-form
-                device-sims-detail-view-edit-form
-                forms-block
-              "
-              *ngIf="editDevices.indexOf(deviceIndex) >= 0"
-              [@inOutAnimation]
-            >
-              <form [formGroup]="deviceSimEditForm">
-                <mat-card-content>
-                  <div
-                    class="
-                      device-sims-detail-view-card-edit-form
-                      form-content
-                      my-4
-                      mx-2
-                      d-flex
-                    "
-                  >
-                    <div class="row my-3">
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="activate-sim-title">Select a SIM</div>
-                          <div
-                            id="activate-a-device-select-a-sim"
-                            class="col-12 my-2 d-flex"
-                          >
-                            <div class="my-1">
-                              <mat-label
-                                class="activate-sim-subtitle1"
-                                for="newSim"
-                                >ICCID Number</mat-label
-                              >
-                              <input
-                                class="form-control form-field-big"
-                                type="text"
-                                [formControl]="
-                                  getEditControl(device.form, 'newSim')
-                                "
-                                name="newSim"
-                                id="newSim"
-                                placeholder="Enter or Scan the SIM number"
-                              />
-                            </div>
-                            <div class="mx-3 activate-or">OR</div>
-                            <div class="my-1">
-                              <mat-label class="browse-label" for="browseSims"
-                                >Select SIM from inventory</mat-label
-                              >
-                              <div
-                                type="button"
-                                class="browse my-2"
-                                (click)="openDialog()"
-                              >
-                                Browse
-                                <img
-                                  class="browse-searchIcon"
-                                  src="../../assets/deviceSim/search.svg"
-                                />
-                              </div>
-                            </div>
-                            <div
-                              class="my-1 cancel-sim"
-                              (click)="cancelSim(deviceIndex)"
-                            >
-                              Cancel Sim
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="activate-device-title">
-                            Connect with a device
-                          </div>
-                          <div
-                            id="activate-a-device-connect-with-a-device align-items-center"
-                            class="col-12 my-2 d-flex"
-                          >
-                            <div class="mx-1">
-                              <mat-label
-                                class="form-field-title"
-                                for="deviceName"
-                                >Device name</mat-label
-                              >
-
-                              <input
-                                class="form-control form-field-big"
-                                type="text"
-                                [formControl]="
-                                  getEditControl(device.form, 'deviceName')
-                                "
-                                name="deviceName"
-                                id="deviceName"
-                                placeholder="Name"
-                              />
-                            </div>
-                            <div class="mx-2">
-                              <mat-label
-                                class="form-field-title"
-                                for="deviceLocation"
-                                >Device location</mat-label
-                              >
-                              <input
-                                type="text"
-                                name="deviceLocation"
-                                id="deviceLocation"
-                                class="form-control form-field-big"
-                                [formControl]="
-                                  getEditControl(device.form, 'deviceLocation')
-                                "
-                                placeholder="eg.Floor 1, Floor 2 etc"
-                              />
-                            </div>
-                            <div class="mx-2">
-                              <mat-label
-                                class="form-field-title"
-                                for="deviceSerialNum"
-                                >Device serial number</mat-label
-                              >
-                              <input
-                                type="text"
-                                name="deviceSerialNum"
-                                id="deviceSerialNum"
-                                class="form-control form-field-big"
-                                [formControl]="
-                                  getEditControl(device.form, 'deviceSerialNum')
-                                "
-                                placeholder="XXX-XXX-XXXX"
-                              />
-                            </div>
-                            <div class="activate-or">OR</div>
-                            <div class="col-3 mx-4">
-                              <mat-label
-                                class="activate-device-subtitle2"
-                                for="browseSims"
-                                >Select a device from inventory</mat-label
-                              >
-                              <div
-                                type="button"
-                                class="
-                                  activate-device-subtitle2-button
-                                  col-10
-                                  my-2
-                                "
-                                (click)="openDialog1()"
-                              >
-                                Browse
-                                <img
-                                  class="
-                                    activate-device-subtitle2-button-searchIcon
-                                  "
-                                  src="../../assets/deviceSim/search.svg"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="info-block d-flex">
-                            <div class="info-icon">
-                              <img src="../../assets/deviceSim/info.svg" />
-                            </div>
-                            <div class="info-text">
-                              This device is present In
-                              <span>Device group 4</span> and
-                              <span>CCTV Slices</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  class="device-sim-item-delete d-flex mx-2"
+                  (click)="openDeleteDialog(deviceIndex)"
+                >
+                  <div>
+                    <img
+                      class="ng-tns-c119-0"
+                      src="../../assets/deviceSim/delete.svg"
+                    />
                   </div>
-                </mat-card-content>
-                <mat-card-actions class="mat-card-actions d-flex bottom-button">
-                  <div
-                    class="device-sim-item-delete d-flex mx-2"
-                    (click)="openDeleteDialog(deviceIndex)"
-                  >
-                    <div>
-                      <img
-                        class="ng-tns-c119-0"
-                        src="../../assets/deviceSim/delete.svg"
-                      />
-                    </div>
-                    <div class="delete-label">Delete</div>
-                  </div>
-                  <div class="button-sec" (click)="editTrigger(deviceIndex)">
-                    <!-- <button
+                  <div class="delete-label">Delete</div>
+                </div>
+                <div class="button-sec" (click)="editTrigger(deviceIndex)">
+                  <!-- <button
                       type="button"
                       mat-button
                       class="cancel"
@@ -563,510 +676,20 @@
                     >
                       Cancel
                     </button> -->
-                    <button
-                      class="add"
-                      type="button"
-                      mat-raised-button
-                      color="primary"
-                      (click)="actualEdit(deviceIndex)"
-                      [@inOutAnimation]
-                    >
-                      Save
-                    </button>
-                    <button
-                      type="button"
-                      mat-button
-                      class="cancel"
-                      (click)="closeEdit()"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </mat-card-actions>
-              </form>
-            </mat-card>
-            <!-- </div> -->
-            <!--END DEVICE SIMS DETAILS VIEW EDIT FORM-->
-            <!--DEVICE SIMS DETAILS VIEW ITEMS DETAILS BUTTON POP UP-->
-            <mat-card
-              class="
-                active-new-device-form active-new-device-form
-                device-sims-detail-view-details-form
-                forms-block
-              "
-              *ngIf="deviceDetails.indexOf(deviceIndex) >= 0"
-              [@inOutAnimation]
-            >
-              <form [formGroup]="deviceSimFormGroup">
-                <mat-card-content>
-                  <div
-                    class="
-                      device-sims-detail-view-details-card-form
-                      form-content
-                      my-4
-                      mx-2
-                      d-flex
-                    "
-                  >
-                    <div class="row my-3">
-                      <div class="col-12 d-flex section-one">
-                        <div class="title">Device Performance Time Series</div>
-                        <div class="progress-bar-tabs">
-                          <span
-                            class="one-day"
-                            (click)="deviceSimsDetailsProgressToggleDayFun()"
-                            [ngClass]="
-                              deviceSimsDetailsProgressToggleDay === true
-                                ? 'active'
-                                : 'in-active'
-                            "
-                            >1D</span
-                          >
-                          <span
-                            class="one-week"
-                            (click)="deviceSimsDetailsProgressToggleWeekFun()"
-                            [ngClass]="
-                              deviceSimsDetailsProgressToggleWeek === true
-                                ? 'active'
-                                : 'in-active'
-                            "
-                            >1W</span
-                          >
-                        </div>
-                        <div class="legends">Legends</div>
-                        <div class="legends-details">
-                          <span class="connected-event"
-                            >Connected (Event)
-                            <img src="../../assets/deviceSim/success-dot.svg"
-                          /></span>
-                          <span class="bad-event"
-                            >Bad Event
-                            <img src="../../assets/deviceSim/error-dot.svg"
-                          /></span>
-                          <span class="in-session"
-                            >In Session
-                            <img src="../../assets/deviceSim/in-session.svg"
-                          /></span>
-                        </div>
-                      </div>
-                      <div class="progress-bar-sec">
-                        <div
-                          class="col-12 d-flex my-1"
-                          *ngIf="deviceSimsDetailsProgressToggleDay"
-                        >
-                          <span class="col-5 progress-hours-title1 mx-1"
-                            >24H</span
-                          >
-                          <span class="col-2 progress-hours-title2">12H</span>
-                          <span class="col-5 progress-hours-title3">Now</span>
-                        </div>
-
-                        <div
-                          class="col-12 d-flex my-1 last-Week-dates"
-                          *ngIf="
-                            deviceSimsDetailsProgressToggleWeek && zoomIn === 0
-                          "
-                        >
-                          <ng-container
-                            *ngFor="
-                              let lastweek of lastWeekDates;
-                              let selectedDateIndex = index
-                            "
-                          >
-                            <span
-                              class="progress-hours-title1 mx-1"
-                              *ngIf="selectedDateIndex !== 0"
-                              (click)="
-                                getDateForZoom(selectedDateIndex, lastweek)
-                              "
-                              [class.selected-date]="
-                                selectedDate === selectedDateIndex
-                              "
-                              >{{ lastweek.date }}</span
-                            >
-                          </ng-container>
-                        </div>
-
-                        <div
-                          class="col-12 d-flex my-1 last-Week-dates"
-                          *ngIf="
-                            deviceSimsDetailsProgressToggleWeek && zoomIn === 1
-                          "
-                        >
-                          <span class="col-10 progress-hours-title1 mx-1"
-                            ><p class="selected-date">
-                              {{ lastWeekDates[selectedDate].date }}
-                            </p></span
-                          >
-                          <ng-container
-                            *ngFor="
-                              let lastweek of lastWeekDates;
-                              let i = index
-                            "
-                          >
-                            <span
-                              *ngIf="
-                                selectedDate + 2 === i || selectedDate + 1 === i
-                              "
-                              class="col-1 progress-hours-title1 mx-1"
-                              >{{ lastweek.date }}</span
-                            >
-                          </ng-container>
-                        </div>
-
-                        <div
-                          class="col-12 d-flex my-1"
-                          *ngIf="
-                            deviceSimsDetailsProgressToggleWeek && zoomIn === 2
-                          "
-                        >
-                          <span class="col-5 progress-hours-title1 mx-1"
-                            >24H-{{ dateSelected.date }}</span
-                          >
-                          <span class="col-2 progress-hours-title2"
-                            >12H-{{ dateSelected.date }}</span
-                          >
-                          <span class="col-5 progress-hours-title3"
-                            >Now-{{ dateSelected.date }}</span
-                          >
-                        </div>
-
-                        <div
-                          id="1D"
-                          class="
-                            progress
-                            col
-                            device-details-blocks device-progress-bar
-                          "
-                          *ngIf="deviceSimsDetailsProgressToggleDay"
-                        >
-                          <div>
-                            <div
-                              class="dayChart"
-                              id="device_timeline{{ deviceIndex }}"
-                            ></div>
-                          </div>
-                        </div>
-                        <div
-                          id="1W"
-                          class="
-                            progress
-                            col
-                            device-details-blocks device-progress-bar
-                          "
-                          *ngIf="
-                            deviceSimsDetailsProgressToggleWeek &&
-                            zoomIn !== 1 &&
-                            zoomIn !== 2
-                          "
-                        >
-                          <div>
-                            <div
-                              class="dayChart"
-                              id="device_timeline{{ deviceIndex }}"
-                            ></div>
-                          </div>
-                        </div>
-                        <div
-                          id="1W"
-                          class="
-                            progress
-                            col
-                            device-details-blocks device-progress-bar
-                          "
-                          *ngIf="
-                            deviceSimsDetailsProgressToggleWeek && zoomIn === 1
-                          "
-                        >
-                          <div>
-                            <div
-                              class="dayChart"
-                              id="device_timeline{{ deviceIndex }}"
-                            ></div>
-                          </div>
-                        </div>
-                        <div
-                          id="1W"
-                          class="
-                            progress
-                            col
-                            device-details-blocks device-progress-bar
-                          "
-                          *ngIf="
-                            deviceSimsDetailsProgressToggleWeek && zoomIn === 2
-                          "
-                        >
-                          <div>
-                            <div
-                              class="dayChart"
-                              id="device_timeline{{ deviceIndex }}"
-                            ></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="button-sec d-flex">
-                        <button
-                          mat-button
-                          class="ping-device"
-                          (click)="
-                            deviceSimsDetailItemDetailsPopUp =
-                              !deviceSimsDetailItemDetailsPopUp
-                          "
-                          [@inOutAnimation]
-                        >
-                          Ping Device
-                        </button>
-                      </div>
-                      <div class="ping-failed d-flex">
-                        <div class="zoom-filed" *ngIf="selectedDate !== -1">
-                          <button
-                            class="toggle-less"
-                            (click)="zoomgraph(true, zoomIn - 1)"
-                          >
-                            <img
-                              *ngIf="isZoomIn"
-                              src="assets/AdminPanel/negative.svg"
-                            />
-                            <img
-                              *ngIf="!isZoomIn"
-                              src="assets/AdminPanel/gray-negative.svg"
-                            />
-                          </button>
-                          <button
-                            class="toggle-more"
-                            (click)="zoomgraph(false, zoomIn + 1)"
-                          >
-                            <img
-                              *ngIf="!isZoomIn"
-                              src="assets/AdminPanel/plush-blue.svg"
-                            />
-                            <img
-                              *ngIf="isZoomIn"
-                              src="assets/AdminPanel/gray-plus.svg"
-                            />
-                          </button>
-                        </div>
-                        <div class="failed-link">
-                          <img src="../../assets/deviceSim/close-red.svg" />
-                          Ping Failed
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="device-sims-detail-view-details-card-history mx-2"
-                  >
-                    <div class="d-flex my-5">
-                      <div class="content">
-                        <div class="label">Last Registered</div>
-                        <div class="details">6 Hours ago</div>
-                      </div>
-                      <div class="content">
-                        <div class="label">Most Recent IMEI</div>
-                        <div class="details">*************</div>
-                      </div>
-                      <div class="content">
-                        <div class="label">Last Session Length</div>
-                        <div class="details">6 Hours</div>
-                      </div>
-                      <div class="content">
-                        <div class="label">Last Api Connected</div>
-                        <div class="details">AP #1</div>
-                      </div>
-                      <div class="content">
-                        <div class="label">Last APP Endpoint</div>
-                        <div class="details">www.zoom.com</div>
-                      </div>
-                      <div class="content">
-                        <div class="label">Ip Address</div>
-                        <div class="details">191.123.123.0</div>
-                      </div>
-                    </div>
-                    <div class="d-flex my-5">
-                      <div class="content">
-                        <div class="label">Last Registered</div>
-                        <div class="details">6 Hours ago</div>
-                      </div>
-                      <div class="content">
-                        <div class="label">Most Recent IMEI</div>
-                        <div class="details">*************</div>
-                      </div>
-                      <div class="content">
-                        <div class="label">Last Session Length</div>
-                        <div class="details">6 Hours</div>
-                      </div>
-                      <div class="content">
-                        <div class="label">Last Api Connected</div>
-                        <div class="details">AP #1</div>
-                      </div>
-                      <div class="content">
-                        <div class="label">Last APP Endpoint</div>
-                        <div class="details">www.zoom.com</div>
-                      </div>
-                      <div class="content">
-                        <div class="label">Ip Address</div>
-                        <div class="details">191.123.123.0</div>
-                      </div>
-                    </div>
-                  </div>
-                </mat-card-content>
-              </form>
-            </mat-card>
-            <!--END DEVICE SIMS DETAILS VIEW ITEMS DETAILS BUTTON POP UP-->
-          </div>
-        </div>
-      </div>
-      <!-- END DEVICE + SIMS BLOCK-->
-      <!--INVENTORY DEVICES  -->
-      <div
-        class="inventory-device-block device-details-view pt-3"
-        *ngIf="deviceViewToggle"
-      >
-        <div class="row">
-          <!--button for Add new device-->
-          <mat-card
-            class="aether-add-active-device add-new-device col my-1"
-            *ngIf="!addNewDevice"
-          >
-            <button
-              class="btn col-3 add-active button-medium-14"
-              (click)="addNewDeviceFun()"
-            >
-              Add new device
-            </button>
-          </mat-card>
-          <!--add new device form-->
-          <mat-card
-            class="active-new-device-form my-1 forms-block"
-            *ngIf="addNewDevice"
-            [@inOutAnimation]
-          >
-            <mat-card-title class="activate-title my-4 mx-2"
-              >Add new device</mat-card-title
-            >
-            <form [formGroup]="inventoryDeviceSimForm">
-              <mat-card-content>
-                <div class="add-new-device-form form-content my-4 mx-2 d-flex">
-                  <div class="row my-3">
-                    <div class="row">
-                      <div class="col-12 my-3">
-                        <div
-                          id="add-new-device-form-id"
-                          class="col-12 my-2 d-flex"
-                        >
-                          <div class="mx-1">
-                            <mat-label
-                              class="form-field-title"
-                              for="inventoryDeviceName"
-                              >Device name</mat-label
-                            >
-                            <input
-                              class="form-control form-field-big"
-                              type="text"
-                              formControlName="inventoryDeviceName"
-                              name="inventoryDeviceName"
-                              id="inventoryDeviceName"
-                              placeholder="Name"
-                            />
-                          </div>
-                          <div class="mx-2">
-                            <mat-label
-                              class="form-field-title"
-                              for="inventoryDeviceLocation"
-                              >Device location</mat-label
-                            >
-                            <input
-                              type="text"
-                              name="inventoryDeviceLocation"
-                              id="inventoryDeviceLocation"
-                              class="form-control form-field-big"
-                              formControlName="inventoryDeviceLocation"
-                              placeholder="eg.Floor 1, Floor 2 etc"
-                            />
-                          </div>
-                          <div class="mx-2">
-                            <mat-label
-                              class="form-field-title"
-                              for="inventoryDeviceSerialNum"
-                              >Device serial number</mat-label
-                            >
-                            <input
-                              type="text"
-                              name="inventoryDeviceSerialNum"
-                              id="inventoryDeviceSerialNum"
-                              class="form-control form-field-big"
-                              formControlName="inventoryDeviceSerialNum"
-                              placeholder="XXX-XXX-XXXX"
-                            />
-                          </div>
-                          <div class="mat-select-box mx-2">
-                            <h4 class="form-label my-1">Device Type</h4>
-                            <mat-form-field class="my-1" appearance="fill">
-                              <mat-select
-                                placeholder="Camera, Phone, ..."
-                                formControlName="inventoryDeviceType"
-                              >
-                                <mat-option
-                                  [value]="type"
-                                  *ngFor="
-                                    let type of deviceType;
-                                    let typeIndex = index
-                                  "
-                                  >{{ type }}</mat-option
-                                >
-                              </mat-select>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="add-plus">
-                      <div>+Add</div>
-                    </div>
-                  </div>
-                </div>
-              </mat-card-content>
-              <mat-card-actions class="mat-card-actions d-flex bottom-button">
-                <span class="down-up-load d-flex">
-                  <span class="download-template">
-                    <img
-                      class="ng-tns-c119-0"
-                      src="../../assets/deviceSim/download.svg"
-                    />
-                    Download Template
-                  </span>
-                  <span class="upload-bulk">
-                    <img
-                      class="ng-tns-c119-0"
-                      src="../../assets/deviceSim/upload.svg"
-                    />
-                    Upload Bulk
-                  </span>
-                </span>
-                <div class="button-sec">
-                  <!-- <button
-                    mat-button
-                    type="button"
-                    class="cancel"
-                    (click)="addNewDeviceFun()"
-                    [@inOutAnimation]
-                  >
-                    Cancel
-                  </button> -->
                   <button
                     class="add"
                     type="button"
                     mat-raised-button
-                    (click)="addNewDeviceInventory()"
-                    [@inOutAnimation]
+                    color="primary"
+                    (click)="actualEdit(deviceIndex)"
                   >
-                    Add
+                    Save
                   </button>
                   <button
+                    type="button"
                     mat-button
                     class="cancel"
-                    (click)="addNewDeviceFun()"
-                    [@inOutAnimation]
+                    (click)="closeEdit()"
                   >
                     Cancel
                   </button>
@@ -1074,289 +697,933 @@
               </mat-card-actions>
             </form>
           </mat-card>
-          <!-- end add new device form-->
-        </div>
-
-        <!--device-inventory view-->
-        <div class="row">
-          <div class="p-3" *ngIf="deviceInventory.length <= 0">
-            There are no devices at the moment in Inventory
-          </div>
-          <div
-            *ngFor="
-              let inventoryDevices of deviceInventory;
-              let inventoryDeviceIndex = index
+          <!-- </div> -->
+          <!--END DEVICE SIMS DETAILS VIEW EDIT FORM-->
+          <!--DEVICE SIMS DETAILS VIEW ITEMS DETAILS BUTTON POP UP-->
+          <mat-card
+            class="
+              active-new-device-form active-new-device-form
+              device-sims-detail-view-details-form
+              forms-block
             "
+            *ngIf="deviceDetails.indexOf(deviceIndex) >= 0"
           >
-            <mat-card class="device-view col-12 d-flex my-1 device-detail-card">
-              <div class="ng-tns-c119-0 vector">
-                <div class="vector-bg">
-                  <img
-                    class="ng-tns-c119-0"
-                    src="../../assets/deviceSim/cc-cam-big.svg"
-                  />
+            <form [formGroup]="deviceSimFormGroup">
+              <mat-card-content>
+                <div
+                  class="
+                    device-sims-detail-view-details-card-form
+                    form-content
+                    my-4
+                    mx-2
+                    d-flex
+                  "
+                >
+                  <div class="row my-3">
+                    <div class="col-12 d-flex section-one">
+                      <div class="title">Device Performance Time Series</div>
+                      <div class="progress-bar-tabs">
+                        <span
+                          class="one-day"
+                          (click)="deviceSimsDetailsProgressToggleDayFun()"
+                          [ngClass]="
+                            deviceSimsDetailsProgressToggleDay === true
+                              ? 'active'
+                              : 'in-active'
+                          "
+                          >1D</span
+                        >
+                        <span
+                          class="one-week"
+                          (click)="deviceSimsDetailsProgressToggleWeekFun()"
+                          [ngClass]="
+                            deviceSimsDetailsProgressToggleWeek === true
+                              ? 'active'
+                              : 'in-active'
+                          "
+                          >1W</span
+                        >
+                      </div>
+                      <div class="legends">Legends</div>
+                      <div class="legends-details">
+                        <span class="connected-event"
+                          >Connected (Event)
+                          <img src="../../assets/deviceSim/success-dot.svg"
+                        /></span>
+                        <span class="bad-event"
+                          >Bad Event
+                          <img src="../../assets/deviceSim/error-dot.svg"
+                        /></span>
+                        <span class="in-session"
+                          >In Session
+                          <img src="../../assets/deviceSim/in-session.svg"
+                        /></span>
+                      </div>
+                    </div>
+                    <div class="progress-bar-sec">
+                      <div
+                        class="col-12 d-flex my-1"
+                        *ngIf="deviceSimsDetailsProgressToggleDay"
+                      >
+                        <span class="col-5 progress-hours-title1 mx-1"
+                          >24H</span
+                        >
+                        <span class="col-2 progress-hours-title2">12H</span>
+                        <span class="col-5 progress-hours-title3">Now</span>
+                      </div>
+
+                      <div
+                        class="col-12 d-flex my-1 last-Week-dates"
+                        *ngIf="
+                          deviceSimsDetailsProgressToggleWeek && zoomIn === 0
+                        "
+                      >
+                        <ng-container
+                          *ngFor="
+                            let lastweek of lastWeekDates;
+                            let selectedDateIndex = index
+                          "
+                        >
+                          <span
+                            class="progress-hours-title1 mx-1"
+                            *ngIf="selectedDateIndex !== 0"
+                            (click)="
+                              getDateForZoom(selectedDateIndex, lastweek)
+                            "
+                            [class.selected-date]="
+                              selectedDate === selectedDateIndex
+                            "
+                            >{{ lastweek.date }}</span
+                          >
+                        </ng-container>
+                      </div>
+
+                      <div
+                        class="col-12 d-flex my-1 last-Week-dates"
+                        *ngIf="
+                          deviceSimsDetailsProgressToggleWeek && zoomIn === 1
+                        "
+                      >
+                        <span class="col-10 progress-hours-title1 mx-1"
+                          ><p class="selected-date">
+                            {{ lastWeekDates[selectedDate].date }}
+                          </p></span
+                        >
+                        <ng-container
+                          *ngFor="let lastweek of lastWeekDates; let i = index"
+                        >
+                          <span
+                            *ngIf="
+                              selectedDate + 2 === i || selectedDate + 1 === i
+                            "
+                            class="col-1 progress-hours-title1 mx-1"
+                            >{{ lastweek.date }}</span
+                          >
+                        </ng-container>
+                      </div>
+
+                      <div
+                        class="col-12 d-flex my-1"
+                        *ngIf="
+                          deviceSimsDetailsProgressToggleWeek && zoomIn === 2
+                        "
+                      >
+                        <span class="col-5 progress-hours-title1 mx-1"
+                          >24H-{{ dateSelected.date }}</span
+                        >
+                        <span class="col-2 progress-hours-title2"
+                          >12H-{{ dateSelected.date }}</span
+                        >
+                        <span class="col-5 progress-hours-title3"
+                          >Now-{{ dateSelected.date }}</span
+                        >
+                      </div>
+
+                      <div
+                        id="1D"
+                        class="
+                          progress
+                          col
+                          device-details-blocks device-progress-bar
+                        "
+                        *ngIf="deviceSimsDetailsProgressToggleDay"
+                      >
+                        <div>
+                          <div
+                            class="dayChart"
+                            id="device_timeline{{ deviceIndex }}"
+                          ></div>
+                        </div>
+                      </div>
+                      <div
+                        id="1W"
+                        class="
+                          progress
+                          col
+                          device-details-blocks device-progress-bar
+                        "
+                        *ngIf="
+                          deviceSimsDetailsProgressToggleWeek &&
+                          zoomIn !== 1 &&
+                          zoomIn !== 2
+                        "
+                      >
+                        <div>
+                          <div
+                            class="dayChart"
+                            id="device_timeline{{ deviceIndex }}"
+                          ></div>
+                        </div>
+                      </div>
+                      <div
+                        id="1W"
+                        class="
+                          progress
+                          col
+                          device-details-blocks device-progress-bar
+                        "
+                        *ngIf="
+                          deviceSimsDetailsProgressToggleWeek && zoomIn === 1
+                        "
+                      >
+                        <div>
+                          <div
+                            class="dayChart"
+                            id="device_timeline{{ deviceIndex }}"
+                          ></div>
+                        </div>
+                      </div>
+                      <div
+                        id="1W"
+                        class="
+                          progress
+                          col
+                          device-details-blocks device-progress-bar
+                        "
+                        *ngIf="
+                          deviceSimsDetailsProgressToggleWeek && zoomIn === 2
+                        "
+                      >
+                        <div>
+                          <div
+                            class="dayChart"
+                            id="device_timeline{{ deviceIndex }}"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="button-sec d-flex">
+                      <button
+                        mat-button
+                        class="ping-device"
+                        (click)="
+                          deviceSimsDetailItemDetailsPopUp =
+                            !deviceSimsDetailItemDetailsPopUp
+                        "
+                      >
+                        Ping Device
+                      </button>
+                    </div>
+                    <div class="ping-failed d-flex">
+                      <div class="zoom-filed" *ngIf="selectedDate !== -1">
+                        <button
+                          class="toggle-less"
+                          (click)="zoomgraph(true, zoomIn - 1)"
+                        >
+                          <img
+                            *ngIf="isZoomIn"
+                            src="assets/AdminPanel/negative.svg"
+                          />
+                          <img
+                            *ngIf="!isZoomIn"
+                            src="assets/AdminPanel/gray-negative.svg"
+                          />
+                        </button>
+                        <button
+                          class="toggle-more"
+                          (click)="zoomgraph(false, zoomIn + 1)"
+                        >
+                          <img
+                            *ngIf="!isZoomIn"
+                            src="assets/AdminPanel/plush-blue.svg"
+                          />
+                          <img
+                            *ngIf="isZoomIn"
+                            src="assets/AdminPanel/gray-plus.svg"
+                          />
+                        </button>
+                      </div>
+                      <div class="failed-link">
+                        <img src="../../assets/deviceSim/close-red.svg" />
+                        Ping Failed
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="device-sims-detail-view-details-card-history mx-2">
+                  <div class="d-flex my-5">
+                    <div class="content">
+                      <div class="label">Last Registered</div>
+                      <div class="details">6 Hours ago</div>
+                    </div>
+                    <div class="content">
+                      <div class="label">Most Recent IMEI</div>
+                      <div class="details">*************</div>
+                    </div>
+                    <div class="content">
+                      <div class="label">Last Session Length</div>
+                      <div class="details">6 Hours</div>
+                    </div>
+                    <div class="content">
+                      <div class="label">Last Api Connected</div>
+                      <div class="details">AP #1</div>
+                    </div>
+                    <div class="content">
+                      <div class="label">Last APP Endpoint</div>
+                      <div class="details">www.zoom.com</div>
+                    </div>
+                    <div class="content">
+                      <div class="label">Ip Address</div>
+                      <div class="details">191.123.123.0</div>
+                    </div>
+                  </div>
+                  <div class="d-flex my-5">
+                    <div class="content">
+                      <div class="label">Last Registered</div>
+                      <div class="details">6 Hours ago</div>
+                    </div>
+                    <div class="content">
+                      <div class="label">Most Recent IMEI</div>
+                      <div class="details">*************</div>
+                    </div>
+                    <div class="content">
+                      <div class="label">Last Session Length</div>
+                      <div class="details">6 Hours</div>
+                    </div>
+                    <div class="content">
+                      <div class="label">Last Api Connected</div>
+                      <div class="details">AP #1</div>
+                    </div>
+                    <div class="content">
+                      <div class="label">Last APP Endpoint</div>
+                      <div class="details">www.zoom.com</div>
+                    </div>
+                    <div class="content">
+                      <div class="label">Ip Address</div>
+                      <div class="details">191.123.123.0</div>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </form>
+          </mat-card>
+          <!--END DEVICE SIMS DETAILS VIEW ITEMS DETAILS BUTTON POP UP-->
+        </div>
+      </div>
+    </div>
+    <!-- END DEVICE + SIMS BLOCK-->
+    <!--INVENTORY DEVICES  -->
+    <div
+      class="inventory-device-block device-details-view pt-3"
+      *ngIf="deviceViewToggle"
+    >
+      <!-- <div class="row"> -->
+      <!--button for Add new device-->
+      <mat-card
+        class="aether-add-active-device add-new-device col my-1"
+        *ngIf="!addNewDevice"
+      >
+        <button
+          class="btn col-3 add-active button-medium-14"
+          (click)="addNewDeviceFun()"
+        >
+          Add new device
+        </button>
+      </mat-card>
+      <!--add new device form-->
+      <mat-card
+        class="active-new-device-form my-1 forms-block"
+        *ngIf="addNewDevice"
+      >
+        <mat-card-title class="activate-title my-4 mx-2"
+          >Add new device</mat-card-title
+        >
+        <form [formGroup]="inventoryDeviceSimForm">
+          <mat-card-content>
+            <div class="add-new-device-form form-content my-4 mx-2 d-flex">
+              <div class="row my-3">
+                <div class="row">
+                  <div class="col-12 my-3">
+                    <div id="add-new-device-form-id" class="col-12 my-2 d-flex">
+                      <div class="mx-1">
+                        <mat-label
+                          class="form-field-title"
+                          for="inventoryDeviceName"
+                          >Device name</mat-label
+                        >
+                        <input
+                          class="form-control form-field-big"
+                          type="text"
+                          formControlName="inventoryDeviceName"
+                          name="inventoryDeviceName"
+                          id="inventoryDeviceName"
+                          placeholder="Name"
+                          [ngClass]="{
+                            'is-invalid':
+                              (addNewInventoryDeviceError ||
+                                inventoryDeviceSimForm.get(
+                                  'inventoryDeviceName'
+                                ).touched) &&
+                              inventoryDeviceSimForm.get('inventoryDeviceName')
+                                .invalid
+                          }"
+                        />
+                        <div
+                          *ngIf="
+                            (addNewInventoryDeviceError ||
+                              inventoryDeviceSimForm.get('inventoryDeviceName')
+                                .touched) &&
+                            inventoryDeviceSimForm.get('inventoryDeviceName')
+                              .invalid
+                          "
+                          class="error-field"
+                        >
+                          Device name is required*
+                        </div>
+                      </div>
+                      <div class="mx-2">
+                        <mat-label
+                          class="form-field-title"
+                          for="inventoryDeviceLocation"
+                          >Device location</mat-label
+                        >
+                        <input
+                          type="text"
+                          name="inventoryDeviceLocation"
+                          id="inventoryDeviceLocation"
+                          class="form-control form-field-big"
+                          formControlName="inventoryDeviceLocation"
+                          placeholder="eg.Floor 1, Floor 2 etc"
+                          [ngClass]="{
+                            'is-invalid':
+                              (addNewInventoryDeviceError ||
+                                inventoryDeviceSimForm.get(
+                                  'inventoryDeviceLocation'
+                                ).touched) &&
+                              inventoryDeviceSimForm.get(
+                                'inventoryDeviceLocation'
+                              ).invalid
+                          }"
+                        />
+                        <div
+                          *ngIf="
+                            (addNewInventoryDeviceError ||
+                              inventoryDeviceSimForm.get(
+                                'inventoryDeviceLocation'
+                              ).touched) &&
+                            inventoryDeviceSimForm.get(
+                              'inventoryDeviceLocation'
+                            ).invalid
+                          "
+                          class="error-field"
+                        >
+                          Device location is required*
+                        </div>
+                      </div>
+                      <div class="mx-2">
+                        <mat-label
+                          class="form-field-title"
+                          for="inventoryDeviceSerialNum"
+                          >Device serial number</mat-label
+                        >
+                        <input
+                          type="text"
+                          name="inventoryDeviceSerialNum"
+                          id="inventoryDeviceSerialNum"
+                          class="form-control form-field-big"
+                          formControlName="inventoryDeviceSerialNum"
+                          placeholder="XXX-XXX-XXXX"
+                          [ngClass]="{
+                            'is-invalid':
+                              (addNewInventoryDeviceError ||
+                                inventoryDeviceSimForm.get(
+                                  'inventoryDeviceSerialNum'
+                                ).touched) &&
+                              inventoryDeviceSimForm.get(
+                                'inventoryDeviceSerialNum'
+                              ).invalid
+                          }"
+                        />
+                        <div
+                          *ngIf="
+                            (addNewInventoryDeviceError ||
+                              inventoryDeviceSimForm.get(
+                                'inventoryDeviceSerialNum'
+                              ).touched) &&
+                            inventoryDeviceSimForm.get(
+                              'inventoryDeviceSerialNum'
+                            ).invalid
+                          "
+                          class="error-field"
+                        >
+                          Device serial number is required*
+                        </div>
+                      </div>
+                      <div class="mat-select-box mx-2">
+                        <h4 class="form-label my-1">Device Type</h4>
+                        <mat-form-field
+                          class="my-1"
+                          appearance="fill"
+                          [ngClass]="{
+                            'is-invalid':
+                              (addNewInventoryDeviceError ||
+                                inventoryDeviceSimForm.get(
+                                  'inventoryDeviceType'
+                                ).touched) &&
+                              inventoryDeviceSimForm.get('inventoryDeviceType')
+                                .invalid
+                          }"
+                        >
+                          <mat-select
+                            placeholder="Camera, Phone, ..."
+                            formControlName="inventoryDeviceType"
+                          >
+                            <mat-option
+                              [value]="type"
+                              *ngFor="
+                                let type of deviceType;
+                                let typeIndex = index
+                              "
+                              >{{ type }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                        <div
+                          *ngIf="
+                            (addNewInventoryDeviceError ||
+                              inventoryDeviceSimForm.get('inventoryDeviceType')
+                                .touched) &&
+                            inventoryDeviceSimForm.get('inventoryDeviceType')
+                              .invalid
+                          "
+                          class="error-field"
+                        >
+                          Device serial number is required*
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="add-plus">
+                  <div>+Add</div>
                 </div>
               </div>
-              <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
-                <div class="title">device name</div>
-                <div class="desc">{{ inventoryDevices["display-name"] }}</div>
-              </div>
-              <div
-                class="mx-3 device-details-blocks device-location ng-tns-c119-0"
-              >
-                <div class="title">device location</div>
-                <div class="desc">{{ inventoryDevices.location }}</div>
-              </div>
-              <div
-                class="
-                  mx-3
-                  device-details-blocks device-serial-no
-                  ng-tns-c119-0
-                "
-              >
-                <div class="title">device serial no</div>
-                <div class="desc">{{ inventoryDevices["serial-number"] }}</div>
-              </div>
-              <div class="mx-3 device-details-blocks device-type ng-tns-c119-0">
-                <div class="title">device Type</div>
-                <div class="desc">{{ inventoryDevices.type }}</div>
-              </div>
-
-              <div
-                class="
-                  col-1
-                  device-details-view-edit
-                  ng-tns-c119-0 ng-star-inserted
-                "
-                (click)="inventoryEditTrigger(inventoryDeviceIndex)"
-                *ngIf="editInventory.indexOf(inventoryDeviceIndex) < 0"
-              >
+            </div>
+          </mat-card-content>
+          <mat-card-actions class="mat-card-actions d-flex bottom-button">
+            <span class="down-up-load d-flex">
+              <span class="download-template">
                 <img
-                  src="../../assets/deviceSim/pencil.svg"
                   class="ng-tns-c119-0"
+                  src="../../assets/deviceSim/download.svg"
                 />
-                Edit
-              </div>
-              <div
-                class="
-                  col-1
-                  device-details-view-edit
-                  close
-                  ng-tns-c119-0 ng-star-inserted
-                "
-                (click)="closeEditInventory()"
-                *ngIf="editInventory.indexOf(inventoryDeviceIndex) >= 0"
+                Download Template
+              </span>
+              <span class="upload-bulk">
+                <img
+                  class="ng-tns-c119-0"
+                  src="../../assets/deviceSim/upload.svg"
+                />
+                Upload Bulk
+              </span>
+            </span>
+            <div class="button-sec">
+              <!-- <button
+                    mat-button
+                    type="button"
+                    class="cancel"
+                    (click)="addNewDeviceFun()"
+                  >
+                    Cancel
+                  </button> -->
+              <button
+                class="add"
+                type="button"
+                mat-raised-button
+                (click)="addNewDeviceInventory()"
+                [ngClass]="{
+                  'add-button-gray': inventoryDeviceSimForm.pristine
+                }"
               >
-                Close
-              </div>
-            </mat-card>
-            <!-- END INVENTORY DEVICE EDIT FORM -->
-            <mat-card
-              class="active-new-device-form my-1 forms-block"
-              *ngIf="editInventory.indexOf(inventoryDeviceIndex) >= 0"
-              [@inOutAnimation]
-            >
-              <form [formGroup]="inventoryEditForm">
-                <mat-card-content>
-                  <div class="add-new-device-form my-4 mx-2 d-flex">
-                    <div class="row my-3">
-                      <div class="row">
-                        <div class="col-12 my-3">
-                          <div
-                            id="add-new-device-form-id"
-                            class="col-12 my-2 d-flex"
+                Add
+              </button>
+              <button mat-button class="cancel" (click)="addNewDeviceFun()">
+                Cancel
+              </button>
+            </div>
+          </mat-card-actions>
+        </form>
+      </mat-card>
+      <!-- end add new device form-->
+      <!-- </div> -->
+
+      <!--device-inventory view-->
+      <!-- <div class="row"> -->
+      <div class="p-3" *ngIf="deviceInventory.length <= 0">
+        There are no devices at the moment in Inventory
+      </div>
+      <div
+        *ngFor="
+          let inventoryDevices of deviceInventory;
+          let inventoryDeviceIndex = index
+        "
+      >
+        <mat-card class="device-view col-12 d-flex my-1 device-detail-card">
+          <div class="ng-tns-c119-0 vector">
+            <div class="vector-bg">
+              <img
+                class="ng-tns-c119-0"
+                src="../../assets/deviceSim/cc-cam-big.svg"
+              />
+            </div>
+          </div>
+          <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
+            <div class="title">device name</div>
+            <div class="desc">{{ inventoryDevices["display-name"] }}</div>
+          </div>
+          <div class="mx-3 device-details-blocks device-location ng-tns-c119-0">
+            <div class="title">device location</div>
+            <div class="desc">{{ inventoryDevices.location }}</div>
+          </div>
+          <div
+            class="mx-3 device-details-blocks device-serial-no ng-tns-c119-0"
+          >
+            <div class="title">device serial no</div>
+            <div class="desc">{{ inventoryDevices["serial-number"] }}</div>
+          </div>
+          <div class="mx-3 device-details-blocks device-type ng-tns-c119-0">
+            <div class="title">device Type</div>
+            <div class="desc">{{ inventoryDevices.type }}</div>
+          </div>
+
+          <div
+            class="
+              col-1
+              device-details-view-edit
+              ng-tns-c119-0 ng-star-inserted
+            "
+            (click)="inventoryEditTrigger(inventoryDeviceIndex)"
+            *ngIf="editInventory.indexOf(inventoryDeviceIndex) < 0"
+          >
+            <img
+              src="../../assets/deviceSim/pencil.svg"
+              class="ng-tns-c119-0"
+            />
+            Edit
+          </div>
+          <div
+            class="
+              col-1
+              device-details-view-edit-close
+              ng-tns-c119-0 ng-star-inserted
+            "
+            (click)="closeEditInventory()"
+            *ngIf="editInventory.indexOf(inventoryDeviceIndex) >= 0"
+          >
+            Close
+          </div>
+        </mat-card>
+        <!-- END INVENTORY DEVICE EDIT FORM -->
+        <mat-card
+          class="active-new-device-form my-1 forms-block"
+          *ngIf="editInventory.indexOf(inventoryDeviceIndex) >= 0"
+        >
+          <form [formGroup]="inventoryEditForm">
+            <mat-card-content>
+              <div class="add-new-device-form my-4 mx-2 d-flex">
+                <div class="row my-3">
+                  <div class="row">
+                    <div class="col-12 my-3">
+                      <div
+                        id="add-new-device-form-id"
+                        class="col-12 my-2 d-flex"
+                      >
+                        <div class="mx-1">
+                          <mat-label
+                            class="form-field-title"
+                            for="inventoryDeviceName"
+                            >Device name</mat-label
                           >
-                            <div class="mx-1">
-                              <mat-label
-                                class="form-field-title"
-                                for="inventoryDeviceName"
-                                >Device name</mat-label
-                              >
-                              <input
-                                class="form-control form-field-big"
-                                type="text"
-                                [formControl]="
-                                  getEditInventoryControl(
-                                    inventoryDevices.form,
+                          <input
+                            class="form-control form-field-big"
+                            type="text"
+                            [formControl]="
+                              getEditInventoryControl(
+                                inventoryDevices.form,
+                                'inventoryDeviceName'
+                              )
+                            "
+                            name="inventoryDeviceName"
+                            id="inventoryDeviceName"
+                            placeholder="Name"
+                            [ngClass]="{
+                              'is-invalid':
+                                (editInventoryDeviceError ||
+                                  inventoryDevices.form.get(
                                     'inventoryDeviceName'
-                                  )
-                                "
-                                name="inventoryDeviceName"
-                                id="inventoryDeviceName"
-                                placeholder="Name"
-                              />
-                            </div>
-                            <div class="mx-2">
-                              <mat-label
-                                class="form-field-title"
-                                for="inventoryDeviceLocation"
-                                >Device location</mat-label
-                              >
-                              <input
-                                type="text"
-                                name="inventoryDeviceLocation"
-                                id="inventoryDeviceLocation"
-                                class="form-control form-field-big"
-                                [formControl]="
-                                  getEditInventoryControl(
-                                    inventoryDevices.form,
+                                  ).touched) &&
+                                inventoryDevices.form.get('inventoryDeviceName')
+                                  .invalid
+                            }"
+                          />
+                          <div
+                            *ngIf="
+                              (editInventoryDeviceError ||
+                                inventoryDevices.form.get('inventoryDeviceName')
+                                  .touched) &&
+                              inventoryDevices.form.get('inventoryDeviceName')
+                                .invalid
+                            "
+                            class="error-field"
+                          >
+                            Device name is required*
+                          </div>
+                        </div>
+                        <div class="mx-2">
+                          <mat-label
+                            class="form-field-title"
+                            for="inventoryDeviceLocation"
+                            >Device location</mat-label
+                          >
+                          <input
+                            type="text"
+                            name="inventoryDeviceLocation"
+                            id="inventoryDeviceLocation"
+                            class="form-control form-field-big"
+                            [formControl]="
+                              getEditInventoryControl(
+                                inventoryDevices.form,
+                                'inventoryDeviceLocation'
+                              )
+                            "
+                            placeholder="eg.Floor 1, Floor 2 etc"
+                            [ngClass]="{
+                              'is-invalid':
+                                (editInventoryDeviceError ||
+                                  inventoryDevices.form.get(
                                     'inventoryDeviceLocation'
-                                  )
-                                "
-                                placeholder="eg.Floor 1, Floor 2 etc"
-                              />
-                            </div>
-                            <div class="mx-2">
-                              <mat-label
-                                class="form-field-title"
-                                for="inventoryDeviceSerialNum"
-                                >Device serial number</mat-label
-                              >
-                              <input
-                                type="text"
-                                name="inventoryDeviceSerialNum"
-                                id="inventoryDeviceSerialNum"
-                                class="form-control form-field-big"
-                                [formControl]="
-                                  getEditInventoryControl(
-                                    inventoryDevices.form,
+                                  ).touched) &&
+                                inventoryDevices.form.get(
+                                  'inventoryDeviceLocation'
+                                ).invalid
+                            }"
+                          />
+                          <div
+                            *ngIf="
+                              (editInventoryDeviceError ||
+                                inventoryDevices.form.get(
+                                  'inventoryDeviceLocation'
+                                ).touched) &&
+                              inventoryDevices.form.get(
+                                'inventoryDeviceLocation'
+                              ).invalid
+                            "
+                            class="error-field"
+                          >
+                            Device location is required*
+                          </div>
+                        </div>
+                        <div class="mx-2">
+                          <mat-label
+                            class="form-field-title"
+                            for="inventoryDeviceSerialNum"
+                            >Device serial number</mat-label
+                          >
+                          <input
+                            type="text"
+                            name="inventoryDeviceSerialNum"
+                            id="inventoryDeviceSerialNum"
+                            class="form-control form-field-big"
+                            [formControl]="
+                              getEditInventoryControl(
+                                inventoryDevices.form,
+                                'inventoryDeviceSerialNum'
+                              )
+                            "
+                            placeholder="XXX-XXX-XXXX"
+                            [ngClass]="{
+                              'is-invalid':
+                                (editInventoryDeviceError ||
+                                  inventoryDevices.form.get(
                                     'inventoryDeviceSerialNum'
-                                  )
+                                  ).touched) &&
+                                inventoryDevices.form.get(
+                                  'inventoryDeviceSerialNum'
+                                ).invalid
+                            }"
+                          />
+                          <div
+                            *ngIf="
+                              (editInventoryDeviceError ||
+                                inventoryDevices.form.get(
+                                  'inventoryDeviceSerialNum'
+                                ).touched) &&
+                              inventoryDevices.form.get(
+                                'inventoryDeviceSerialNum'
+                              ).invalid
+                            "
+                            class="error-field"
+                          >
+                            Device serial number is required*
+                          </div>
+                        </div>
+                        <div class="mat-select-box mx-3">
+                          <h4 class="form-label my-1">Device Type</h4>
+                          <mat-form-field
+                            class="my-1"
+                            appearance="fill"
+                            [ngClass]="{
+                              'is-invalid':
+                                (editInventoryDeviceError ||
+                                  inventoryDevices.form.get(
+                                    'inventoryDeviceType'
+                                  ).touched) &&
+                                inventoryDevices.form.get('inventoryDeviceType')
+                                  .invalid
+                            }"
+                          >
+                            <mat-select
+                              placeholder="Camera, Phone, .."
+                              [formControl]="
+                                getEditInventoryControl(
+                                  inventoryDevices.form,
+                                  'inventoryDeviceType'
+                                )
+                              "
+                            >
+                              <mat-option
+                                [value]="type"
+                                *ngFor="
+                                  let type of deviceType;
+                                  let typeIndex = index
                                 "
-                                placeholder="XXX-XXX-XXXX"
-                              />
-                            </div>
-                            <div class="mat-select-box mx-3">
-                              <h4 class="form-label my-1">Device Type</h4>
-                              <mat-form-field class="my-1" appearance="fill">
-                                <mat-select
-                                  placeholder="Camera, Phone, .."
-                                  [formControl]="
-                                    getEditInventoryControl(
-                                      inventoryDevices.form,
-                                      'inventoryDeviceType'
-                                    )
-                                  "
-                                >
-                                  <mat-option
-                                    [value]="type"
-                                    *ngFor="
-                                      let type of deviceType;
-                                      let typeIndex = index
-                                    "
-                                    >{{ type }}</mat-option
-                                  >
-                                </mat-select>
-                              </mat-form-field>
-                            </div>
+                                >{{ type }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                          <div
+                            *ngIf="
+                              (editInventoryDeviceError ||
+                                inventoryDevices.form.get('inventoryDeviceType')
+                                  .touched) &&
+                              inventoryDevices.form.get('inventoryDeviceType')
+                                .invalid
+                            "
+                            class="error-field"
+                          >
+                            Device serial number is required*
                           </div>
                         </div>
                       </div>
-                      <!-- <div class="add-plus">
+                    </div>
+                  </div>
+                  <!-- <div class="add-plus">
                         <div>+Add</div>
                       </div> -->
-                    </div>
-                  </div>
-                </mat-card-content>
-                <mat-card-actions class="mat-card-actions d-flex">
-                  <div
-                    class="device-sim-item-delete d-flex mx-2"
-                    (click)="openDeleteInventoryDialog(inventoryDeviceIndex)"
-                  >
-                    <div>
-                      <img
-                        class="ng-tns-c119-0"
-                        src="../../assets/deviceSim/delete.svg"
-                      />
-                    </div>
-                    <div class="delete-label">Delete</div>
-                  </div>
-                  <div class="button-sec">
-                    <button
-                      class="add"
-                      type="button"
-                      mat-raised-button
-                      color="primary"
-                      (click)="actualInventoryEdit(inventoryDeviceIndex)"
-                      [@inOutAnimation]
-                    >
-                      Save
-                    </button>
-                    <button
-                      mat-button
-                      type="button"
-                      class="cancel"
-                      (click)="closeEditInventory()"
-                      [@inOutAnimation]
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </mat-card-actions>
-              </form>
-            </mat-card>
-          </div>
-          <!-- END INVENTORY DEVICE EDIT FORM -->
-        </div>
-      </div>
-      <!-- END INVENTORY DEVICES  -->
-      <!--INVENTORY-SIMS-BLOCK -->
-      <div class="inventory-sims-block pt-3" *ngIf="inventorySimsToggle">
-        <div class="row">
-          <div class="p-3" *ngIf="simInventory.length <= 0">
-            There are no sims at the moment in Inventory
-          </div>
-          <mat-card
-            class="device-view col-12 d-flex my-3 device-detail-card"
-            *ngFor="let sims of simInventory; let simIndex = index"
-          >
-            <div class="ng-tns-c119-0 vector">
-              <div class="vector-bg">
-                <img
-                  class="ng-tns-c119-0"
-                  src="../../assets/deviceSim/sim.svg"
-                />
+                </div>
               </div>
-            </div>
-            <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
-              <div class="title">ICCID Number</div>
-              <div class="desc">{{ sims.simIccid }}</div>
-            </div>
-          </mat-card>
-        </div>
-        <!--END INVENTORY-SIMS-BLOCK -->
-      </div>
-      <!--END INVENTORY-SIMS-BLOCK -->
-      <!--CANCELLED SIMS BLOCK -->
-      <div class="cancelled-sims-block pt-3" *ngIf="cancelledSimsToggle">
-        <div class="row">
-          <mat-card
-            class="device-view col-12 d-flex device-detail-card"
-            *ngFor="let cancelsim of cancelledSimsStorage"
-          >
-            <div class="ng-tns-c119-0 vector">
-              <div class="vector-bg">
-                <img
-                  class="ng-tns-c119-0"
-                  src="../../assets/deviceSim/sim.svg"
-                />
+            </mat-card-content>
+            <mat-card-actions class="mat-card-actions d-flex">
+              <div
+                class="device-sim-item-delete d-flex mx-2"
+                (click)="openDeleteInventoryDialog(inventoryDeviceIndex)"
+              >
+                <div>
+                  <img
+                    class="ng-tns-c119-0"
+                    src="../../assets/deviceSim/delete.svg"
+                  />
+                </div>
+                <div class="delete-label">Delete</div>
               </div>
-            </div>
-            <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
-              <div class="title">iccic Number</div>
-              <div class="desc">{{ cancelsim.simIccid }}</div>
-            </div>
-            <div
-              class="mx-3 ng-tns-c119-0 connected offline cancelled"
-              style="margin-top: -5px"
-            >
-              <div>CANCELLED</div>
-            </div>
-          </mat-card>
-        </div>
+              <div class="button-sec">
+                <button
+                  class="add"
+                  type="button"
+                  mat-raised-button
+                  color="primary"
+                  (click)="actualInventoryEdit(inventoryDeviceIndex)"
+                >
+                  Save
+                </button>
+                <button
+                  mat-button
+                  type="button"
+                  class="cancel"
+                  (click)="closeEditInventory()"
+                >
+                  Cancel
+                </button>
+              </div>
+            </mat-card-actions>
+          </form>
+        </mat-card>
       </div>
-      <!--END CANCELLED SIMS BLOCK -->
+      <!-- END INVENTORY DEVICE EDIT FORM -->
+      <!-- </div> -->
     </div>
-    <!-- END RIGHT SIDE SECTION-->
+    <!-- END INVENTORY DEVICES  -->
+    <!--INVENTORY-SIMS-BLOCK -->
+    <div class="inventory-sims-block pt-3" *ngIf="inventorySimsToggle">
+      <!-- <div class="row"> -->
+      <div class="p-3" *ngIf="simInventory.length <= 0">
+        There are no sims at the moment in Inventory
+      </div>
+      <mat-card
+        class="device-view col-12 d-flex my-3 device-detail-card"
+        *ngFor="let sims of simInventory; let simIndex = index"
+      >
+        <div class="ng-tns-c119-0 vector">
+          <div class="vector-bg">
+            <img class="ng-tns-c119-0" src="../../assets/deviceSim/sim.svg" />
+          </div>
+        </div>
+        <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
+          <div class="title">ICCID Number</div>
+          <div class="desc">{{ sims.simIccid }}</div>
+        </div>
+      </mat-card>
+      <!-- </div> -->
+      <!--END INVENTORY-SIMS-BLOCK -->
+    </div>
+    <!--END INVENTORY-SIMS-BLOCK -->
+    <!--CANCELLED SIMS BLOCK -->
+    <div class="cancelled-sims-block pt-3" *ngIf="cancelledSimsToggle">
+      <!-- <div class="row"> -->
+      <mat-card
+        class="device-view col-12 d-flex my-3 device-detail-card"
+        *ngFor="let cancelsim of cancelledSimsStorage"
+      >
+        <div class="ng-tns-c119-0 vector">
+          <div class="vector-bg">
+            <img class="ng-tns-c119-0" src="../../assets/deviceSim/sim.svg" />
+          </div>
+        </div>
+        <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
+          <div class="title">iccic Number</div>
+          <div class="desc">{{ cancelsim.simIccid }}</div>
+        </div>
+        <div
+          class="mx-3 ng-tns-c119-0 connected offline cancelled"
+          style="margin-top: -5px"
+        >
+          <div>CANCELLED</div>
+        </div>
+      </mat-card>
+      <!-- </div> -->
+    </div>
+    <!--END CANCELLED SIMS BLOCK -->
   </div>
+  <!-- END RIGHT SIDE SECTION-->
+  <!-- </div> -->
 </div>

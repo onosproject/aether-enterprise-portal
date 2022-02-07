@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
-import { trigger, style, animate, transition } from '@angular/animations';
+// import { trigger, style, animate, transition } from '@angular/animations';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -24,16 +24,16 @@ interface Permission {
   selector: 'aep-admin',
   templateUrl: './admin.component.html',
   animations: [
-    trigger('inOutAnimation', [
-      transition(':enter', [
-        style({ height: 0, opacity: 0 }),
-        animate('0.1s ease-out', style({ height: 500, opacity: 1 })),
-      ]),
-      transition(':leave', [
-        style({ height: 500, opacity: 1 }),
-        animate('0.1s ease-in', style({ height: 0, opacity: 0 })),
-      ]),
-    ]),
+    // trigger('inOutAnimation', [
+    //   transition(':enter', [
+    //     style({ height: 0, opacity: 0 }),
+    //     animate('0.1s ease-out', style({ height: 500, opacity: 1 })),
+    //   ]),
+    //   transition(':leave', [
+    //     style({ height: 500, opacity: 1 }),
+    //     animate('0.1s ease-in', style({ height: 0, opacity: 0 })),
+    //   ]),
+    // ]),
   ],
   styles: [],
 })
@@ -71,6 +71,7 @@ export class AdminComponent implements OnInit {
   fileUrl: any = '';
   imageLoaded: boolean = false;
   addUserError: boolean = false;
+  editUserError: boolean = false;
 
   ngOnInit(): void {
     // subscriptions
@@ -183,7 +184,7 @@ export class AdminComponent implements OnInit {
     reader.onload = () => {
       this.fileUrl = reader.result;
       this.userForm.patchValue({ profilePic: reader.result });
-      console.log(this.fileUrl);
+      // console.log(this.fileUrl);
       this.imageLoaded = true;
     };
     reader.readAsDataURL(file);
@@ -298,14 +299,16 @@ export class AdminComponent implements OnInit {
       cities: new FormArray([]),
       profilePic: new FormControl(null, [Validators.required]),
     });
-    const cities = this.userForm.get('cities') as FormArray;
-    for (let i = 0; i < this.cities.length; i++) {
-      cities.push(new FormControl(0));
-    }
+    this.setUpCities();
+    // const cities = this.userForm.get('cities') as FormArray;
+    // for (let i = 0; i < this.cities.length; i++) {
+    //   cities.push(new FormControl(0));
+    // }
     this.userControls = this.userForm.controls;
   }
 
   addNewUser(): void {
+    this.addUserError = false;
     this.addNewForm();
     this.AddNew = !this.AddNew;
   }
@@ -345,9 +348,11 @@ export class AdminComponent implements OnInit {
       const id =
         this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
 
-      this.users.push({
+      // this.users.push({
+      this.userService.addUser({
         id: id,
         ppic: this.fileUrl,
+        // ppic: this.userForm.value.ppic,
         active: this.userForm.value.active,
         name: this.userForm.value.name,
         email: this.userForm.value.email,
@@ -373,6 +378,7 @@ export class AdminComponent implements OnInit {
         }
       }
       this.assignCitiesUsers();
+      this.assignUsersCities();
       // this.userForm.reset();
       this.fileUrl = '';
       this.imageLoaded = false;
@@ -395,13 +401,20 @@ export class AdminComponent implements OnInit {
       cities.push(new FormControl(0));
     }
   }
-
   onEdit(index: number): void {
     //console.log(this.userService.getUser(index));
     const id = this.users[index].id;
     const form = this.users[index].form.value;
     const user = this.users[index];
+    const isCitySelected =
+      this.userForm.value.cities.includes(1) ||
+      this.userForm.value.cities.includes(2) ||
+      this.userForm.value.cities.includes(3);
     this.editFormSubmit = true;
+    this.editUserError = false;
+    if (this.userForm.invalid || !isCitySelected) {
+      this.editUserError = true;
+    }
     if (this.users[index].form.valid) {
       user.ppic = form.ppic;
       user.name = form.name;
@@ -454,6 +467,16 @@ export class AdminComponent implements OnInit {
 
   confirmDelete(userIndex: number): void {
     this.editObject = this.userService.deleteUser(userIndex);
+    // const id = this.users[userIndex].id;
+    // this.users.splice(userIndex, 1);
+    // for (let i = 0; i < this.cities.length; i++) {
+    //   const userIndex = this.cities[i].users.findIndex(
+    //     (user) => user.userId === id
+    //   );
+    //   if (userIndex >= 0) {
+    //     this.cities[i].users.splice(userIndex);
+    //   }
+    // }
   }
 
   confirmDelCity(cityIndex: number, userIndex: number): void {

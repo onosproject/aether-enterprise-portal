@@ -32,8 +32,8 @@ export class DeviceSimService {
 
   mySite(data: string): any {
     this.selectedSite = data;
-    // //console.log(this.selectedSite)
-    // //console.log(data)
+    //console.log(this.selectedSite)
+    //console.log(data)
     this.mySiteSubject.next(data);
   }
 

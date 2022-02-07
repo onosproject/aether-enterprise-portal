@@ -19,6 +19,22 @@ export class UserService {
           accessLevel: 1,
           userId: 1,
         },
+        {
+          accessLevel: 2,
+          userId: 2,
+        },
+        {
+          accessLevel: 3,
+          userId: 3,
+        },
+        {
+          accessLevel: 2,
+          userId: 4,
+        },
+        {
+          accessLevel: 3,
+          userId: 5,
+        }
       ],
     },
     // {
@@ -232,6 +248,7 @@ export class UserService {
   }
 
   deleteUser(index: number): void {
+    // console.log(this.users)
     const id = this.users[index].id;
     this.users.splice(index, 1);
     for (let i = 0; i < this.cities.length; i++) {

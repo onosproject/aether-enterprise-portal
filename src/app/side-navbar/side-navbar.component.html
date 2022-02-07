@@ -23,7 +23,7 @@
   >
     <mat-label>site:</mat-label>
     <mat-select
-      [(value)]="selectSite"
+      value="site['siteID']"
       class="admin-addNew-form-permissionsSelect"
     >
       <mat-option
@@ -43,11 +43,10 @@
     src="../../assets/CommonAssets/ControlMenuLine.svg"
   />
   <div
-    class="menu d-flex align-items-center"
+    id="admin-nav "
+    class="menu d-flex align-items-center mb-2"
     routerLink="/admin"
     routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-    (mouseover)="foreache()"
   >
     <div class="img-bg">
       <div class="icon admin-link"></div>
@@ -55,10 +54,10 @@
     <div class="label mx-2">Admin</div>
   </div>
   <div
-    class="menu d-flex align-items-center"
+    id="navitem "
+    class="menu d-flex align-items-center my-2"
     routerLink="/device-sim"
     routerLinkActive="active"
-    (mouseover)="foreache()"
   >
     <div class="img-bg">
       <div class="icon device-sim-link"></div>
@@ -66,10 +65,10 @@
     <div class="label mx-2">Devices / Sim</div>
   </div>
   <div
-    class="menu d-flex align-items-center"
+    id="services-nav"
+    class="menu d-flex align-items-center my-2"
     routerLink="/services"
     routerLinkActive="active"
-    (mouseover)="foreache()"
   >
     <div class="img-bg">
       <div class="icon services-link"></div>
@@ -78,7 +77,7 @@
   </div>
 
   <mat-card-header>
-    <mat-card-title class="sideNavbar_navCard_headings"
+    <mat-card-title class="my-2 sideNavbar_navCard_headings"
       >CONFIGURE</mat-card-title
     >
   </mat-card-header>
@@ -86,62 +85,22 @@
     class="admin-sideCol-navCard-controlLine"
     src="../../assets/CommonAssets/ControlMenuLine.svg"
   />
-  <div class="" routerLink="/small-cells">
-    <div
-      class="d-flex"
-      [ngClass]="{
-        sideNavbar_optionStyling_active:
-          menuIcons.smallCells.smallCellsString ===
-          menuIcons.smallCells.smallCellsActive,
-        sideNavbar_optionStyling_inactive:
-          menuIcons.smallCells.smallCellsString ===
-          menuIcons.smallCells.smallCellsInactive
-      }"
-      (mouseover)="
-        menuIcons.smallCells.smallCellsString =
-          menuIcons.smallCells.smallCellsActive
-      "
-      (mouseout)="
-        menuIcons.smallCells.smallCellsString =
-          menuIcons.smallCells.smallCellsInactive
-      "
-    >
-      <div>
-        <span
-          class="sideNavbar_iconbg_inactive mx-1"
-          [ngStyle]="{
-            'background-color':
-              menuIcons.smallCells.smallCellsString ===
-              menuIcons.smallCells.smallCellsActive
-                ? '#0063F7'
-                : '#EDF4FF'
-          }"
-        >
-          <img
-            [src]="menuIcons.smallCells.smallCellsString"
-            height="12px"
-            width="12px"
-          />
-        </span>
-      </div>
-      <div
-        class="admin-sideCol-navCard-subHeading mx-2"
-        [ngClass]="{
-          sideNavbar_text_active:
-            menuIcons.smallCells.smallCellsString ===
-            menuIcons.smallCells.smallCellsActive
-        }"
-      >
-        Small Cells
-      </div>
+  <div
+    id="smallCells-nav"
+    class="menu d-flex align-items-center mb-2"
+    routerLink="/small-cells"
+    routerLinkActive="active"
+  >
+    <div class="img-bg">
+      <div class="icon small-cells-link"></div>
     </div>
     <div class="label mx-2">Small Cells</div>
   </div>
   <div
-    class="menu d-flex align-items-center"
+    id="deviceGroups-nav"
+    class="menu d-flex align-items-center my-2"
     routerLink="/device-groups"
     routerLinkActive="active"
-    (mouseover)="foreache()"
   >
     <div class="img-bg">
       <div class="icon device-groups-link"></div>
@@ -149,10 +108,10 @@
     <div class="label mx-2">Device Groups</div>
   </div>
   <div
-    class="menu d-flex align-items-center"
+    id="slices-nav"
+    class="menu d-flex align-items-center my-2"
     routerLink="/slices"
     routerLinkActive="active"
-    (mouseover)="foreache()"
   >
     <div class="img-bg">
       <div class="icon slices-link"></div>
@@ -161,13 +120,20 @@
   </div>
 
   <mat-card-header>
-    <mat-card-title class="sideNavbar_navCard_headings">REPORTS</mat-card-title>
+    <mat-card-title class="my-2 sideNavbar_navCard_headings"
+      >REPORTS</mat-card-title
+    >
   </mat-card-header>
   <img
     class="admin-sideCol-navCard-controlLine"
     src="../../assets/CommonAssets/ControlMenuLine.svg"
   />
-  <div class="menu d-flex align-items-center" (mouseover)="foreache()">
+  <div
+    id="audit-nav"
+    class="menu d-flex align-items-center mb-2"
+    routerLink="/audit"
+    routerLinkActive="active"
+  >
     <div class="img-bg">
       <div class="icon audit-link"></div>
     </div>

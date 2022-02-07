@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar.component';
 import { MaterialModule } from 'src/app/Modules/material/material.module';
 import { RouterModule } from '@angular/router';
+import { MenuDirective } from './menu.directive';
 
 @NgModule({
-  declarations: [NavbarComponent],
+  declarations: [NavbarComponent, MenuDirective],
   imports: [CommonModule, MaterialModule, RouterModule],
   exports: [NavbarComponent],
 })

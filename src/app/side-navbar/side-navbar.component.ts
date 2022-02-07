@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceSimService } from '../services/device-sim.service';
+import { GlobalDataService } from '../services/global-data.service';
 
 @Component({
   selector: 'aep-side-navbar',
@@ -12,6 +13,8 @@ export class SideNavbarComponent implements OnInit {
   url = '';
 
   sites: any[] = [];
+
+  // elements: any[] = [];
 
   selectSite: string = this.deviceService.selectedSite;
 
@@ -54,8 +57,15 @@ export class SideNavbarComponent implements OnInit {
       auditInactive: '../../assets/SideCol-Navbar/slices.svg',
     },
   };
+  currentUrl: string;
 
-  constructor(public router: Router, public deviceService: DeviceSimService) {}
+  constructor(
+    public router: Router,
+    public deviceService: DeviceSimService,
+    public globalService: GlobalDataService
+  ) {
+    this.getCurrentRoute();
+  }
 
   ngOnInit(): void {
     this.fetchSites();
@@ -76,6 +86,7 @@ export class SideNavbarComponent implements OnInit {
 
   selectedSite(siteID: string): any {
     this.deviceService.mySite(siteID);
+    this.globalService.mySite(siteID);
     this.newSiteEvent.emit(siteID);
     this.selectSite = siteID;
     this.deviceService.selectedSite = siteID;
@@ -84,14 +95,8 @@ export class SideNavbarComponent implements OnInit {
     //console.log(this.deviceService.selectedSite);
   }
 
-  foreache(): any {
-    // alert("ds");
-    const slides = document.getElementsByClassName('menu');
-    for (let i = 0; i < slides.length; i++) {
-      // alert("ds" + i);
-      // if(document.getElementsByClassName("menu").contains('active')){
-      // alert("active");
-      // }
-    }
+  getCurrentRoute(): any {
+    this.currentUrl = this.router.url;
+    console.log(this.router.url, 'Current URL');
   }
 }

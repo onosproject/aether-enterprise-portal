@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'device-groups', component: DeviceGroupsComponent },
   { path: 'slices', component: SlicesComponent },
   { path: 'small-cells', component: SmallCellComponent },
+  // test component
 ];
 
 @NgModule({
