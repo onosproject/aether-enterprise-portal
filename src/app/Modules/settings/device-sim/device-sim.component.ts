@@ -90,7 +90,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   deviceDetails: number[] = [];
 
-  deviceType: any[] = ['Phone', 'Camera', 'Sensor', 'IOT', 'Other'];
+  deviceType: string[] = ['Phone', 'Camera', 'Sensor', 'IOT', 'Other'];
 
   cancelledSimsStorage: any[] = [];
 
@@ -414,11 +414,13 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   fetchData(): any {
     // this.getCurrentSite();
     this.deviceService.getData().subscribe((result) => {
+      console.log(result);
       const configArray: any[] = [];
       configArray.push(result);
       this.config = configArray;
       //console.log(this.config);
       configArray.map((item) => {
+        console.log(item);
         const sitesArray: any[] = [];
         const sitesConfig = item.sites;
         //console.log(item.sites);
@@ -1119,8 +1121,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       //   // this.valuesArrayFinal.push(mainObject);
       //   // console.log(this.valuesArrayFinal);
       // });
-        // this.valuesArrayFinal[1].times = eventArray;this.valuesArrayFinal[0].times = timesArray;
-        // this.valuesArrayFinal[1].times = eventArray;
+      // this.valuesArrayFinal[1].times = eventArray;this.valuesArrayFinal[0].times = timesArray;
+      // this.valuesArrayFinal[1].times = eventArray;
       //console.log(timesObject);
       //console.log(this.timesArray);
       this.valuesArrayFinal[0].times = timesArray;

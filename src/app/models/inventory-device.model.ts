@@ -8,7 +8,7 @@ export interface InventoryDevice {
   //   'site-plan': string;
   // };
   'serial-number': string;
-  // sim: string;
+  sim: string;
   type: string;
   selected: number;
   // isExpanded?: boolean;
