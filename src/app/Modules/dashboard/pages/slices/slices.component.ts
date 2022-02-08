@@ -14,7 +14,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./slices.component.scss'],
 })
 export class SlicesComponent {
-  @HostListener('window:resize', ['onWindowResize($event)'])
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(event) {
+    this.innerWidth = event.target.innerWidth;
+  }
   @Output()
   informParent = new EventEmitter();
   sliceData: any;
@@ -46,10 +49,6 @@ export class SlicesComponent {
     private sitesService: SitesService,
     private snackBar: MatSnackBar
   ) {}
-
-  onWindowResize(event) {
-    this.innerWidth = event.target.innerWidth;
-  }
 
   dragAndDrop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.sliceData, event.previousIndex, event.currentIndex);

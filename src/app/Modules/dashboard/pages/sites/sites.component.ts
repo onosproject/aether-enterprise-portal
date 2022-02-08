@@ -4,6 +4,7 @@ import { SitesService } from '../../../../services/sites/sites.service';
 import { environment } from '../../../../../environments/environment';
 import { Site } from 'src/app/models/site.model';
 import { GlobalDataService } from 'src/app/services/global-data.service';
+
 @Component({
   selector: 'aep-sites',
   templateUrl: './sites.component.html',
