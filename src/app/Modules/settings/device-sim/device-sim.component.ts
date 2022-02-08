@@ -338,9 +338,9 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     }
   }
   zoomgraph(value: boolean, zoomIn: number): void {
-    this.getCurrentSite();
+    // this.getCurrentSite();
     if (zoomIn >= 0 && zoomIn <= 2) {
-      this.getCurrentSite();
+      // this.getCurrentSite();
       this.zoomIn = zoomIn;
       // if (
       //   document.body.contains(
@@ -390,7 +390,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   fetchDataNew(): any {
     this.globalService.getDeviceSims().subscribe((data: any[]) => {
-      this.getCurrentSite();
+      // this.getCurrentSite();
       console.log(data);
       this.siteConfigNew = data;
       if (this.siteConfigNew.length > 0) {
@@ -405,14 +405,14 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   fetchDevicesInventory(): any {
     console.log('lol');
     this.globalService.getDeviceInventory().subscribe((data: any[]) => {
-      this.getCurrentSite();
+      // this.getCurrentSite();
       console.log(data);
       this.siteDeviceInventory = data;
     });
   }
 
   fetchData(): any {
-    this.getCurrentSite();
+    // this.getCurrentSite();
     this.deviceService.getData().subscribe((result) => {
       const configArray: any[] = [];
       configArray.push(result);
@@ -443,7 +443,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         }
       });
       //console.log('This is global sites array', this.siteConfig);
-      //console.log(this.config);
+      console.log(this.config);
     });
   }
 
@@ -723,7 +723,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   detailsTrigger(index: number, sim: string): any {
-    this.getCurrentSite();
+    // this.getCurrentSite();
     this.selectedDate = -1;
     this.zoomIn = 0;
     this.isZoomIn = false;
@@ -931,6 +931,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         const finalArray = this.valuesArrayFinal;
 
         this.displayChart(finalArray, index);
+        this.displaySmallChart(finalArray, index);
         this.valuesArrayFinal[0].times = [];
         console.log(finalArray);
         // this.valuesArrayFinal.push(mainObject);
@@ -1011,8 +1012,10 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
     const chart = d3Time
       .timelines()
+      .background('#fff')
       .colors(colorScale)
-      .colorProperty('activeStatus');
+      .colorProperty('activeStatus')
+      .margin({ left: 0, right: 0, top: 30, bottom: 0 });
 
     d3.select('#device_timeline' + index)
       .append('svg')
@@ -1091,13 +1094,40 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       });
       //console.log(timesArray);
       this.timesArray = timesArray;
+      // const eventArray = [];
+      // this.fetchDotsApi(site, iccid).subscribe((eventData) => {
+      //   const mainObject: any = {};
+      //   // const eventArray: any[] = [];
+      //   // eventArray = eventData.data.result[0].values[0][0];
+
+      //   const eventObject: any = {};
+      //   eventObject.starting_time = eventData.data.result[0].values[0][0];
+      //   eventObject.display = 'circle';
+      //   eventArray.push({ ...eventObject });
+      //   console.log(eventArray);
+      //   mainObject.times = eventArray;
+
+      //   // this.valuesArrayFinal[0].times = timesArray;
+      //   // this.valuesArrayFinal[1].times = eventArray;
+
+      //   const finalArray = this.valuesArrayFinal;
+
+      //   // this.displayChart(finalArray, index);
+      //   this.displaySmallChart(finalArray, index);
+      //   // this.valuesArrayFinal[0].times = [];
+      //   console.log(finalArray);
+      //   // this.valuesArrayFinal.push(mainObject);
+      //   // console.log(this.valuesArrayFinal);
+      // });
+        // this.valuesArrayFinal[1].times = eventArray;this.valuesArrayFinal[0].times = timesArray;
+        // this.valuesArrayFinal[1].times = eventArray;
       //console.log(timesObject);
       //console.log(this.timesArray);
       this.valuesArrayFinal[0].times = timesArray;
       const finalArray = this.valuesArrayFinal;
       //console.log(finalArray);
       this.displaySmallChart(finalArray, index);
-      // this.valuesArrayFinal[0].times = [];
+      this.valuesArrayFinal[0].times = [];
     });
   }
 
@@ -1183,7 +1213,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   deviceSimsDetailsProgressToggleDayFun(): void {
-    this.getCurrentSite();
+    // this.getCurrentSite();
     this.selectedDate = -1;
     this.zoomIn = 0;
     this.isZoomIn = false;
@@ -1196,7 +1226,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     );
   }
   deviceSimsDetailsProgressToggleWeekFun(): void {
-    this.getCurrentSite();
+    // this.getCurrentSite();
     this.deviceSimsDetailsProgressToggleWeek = true;
     this.deviceSimsDetailsProgressToggleDay = false;
     this.apiPreviousDate = this.lastWeekDates[1].string_date;
