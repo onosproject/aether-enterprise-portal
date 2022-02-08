@@ -17,7 +17,7 @@ body {
 
 body {
   // background: #edf4ff !important;
-  background: #F0F3FA !important;
+  background: #f0f3fa !important;
 }
 .form-field-area-login,
 .form-field-area-forgot {
@@ -32,5 +32,36 @@ body {
     border-radius: 12px;
     border: none;
     padding: 0;
+  }
+}
+.audit-user-modal-container {
+  [class~="mat-dialog-container"] {
+    padding: 16px;
+  }
+  [class~="mat-content"] {
+    .row {
+      width: 100%;
+    }
+  }
+  [class~="mat-expanded"] {
+    background-color: #f0f3fa;
+    // height: 30px;
+    // margin-top: 10px;
+    &:hover {
+      background-color: #f0f3fa;
+    }
+  }
+  [class~="mat-expansion-panel"] {
+    border-bottom: 1px solid #d8d8d8;
+    box-shadow: none;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  [class~="mat-expansion-panel-content"] {
+    background-color: #f0f3fa;
+  }
+  [class~="mat-expansion-panel-spacing"] {
+    margin: 0;
   }
 }

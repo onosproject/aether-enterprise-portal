@@ -73,7 +73,7 @@
                   <div class="row">
                     <div class="col-lg-7 small-cell-accordion-lrft">
                       <div
-                        class="alert_info-low"
+                        class="alert_info-low small-cell-alert"
                         *ngIf="
                           smallcell.status === 'Acknowledged' ||
                           smallcell.status === 'Ignore'
@@ -212,15 +212,11 @@
                         class="accordion_controls small-cell-accordion_control"
                       >
                         <div class="ticket_raise" *ngIf="!isRaiseTicket">
-                          <a (click)="raiseTicket()">Raise a Ticket</a>
+                          <a (click)="raiseTicket()">Report Issue</a>
                         </div>
                         <div class="respond" [matMenuTriggerFor]="belowMenu">
                           respond
-                          <img
-                            src="assets/AdminPanel/expand.svg"
-                            mat-button
-                            [matMenuTriggerFor]="belowMenu"
-                          />
+                          <img src="assets/AdminPanel/expand.svg" mat-button />
 
                           <mat-menu
                             #belowMenu="matMenu"
@@ -351,7 +347,7 @@
                   class="alert_card_bx"
                   *ngIf="isRaiseTicket && !chatView"
                 >
-                  <h3>Raise a Ticket</h3>
+                  <h3>Report Issue</h3>
                   <mat-nav-list>
                     <mat-form-field appearance="fill">
                       <mat-label>Category 1</mat-label>
@@ -438,7 +434,7 @@
           </mat-accordion>
         </mat-tab>
       </div>
-      <mat-tab label="Open Tickets">
+      <!-- <mat-tab label="Open Tickets">
         <div class="fixed_tab_header">
           <div class="filter" [matMenuTriggerFor]="filter">
             filter: {{ selectedFilter }}
@@ -668,17 +664,11 @@
                     standard dummy text ever since the 1500s</mat-card
                   >
                 </mat-nav-list>
-                <!-- <div class="card-buttons">
-                <button mat-button class="can-btn" (click)="setparent(null)">
-                  Cancel
-                </button>
-                <button mat-raised-button class="sub-btn">Submit</button>
-              </div> -->
               </mat-card>
             </mat-action-row>
           </mat-expansion-panel>
         </mat-accordion>
-      </mat-tab>
+      </mat-tab> -->
       <mat-tab label="History">
         <div class="fixed_tab_header">
           <div class="filter" [matMenuTriggerFor]="filter">
@@ -702,6 +692,9 @@
               <button mat-menu-item>Item 2</button>
             </mat-menu>
           </div>
+        </div>
+        <div *ngIf="historys.length === 0">
+          <p>There are no history at the moment</p>
         </div>
         <div>
           <mat-card *ngFor="let history of historys" class="history-card">

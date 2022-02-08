@@ -12,7 +12,7 @@ export class SideNavbarComponent implements OnInit {
   imgSrc: string;
   url = '';
 
-  sites: any[] = [];
+  sites = [];
 
   // elements: any[] = [];
 
@@ -72,7 +72,7 @@ export class SideNavbarComponent implements OnInit {
     // this.deviceService.mySite('freemont');
   }
 
-  fetchSites(): any {
+  fetchSites(): void {
     this.deviceService.getData().subscribe((result) => {
       result.sites.map((site) => {
         //console.log(site['site-id']);
@@ -84,7 +84,7 @@ export class SideNavbarComponent implements OnInit {
     });
   }
 
-  selectedSite(siteID: string): any {
+  selectedSite(siteID: string): void {
     this.deviceService.mySite(siteID);
     // this.globalService.mySite(siteID);
     this.newSiteEvent.emit(siteID);
@@ -95,8 +95,8 @@ export class SideNavbarComponent implements OnInit {
     //console.log(this.deviceService.selectedSite);
   }
 
-  getCurrentRoute(): any {
+  getCurrentRoute(): void {
     this.currentUrl = this.router.url;
-    console.log(this.router.url, 'Current URL');
+    // console.log(this.router.url, 'Current URL');
   }
 }

@@ -7,6 +7,7 @@
     <!-- <div class="nomarLR mt-1 float-left col-{{ isAcknowledged }}"> -->
     <div
       class="nomarLR mt-1 float-left col-{{ isAcknowledged }} ctm_new_component"
+      [class.alert-services]="isAcknowledged !== 12"
     >
       <mat-accordion
         class="example-headers-align"
@@ -61,8 +62,11 @@
                       <img src="assets/AdminPanel/connected.svg" />
                     </div>
                     Connected Devices
-                    <div class="red-ellipse">
+                    <div class="red-ellipse" *ngIf="slice.alerts !== 0">
                       <img src="assets/AdminPanel/Ellipse-red.svg" />
+                    </div>
+                    <div class="red-ellipse" *ngIf="slice.alerts === 0">
+                      <img src="assets/AdminPanel/Ellipse.svg" />
                     </div>
                   </button>
                 </mat-panel-title>
@@ -88,15 +92,28 @@
                       >
                         <div class="card-icon">
                           <img
-                            *ngIf="slice.status === 1"
+                            *ngIf="slice.alerts !== 0"
                             src="assets/AdminPanel/red-alert.svg"
                           />
                           <img
-                            *ngIf="slice.status === 0"
+                            *ngIf="slice.alerts === 0"
                             src="assets/AdminPanel/danger.svg"
                           />
                         </div>
-                        <span>5 Alerts</span>
+                        <span class="text-blue" *ngIf="slice.alerts === 0"
+                          >{{ slice.alerts }} Alerts</span
+                        >
+                        <span
+                          class="text-red"
+                          *ngIf="slice.alerts !== 0"
+                          (click)="
+                            openAlerts(
+                              slice.alerts,
+                              slice.devices[0]['display-name']
+                            )
+                          "
+                          >{{ slice.alerts }} Alerts</span
+                        >
                       </div>
                       <div class="graph-detail-filter">
                         <nav>
@@ -388,7 +405,7 @@
                     </div>
                     Services
                     <div class="red-ellipse">
-                      <img src="assets/AdminPanel/Ellipse-red.svg" />
+                      <img src="assets/AdminPanel/Ellipse.svg" />
                     </div>
                   </button>
                 </div>
@@ -431,7 +448,7 @@
                 </div>
               </div>
               <!-- <div class="col-lg-5"> -->
-              <div class="slice">
+              <div class="slice row">
                 <div
                   [ngClass]="
                     isAcknowledged === 8 ? 'col-lg-8 ctm_new_col_8' : 'col-lg-5'
@@ -445,14 +462,14 @@
                         let device of slice.devices;
                         let deviceIndex = index
                       "
-                      [ngClass]="{
-                        'slice__deviceGroups--expanded': device?.isExpanded
-                      }"
                       [style]="
                         'top: ' +
                         calculateDeviceTop(deviceIndex, slice.devices) +
                         'px;'
                       "
+                      [ngClass]="{
+                        'slice__deviceGroups--expanded': device?.isExpanded
+                      }"
                     >
                       <h2
                         class="accordion-header"
@@ -463,8 +480,8 @@
                           type="button"
                           [ngClass]="
                             device.status === openAccordion[deviceIndex]
-                              ? 'hiden'
-                              : 'collapsed'
+                              ? 'collapsed'
+                              : 'hiden'
                           "
                           [style.justify-content]="
                             isEditable && sliceId === slice['slice-id']
@@ -486,11 +503,11 @@
                             {{ device["display-name"] }}
                             <div class="red-ellipse">
                               <img
-                                *ngIf="device.status === 1"
+                                *ngIf="slice.alerts !== 0"
                                 src="assets/AdminPanel/Ellipse-red.svg"
                               />
                               <img
-                                *ngIf="device.status === 0"
+                                *ngIf="slice.alerts === 0"
                                 src="assets/AdminPanel/Ellipse.svg"
                               />
                             </div>
@@ -508,12 +525,17 @@
                           </div>
                         </button>
                       </h2>
+
                       <div
                         [attr.id]="'collapse' + deviceIndex"
                         class="accordion-collapse collapse"
-                        [class.show]="openAccordion[i + deviceIndex]"
-                        [ngClass]="isEditable === true ? 'show' : 'hidden'"
-                        [ngClass]="device.status === 1 ? 'show' : 'hidden'"
+                        [ngClass]="slice.alerts !== 0 ? 'show' : 'hidden'"
+                        [class.show]="
+                          openAccordion[i + deviceIndex] ||
+                          (isEditable &&
+                            sliceId === slice['slice-id'] &&
+                            slice.alerts === 0)
+                        "
                         [attr.aria-labelledby]="'heading' + deviceIndex"
                         data-bs-parent="#accordionExample"
                       >
@@ -581,14 +603,15 @@
                                     {{ camera["display-name"] }}
                                   </div>
                                   <div class="right-bx">
-                                    <p>Location</p>
+                                    <p (click)="goToPhysicalView()">Location</p>
+
                                     <div class="red-ellipse">
                                       <img
-                                        *ngIf="camera.status === 1"
+                                        *ngIf="slice.alerts > cameraIndex"
                                         src="assets/AdminPanel/Ellipse-red.svg"
                                       />
                                       <img
-                                        *ngIf="camera.status === 0"
+                                        *ngIf="slice.alerts <= cameraIndex"
                                         src="assets/AdminPanel/Ellipse.svg"
                                       />
                                     </div>
@@ -662,9 +685,30 @@
                       </div>
                       <div class="graph-alert-h text-red">
                         <div class="card-icon">
-                          <img src="assets/AdminPanel/red-alert.svg" />
+                          <img
+                            *ngIf="slice.alerts !== 0"
+                            src="assets/AdminPanel/red-alert.svg"
+                          />
+                          <img
+                            *ngIf="slice.alerts === 0"
+                            src="assets/AdminPanel/danger.svg"
+                          />
                         </div>
-                        <span>5 Alerts</span>
+
+                        <span class="text-blue" *ngIf="slice.alerts === 0"
+                          >{{ slice.alerts }} Alerts</span
+                        >
+                        <span
+                          class="text-red"
+                          *ngIf="slice.alerts !== 0"
+                          (click)="
+                            openAlerts(
+                              slice.alerts,
+                              slice.devices[0]['display-name']
+                            )
+                          "
+                          >{{ slice.alerts }} Alerts</span
+                        >
                       </div>
                     </mat-card-header>
 
@@ -684,7 +728,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -698,7 +742,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -712,7 +756,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -730,7 +774,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -744,7 +788,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -758,7 +802,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -776,7 +820,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -790,7 +834,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -804,7 +848,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -822,7 +866,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -836,7 +880,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -850,7 +894,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -868,7 +912,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -882,7 +926,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -896,7 +940,7 @@
                               </div>
                               <div class="graph-img-bx">
                                 <img
-                                  src="assets/AdminPanel/graph-white.svg"
+                                  src="assets/AdminPanel/graph-expand.svg"
                                   class="img-fluid"
                                 />
                               </div>
@@ -909,13 +953,20 @@
 
                   <mat-card
                     class="graph-detail-bx add_new_device"
-                    *ngIf="isEditable && sliceId === slice['slice-id']"
+                    *ngIf="
+                      isEditable &&
+                      sliceId === slice['slice-id'] &&
+                      isAcknowledged === 12
+                    "
                   >
                     <p>Add new device group</p>
                     <img src="assets/AdminPanel/plush-white.svg" />
                   </mat-card>
                 </div>
                 <!-- <div class="col-lg-3"> -->
+                <!-- [ngClass]="
+                  isAcknowledged === 8 ? 'col-lg-8 ctm_new_col_8' : 'col-lg-3'
+                " -->
                 <div
                   *ngIf="isAcknowledged !== 8 && slice.services.length !== 0"
                   [ngClass]="
@@ -923,16 +974,13 @@
                       ? 'col-lg-5 ctm_new_col_8'
                       : 'col-lg-8'
                   "
-                  [ngClass]="
-                    isAcknowledged === 8 ? 'col-lg-8 ctm_new_col_8' : 'col-lg-3'
-                  "
+                  class="col-lg-3"
                   [ngClass]="
                     slice.services[0].isExpanded
                       ? 'slice__applications_expand'
                       : 'slice__applications '
                   "
                 >
-                  <!-- <p>{{ slice.services[0].isExpanded }}</p> -->
                   <div class="accordion-section left-accordion-section">
                     <div
                       class="accordion-item"
@@ -950,8 +998,8 @@
                           type="button"
                           [ngClass]="
                             service.status === openAccordionRight[serviceIndex]
-                              ? 'hiden'
-                              : 'collapsed'
+                              ? 'collapsed'
+                              : 'hiden'
                           "
                           [style.justify-content]="
                             isEditable && sliceId === slice['slice-id']
@@ -980,10 +1028,7 @@
                                 *ngIf="service.status === 1"
                                 src="assets/AdminPanel/Ellipse-red.svg"
                               />
-                              <img
-                                *ngIf="service.status === 0"
-                                src="assets/AdminPanel/Ellipse.svg"
-                              />
+                              <img src="assets/AdminPanel/Ellipse.svg" />
                             </div>
                           </div>
                           <div
@@ -1003,7 +1048,11 @@
                         [attr.id]="'collapse' + serviceIndex"
                         class="accordion-collapse collapse"
                         [class.show]="openAccordionRight[serviceIndex]"
-                        [ngClass]="isEditable === true ? 'show' : 'hidden'"
+                        [ngClass]="
+                          isEditable === true && sliceId === slice['slice-id']
+                            ? 'show'
+                            : 'hidden'
+                        "
                         [ngClass]="service.status === 1 ? 'show' : 'hidden'"
                         [attr.aria-labelledby]="'heading' + serviceIndex"
                         data-bs-parent="#accordionExample"
@@ -1069,8 +1118,8 @@
                                 removedServiceId !== group['application-id']
                               "
                             >
-                              <div class="red-ellipse" *ngIf="group.status">
-                                <img src="assets/AdminPanel/Ellipse-red.svg" />
+                              <div class="red-ellipse">
+                                <img src="assets/AdminPanel/Ellipse.svg" />
                               </div>
                             </div>
                           </div>
@@ -1079,16 +1128,17 @@
                     </div>
                   </div>
                 </div>
+                <!-- [ngClass]="
+                slice.services[0].isExpanded
+                  ? 'slice__applications_smallcells_expand'
+                  : 'slice__applications_smallcells'
+              " -->
                 <div
                   *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
                   [ngClass]="
                     isAcknowledged === 8 ? 'col-lg-8 ctm_new_col_8' : 'col-lg-3'
                   "
-                  [ngClass]="
-                    slice.services[0].isExpanded
-                      ? 'slice__applications_smallcells_expand'
-                      : 'slice__applications_smallcells'
-                  "
+                  class="slice__applications_smallcells"
                   [style]="
                     'top: ' +
                     calculateDeviceTop(slice.devices.length, slice.devices) +
@@ -1112,8 +1162,8 @@
                           type="button"
                           [ngClass]="
                             service.status === openAccordionRight[serviceIndex]
-                              ? 'hiden'
-                              : 'collapsed'
+                              ? 'collapsed'
+                              : 'hiden'
                           "
                           [style.justify-content]="
                             isEditable && sliceId === slice['slice-id']
@@ -1142,10 +1192,7 @@
                                 *ngIf="service.status === 1"
                                 src="assets/AdminPanel/Ellipse-red.svg"
                               />
-                              <img
-                                *ngIf="service.status === 0"
-                                src="assets/AdminPanel/Ellipse.svg"
-                              />
+                              <img src="assets/AdminPanel/Ellipse.svg" />
                             </div>
                           </div>
                           <div
@@ -1165,7 +1212,11 @@
                         [attr.id]="'collapse' + serviceIndex"
                         class="accordion-collapse collapse"
                         [class.show]="openAccordionRight[serviceIndex]"
-                        [ngClass]="isEditable === true ? 'show' : 'hidden'"
+                        [ngClass]="
+                          isEditable === true && sliceId === slice['slice-id']
+                            ? 'show'
+                            : 'hidden'
+                        "
                         [ngClass]="service.status === 1 ? 'show' : 'hidden'"
                         [attr.aria-labelledby]="'heading' + serviceIndex"
                         data-bs-parent="#accordionExample"
@@ -1231,8 +1282,8 @@
                                 removedServiceId !== group['application-id']
                               "
                             >
-                              <div class="red-ellipse" *ngIf="group.status">
-                                <img src="assets/AdminPanel/Ellipse-red.svg" />
+                              <div class="red-ellipse">
+                                <img src="assets/AdminPanel/Ellipse.svg" />
                               </div>
                             </div>
                           </div>
@@ -1252,27 +1303,62 @@
                   [attr.width]="innerWidth"
                   [attr.height]="calculateSVGHeight(slice.devices)"
                 >
+                  <ng-container *ngIf="isAcknowledged !== 8">
+                    <svg:g
+                      aep-joiner
+                      [dash]="'4 5'"
+                      [title]="''"
+                      [startX]="innerWidth / 2.65"
+                      [startY]="215"
+                      [endX]="innerWidth / 3.1"
+                      [endY]="calculateJointVerticalPosition(slice.devices, i)"
+                      *ngFor="let deviceGroup of slice.devices; let i = index"
+                    ></svg:g>
+                  </ng-container>
+                  <ng-container *ngIf="isAcknowledged === 8">
+                    <svg:g
+                      aep-joiner
+                      [dash]="'4 5'"
+                      [title]="''"
+                      [startX]="innerWidth / 2.65"
+                      [startY]="215"
+                      [endX]="innerWidth / 3.3"
+                      [endY]="calculateJointVerticalPosition(slice.devices, i)"
+                      *ngFor="let deviceGroup of slice.devices; let i = index"
+                    ></svg:g>
+                  </ng-container>
+                  <!-- <svg:g
+                  aep-joiner
+                  [dash]="'4 5'"
+                  [title]="''"
+                  [startX]="innerWidth / 2.55"
+                  [startY]="215"
+                  [endX]="innerWidth / 3.25"
+                  [endY]="calculateJointVerticalPosition(slice.devices, i)"
+                  *ngFor="let deviceGroup of slice.devices; let i = index"
+                ></svg:g> -->
                   <svg:g
                     aep-joiner
                     [dash]="'4 5'"
                     [title]="''"
-                    [startX]="840"
+                    [startX]="innerWidth / 1.3"
                     [startY]="215"
-                    [endX]="300"
-                    [endY]="calculateJointVerticalPosition(slice.devices, i)"
-                    *ngFor="let deviceGroup of slice.devices; let i = index"
-                  ></svg:g>
-                  <svg:g
-                    aep-joiner
-                    [dash]="'4 5'"
-                    [title]="''"
-                    [startX]="1370"
-                    [startY]="215"
-                    [endX]="1000"
+                    [endX]="innerWidth / 2"
                     [endY]="215"
                     *ngIf="isAcknowledged !== 8 && slice.services.length !== 0"
                   ></svg:g>
                   <svg:g
+                    aep-joiner
+                    [dash]="'4 5'"
+                    [title]="''"
+                    [startX]="innerWidth / 2.15"
+                    [startY]="335"
+                    [endX]="innerWidth / 2.15"
+                    [endY]="200"
+                    *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
+                  ></svg:g>
+
+                  <!-- <svg:g
                     aep-joiner
                     [dash]="'4 5'"
                     [title]="''"
@@ -1286,7 +1372,7 @@
                       )
                     "
                     *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
-                  ></svg:g>
+                  ></svg:g> -->
                 </svg:svg>
               </div>
             </div>

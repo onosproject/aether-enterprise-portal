@@ -23,12 +23,12 @@
   >
     <mat-label>site:</mat-label>
     <mat-select
-      value="site['siteID']"
+      [value]="selectSite"
       class="admin-addNew-form-permissionsSelect"
     >
       <mat-option
         *ngFor="let site of sites; let siteIndex = index"
-        value="site['siteID']"
+        [value]="site['siteID']"
         (click)="selectedSite(site['siteID'])"
         >{{ site["siteName"] }}</mat-option
       >

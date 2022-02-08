@@ -11,6 +11,7 @@ import { City } from '../../../models/city.model';
 import { UserService } from '../../../services/user.service';
 import { RemoveUserComponent } from '../dialogs/remove-user/remove-user.component';
 import { DeleteUserComponent } from '../dialogs/delete-user/delete-user.component';
+import { AuditUserComponent } from '../dialogs/audit-user/audit-user.component';
 
 export interface Task {
   name: string;
@@ -53,8 +54,8 @@ export class AdminComponent implements OnInit {
 
   // variables
   id: number;
-  toggle: any;
-  editObject: any;
+  toggle;
+  editObject;
   siteViewStyle: string = 'false';
   userViewStyle: string = 'true';
 
@@ -67,7 +68,7 @@ export class AdminComponent implements OnInit {
   citySubscription: Subscription;
 
   // Image variables
-  fileUrl: any = '';
+  fileUrl: string | ArrayBuffer = '';
   imageLoaded: boolean = false;
   addUserError: boolean = false;
   editUserError: boolean = false;
@@ -249,7 +250,7 @@ export class AdminComponent implements OnInit {
     //console.log(this.editUsers);
   }
 
-  closeUserViewEdit(): any {
+  closeUserViewEdit(): void {
     this.editUsers.pop();
   }
 
@@ -265,7 +266,7 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  closeSiteViewEdit(): any {
+  closeSiteViewEdit(): void {
     this.editCities.pop();
   }
 
@@ -336,7 +337,7 @@ export class AdminComponent implements OnInit {
     // if (this.userForm.value.securityAlert == '' || null) {
     //   this.userForm.value.securityAlert = false;
     // }
-    console.log(this.userForm);
+    // console.log(this.userForm);
     const isCitySelected =
       this.userForm.value.cities.includes(1) ||
       this.userForm.value.cities.includes(2) ||
@@ -511,6 +512,17 @@ export class AdminComponent implements OnInit {
         this.confirmDelete(userIndex);
       }
       // this.closeEdit()
+    });
+  }
+
+  openAuditUser(): void {
+    const dialogRef = this.dialog.open(AuditUserComponent, {
+      width: '80%',
+      panelClass: 'audit-user-modal-container',
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      // console.log(`Dialog result: ${result}`);
     });
   }
 }

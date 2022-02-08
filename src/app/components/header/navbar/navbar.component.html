@@ -346,29 +346,29 @@
 </mat-menu>
 
 <div #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="UserCard">
-<mat-menu
-  class="aether-UserCard aether-UserCard-triangle"
-  #UserCard="matMenu"
->
-  <div class="aether-UserCard-ppicHolder">
-    <img
-      class="aether-UserCard-ppicHolder-ppic"
-      src="../../../../assets/Navbar/profile-pic.svg"
-    />
-    <sup
-      ><img
-        class="aether-UserCard-ppicHolder-ppic-active"
-        src="../../../../assets/CommonAssets/active-dot.svg"
-    /></sup>
-  </div>
-  <div class="aether-UserCard-flName">
-    <span>John Fivegee</span>
-  </div>
-  <div class="my-1 aether-UserCard-flName-email">
-    <span>johnfivegee5@tesla.com</span>
-  </div>
-  <div class="my-3 aether-UserCard-flName-logout d-flex" routerLink="/login">
-    <img class="mx-1" src="../../../../assets/Navbar/logout.svg" />Logout
-  </div>
-</mat-menu>
+  <mat-menu
+    class="aether-UserCard aether-UserCard-triangle"
+    #UserCard="matMenu"
+  >
+    <div class="aether-UserCard-ppicHolder">
+      <img
+        class="aether-UserCard-ppicHolder-ppic"
+        src="../../../../assets/Navbar/profile-pic.svg"
+      />
+      <sup
+        ><img
+          class="aether-UserCard-ppicHolder-ppic-active"
+          src="../../../../assets/CommonAssets/active-dot.svg"
+      /></sup>
+    </div>
+    <div class="aether-UserCard-flName">
+      <span>John Fivegee</span>
+    </div>
+    <div class="my-1 aether-UserCard-flName-email">
+      <span>johnfivegee5@tesla.com</span>
+    </div>
+    <div class="my-3 aether-UserCard-flName-logout d-flex" routerLink="/login">
+      <img class="mx-1" src="../../../../assets/Navbar/logout.svg" />Logout
+    </div>
+  </mat-menu>
 </div>

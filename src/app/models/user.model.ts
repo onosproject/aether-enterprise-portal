@@ -1,7 +1,7 @@
 import { FormGroup } from '@angular/forms';
 
 export class User {
-  public ppic: string;
+  public ppic: string | ArrayBuffer;
   public active: string;
   public name: string;
   public email: string;

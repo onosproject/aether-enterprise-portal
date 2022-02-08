@@ -77,24 +77,18 @@
                       <h4 class="highlights-txt">Highlights</h4>
                     </div>
                     <div class="col-lg-6 col-md-6">
-                      <div
-                        class="highlighted-counting"
-                        *ngIf="siteId !== 'berlin'"
-                      >
+                      <div class="highlighted-counting" *ngIf="siteId !== 0">
                         <div class="card-icon">
                           <img src="assets/AdminPanel/red-alert.svg" />
                         </div>
                         <div
                           class="card-category"
-                          (click)="showAcknowledgedView()"
+                          (click)="showAcknowledgedView(siteId)"
                         >
-                          <p class="">5 Alerts</p>
+                          <p class="">{{ siteId }} Alerts</p>
                         </div>
                       </div>
-                      <div
-                        class="highlighted-counting"
-                        *ngIf="siteId === 'berlin'"
-                      >
+                      <div class="highlighted-counting" *ngIf="siteId === 0">
                         <div class="card-icon">
                           <img src="assets/AdminPanel/alert.svg" />
                         </div>
@@ -104,16 +98,16 @@
                       </div>
                     </div>
                   </div>
-                  <p class="compare-detail mb-0" *ngIf="siteId !== 'berlin'">
-                    16 anamoulous behaviours detected
+                  <p class="compare-detail mb-0" *ngIf="siteId !== 0">
+                    {{ siteId / 2 }} anamoulous behaviours detected
                   </p>
-                  <p class="compare-detail" *ngIf="siteId !== 'berlin'">
-                    26 devices blocked from accessing apps
+                  <p class="compare-detail" *ngIf="siteId !== 0">
+                    {{ siteId / 2 }} devices blocked from accessing apps
                   </p>
-                  <p class="compare-detail mb-0" *ngIf="siteId === 'berlin'">
+                  <p class="compare-detail mb-0" *ngIf="siteId === 0">
                     0 anamoulous behaviours detected
                   </p>
-                  <p class="compare-detail" *ngIf="siteId === 'berlin'">
+                  <p class="compare-detail" *ngIf="siteId === 0">
                     0 devices blocked from accessing apps
                   </p>
                 </div>
@@ -153,7 +147,7 @@
             >
               <mat-button-toggle
                 *ngFor="
-                  let plan of config?.sites[0]['site-plans']['site-plan-list'];
+                  let plan of config?.['site-plan-list'];
                   let planIndex = index
                 "
                 [value]="planIndex"
@@ -172,7 +166,10 @@
               <mat-button-toggle value="Logical" (click)="getSlices()"
                 >Logical</mat-button-toggle
               >
-              <mat-button-toggle value="Physical" class="border-none"
+              <mat-button-toggle
+                [disabled]="config === null"
+                value="Physical"
+                class="border-none"
                 >Physical</mat-button-toggle
               >
             </mat-button-toggle-group>
@@ -196,7 +193,7 @@
       </div>
       <aep-slices
         #slices
-        (informParent)="parentWillTakeActionSlice()"
+        (informParent)="parentWillTakeActionSlice($event)"
         *ngIf="viewType === 'Logical'"
       ></aep-slices>
       <div *ngIf="viewType === 'Physical'" class="dashboard__physical-view">
@@ -205,7 +202,7 @@
           class="dashboard__physical-view__image"
           [src]="
             baseUrl +
-            config?.sites[0]['site-plans']['site-plan-list'][selectedPlan][
+            config?.['site-plan-list'][selectedPlan][
               'svg-file'
             ]
           "
@@ -216,7 +213,7 @@
             class="dashboard__physical-view__device"
             *ngIf="
               device['position'] &&
-              config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+              config?.['site-plan-list'][selectedPlan]
                 .id === device['position']['site-plan']
             "
             [style]="
@@ -246,7 +243,7 @@
             <svg:line
               *ngIf="
                 device['position'] &&
-                config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+                config?.['site-plan-list'][selectedPlan]
                   .id === device['position']['site-plan']
               "
               [attr.x1]="device['position']['position-x']"
@@ -263,7 +260,7 @@
             class="dashboard__physical-view__small-cell"
             *ngIf="
               smallCell['position'] &&
-              config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
+              config?.['site-plan-list'][selectedPlan]
                 .id === smallCell['position']['site-plan']
             "
             [style]="

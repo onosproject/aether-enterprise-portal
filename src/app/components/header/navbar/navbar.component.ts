@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { SitesService } from 'src/app/services/sites/sites.service';
+import { smallCell } from '../../../shared/classes/dashboard-data';
 @Component({
   selector: 'aep-navbar',
   templateUrl: './navbar.component.html',
@@ -49,7 +50,7 @@ export class NavbarComponent {
     },
   };
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, private sitesService: SitesService) {}
   // Boolean Triggers
   trigger: boolean = false;
   controlMenuTrigger: boolean = false;
@@ -64,6 +65,7 @@ export class NavbarComponent {
   SmallCells: number = 234;
 
   goToSmallCells(): void {
+    smallCell[0][0].alerts = this.sitesService.allSmallCellsData;
     this.router.navigate(['/Small-Cells', { isNotification: true }]);
   }
 

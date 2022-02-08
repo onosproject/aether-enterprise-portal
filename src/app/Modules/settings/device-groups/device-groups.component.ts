@@ -51,9 +51,9 @@ export class DeviceGroupsComponent implements OnInit {
 
   siteSubscription: Subscription;
 
-  siteDeviceGroups: any[] = [];
+  siteDeviceGroups = [];
 
-  siteDevices: any[] = [];
+  siteDevices = [];
 
   deviceInventory: inventoryDevice[] = [
     {
@@ -160,7 +160,7 @@ export class DeviceGroupsComponent implements OnInit {
 
   summaryArray: deviceGroupSummary[] = [];
 
-  config: any[] = [];
+  config = [];
 
   selectedDevices: selectedDeviceModel[] = [];
 
@@ -168,9 +168,9 @@ export class DeviceGroupsComponent implements OnInit {
 
   selectedAddDevices: selectedDeviceModel[] = [];
 
-  remainingDevices: any[] = [];
+  remainingDevices = [];
 
-  editDeviceGroupFormFun(): any {
+  editDeviceGroupFormFun(): void {
     this.editDeviceGroupForm = true;
     // this.hideRightBx = false;
   }
@@ -238,18 +238,18 @@ export class DeviceGroupsComponent implements OnInit {
     // this.getCurrentSite();
   }
 
-  getCompleteData(): void {
-    if (this.globalService.loggedIn == true) {
-      this.globalService.fetchCompleteData();
-    }
-    this.globalService.loggedIn = false;
-  }
+  // getCompleteData(): void {
+  //   if (this.globalService.loggedIn == true) {
+  //     this.globalService.fetchCompleteData();
+  //   }
+  //   this.globalService.loggedIn = false;
+  // }
 
-  getCurrentSite(): void {
-    this.globalService.getSite().subscribe((data) => {
-      this.selectedSite = data;
-    });
-  }
+  // getCurrentSite(): void {
+  //   this.globalService.getSite().subscribe((data) => {
+  //     this.selectedSite = data;
+  //   });
+  // }
 
   changeSelection(
     name: string,
@@ -263,7 +263,7 @@ export class DeviceGroupsComponent implements OnInit {
     // console.log(this.deviceInventory[deviceIndex].selected);
     if (this.deviceInventory[deviceIndex].selected == 0) {
       this.deviceInventory[deviceIndex].selected = 1;
-      const selectedDeviceInfo: any = {
+      const selectedDeviceInfo = {
         'display-name': name,
         imei: imei,
         location: location,
@@ -296,13 +296,13 @@ export class DeviceGroupsComponent implements OnInit {
 
   summaryTrigger(): void {
     this.summaryBool = true;
-    console.log(this.summaryArray);
+    // console.log(this.summaryArray);
     this.summaryArray.push({
       summaryDeviceGroupName: this.firstFormGroup.value.newDeviceGroup,
       summaryIpDomain: this.firstFormGroup.value.newIpDomain,
       summaryDescription: this.firstFormGroup.value.newDescription,
     });
-    console.log(this.summaryArray);
+    // console.log(this.summaryArray);
   }
 
   emptySummaryArray(): void {
@@ -317,16 +317,16 @@ export class DeviceGroupsComponent implements OnInit {
   firstFormNext(): void {
     this.firstFormError = false;
     if (this.firstFormGroup.invalid) {
-      console.log('if');
+      // console.log('if');
       this.firstFormError = true;
       this.stepper.selected.completed = false;
-      console.log(this.stepper.selected.completed);
+      // console.log(this.stepper.selected.completed);
     } else if (this.firstFormGroup.valid) {
-      console.log('else');
+      // console.log('else');
       this.firstFormComplete = true;
       this.stepper.next();
       this.stepper.selected.completed = true;
-      console.log(this.stepper.selected.completed);
+      // console.log(this.stepper.selected.completed);
     }
     // console.log(this.firstFormComplete);
   }
@@ -336,8 +336,8 @@ export class DeviceGroupsComponent implements OnInit {
     if (this.firstFormGroup.invalid) {
       this.addNewDeviceGroupError = true;
     } else if (this.firstFormGroup.valid) {
-      const selectedDevices: any[] = [];
-      console.log(selectedDevices);
+      const selectedDevices = [];
+      // console.log(selectedDevices);
       this.selectedDevices.forEach((device) => {
         selectedDevices.push(device);
       });
@@ -405,25 +405,25 @@ export class DeviceGroupsComponent implements OnInit {
     });
   }
 
-  activatedDevices: any[] = [];
+  activatedDevices = [];
 
-  fetchDataNew(): void {
-    this.globalService.getActivatedDevices().subscribe((data: any[]) => {
-      this.getCurrentSite();
-      this.activatedDevices = data;
-      console.log(this.activatedDevices);
-    });
-  }
+  // fetchDataNew(): void {
+  //   this.globalService.getActivatedDevices().subscribe((data: any[]) => {
+  //     this.getCurrentSite();
+  //     this.activatedDevices = data;
+  //     // console.log(this.activatedDevices);
+  //   });
+  // }
 
   fetchData(): void {
     this.deviceService.getData().subscribe((result) => {
-      const configArray: any[] = [];
+      const configArray = [];
       configArray.push(result);
       this.config = configArray;
       configArray.map((item) => {
-        const sitesDevicesGroups: any[] = [];
+        const sitesDevicesGroups = [];
         const sitesConfig = item.sites;
-        const sitesDevices: any[] = [];
+        const sitesDevices = [];
         sitesConfig.map((site) => {
           if (site['site-id'] === this.selectedSite) {
             sitesDevicesGroups.push(site['device-groups']);
@@ -484,7 +484,7 @@ export class DeviceGroupsComponent implements OnInit {
                 deviceGroup.devices[groupedDeviceIndex] ==
                 siteDevices[siteDeviceIndex]['serial-number']
               ) {
-                const deviceInfo: any = {
+                const deviceInfo = {
                   'display-name': siteDevices[siteDeviceIndex]['display-name'],
                   location: siteDevices[siteDeviceIndex].location,
                   'serial-number':
@@ -493,8 +493,8 @@ export class DeviceGroupsComponent implements OnInit {
                 deviceGroup.devices.splice(groupedDeviceIndex, 1, deviceInfo);
                 // //console.log('alert');
               } else {
-                const remainingDevices: any[] = [];
-                const deviceInfo: any = {
+                const remainingDevices = [];
+                const deviceInfo = {
                   'display-name': siteDevices[siteDeviceIndex]['display-name'],
                   location: siteDevices[siteDeviceIndex].location,
                   'serial-number':
@@ -526,7 +526,7 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   editTrigger(index: number): void {
-    console.log(this.siteDeviceGroups);
+    // console.log(this.siteDeviceGroups);
     this.closeEdit();
     const editDeviceGroupIndex = this.editDeviceGroup.indexOf(index);
     if (editDeviceGroupIndex >= 0) {
@@ -561,7 +561,7 @@ export class DeviceGroupsComponent implements OnInit {
 
   deleteDevicesInGroups(groupIndex: number, deviceIndex: number): void {
     this.siteDeviceGroups[0][groupIndex].devices.splice(deviceIndex, 1);
-    console.log(this.siteDeviceGroups);
+    // console.log(this.siteDeviceGroups);
   }
 
   changeSelectionAddDevices(
@@ -598,10 +598,10 @@ export class DeviceGroupsComponent implements OnInit {
   onEdit(deviceGroupIndex: number): void {
     this.editDeviceGroupError = false;
     if (this.deviceGroupEditForm.invalid) {
-      console.log('if');
+      // console.log('if');
       this.editDeviceGroupError = true;
     } else {
-      console.log('else');
+      // console.log('else');
       const deviceGroup = this.siteDeviceGroups[0][deviceGroupIndex];
       const editForm = this.siteDeviceGroups[0][deviceGroupIndex].form.value;
       deviceGroup['display-name'] = editForm.newDeviceGroup;
