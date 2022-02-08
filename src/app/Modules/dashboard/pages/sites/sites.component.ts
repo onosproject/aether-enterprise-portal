@@ -83,10 +83,10 @@ export class SitesComponent {
     this.sitesService.siteIndex = null;
     this.sitesService.siteId = '';
     this.sitesService.siteData = null;
-    // this.deviceService.mySite(value);
-    setTimeout(() => {
-      this.globalService.mySite(value);
-    }, 10);
+    this.deviceService.mySite(value);
+    // setTimeout(() => {
+    //   this.globalService.mySite(value);
+    // }, 10);
     this.selected = value;
     for (let i = 0; i < siteData.slices.length; i++) {
       const selecteddevice = [];

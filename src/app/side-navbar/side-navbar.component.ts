@@ -16,7 +16,7 @@ export class SideNavbarComponent implements OnInit {
 
   // elements: any[] = [];
 
-  selectSite: string = this.globalService.selectedSite;
+  selectSite: string = this.deviceService.selectedSite;
 
   @Output() newSiteEvent = new EventEmitter<string>();
 
