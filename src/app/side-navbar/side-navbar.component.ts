@@ -12,6 +12,8 @@ export class SideNavbarComponent implements OnInit {
   imgSrc: string;
   url = '';
 
+  gotResult;
+
   sites = [];
 
   // elements: any[] = [];
@@ -74,7 +76,8 @@ export class SideNavbarComponent implements OnInit {
 
   fetchSites(): void {
     this.deviceService.getData().subscribe((result) => {
-      result.sites.map((site) => {
+      this.gotResult = result;
+      this.gotResult.sites.map((site) => {
         //console.log(site['site-id']);
         const siteID: string = site['site-id'];
         const siteName: string = site['display-name'];

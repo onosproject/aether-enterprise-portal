@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ConfigService {
-  config1: any[] = [];
+  config1 = [];
 
-  fremontData: any[] = [];
-  berlinData: any[] = [];
+  fremontData = [];
+  berlinData = [];
 
-  fetchDeviceConfig(): any {
+  fetchDeviceConfig(): void {
     this.config1.push(this.config);
     // //console.log(this.config1)
     this.config1.forEach((item) => {
@@ -27,7 +27,7 @@ export class ConfigService {
     });
   }
 
-  fetchOther(): any {
+  fetchOther(): void {
     // //console.log(this.fremontData)
     this.fremontData.forEach((device) => {
       device.forEach(() => {

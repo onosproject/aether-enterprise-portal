@@ -24,6 +24,8 @@ import { DeleteInventoryComponent } from '../dialogs/delete-inventory/delete-inv
 import { DeviceSimHelperService } from './device-sim-helper.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 import { Config } from 'src/app/models/config.model';
+import { TimesObject } from 'src/app/models/times-object.model';
+import { TimelineTimes } from 'src/app/models/timeline-times.model';
 @Component({
   selector: 'aep-device-sim',
   templateUrl: './device-sim.component.html',
@@ -228,8 +230,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.assignSelectedSite();
     this.configService.fetchDeviceConfig();
     this.configService.fetchOther();
-    this.deviceService.getSiteIds();
-    this.deviceService.selectedId();
+    // this.deviceService.getSiteIds();
+    // this.deviceService.selectedId();
     //console.log(this.valuesArrayFinal);
 
     // setInterval(() => {
@@ -572,6 +574,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   openDialog(): void {
     this.deviceService.mySims(this.simInventory);
+    console.log(this.simInventory);
     const dialogRef = this.dialog.open(SelectSimsComponent, {
       width: '690px',
       data: { name: this.name, animal: this.animal },
@@ -882,15 +885,19 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApi(site, iccid).subscribe((data) => {
       //console.log(data.data.result[0]);
-      let valuesArray: any[] = [];
+      let valuesArray = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
       //console.log(valuesArray);
-      const timesObject: any = {};
+      const timesObject: TimesObject = {
+        starting_time: '',
+        ending_time: '',
+        display: '',
+      };
       timesObject.starting_time = '';
       timesObject.ending_time = '';
       timesObject.display = 'rect';
-      const timesArray: any[] = [];
+      const timesArray = [];
       // console.log(valuesArray);
       valuesArray.forEach((el, index) => {
         //console.log(el[1], timesObject);
@@ -919,16 +926,19 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.timesArray = timesArray;
       const eventArray = [];
       this.fetchDotsApi(site, iccid).subscribe((eventData) => {
-        const mainObject: any = {};
+        // const mainObject = {};
         // const eventArray: any[] = [];
         // eventArray = eventData.data.result[0].values[0][0];
 
-        const eventObject: any = {};
+        const eventObject: TimesObject = {
+          starting_time: '',
+          display: '',
+        };
         eventObject.starting_time = eventData.data.result[0].values[0][0];
         eventObject.display = 'circle';
         eventArray.push({ ...eventObject });
         // console.log(eventArray);
-        mainObject.times = eventArray;
+        // mainObject.times = eventArray;
 
         this.valuesArrayFinal[0].times = timesArray;
         this.valuesArrayFinal[1].times = eventArray;
@@ -1000,12 +1010,12 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   fetchDots(site: string, serialNum: string): void {
-    this.fetchDotsApi(site, serialNum).subscribe((data) => {
+    this.fetchDotsApi(site, serialNum).subscribe(() => {
       // console.log(data.data.result[0]);
     });
   }
 
-  displayChart(chartData: any[], index: number): void {
+  displayChart(chartData: TimelineTimes[], index: number): void {
     // alert("test");
     const width = '100%';
     const height = 50;
@@ -1030,7 +1040,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       .call(chart);
   }
 
-  displaySmallChart(chartData: any[], index: number): void {
+  displaySmallChart(chartData: TimelineTimes[], index: number): void {
     // alert("test");
     const width = 100;
     const height = 50;
@@ -1064,15 +1074,19 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApi(site, iccid).subscribe((data) => {
       //console.log(data.data.result[0]);
-      let valuesArray: any[] = [];
+      let valuesArray = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
       //console.log(valuesArray);
-      const timesObject: any = {};
+      const timesObject: TimesObject = {
+        starting_time: '',
+        ending_time: '',
+        display: '',
+      };
       timesObject.starting_time = '';
       timesObject.ending_time = '';
       timesObject.display = 'rect';
-      const timesArray: any[] = [];
+      const timesArray = [];
       //console.log(valuesArray);
       valuesArray.forEach((el, index) => {
         //console.log(el[1], timesObject);

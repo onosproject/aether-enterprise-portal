@@ -30,7 +30,7 @@ export class ServicesComponent implements OnInit {
   editServiceForm: boolean = false;
 
   // new Data
-  protocolList: any[] = [
+  protocolList: string[] = [
     'protocol-1',
     'protocol-2',
     'protocol-3',
@@ -41,11 +41,11 @@ export class ServicesComponent implements OnInit {
   portEndList: number[] = [8201, 8202, 8203, 8204, 8205, 8206];
   mbrList: number[] = [1, 5, 10, 15, 20];
 
-  config: any[] = [];
+  config = [];
 
-  selectedSite: any = '';
+  selectedSite: string = '';
 
-  siteApplications: any[] = [];
+  siteApplications = [];
 
   siteSubscription: Subscription;
 
@@ -100,7 +100,7 @@ export class ServicesComponent implements OnInit {
     });
   }
 
-  assignSelectedSite(): any {
+  assignSelectedSite(): void {
     // console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
       // console.log(data);
@@ -110,7 +110,7 @@ export class ServicesComponent implements OnInit {
     });
   }
 
-  addNewService(): any {
+  addNewService(): void {
     this.addNewServiceError = false;
     if (this.addServiceFormGroup.invalid) {
       this.addNewServiceError = true;
@@ -130,7 +130,7 @@ export class ServicesComponent implements OnInit {
     // console.log(this.siteApplications);
   }
 
-  editTrigger(serviceIndex: number): any {
+  editTrigger(serviceIndex: number): void {
     this.addNewServiceForm = false;
     this.editServiceFormError = false;
     this.closeEdit();
@@ -177,12 +177,12 @@ export class ServicesComponent implements OnInit {
     this.editService.pop();
   }
 
-  fetchData(): any {
+  fetchData(): void {
     this.deviceService.getData().subscribe((result) => {
-      const configArray: any[] = [];
-      const siteSlices: any[] = [];
-      const siteApplications: any[] = [];
-      const globalApplications: any[] = [];
+      const configArray = [];
+      const siteSlices = [];
+      const siteApplications = [];
+      const globalApplications = [];
       configArray.push(result);
       this.config = configArray;
       // console.log(this.config);
@@ -225,7 +225,7 @@ export class ServicesComponent implements OnInit {
                     siteApplications[siteAppIndex].application ==
                     globalApplications[appIndex]['application-id']
                   ) {
-                    const appInfo: any = {
+                    const appInfo = {
                       'display-name':
                         globalApplications[appIndex]['display-name'],
                       'application-id':

@@ -16,13 +16,13 @@ import { DeviceSimService } from 'src/app/services/device-sim.service';
 export class SelectSimsComponent implements OnInit {
   selectedSim: string = '';
 
-  config: any[] = [];
+  config = [];
 
-  selectedSite: any = '';
+  selectedSite: string = '';
 
-  inventorySims: any[] = [];
+  inventorySims = [];
 
-  sims: any[] = [
+  sims = [
     // {
     //   id: 1,
     //   simNumber: "72348723473240",
@@ -84,7 +84,7 @@ export class SelectSimsComponent implements OnInit {
     this.assignSelectedSims();
   }
 
-  assignSelectedSite1(): any {
+  assignSelectedSite1(): void {
     //console.log('Hi');
     //console.log(this.deviceService.getSite());
     this.deviceService.getSite().subscribe((data) => {
@@ -95,9 +95,9 @@ export class SelectSimsComponent implements OnInit {
     });
   }
 
-  fetchSims(): any {
+  fetchSims(): void {
     this.deviceService.getData().subscribe((aetherConfig) => {
-      const configArray: any[] = [];
+      const configArray = [];
       configArray.push(aetherConfig);
       configArray.map((item) => {
         // const simsArray: any[] = [];
@@ -135,9 +135,9 @@ export class SelectSimsComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  assignSelectedSims(): any {
+  assignSelectedSims(): void {
     this.deviceService.getSims().subscribe((data) => {
-      //console.log(data);
+      console.log(data);
       this.inventorySims = data;
     });
   }

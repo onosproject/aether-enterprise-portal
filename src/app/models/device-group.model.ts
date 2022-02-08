@@ -3,4 +3,5 @@ export interface DeviceGroup {
   'device-group-id'?: string;
   devices: string[];
   isExpanded?: boolean;
+  selected?: number;
 }
