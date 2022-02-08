@@ -3,9 +3,9 @@ import { GraphComponent } from './pages/modals/graph-modal/graph.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SitesService } from 'src/app/services/sites/sites.service';
 import { environment } from 'src/environments/environment';
-import { Config } from 'src/app/models/config.model';
 import { smallCell } from '../../shared/classes/dashboard-data';
 import { SitePlan } from 'src/app/models/site-plan.model';
+import { Slice } from 'src/app/models/slice.model';
 
 @Component({
   selector: 'aep-dashboard',
@@ -14,15 +14,15 @@ import { SitePlan } from 'src/app/models/site-plan.model';
 })
 export class DashboardComponent {
   // @ViewChild('sites') sites: any;
-  @ViewChild('slices') slices: any;
-  @ViewChild('navbar') navbar: any;
+  @ViewChild('slices') slices;
+  @ViewChild('navbar') navbar;
 
-  isExpand: any = true;
+  isExpand: boolean = true;
   panelOpenState = false;
   isAcknowledged = 12;
   siteId: number;
   viewType: string = 'Logical';
-  config: any = null;
+  config = null;
   baseUrl: string = environment.baseUrl.substring(
     0,
     environment.baseUrl.length - 1
@@ -153,7 +153,7 @@ export class DashboardComponent {
 
   parentWillTakeAction(event: {
     siteId: string;
-    siteData: any[];
+    siteData: Slice[];
     siteIndex: number;
     alerts: number;
     sitePlans: SitePlan;

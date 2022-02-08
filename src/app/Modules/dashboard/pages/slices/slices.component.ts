@@ -7,6 +7,7 @@ import { SitesService } from 'src/app/services/sites/sites.service';
 import { smallCell } from '../../../../shared/classes/dashboard-data';
 import { SitePlan } from 'src/app/models/site-plan.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Slice } from 'src/app/models/slice.model';
 
 @Component({
   selector: 'aep-slices',
@@ -15,29 +16,29 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class SlicesComponent {
   @HostListener('window:resize', ['$event'])
-  onWindowResize(event) {
-    this.innerWidth = event.target.innerWidth;
+  onWindowResize(event: UIEvent): void {
+    this.innerWidth = (event.target as Window).innerWidth;
   }
   @Output()
   informParent = new EventEmitter();
-  sliceData: any;
+  sliceData;
   panelOpenState = false;
   isExpand: boolean = false;
-  deviceGroups: any;
-  openAccordion: any = [];
+  deviceGroups;
+  openAccordion: boolean[] = [];
   // openAccordion2: any = [];
-  openAccordionRight: any = [];
-  isEditable: any = false;
-  siteIndex: any = 0;
-  removedCameraId: any;
-  removedDeviceId: any;
-  myTimeout: any = null;
-  sliceId: any;
-  removedServiceGroupId: any;
-  removedServiceId: any;
+  openAccordionRight: boolean[] = [];
+  isEditable: boolean = false;
+  siteIndex: number = 0;
+  removedCameraId;
+  removedDeviceId;
+  myTimeout = null;
+  sliceId;
+  removedServiceGroupId;
+  removedServiceId;
   isAcknowledged = 12;
   group: string;
-  serialNumber: any;
+  serialNumber;
   panelIndex: number;
   TabValue = [];
   innerWidth: number = window.innerWidth;
@@ -97,7 +98,7 @@ export class SlicesComponent {
 
   onSelectCard(value: {
     siteId: string;
-    siteData: any[];
+    siteData: Slice[];
     siteIndex: number;
     sitePlans: SitePlan;
   }): void {
@@ -122,12 +123,12 @@ export class SlicesComponent {
     }
     setTimeout(() => {
       this.sliceData = value.siteData;
-      this.logicforAlertData(value.siteData);
+      this.logicforAlertData();
       // console.log('siteData||||', this.sliceData);
     }, 20);
   }
 
-  logicforAlertData(sliceData: any[]): void {
+  logicforAlertData(): void {
     smallCell[0][0].alerts = [];
     let priorty = 'High';
     let status = 'Critical';
@@ -226,7 +227,7 @@ export class SlicesComponent {
     }, 10);
   }
 
-  openAlerts(numberOfAlerts: number, groupName: string) {
+  openAlerts(numberOfAlerts: number, groupName: string): void {
     this.sitesService.numberOfAlerts = numberOfAlerts;
     // smallCell[0][0].alerts = [];
     // console.log(groupName);

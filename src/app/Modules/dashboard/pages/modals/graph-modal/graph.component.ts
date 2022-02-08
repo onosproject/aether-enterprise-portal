@@ -1,5 +1,5 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ChartDataSets, ChartOptions } from 'chart.js';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 
 @Component({
@@ -7,7 +7,7 @@ import { Color, Label } from 'ng2-charts';
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.scss'],
 })
-export class GraphComponent {
+export class GraphComponent implements OnInit {
   @ViewChild('myCanvas', { static: true }) canvas: ElementRef;
   TabParentValue = ['bandwidth'];
   TabChildValue = ['1h'];
@@ -41,11 +41,11 @@ export class GraphComponent {
     },
   ];
   lineChartLegend = false;
-  lineChartType: any = 'line';
-  chartColors: any;
-  canvasss: any;
-  ctx: any;
-  ngOnInit() {
+  lineChartType: ChartType = 'line';
+  chartColors;
+  canvasss;
+  ctx;
+  ngOnInit(): void {
     const gradient = this.canvas.nativeElement
       .getContext('2d')
       .createLinearGradient(0, 0, 0, 250);

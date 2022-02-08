@@ -3,6 +3,7 @@ import { smallCell } from '../../../../shared/classes/dashboard-data';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SitesService } from 'src/app/services/sites/sites.service';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'aep-small-cells',
@@ -20,9 +21,9 @@ export class SmallCellsComponent implements OnInit {
   isRaiseTicket: boolean = false;
   chatView: boolean = false;
   ResponedStatus: string = 'Critical';
-  smallCells: any = [];
-  tickets: any;
-  historys: any;
+  smallCells = [];
+  tickets;
+  historys;
   respondIndex: number;
   TabIndex: number = 0;
   respondTab: string;
@@ -44,7 +45,7 @@ export class SmallCellsComponent implements OnInit {
     // console.log('||||||||||||||', this.smallCells[0].alerts);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // for (let i = 0; i < this.sitesService.numberOfAlerts; i++) {
     //   this.smallCells.push(smallCell[0][0].alerts[i]);
     //   // console.log(smallCell[0][0].alerts[i]);
@@ -90,7 +91,7 @@ export class SmallCellsComponent implements OnInit {
     this.selectedFilter = value;
   }
 
-  selectedTabValue(event: { index: any }): void {
+  selectedTabValue(event: MatTabChangeEvent): void {
     // alert();
     this.TabIndex = event.index;
     // //console.log(event);
