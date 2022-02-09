@@ -60,6 +60,7 @@
     opacity: 0.6;
     color: #97c1ff;
   }
+
   // .ctm_new_component{
   //   .ctm_new_col_8{
 
@@ -396,6 +397,11 @@
 }
 .ctm_accordion_container {
   padding: 0 6px;
+  .col-lg-6.ctm-border-bottom.ng-star-inserted {
+    @media only screen and (max-width: 1340px) {
+      width: 100% !important;
+    }
+  }
 }
 .section_close {
   margin: 20px 0 0;

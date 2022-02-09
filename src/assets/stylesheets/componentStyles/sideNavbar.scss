@@ -6,25 +6,25 @@
 .sideNavbar {
   &_navCard {
     background: $SecondaryColor;
-    margin-left: -10px;
+    // margin-left: -10px;
     border-top: 1px solid transparent !important;
-    border-radius: 0.8rem !important;
-    margin-left: 4rem;
-    width: 15rem !important;
+    border-radius: 0.5rem !important;
+    margin-left: 0rem !important;
+    // width: 15rem !important;
     height: fit-content;
 
-    &-triangle::after {
-      content: "";
-      position: absolute;
-      right: 13px;
-      top: 9px;
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 0 13px 20px 13px;
-      border-color: transparent transparent #ffffff transparent;
-      z-index: 9998;
-    }
+    // &-triangle::after {
+    //   content: "";
+    //   position: absolute;
+    //   right: 13px;
+    //   top: 9px;
+    //   width: 0;
+    //   height: 0;
+    //   border-style: solid;
+    //   border-width: 0 13px 20px 13px;
+    //   border-color: transparent transparent #ffffff transparent;
+    //   z-index: 9998;
+    // }
 
     &_siteSelector {
       color: #0063f7;
@@ -155,6 +155,7 @@
   //   }
   // }
   .menu {
+    cursor: pointer;
     padding: 10px;
     .img-bg {
       margin-right: 5px;
@@ -196,16 +197,61 @@
           background-image: url(/assets/SideCol-Navbar/slices.svg);
         }
       }
+      .label {
+        color: #3c4257;
+        font-family: "Inter", sans-serif;
+        font-size: 14px !important;
+        font-weight: 500;
+        margin-left: -20px;
+      }
     }
 
-    .label {
-      color: #3c4257;
-      font-family: "Inter", sans-serif;
-      font-size: 14px !important;
-      font-weight: 500;
-      margin-left: -20px;
+    &.inActive {
+      .img-bg {
+        margin-right: 5px;
+        background: #edf4ff;
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        .icon {
+          height: 14px;
+          width: 14px;
+          background-repeat: no-repeat;
+          position: absolute;
+          top: 6px;
+          left: 6px;
+          &.admin-link {
+            background-image: url(/assets/SideCol-Navbar/admin.svg);
+          }
+          &.device-sim-link {
+            background-image: url(/assets/SideCol-Navbar/devices.svg);
+          }
+          &.services-link {
+            background-image: url(/assets/SideCol-Navbar/services.svg);
+          }
+          &.small-cells-link {
+            background-image: url(/assets/SideCol-Navbar/smallCells.svg);
+          }
+          &.device-groups-link {
+            background-image: url(/assets/SideCol-Navbar/deviceGroups.svg);
+          }
+          &.slices-link {
+            background-image: url(/assets/SideCol-Navbar/slices.svg);
+          }
+          &.audit-link {
+            background-image: url(/assets/SideCol-Navbar/slices.svg);
+          }
+        }
+      }
     }
+
     &:hover {
+      border-radius: 4px;
       background: #edf4ff;
       .img-bg {
         background: #0063f7;
@@ -235,10 +281,14 @@
       }
 
       .label {
-        text-shadow: 0.5px 0 #3c4257;
+        font-family: Inter;
+        color: #0063f7;
+        font-weight: 600;
+        font-size: 16px;
       }
     }
     &.active {
+      border-radius: 4px;
       background: #edf4ff;
       .img-bg {
         background: #0063f7;
@@ -268,55 +318,58 @@
       }
 
       .label {
-        text-shadow: 0.5px 0 #3c4257;
+        font-family: Inter;
+        color: #0063f7;
+        font-weight: 600;
+        font-size: 16px;
       }
     }
   }
 }
 
-.menu:hover {
-  ~ .menu.active {
-    background: none;
-    .img-bg {
-      margin-right: 5px;
-      background: #edf4ff;
-      border-radius: 50%;
-      width: 26px;
-      height: 26px;
-      padding: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      .icon {
-        height: 14px;
-        width: 14px;
-        background-repeat: no-repeat;
-        position: absolute;
-        top: 6px;
-        left: 6px;
-        &.admin-link {
-          background-image: url(/assets/SideCol-Navbar/admin.svg);
-        }
-        &.device-sim-link {
-          background-image: url(/assets/SideCol-Navbar/devices.svg);
-        }
-        &.services-link {
-          background-image: url(/assets/SideCol-Navbar/services.svg);
-        }
-        &.small-cells-link {
-          background-image: url(/assets/SideCol-Navbar/smallCells.svg);
-        }
-        &.device-groups-link {
-          background-image: url(/assets/SideCol-Navbar/deviceGroups.svg);
-        }
-        &.slices-link {
-          background-image: url(/assets/SideCol-Navbar/slices.svg);
-        }
-        &.audit-link {
-          background-image: url(/assets/SideCol-Navbar/slices.svg);
-        }
-      }
-    }
-  }
-}
+// .menu:hover {
+//   .menu.active {
+//     background: none;
+//     .img-bg {
+//       margin-right: 5px;
+//       background: #edf4ff;
+//       border-radius: 50%;
+//       width: 26px;
+//       height: 26px;
+//       padding: 5px;
+//       display: flex;
+//       align-items: center;
+//       justify-content: center;
+//       position: relative;
+//       .icon {
+//         height: 14px;
+//         width: 14px;
+//         background-repeat: no-repeat;
+//         position: absolute;
+//         top: 6px;
+//         left: 6px;
+//         &.admin-link {
+//           background-image: url(/assets/SideCol-Navbar/admin.svg);
+//         }
+//         &.device-sim-link {
+//           background-image: url(/assets/SideCol-Navbar/devices.svg);
+//         }
+//         &.services-link {
+//           background-image: url(/assets/SideCol-Navbar/services.svg);
+//         }
+//         &.small-cells-link {
+//           background-image: url(/assets/SideCol-Navbar/smallCells.svg);
+//         }
+//         &.device-groups-link {
+//           background-image: url(/assets/SideCol-Navbar/deviceGroups.svg);
+//         }
+//         &.slices-link {
+//           background-image: url(/assets/SideCol-Navbar/slices.svg);
+//         }
+//         &.audit-link {
+//           background-image: url(/assets/SideCol-Navbar/slices.svg);
+//         }
+//       }
+//     }
+//   }
+// }

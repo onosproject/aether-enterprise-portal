@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/Modules/material/material.module';
 
 import { SlicesComponent } from './slices.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('SlicesComponent', () => {
   let component: SlicesComponent;
@@ -16,7 +17,7 @@ describe('SlicesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MaterialModule, BrowserAnimationsModule],
+      imports: [MaterialModule, BrowserAnimationsModule, HttpClientModule],
       declarations: [SlicesComponent],
     }).compileComponents();
   });

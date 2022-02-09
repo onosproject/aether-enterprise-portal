@@ -22,7 +22,15 @@
 }
 .ctm_new_component {
   .mat-action-row {
-    padding: 16px 24px 16px 24px;
+    padding: 36px 24px 86px 24px;
+    display: flex;
+    justify-content: flex-start;
+    @media only screen and (min-width: 1550px) {
+      padding: 36px 24px 86px 24px;
+    }
+    @media only screen and (max-width: 1199px) {
+      padding: 16px 24px 16px 24px;
+    }
   }
 }
 .mat-action-row {

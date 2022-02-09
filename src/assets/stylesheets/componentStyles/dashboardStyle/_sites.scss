@@ -71,13 +71,15 @@
 .service-bx {
   display: flex;
   margin-bottom: 8px;
+  align-items: center;
+
   .card-icon {
     margin-right: 5px;
     background: #edf4ff;
     border-radius: 50%;
     width: 26px;
     height: 26px;
-    padding: 5px;
+    // padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,6 +90,7 @@
   .card-category {
     display: flex;
     align-items: center;
+    height: 100%;
     p {
       margin-bottom: 0;
       font-size: 14px;

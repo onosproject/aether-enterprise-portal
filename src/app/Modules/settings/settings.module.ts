@@ -30,6 +30,7 @@ import { DecomissionComponent } from './dialogs/decomission/decomission.componen
 import { RecomissionComponent } from './dialogs/recomission/recomission.component';
 import { DeleteDevicegroupsComponent } from './dialogs/delete-devicegroups/delete-devicegroups.component';
 import { DeleteServiceComponent } from './dialogs/delete-service/delete-service.component';
+import { AuditUserComponent } from './dialogs/audit-user/audit-user.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { DeleteServiceComponent } from './dialogs/delete-service/delete-service.
     RecomissionComponent,
     DeleteDevicegroupsComponent,
     DeleteServiceComponent,
+    AuditUserComponent,
   ],
   imports: [
     CommonModule,

@@ -4,35 +4,37 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { GraphComponent } from './pages/modals/graph-modal/graph.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SitesService } from 'src/app/services/sites/sites.service';
 import { environment } from 'src/environments/environment';
-import { Config } from 'src/app/models/config.model';
+import { smallCell } from '../../shared/classes/dashboard-data';
+import { SitePlan } from 'src/app/models/site-plan.model';
+import { Slice } from 'src/app/models/slice.model';
 
 @Component({
   selector: 'aep-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   // @ViewChild('sites') sites: any;
-  @ViewChild('slices') slices: any;
-  @ViewChild('navbar') navbar: any;
+  @ViewChild('slices') slices;
+  @ViewChild('navbar') navbar;
 
-  isExpand: any = true;
+  isExpand: boolean = true;
   panelOpenState = false;
   isAcknowledged = 12;
-  siteId: string;
+  siteId: number;
   viewType: string = 'Logical';
-  config: any = null;
+  config = null;
   baseUrl: string = environment.baseUrl.substring(
     0,
     environment.baseUrl.length - 1
   );
   selectedPlan: number = 0;
-
+  siteIndex = 0;
   smallCells = [
     {
       'display-name': 'North Cell',
@@ -145,23 +147,37 @@ export class DashboardComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public sitesService: SitesService) {}
 
-  ngOnInit(): void {
-    this.sitesService.GetAllConfig().subscribe((response: Config) => {
-      this.config = response || null;
-    });
-  }
+  // ngOnInit(): void {
+  //   // this.getSitePlans();
+  // }
+
+  // getSitePlans(): void {
+  //   this.sitesService.GetAllConfig().subscribe((response: Config) => {
+  //     this.config = response || null;
+  //   });
+  // }
 
   parentWillTakeAction(event: {
     siteId: string;
-    siteData: any[];
+    siteData: Slice[];
     siteIndex: number;
+    alerts: number;
+    sitePlans: SitePlan;
   }): void {
+    // this.siteIndex = event.siteIndex;
     // console.log('||||||||||||||||||||', event);
     this.navbar.getDataFromDashboard(event.siteId);
-    this.siteId = event.siteId;
+    this.siteId = event.alerts;
+    if (event.sitePlans === null) {
+      this.viewType = 'Logical';
+      setTimeout(() => {
+        this.getSlices();
+      }, 10);
+    }
+    this.config = event.sitePlans;
     if (!this.isExpand) {
       this.slices.expandAllCard(false);
-      this.isExpand = false;
+      this.isExpand = true;
     } else {
       this.slices.collapseAllCard();
       this.isExpand = true;
@@ -181,11 +197,24 @@ export class DashboardComponent implements OnInit {
       this.slices.collapseAllCard();
     }
   }
-  parentWillTakeActionSlice(): void {
-    this.isExpand = !this.isExpand;
+  parentWillTakeActionSlice(event: {
+    isalert?: boolean;
+    viewType: boolean;
+  }): void {
+    if (event.viewType) {
+      this.viewType = 'Physical';
+    }
+    if (!event.viewType) {
+      this.isExpand = !this.isExpand;
+    }
+    if (event.isalert) {
+      this.isAcknowledged = 8;
+    }
   }
 
-  showAcknowledgedView(): void {
+  showAcknowledgedView(numberOfAlerts: number): void {
+    smallCell[0][0].alerts = this.sitesService.allSmallCellsData;
+    this.sitesService.numberOfAlerts = numberOfAlerts;
     this.isAcknowledged = 8;
     this.slices.expandAllCard(true);
     // this.isExpand = false;

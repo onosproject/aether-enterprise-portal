@@ -5,9 +5,10 @@
  */
 .aether-add-active-device {
   .add-active {
+    height: 48px;
+    width: 240px;
     color: #ffffff !important;
     background: #0063f7 !important;
-    border-radius: 0px !important;
     margin-top: -3.9px;
     margin-left: auto;
     margin-right: auto;
@@ -15,33 +16,70 @@
     margin: 0 auto;
     display: inherit;
     position: relative;
+    border-radius: 4px;
     &:after {
       content: "+";
       position: absolute;
       right: 8px;
+      font-size: 31px;
+      top: 10px;
     }
+  }
+  .button-medium-14-device-sim {
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
   }
 }
 
 .device-details {
+  text-align: center;
   color: #0063f7;
   cursor: pointer;
   &.close {
+    max-width: 9%;
+    text-align: center;
     color: #ef233c;
   }
 }
 
+.device-sims-block {
+  width: 98%;
+}
+
 .device-sim-view {
+  &-col-2 {
+    flex: 0 0 auto;
+    width: 15.666667%;
+  }
   // width: 90%;
-  max-width: 90%;
-  margin-top: 30px;
+  // padding-left: 10px;
+  // max-width: 88%;
+  margin-top: 40px;
   .aether-sideCol-NavCard {
     margin-left: 0 !important;
     width: auto !important;
   }
   .right-section {
+    position: relative;
+    padding-left: 0px;
+    &-col-lg-9 {
+      flex: 0 0 auto;
+      width: 72%;
+      @media screen and (min-width: 1300px) {
+        flex: 0 0 auto;
+        width: 73%;
+      }
+      @media screen and (min-width: 1630px) {
+        flex: 0 0 auto;
+        width: 74%;
+      }
+    }
     .sec-1 {
       .title-tab {
+        margin-top: -4px;
         .title-block {
           color: #97c1ff;
           font-family: Inter;
@@ -61,22 +99,39 @@
       }
       .inventory-block {
         padding-right: 40px;
-        .device-switch,
+        .device-switch {
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+          padding: 10px 20px 10px 20px;
+        }
         .sims-switch {
-          border-radius: 10px;
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
           padding: 10px 20px 10px 20px;
         }
         &:not(.active) {
-          .sims-btn.normal {
+          .sims-btn {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
             background: #97c1ff;
             color: #fff;
           }
+          // .device-btn {
+          //   border-top-right-radius: 8px;
+          //   border-bottom-right-radius: 8px;
+          //   // background: #97c1ff;
+          //   // color: #fff;
+          // }
         }
         &.in-active {
           pointer-events: none;
         }
       }
+      .cancelled-sims {
+        margin-top: 2px;
+      }
     }
+
     .device-detail-card,
     .device-sims-detail-card {
       margin-top: 15px !important;
@@ -128,10 +183,14 @@
         }
       }
       .device-details-view-edit {
+        text-align: left;
+        max-width: 5%;
         color: #0063f7;
         margin-left: auto;
         cursor: pointer;
-        &.close {
+        &-close {
+          text-align: left;
+          max-width: 5%;
           color: #ef233c;
         }
       }
@@ -157,9 +216,14 @@
     }
     .cancelled-sims-block,
     .inventory-sims-block {
+      margin-top: 4px;
+      max-width: 98%;
       .device-detail-card {
         margin-top: 0 !important;
       }
+    }
+    .inventory-device-block {
+      max-width: 98%;
     }
   }
 }
@@ -198,7 +262,7 @@
     // border: 1px dashed #97c1f0;
     border-radius: 5px;
     background: #eff1f3;
-    padding-left: 15px;
+    padding: 32px 0px 60px 32px;
   }
   .activate-title {
     color: #3c4257;
@@ -544,11 +608,18 @@
   }
   &.device-sims-detail-view-edit-form,
   &.device-sims-detail-view-details-form {
+    border-top: 1px solid #97c1ff;
+    margin-top: -4px;
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 0 !important;
     padding-top: 0;
   }
   input.form-control {
     border-radius: 0;
     // border-bottom: 0.5px solid #3c4257;
+  }
+  &-deviceSim-edit-form-spacings {
+    padding: 8px 32px 24px 32px;
   }
 }
 .v-hidden {
@@ -689,4 +760,18 @@
   .mat-form-field-appearance-fill .mat-form-field-flex {
     padding: 0;
   }
+}
+
+.highlight {
+  // border-top-right-radius: 8px;
+  // border-bottom-right-radius: 8px;
+  color: #fff;
+  background: #0063f7;
+  border: none;
+}
+.normal {
+  color: #6ea6ff;
+  background: #fff;
+  // background: red;
+  border: none;
 }

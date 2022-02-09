@@ -1,0 +1,14 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
+<svg width="272" height="75" viewBox="0 0 272 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M23.0091 13.3929L0 0V53.5714V75H272V53.5714V35.4911L239.952 22.0982L223.517 6.02679L197.221 13.3929L170.924 0L147.094 28.7946L125.728 13.3929L107.65 22.0982L86.284 13.3929L69.0272 22.0982L47.6616 6.02679L23.0091 13.3929Z" fill="url(#paint0_linear_4847_42612)"/>
+<defs>
+<linearGradient id="paint0_linear_4847_42612" x1="136" y1="0" x2="136.337" y2="75.0003" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.5"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>

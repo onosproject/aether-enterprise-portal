@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { trigger, style, animate, transition } from '@angular/animations';
+// import { trigger, style, animate, transition } from '@angular/animations';
 
 import { MatDialog } from '@angular/material/dialog';
 import { SelectDevicesComponent } from '../dialogs/select-devices/select-devices.component';
@@ -19,7 +19,7 @@ import { SelectSimsComponent } from '../dialogs/select-sims/select-sims.componen
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 
 import { ConfigService } from 'src/app/services/config.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 // chart imports
 import * as d3Time from 'd3-timelines-edited';
@@ -27,21 +27,27 @@ import * as d3 from 'd3';
 
 import { DeleteDevicesComponent } from '../dialogs/delete-devices/delete-devices.component';
 import { DeleteInventoryComponent } from '../dialogs/delete-inventory/delete-inventory.component';
+import { DeviceSimHelperService } from './device-sim-helper.service';
+import { GlobalDataService } from 'src/app/services/global-data.service';
+import { Config } from 'src/app/models/config.model';
+import { TimesObject } from 'src/app/models/times-object.model';
+import { TimelineTimes } from 'src/app/models/timeline-times.model';
+import { TimelineData } from 'src/app/models/timeline.model';
 @Component({
   selector: 'aep-device-sim',
   templateUrl: './device-sim.component.html',
-  animations: [
-    trigger('inOutAnimation', [
-      transition(':enter', [
-        style({ height: 0, opacity: 0 }),
-        animate('0.5s ease-out', style({ height: 400, opacity: 1 })),
-      ]),
-      transition(':leave', [
-        style({ height: 500, opacity: 1 }),
-        animate('0.5s ease-in', style({ height: 0, opacity: 0 })),
-      ]),
-    ]),
-  ],
+  // animations: [
+  //   trigger('inOutAnimation', [
+  //     transition(':enter', [
+  //       style({ height: 0, opacity: 0 }),
+  //       animate('0.5s ease-out', style({ height: 400, opacity: 1 })),
+  //     ]),
+  //     transition(':leave', [
+  //       style({ height: 500, opacity: 1 }),
+  //       animate('0.5s ease-in', style({ height: 0, opacity: 0 })),
+  //     ]),
+  //   ]),
+  // ],
   styles: [],
 })
 export class DeviceSimComponent implements OnInit, OnDestroy {
@@ -54,8 +60,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   inventoryDeviceEditForm: boolean = false;
   newSim = new FormControl('');
   browseSims = new FormControl('');
-  toggle: any;
-  editObject: any;
+  toggle;
+  editObject;
   inventorySimsTabStyle: string = 'false';
   inventoryDeviceTabStyle: string = 'false';
   deviceSimView: string = 'true';
@@ -73,20 +79,20 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   deviceSimsDetailsProgressToggleWeek: boolean = false;
   deviceSimsDetailsProgressToggleDay: boolean = true;
 
-  config: any[] = [];
+  config = [];
 
-  selectedSite: any = '';
+  selectedSite = '';
 
-  selectedSim: any = '';
+  selectedSim = '';
 
   selectedDevice: number = 0;
 
   siteSubscription: Subscription;
-  siteConfig: any[] = [];
+  siteConfig = [];
 
-  deviceInventory: any[] = [];
+  deviceInventory = [];
 
-  simInventory: any[] = [];
+  simInventory = [];
 
   editInventory: number[] = [];
 
@@ -94,11 +100,11 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   deviceDetails: number[] = [];
 
-  deviceType: any[] = ['Phone', 'Camera', 'Sensor', 'IOT', 'Other'];
+  deviceType: string[] = ['Phone', 'Camera', 'Sensor', 'IOT', 'Other'];
 
-  cancelledSimsStorage: any[] = [];
+  cancelledSimsStorage = [];
 
-  lastWeekDates: any[] = [];
+  lastWeekDates = [];
   lastWeekDatesLength: number;
   selectedDate: number = -1;
   isZoomIn: boolean = false;
@@ -130,7 +136,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   //   [{ timeStamp: 1640939280, activeStatus: '1' }],
   // ];
 
-  valuesArray: any[] = [
+  valuesArray: [number, string][] = [
     [1640874480, '1'],
     [1640878080, '0'],
     [1640881680, '1'],
@@ -152,16 +158,19 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     [1640939280, '1'],
   ];
 
-  timesArray: any[] = [];
+  timesArray = [];
 
-  timesDiffArray: any[] = [];
+  timesDiffArray = [];
 
-  apiPreviousDate: any = '';
-  apiPreviousTime: any = '';
-  apiCurrentDate: any = '';
-  apiCurrentTime: any = '';
+  apiPreviousDate = '';
+  apiPreviousTime = '';
+  apiCurrentDate = '';
+  apiCurrentTime = '';
 
-  valuesArrayFinal: any[] = [{ activeStatus: '1', times: [] }];
+  valuesArrayFinal = [
+    { activeStatus: '1', times: [] },
+    { activeStatus: '0', times: [] },
+  ];
 
   simpleData = [
     {
@@ -172,36 +181,48 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   deviceSimForm = new FormGroup({});
 
+  addNewDeviceSimError: boolean = false;
+
   deviceSimControls = this.deviceSimForm.controls;
 
   deviceSimSubmit = false;
 
   deviceSimEditForm = new FormGroup({
-    newSim: new FormControl('', Validators.required),
-    deviceName: new FormControl('', Validators.required),
-    deviceLocation: new FormControl('', Validators.required),
-    deviceSerialNum: new FormControl('', Validators.required),
+    // newSim: new FormControl('', Validators.required),
+    // deviceName: new FormControl('', Validators.required),
+    // deviceLocation: new FormControl('', Validators.required),
+    // deviceSerialNum: new FormControl('', Validators.required),
   });
+
+  editDeviceSimError: boolean = false;
 
   inventoryDeviceSimForm = new FormGroup({
-    inventoryDeviceName: new FormControl('', Validators.required),
-    inventoryDeviceLocation: new FormControl('', Validators.required),
-    inventoryDeviceSerialNum: new FormControl('', Validators.required),
-    inventoryDeviceType: new FormControl('', Validators.required),
+    // inventoryDeviceName: new FormControl('', Validators.required),
+    // inventoryDeviceLocation: new FormControl('', Validators.required),
+    // inventoryDeviceSerialNum: new FormControl('', Validators.required),
+    // inventoryDeviceType: new FormControl('', Validators.required),
   });
 
+  addNewInventoryDeviceError: boolean = false;
+
   inventoryEditForm = new FormGroup({
-    inventoryDeviceName: new FormControl('', Validators.required),
-    inventoryDeviceLocation: new FormControl('', Validators.required),
-    inventoryDeviceSerialNum: new FormControl('', Validators.required),
-    inventoryDeviceType: new FormControl('', Validators.required),
+    // inventoryDeviceName: new FormControl('', Validators.required),
+    // inventoryDeviceLocation: new FormControl('', Validators.required),
+    // inventoryDeviceSerialNum: new FormControl('', Validators.required),
+    // inventoryDeviceType: new FormControl('', Validators.required),
   });
+
+  editInventoryDeviceError: boolean = false;
+
+  loggedIn: boolean = false;
 
   constructor(
     public http: HttpClient,
     public dialog: MatDialog,
     public deviceService: DeviceSimService,
-    public configService: ConfigService
+    public configService: ConfigService,
+    public deviceSimHelper: DeviceSimHelperService,
+    public globalService: GlobalDataService
   ) {}
 
   ngOnInit(): void {
@@ -216,8 +237,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.assignSelectedSite();
     this.configService.fetchDeviceConfig();
     this.configService.fetchOther();
-    this.deviceService.getSiteIds();
-    this.deviceService.selectedId();
+    // this.deviceService.getSiteIds();
+    // this.deviceService.selectedId();
     //console.log(this.valuesArrayFinal);
 
     // setInterval(() => {
@@ -225,14 +246,41 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     // }, 100000);
     // console.log('||||||||||||||||||', this.getLastWeek());
     this.getLastWeek();
+    // this.getCompleteData();
+    // this.getCurrentSite();
+    // this.globalService.fetchSubCompleteData();
   }
 
+  // getCurrentSite(): void {
+  //   this.globalService.getSite().subscribe((data) => {
+  //     this.selectedSite = data;
+  //   });
+  // }
+
+  // getCompleteData(): void {
+  //   if (this.globalService.loggedIn == true) {
+  //     this.globalService.fetchCompleteData();
+  //   }
+  //   this.globalService.loggedIn = false;
+  // }
+
+  // new formGroup functions
   configDeviceSim(): void {
     this.deviceSimForm = new FormGroup({
       newSim: new FormControl('', Validators.required),
       deviceName: new FormControl('', Validators.required),
       deviceLocation: new FormControl('', Validators.required),
       deviceSerialNum: new FormControl('', Validators.required),
+    });
+    this.activeNewDeviceForm();
+  }
+
+  configInventoryDevice(): void {
+    this.inventoryDeviceSimForm = new FormGroup({
+      inventoryDeviceName: new FormControl('', Validators.required),
+      inventoryDeviceLocation: new FormControl('', Validators.required),
+      inventoryDeviceSerialNum: new FormControl('', Validators.required),
+      inventoryDeviceType: new FormControl('', Validators.required),
     });
   }
 
@@ -301,7 +349,9 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     }
   }
   zoomgraph(value: boolean, zoomIn: number): void {
+    // this.getCurrentSite();
     if (zoomIn >= 0 && zoomIn <= 2) {
+      // this.getCurrentSite();
       this.zoomIn = zoomIn;
       // if (
       //   document.body.contains(
@@ -328,7 +378,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
           this.lastWeekDates[this.selectedDate - 1].string_date;
         this.apiCurrentDate = this.lastWeekDates[this.selectedDate].string_date;
       }
-      console.log(this.lastWeekDates[this.selectedDate + 1].string_date);
+      // console.log(this.lastWeekDates[this.selectedDate + 1].string_date);
       if (zoomIn === 0) {
         this.apiPreviousDate = this.lastWeekDates[1].string_date;
         this.apiCurrentDate =
@@ -345,70 +395,44 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     }
   }
 
-  addNewDevice1(): any {
-    //console.log('addNewDevice');
-    this.siteConfig[0].push({
-      sim: this.deviceSimForm.value.newSim,
-      'display-name': this.deviceSimForm.value.deviceName,
-      location: this.deviceSimForm.value.deviceLocation,
-      'serial-number': this.deviceSimForm.value.deviceSerialNum,
-    });
-    this.activeNewDeviceForm();
-    // console.log(this.siteConfig);
-    // } else {
-    //   return;
-    // }
-  }
+  siteConfigNew = [];
 
-  addNewDeviceInventory(): any {
-    //console.log('add NewDevice to Inventory');
-    this.deviceInventory.push({
-      'display-name': this.inventoryDeviceSimForm.value.inventoryDeviceName,
-      location: this.inventoryDeviceSimForm.value.inventoryDeviceLocation,
-      'serial-number':
-        this.inventoryDeviceSimForm.value.inventoryDeviceSerialNum,
-      type: this.inventoryDeviceSimForm.value.inventoryDeviceType,
-    });
-    this.activeNewDeviceForm();
-  }
+  siteDeviceInventory = [];
 
-  assignSelectedSite(): any {
-    //console.log(this.deviceService.mySite1);
-    this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-      //console.log(data);
-      this.selectedSite = data;
-      // //console.log(this.selectedSite);
-      this.fetchData();
-    });
-  }
+  // fetchDataNew(): any {
+  //   this.globalService.getDeviceSims().subscribe((data: any[]) => {
+  //     // this.getCurrentSite();
+  //     // console.log(data);
+  //     this.siteConfigNew = data;
+  //     if (this.siteConfigNew.length > 0) {
+  //       for (let i = 0; i < this.siteConfigNew.length; i++) {
+  //         this.fetchProm2(this.selectedSite, this.siteConfigNew[i].sim, i);
+  //         //console.log("+++++++++", this.siteConfig[0][i].sim)
+  //       }
+  //     }
+  //   });
+  // }
 
-  assignSelectedSim(): void {
-    this.deviceService.mySim1.subscribe((data) => {
-      this.selectedSim = data;
-      // //console.log(this.selectedSim);
-    });
-  }
+  // fetchDevicesInventory(): void {
+  //   // console.log('lol');
+  //   this.globalService.getDeviceInventory().subscribe((data: any[]) => {
+  //     // this.getCurrentSite();
+  //     // console.log(data);
+  //     this.siteDeviceInventory = data;
+  //   });
+  // }
 
-  assignSelectedDevice(): void {
-    this.deviceService.getDevice().subscribe((data) => {
-      // this.selectedDevice = data;
-      // //console.log(this.selectedSim);
-      this.deviceSimForm.patchValue({
-        deviceSerialNum: data,
-      });
-    });
-  }
-
-  fetchData(): any {
-    this.deviceService.getData().subscribe((result) => {
-      const configArray: any[] = [];
+  fetchData(): void {
+    // this.getCurrentSite();
+    this.deviceService.getData().subscribe((result: Config) => {
+      const configArray = [];
       configArray.push(result);
       this.config = configArray;
-      // //console.log(this.config);
-      configArray.map((item) => {
-        const sitesArray: any[] = [];
+      //console.log(this.config);
+      configArray.map((item: Config) => {
+        const sitesArray = [];
         const sitesConfig = item.sites;
-        // //console.log(item.sites);
+        //console.log(item.sites);
         sitesConfig.map((site) => {
           //console.log(site['display-name']);
           //console.log(this.selectedSite);
@@ -425,157 +449,130 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         if (this.siteConfig.length > 0) {
           for (let i = 0; i < this.siteConfig[0].length; i++) {
             this.fetchProm2(this.selectedSite, this.siteConfig[0][i].sim, i);
-            // //console.log("+++++++++", this.siteConfig[0][i].sim)
+            //console.log("+++++++++", this.siteConfig[0][i].sim)
           }
         }
       });
       //console.log('This is global sites array', this.siteConfig);
-      //console.log(this.config);
+      // console.log(this.config);
     });
   }
 
-  editTrigger(index: number): any {
+  addNewDevice1(): void {
+    //console.log('addNewDevice');
+    this.addNewDeviceSimError = false;
+    if (this.deviceSimForm.invalid) {
+      this.addNewDeviceSimError = true;
+    } else if (this.deviceSimForm.valid) {
+      // this.deviceSimHelper.addDeviceSim({
+      this.siteConfig[0].push({
+        sim: this.deviceSimForm.value.newSim,
+        'display-name': this.deviceSimForm.value.deviceName,
+        imei: '300-365-3001',
+        location: this.deviceSimForm.value.deviceLocation,
+        'serial-number': this.deviceSimForm.value.deviceSerialNum,
+        selected: 0,
+        type: 'created type',
+      });
+      this.activeNewDeviceForm();
+      // console.log(this.siteConfig);
+      // } else {
+      //   return;
+      // }
+      this.activeNewDevice = !this.activeNewDevice;
+      this.addNewDeviceSimError = false;
+    }
+  }
+
+  assignSelectedSite(): void {
+    //console.log(this.deviceService.mySite1);
+    this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
+      // this.siteSubscription = this.globalService.getSite().subscribe((data) => {
+      //console.log(data);
+      this.selectedSite = data;
+      // this.deviceSimHelper.selectedSite = data;
+      //console.log(this.selectedSite);
+      this.fetchData();
+      // this.fetchDataNew();
+      // this.fetchDevicesInventory();
+
+      // this.globalService.fetchDeviceSims(data);
+      // this.globalService.fetchDeviceInventory(data);
+    });
+  }
+
+  assignSelectedSim(): void {
+    this.deviceService.mySim1.subscribe((data) => {
+      this.selectedSim = data;
+      //console.log(this.selectedSim);
+    });
+  }
+
+  assignSelectedDevice(): void {
+    this.deviceService.getDevice().subscribe((data) => {
+      // this.selectedDevice = data;
+      //console.log(this.selectedSim);
+      this.deviceSimForm.patchValue({
+        deviceSerialNum: data,
+      });
+    });
+  }
+
+  editTrigger(index: number): void {
     this.closeEdit();
     this.closeDetails();
     const editDeviceIndex = this.editDevices.indexOf(index);
     if (editDeviceIndex >= 0) {
-      // //console.log('if');
+      //console.log('if');
       this.editDevices.splice(editDeviceIndex, 1);
     } else {
-      // //console.log('else');
-      // //console.log(this.siteConfig[0][index]);
+      //console.log('else');
+      //console.log(this.siteConfig[0][index]);
       this.siteConfig[0][index].form = new FormGroup({
-        newSim: new FormControl(this.siteConfig[0][index].sim),
-        deviceName: new FormControl(this.siteConfig[0][index]['display-name']),
-        deviceLocation: new FormControl(this.siteConfig[0][index].location),
+        newSim: new FormControl(
+          this.siteConfig[0][index].sim,
+          Validators.required
+        ),
+        deviceName: new FormControl(
+          this.siteConfig[0][index]['display-name'],
+          Validators.required
+        ),
+        deviceLocation: new FormControl(
+          this.siteConfig[0][index].location,
+          Validators.required
+        ),
         deviceSerialNum: new FormControl(
-          this.siteConfig[0][index]['serial-number']
+          this.siteConfig[0][index]['serial-number'],
+          Validators.required
         ),
       });
       this.editDevices.push(index);
+      this.deviceSimEditForm = this.siteConfig[0][index].form;
     }
-    // //console.log(editDeviceIndex);
-    // //console.log(this.editDevices);
-  }
-
-  closeEdit(): any {
-    this.activeNewDevice = false;
-    this.editDevices.pop();
+    // * console.log(typeof this.siteConfigNew[index].form);
+    // * console.log(editDeviceIndex);
+    // * console.log(this.editDevices);
   }
 
   getEditControl(deviceSimEditForm: FormGroup, param: string): FormControl {
     return deviceSimEditForm.get(param) as FormControl;
   }
 
-  actualEdit(index: number): void {
-    const form = this.siteConfig[0][index].form.value;
-    const device = this.siteConfig[0][index];
-    device.sim = form.newSim;
-    device['display-name'] = form.deviceName;
-    device.location = form.deviceLocation;
-    device['serial-number'] = form.deviceSerialNum;
-  }
-
-  inventoryEditTrigger(index: number): any {
-    this.addNewDevice = false;
-    this.closeEditInventory();
-    const editInventoryIndex = this.editInventory.indexOf(index);
-    if (editInventoryIndex >= 0) {
-      this.editInventory.splice(editInventoryIndex, 1);
-    } else {
-      this.deviceInventory[index].form = new FormGroup({
-        inventoryDeviceName: new FormControl(
-          this.deviceInventory[index]['display-name']
-        ),
-        inventoryDeviceLocation: new FormControl(
-          this.deviceInventory[index]['location']
-        ),
-        inventoryDeviceSerialNum: new FormControl(
-          this.deviceInventory[index]['serial-number']
-        ),
-        inventoryDeviceType: new FormControl(
-          this.deviceInventory[index]['type']
-        ),
-      });
-      this.editInventory.push(index);
-    }
-  }
-
-  closeEditInventory(): any {
-    this.editInventory.pop();
-  }
-
-  getEditInventoryControl(
-    inventoryEditForm: FormGroup,
-    param: string
-  ): FormControl {
-    return inventoryEditForm.get(param) as FormControl;
-  }
-
-  actualInventoryEdit(inventoryDeviceIndex: number): void {
-    this.closeEditInventory();
-    const form = this.deviceInventory[inventoryDeviceIndex].form.value;
-    const inventoryDevice = this.deviceInventory[inventoryDeviceIndex];
-    inventoryDevice['display-name'] = form.inventoryDeviceName;
-    inventoryDevice['type'] = form.inventoryDeviceType;
-    inventoryDevice.location = form.inventoryDeviceLocation;
-    inventoryDevice['serial-number'] = form.inventoryDeviceSerialNum;
-    //console.log(this.deviceInventory);
-  }
-
-  deleteInventoryDevice(inventoryDeviceIndex: number): void {
-    this.deviceInventory.splice(inventoryDeviceIndex, 1);
-  }
-
-  detailsTrigger(index: number, sim: string): any {
-    this.selectedDate = -1;
-    this.zoomIn = 0;
-    this.isZoomIn = false;
-
-    this.deviceSimsDetailsProgressToggleDay = true;
-    this.deviceSimsDetailsProgressToggleWeek = false;
-    this.selectedSimDetails = sim;
-    this.selectedIndexDetails = index;
-    // this.removePreviousChart();
-    this.closeDetails();
-    this.closeEdit();
-    const deviceDetailsIndex = this.deviceDetails.indexOf(index);
-    if (deviceDetailsIndex >= 0) {
-      this.deviceDetails.splice(deviceDetailsIndex, 1);
-    } else {
-      this.deviceDetails.push(index);
-    }
-    this.fetchProm(this.selectedSite, sim, index);
-    // this.fetchDots(this.selectedSite, serialNum);
-  }
-
-  closeDetails(): any {
-    this.activeNewDevice = false;
-    this.deviceDetails.pop();
-  }
-
-  // removePreviousChart(): any {
-  // if (document.body.contains(document.getElementById('device_timeline'))) {
-  //   const chartObj = document.getElementById('device_timeline');
-  //   chartObj.remove();
-  // }
-  // }
-
-  deleteDevice(index: number): any {
+  deleteDevice(index: number): void {
     const simIccid = this.siteConfig[0][index].sim;
     // const siteName = this.siteConfig[0][index]['display-name'];
-    // //console.log(siteName);
+    //console.log(siteName);
     this.simInventory.push({ simIccid });
     //console.log('The Detached sims are: ', this.simInventory);
     delete this.siteConfig[0][index].sim;
     //console.log('Before deleting the device', this.siteConfig);
     this.deviceInventory.push(this.siteConfig[0][index]);
-    // //console.log(this.deviceInventory);
+    //console.log(this.deviceInventory);
     this.siteConfig[0].splice(index, 1);
     //console.log(this.deviceInventory);
   }
 
-  cancelSim(index: number): any {
+  cancelSim(index: number): void {
     const simIccid = this.siteConfig[0][index].sim;
     this.cancelledSimsStorage.push({ simIccid });
     //console.log('THe Cancelled SIMS are: -->', this.cancelledSimsStorage);
@@ -585,6 +582,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   openDialog(): void {
     this.deviceService.mySims(this.simInventory);
+    console.log(this.simInventory);
     const dialogRef = this.dialog.open(SelectSimsComponent, {
       width: '690px',
       data: { name: this.name, animal: this.animal },
@@ -621,6 +619,104 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
   }
 
+  closeEdit(): void {
+    this.activeNewDevice = false;
+    this.editDevices.pop();
+  }
+
+  actualEdit(index: number): void {
+    this.editDeviceSimError = false;
+    if (this.deviceSimEditForm.invalid) {
+      this.editDeviceSimError = true;
+    } else if (this.deviceSimEditForm.valid) {
+      const form = this.siteConfig[0][index].form.value;
+      // this.deviceSimHelper.editDeviceSim(index, form);
+      const device = this.siteConfig[0][index];
+      device.sim = form.newSim;
+      device['display-name'] = form.deviceName;
+      device.location = form.deviceLocation;
+      device['serial-number'] = form.deviceSerialNum;
+      this.closeEdit();
+    }
+  }
+
+  addNewDeviceInventory(): void {
+    // console.log('add NewDevice to Inventory');
+    this.addNewInventoryDeviceError = false;
+    if (this.inventoryDeviceSimForm.invalid) {
+      this.addNewInventoryDeviceError = true;
+    } else if (this.inventoryDeviceSimForm.valid) {
+      // this.deviceSimHelper.addDeviceToInventory({
+      this.deviceInventory.push({
+        'display-name': this.inventoryDeviceSimForm.value.inventoryDeviceName,
+        imei: '700-765-7001',
+        location: this.inventoryDeviceSimForm.value.inventoryDeviceLocation,
+        'serial-number':
+          this.inventoryDeviceSimForm.value.inventoryDeviceSerialNum,
+        type: this.inventoryDeviceSimForm.value.inventoryDeviceType,
+        selected: 0,
+      });
+      this.activeNewDeviceForm();
+    }
+  }
+
+  inventoryEditTrigger(index: number): void {
+    this.addNewDevice = false;
+    this.closeEditInventory();
+    const editInventoryIndex = this.editInventory.indexOf(index);
+    if (editInventoryIndex >= 0) {
+      this.editInventory.splice(editInventoryIndex, 1);
+    } else {
+      this.deviceInventory[index].form = new FormGroup({
+        inventoryDeviceName: new FormControl(
+          this.deviceInventory[index]['display-name'],
+          Validators.required
+        ),
+        inventoryDeviceLocation: new FormControl(
+          this.deviceInventory[index]['location'],
+          Validators.required
+        ),
+        inventoryDeviceSerialNum: new FormControl(
+          this.deviceInventory[index]['serial-number'],
+          Validators.required
+        ),
+        inventoryDeviceType: new FormControl(
+          this.deviceInventory[index]['type'],
+          Validators.required
+        ),
+      });
+      this.editInventory.push(index);
+      this.inventoryEditForm = this.deviceInventory[index].form;
+    }
+  }
+
+  getEditInventoryControl(
+    inventoryEditForm: FormGroup,
+    param: string
+  ): FormControl {
+    return inventoryEditForm.get(param) as FormControl;
+  }
+
+  actualInventoryEdit(inventoryDeviceIndex: number): void {
+    this.editInventoryDeviceError = false;
+    if (this.inventoryEditForm.invalid) {
+      this.editInventoryDeviceError = true;
+    } else if (this.inventoryEditForm.valid) {
+      const form = this.deviceInventory[inventoryDeviceIndex].form.value;
+      const inventoryDevice = this.deviceInventory[inventoryDeviceIndex];
+      inventoryDevice['display-name'] = form.inventoryDeviceName;
+      inventoryDevice['type'] = form.inventoryDeviceType;
+      inventoryDevice.location = form.inventoryDeviceLocation;
+      inventoryDevice['serial-number'] = form.inventoryDeviceSerialNum;
+      this.closeEditInventory();
+    }
+    //console.log(this.deviceInventory);
+  }
+
+  deleteInventoryDevice(inventoryDeviceIndex: number): void {
+    this.deviceInventory.splice(inventoryDeviceIndex, 1);
+  }
+
   openDeleteInventoryDialog(inventoryDeviceIndex: number): void {
     const dialogRef = this.dialog.open(DeleteInventoryComponent, {
       width: '450px',
@@ -634,7 +730,47 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
   }
 
-  fetchPromApiWeek(site: string, iccid: string): any {
+  closeEditInventory(): void {
+    this.editInventory.pop();
+  }
+
+  detailsTrigger(index: number, sim: string): void {
+    // this.getCurrentSite();
+    this.selectedDate = -1;
+    this.zoomIn = 0;
+    this.isZoomIn = false;
+
+    this.deviceSimsDetailsProgressToggleDay = true;
+    this.deviceSimsDetailsProgressToggleWeek = false;
+    this.selectedSimDetails = sim;
+    this.selectedIndexDetails = index;
+    // this.removePreviousChart();
+    this.closeDetails();
+    this.closeEdit();
+    const deviceDetailsIndex = this.deviceDetails.indexOf(index);
+    if (deviceDetailsIndex >= 0) {
+      this.deviceDetails.splice(deviceDetailsIndex, 1);
+    } else {
+      this.deviceDetails.push(index);
+    }
+    this.fetchProm(this.selectedSite, sim, index);
+    // this.fetchDots(this.selectedSite, sim);
+    // this.testDot();
+  }
+
+  closeDetails(): void {
+    this.activeNewDevice = false;
+    this.deviceDetails.pop();
+  }
+
+  // removePreviousChart(): any {
+  // if (document.body.contains(document.getElementById('device_timeline'))) {
+  //   const chartObj = document.getElementById('device_timeline');
+  //   chartObj.remove();
+  // }
+  // }
+
+  fetchPromApiWeek(site: string, iccid: string): Observable<TimelineData> {
     const headers = {
       Accept: 'application/json',
       Authorization:
@@ -651,14 +787,16 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.apiCurrentDate +
       '&step=60m';
 
-    console.log(
-      '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
-      query
-    );
-    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+    // console.log(
+    //   '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
+    //   query
+    // );
+    return this.http.get<TimelineData>(this.deviceService.promApiUrl + query, {
+      headers,
+    });
   }
 
-  fetchPromApi(site: string, iccid: string): any {
+  fetchPromApi(site: string, iccid: string): Observable<TimelineData> {
     this.formatDate();
     const headers = {
       Accept: 'application/json',
@@ -681,25 +819,31 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       '.000Z&step=60m';
 
     //console.log(query);
-    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+    return this.http.get<TimelineData>(this.deviceService.promApiUrl + query, {
+      headers,
+    });
   }
 
-  fetchPromWeek(site: string, iccid: string, index: number): any {
-    console.log(this.apiPreviousDate);
-    console.log(this.apiCurrentDate);
+  fetchPromWeek(site: string, iccid: string, index: number): void {
+    // console.log(this.apiPreviousDate);
+    // console.log(this.apiCurrentDate);
     this.timesArray.splice(0, this.timesArray.length);
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApiWeek(site, iccid).subscribe((data) => {
-      console.log(data);
-      let valuesArray: any[] = [];
+      // console.log(data);
+      let valuesArray = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
-      console.log(valuesArray);
-      const timesObject: any = {};
+      // console.log(valuesArray);
+      const timesObject: {
+        starting_time: string;
+        ending_time: string;
+        display: string;
+      } = { starting_time: '', ending_time: '', display: '' };
       timesObject.starting_time = '';
       timesObject.ending_time = '';
       timesObject.display = 'rect';
-      const timesArray: any[] = [];
+      const timesArray = [];
       // console.log(valuesArray);
       valuesArray.forEach((el, index) => {
         // console.log(el[1], timesObject);
@@ -724,7 +868,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
           timesObject.ending_time = '';
         }
       });
-      console.log(timesArray);
+      // console.log(timesArray);
       this.timesArray = timesArray;
       // valuesArray.forEach((eachItem, index) => {
       // console.log(eachItem, index);
@@ -736,78 +880,125 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       // console.log(this.timesArray);
       this.valuesArrayFinal[0].times = timesArray;
       const finalArray = this.valuesArrayFinal;
-      console.log(finalArray);
+      // console.log(finalArray);
       this.displayChart(finalArray, index);
 
       // this.valuesArrayFinal[0].times = [];
     });
 
-    console.log(this.timesArray);
-    console.log(this.valuesArrayFinal);
+    // console.log(this.timesArray);
+    // console.log(this.valuesArrayFinal);
   }
 
-  fetchProm(site: string, iccid: string, index: number): any {
+  fetchProm(site: string, iccid: string, index: number): void {
     //console.log(this.apiPreviousDate);
     //console.log(this.apiCurrentDate);
     this.timesArray.splice(0, this.timesArray.length);
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApi(site, iccid).subscribe((data) => {
-      // //console.log(data.data.result[0]);
-      let valuesArray: any[] = [];
+      // console.log(data);
+      // console.log(typeof(data.data.result[0].values[0][1]));
+      //console.log(data.data.result[0]);
+      let valuesArray = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
       //console.log(valuesArray);
-      const timesObject: any = {};
+      const timesObject: TimesObject = {
+        starting_time: '',
+        ending_time: '',
+        display: '',
+      };
       timesObject.starting_time = '';
       timesObject.ending_time = '';
       timesObject.display = 'rect';
-      const timesArray: any[] = [];
-      // //console.log(valuesArray);
+      const timesArray = [];
+      // console.log(valuesArray);
       valuesArray.forEach((el, index) => {
-        // //console.log(el[1], timesObject);
-        // //console.log(timesObject.starting_time);
+        //console.log(el[1], timesObject);
+        //console.log(timesObject.starting_time);
         if (el[1] === '1' && timesObject.starting_time === '') {
-          // //console.log('if1');
+          //console.log('if1');
           timesObject.starting_time = valuesArray[index][0];
 
-          // //console.log(timesObject.starting_time);
+          //console.log(timesObject.starting_time);
         } else if (el[1] === '0' && timesObject.starting_time !== '') {
-          // //console.log('else-if1');
+          //console.log('else-if1');
           timesObject.ending_time = valuesArray[index - 1][0];
           timesArray.push({ ...timesObject });
           timesObject.starting_time = '';
           timesObject.ending_time = '';
         }
         if (index === valuesArray.length - 1 && el[1] === '1') {
-          // //console.log('if2');
+          //console.log('if2');
           timesObject.ending_time = valuesArray[index][0];
           timesArray.push({ ...timesObject });
           timesObject.starting_time = '';
           timesObject.ending_time = '';
         }
       });
-      //console.log(timesArray);
+      // console.log(timesArray);
       this.timesArray = timesArray;
+      const eventArray = [];
+      this.fetchDotsApi(site, iccid).subscribe((eventData) => {
+        console.log(eventData);
+        // const mainObject = {};
+        // const eventArray: any[] = [];
+        // eventArray = eventData.data.result[0].values[0][0];
+
+        const eventObject: TimesObject = {
+          starting_time: '',
+          display: '',
+        };
+        eventObject.starting_time = eventData.data.result[0].values[0][0];
+        eventObject.display = 'circle';
+        eventArray.push({ ...eventObject });
+        // console.log(eventArray);
+        // mainObject.times = eventArray;
+
+        this.valuesArrayFinal[0].times = timesArray;
+        this.valuesArrayFinal[1].times = eventArray;
+
+        const finalArray = this.valuesArrayFinal;
+
+        this.displayChart(finalArray, index);
+        this.displaySmallChart(finalArray, index);
+        this.valuesArrayFinal[0].times = [];
+        // console.log(finalArray);
+        // this.valuesArrayFinal.push(mainObject);
+        // console.log(this.valuesArrayFinal);
+      });
       // valuesArray.forEach((eachItem, index) => {
-      // //console.log(eachItem, index);
+      //console.log(eachItem, index);
       //   if (index == valuesArray.length - 1 || index == 0) {
-      // //console.log(valuesArray[index]);
+      //console.log(valuesArray[index]);
       //   }
       // });
-      // //console.log(timesObject);
-      // //console.log(this.timesArray);
-      this.valuesArrayFinal[0].times = timesArray;
-      const finalArray = this.valuesArrayFinal;
-      //console.log(finalArray);
-      this.displayChart(finalArray, index);
-      this.valuesArrayFinal[0].times = [];
+      //console.log(timesObject);
+      //console.log(this.timesArray);
     });
 
     //console.log(this.timesArray);
     //console.log(this.valuesArrayFinal);
   }
 
-  fetchDotsApi(site: string, serialNum: string): any {
+  // testDotsApi(): any {
+  //   const headers = {
+  //     Accept: 'application/json',
+  //     // Authorization:
+  //     //   'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
+  //   };
+  //   const query: string =
+  //     '/query_range?query=device_connection_event_core{site="fremont", iccid="123-456-789"}&start=2022-02-06T13:26:00.000Z&end=2022-02-07T13:26:00.000Z&step=1d';
+  //   return this.http.get(this.deviceService.promApiUrl + query, { headers });
+  // }
+
+  // testDot(): void {
+  //   this.testDotsApi().subscribe((data) => {
+  //     console.log(data);
+  //   });
+  // }
+
+  fetchDotsApi(site: string, iccid: string): Observable<TimelineData> {
     this.formatDate();
     const headers = {
       Accept: 'application/json',
@@ -817,8 +1008,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     const query: string =
       '/query_range?query=device_connection_event_core{site="' +
       site +
-      '", serial_number="' +
-      serialNum +
+      '", iccid="' +
+      iccid +
       '"}&start=' +
       this.apiPreviousDate +
       'T' +
@@ -827,21 +1018,23 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.apiCurrentDate +
       'T' +
       this.apiCurrentTime +
-      '.000Z&step=1h';
+      '.000Z&step=1d';
 
     //console.log(query);
-    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+    return this.http.get<TimelineData>(this.deviceService.promApiUrl + query, {
+      headers,
+    });
   }
 
-  // fetchDots(site: string, serialNum: string): void {
-  //   this.fetchDotsApi(site, serialNum).subscribe(() => {
-  //     //console.log(data);
-  //   });
-  // }
+  fetchDots(site: string, serialNum: string): void {
+    this.fetchDotsApi(site, serialNum).subscribe(() => {
+      // console.log(data.data.result[0]);
+    });
+  }
 
-  displayChart(chartData: any[], index: number): void {
+  displayChart(chartData: TimelineTimes[], index: number): void {
     // alert("test");
-    const width = 800;
+    const width = '100%';
     const height = 50;
 
     const colorScale = d3
@@ -851,8 +1044,10 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
     const chart = d3Time
       .timelines()
+      .background('#fff')
       .colors(colorScale)
-      .colorProperty('activeStatus');
+      .colorProperty('activeStatus')
+      .margin({ left: 0, right: 0, top: 30, bottom: 0 });
 
     d3.select('#device_timeline' + index)
       .append('svg')
@@ -862,7 +1057,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       .call(chart);
   }
 
-  displaySmallChart(chartData: any[], index: number): void {
+  displaySmallChart(chartData: TimelineTimes[], index: number): void {
     // alert("test");
     const width = 100;
     const height = 50;
@@ -895,49 +1090,80 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.timesArray.splice(0, this.timesArray.length);
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApi(site, iccid).subscribe((data) => {
-      // //console.log(data.data.result[0]);
-      let valuesArray: any[] = [];
+      //console.log(data.data.result[0]);
+      let valuesArray = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
-      // //console.log(valuesArray);
-      const timesObject: any = {};
+      //console.log(valuesArray);
+      const timesObject: TimesObject = {
+        starting_time: '',
+        ending_time: '',
+        display: '',
+      };
       timesObject.starting_time = '';
       timesObject.ending_time = '';
       timesObject.display = 'rect';
-      const timesArray: any[] = [];
-      // //console.log(valuesArray);
+      const timesArray = [];
+      //console.log(valuesArray);
       valuesArray.forEach((el, index) => {
         //console.log(el[1], timesObject);
-        // //console.log(timesObject.starting_time);
+        //console.log(timesObject.starting_time);
         if (el[1] === '1' && timesObject.starting_time === '') {
-          // //console.log('if1');
+          //console.log('if1');
           timesObject.starting_time = valuesArray[index][0];
 
           //console.log(timesObject.starting_time);
         } else if (el[1] === '0' && timesObject.starting_time !== '') {
-          // //console.log('else-if1');
+          //console.log('else-if1');
           timesObject.ending_time = valuesArray[index - 1][0];
           timesArray.push({ ...timesObject });
           timesObject.starting_time = '';
           timesObject.ending_time = '';
         }
         if (index === valuesArray.length - 1 && el[1] === '1') {
-          // //console.log('if2');
+          //console.log('if2');
           timesObject.ending_time = valuesArray[index][0];
           timesArray.push({ ...timesObject });
           timesObject.starting_time = '';
           timesObject.ending_time = '';
         }
       });
-      // //console.log(timesArray);
+      //console.log(timesArray);
       this.timesArray = timesArray;
-      // //console.log(timesObject);
-      // //console.log(this.timesArray);
+      // const eventArray = [];
+      // this.fetchDotsApi(site, iccid).subscribe((eventData) => {
+      //   const mainObject: any = {};
+      //   // const eventArray: any[] = [];
+      //   // eventArray = eventData.data.result[0].values[0][0];
+
+      //   const eventObject: any = {};
+      //   eventObject.starting_time = eventData.data.result[0].values[0][0];
+      //   eventObject.display = 'circle';
+      //   eventArray.push({ ...eventObject });
+      //   console.log(eventArray);
+      //   mainObject.times = eventArray;
+
+      //   // this.valuesArrayFinal[0].times = timesArray;
+      //   // this.valuesArrayFinal[1].times = eventArray;
+
+      //   const finalArray = this.valuesArrayFinal;
+
+      //   // this.displayChart(finalArray, index);
+      //   this.displaySmallChart(finalArray, index);
+      //   // this.valuesArrayFinal[0].times = [];
+      //   console.log(finalArray);
+      //   // this.valuesArrayFinal.push(mainObject);
+      //   // console.log(this.valuesArrayFinal);
+      // });
+      // this.valuesArrayFinal[1].times = eventArray;this.valuesArrayFinal[0].times = timesArray;
+      // this.valuesArrayFinal[1].times = eventArray;
+      //console.log(timesObject);
+      //console.log(this.timesArray);
       this.valuesArrayFinal[0].times = timesArray;
       const finalArray = this.valuesArrayFinal;
       //console.log(finalArray);
       this.displaySmallChart(finalArray, index);
-      // this.valuesArrayFinal[0].times = [];
+      this.valuesArrayFinal[0].times = [];
     });
   }
 
@@ -946,7 +1172,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     const previousDate = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
     const reqPreviousDate = new Date(previousDate);
     const reqCurrentDate = new Date(currentDate);
-    // //console.log(reqCurrentDate);
+    //console.log(reqCurrentDate);
 
     let reqPreviousMonth = '' + (reqPreviousDate.getMonth() + 1);
     let reqPreviousDay = '' + reqPreviousDate.getDate();
@@ -1023,6 +1249,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   deviceSimsDetailsProgressToggleDayFun(): void {
+    // this.getCurrentSite();
     this.selectedDate = -1;
     this.zoomIn = 0;
     this.isZoomIn = false;
@@ -1035,6 +1262,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     );
   }
   deviceSimsDetailsProgressToggleWeekFun(): void {
+    // this.getCurrentSite();
     this.deviceSimsDetailsProgressToggleWeek = true;
     this.deviceSimsDetailsProgressToggleDay = false;
     this.apiPreviousDate = this.lastWeekDates[1].string_date;
@@ -1055,8 +1283,10 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.deviceSimsDetailViewEditForm = false;
   }
   addNewDeviceFun(): void {
+    this.configInventoryDevice();
     this.closeEditInventory();
     this.addNewDevice = !this.addNewDevice;
+    this.addNewInventoryDeviceError = false;
   }
   inventoryDeviceEditFormFun(): void {
     this.inventoryDeviceEditForm = true;

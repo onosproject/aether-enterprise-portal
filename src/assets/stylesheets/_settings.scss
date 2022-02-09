@@ -104,35 +104,81 @@ $uploadTextColor: #004fc4;
   margin-left: 5rem !important;
 }
 
-.add-btn {
-  button {
-    color: #ffffff !important;
-    background: #0063f7 !important;
-    border-radius: 4px !important;
-    text-align: left;
-    margin: 0 auto;
-    display: inherit;
-    position: relative;
-    padding: 10px 12px;
-    // width: 216px;
-  }
-  .button-medium-14 {
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 150%;
-    color: red;
-    &::after {
-      content: "+";
-      position: absolute;
-      font-size: 1.5rem;
-      right: 8px;
-      top: 10px;
-    }
-  }
+.ml-6 {
+  margin-left: 6rem !important;
+}
+
+.mat-card {
+  border-radius: 6px !important;
+  padding: 8px !important;
+  box-shadow: none !important;
 }
 
 .is-invalid {
   border: 1px solid #dc3545;
+}
+
+.error-field {
+  color: #ef233c;
+}
+
+// * mixins for device-groups and slices stepper label styling
+
+@mixin styleEditedStepIcon($index) {
+  .mat-horizontal-stepper-header:nth-child(#{$index}) {
+    .mat-step-icon:not(.mat-step-icon-selected) {
+      background-color: #06d6a0;
+      height: 8px;
+      width: 8px;
+    }
+  }
+}
+
+@mixin styleEditedSteplabel($index) {
+  .mat-horizontal-stepper-header:nth-child(#{$index}) {
+    .mat-step-label:not(.mat-step-icon-selected) {
+      color: #3c4257;
+      font-family: "Inter";
+      font-weight: 400;
+      font-size: 28px;
+      overflow: unset;
+    }
+  }
+}
+
+@mixin styleStepLine($index) {
+  .mat-horizontal-stepper-header {
+    & + .mat-stepper-horizontal-line:nth-child(#{$index}) {
+      // height: 2px;
+      // background-image: linear-gradient(to right, #00b495, #00aeea);
+      background-color: #3c4257;
+    }
+  }
+}
+
+.last-edited-step-1 {
+  @include styleEditedStepIcon(1);
+  @include styleEditedSteplabel(1);
+  @include styleStepLine(2);
+}
+
+.last-edited-step-2 {
+  @include styleEditedStepIcon(1);
+  @include styleEditedSteplabel(1);
+  @include styleEditedStepIcon(3);
+  @include styleEditedSteplabel(3);
+  @include styleStepLine(2);
+  @include styleStepLine(4);
+}
+
+.last-edited-step-3 {
+  @include styleEditedStepIcon(1);
+  @include styleEditedSteplabel(1);
+  @include styleEditedStepIcon(3);
+  @include styleEditedSteplabel(3);
+  @include styleEditedStepIcon(5);
+  @include styleEditedSteplabel(5);
+  @include styleStepLine(2);
+  @include styleStepLine(4);
+  @include styleStepLine(6);
 }
