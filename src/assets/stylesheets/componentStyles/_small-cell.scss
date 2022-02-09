@@ -4,12 +4,32 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 .small-cells {
+  margin-top: 40px;
+  &-col-2 {
+    flex: 0 0 auto;
+    width: 15.666667%;
+  }
   .aether-sideCol-NavCard {
     margin-left: 0 !important;
     width: auto !important;
   }
   .right-section {
+    position: relative;
+    padding-left: 0px;
+    &-col-lg-9 {
+      flex: 0 0 auto;
+      width: 72%;
+      @media screen and (min-width: 1300px) {
+        flex: 0 0 auto;
+        width: 73%;
+      }
+      @media screen and (min-width: 1630px) {
+        flex: 0 0 auto;
+        width: 74%;
+      }
+    }
     .sec-1 {
+      max-width: 98%;
       .title-tab {
         .title-block {
           color: #000000;
@@ -122,6 +142,7 @@
   }
 
   &__list-container {
+    max-width: 98%;
     display: grid;
     gap: 20px;
     margin-top: 20px;

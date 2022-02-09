@@ -23,4 +23,5 @@ export interface Slice {
     isExpanded: boolean;
     service: Application[];
   }[];
+  alerts?: number;
 }

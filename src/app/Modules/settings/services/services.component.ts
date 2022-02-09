@@ -6,7 +6,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { trigger, style, animate, transition } from '@angular/animations';
+// import { trigger, style, animate, transition } from '@angular/animations';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -15,18 +15,18 @@ import { DeleteServiceComponent } from '../dialogs/delete-service/delete-service
 @Component({
   selector: 'aep-services',
   templateUrl: './services.component.html',
-  animations: [
-    trigger('inOutAnimation', [
-      transition(':enter', [
-        style({ height: 0, opacity: 0 }),
-        animate('0.5s ease-out', style({ height: 500, opacity: 1 })),
-      ]),
-      transition(':leave', [
-        style({ height: 500, opacity: 1 }),
-        animate('0.5s ease-in', style({ height: 0, opacity: 0 })),
-      ]),
-    ]),
-  ],
+  // animations: [
+  //   trigger('inOutAnimation', [
+  //     transition(':enter', [
+  //       style({ height: 0, opacity: 0 }),
+  //       animate('0.5s ease-out', style({ height: 500, opacity: 1 })),
+  //     ]),
+  //     transition(':leave', [
+  //       style({ height: 500, opacity: 1 }),
+  //       animate('0.5s ease-in', style({ height: 0, opacity: 0 })),
+  //     ]),
+  //   ]),
+  // ],
   styles: [],
 })
 export class ServicesComponent implements OnInit {
@@ -36,7 +36,7 @@ export class ServicesComponent implements OnInit {
   editServiceForm: boolean = false;
 
   // new Data
-  protocolList: any[] = [
+  protocolList: string[] = [
     'protocol-1',
     'protocol-2',
     'protocol-3',
@@ -47,33 +47,37 @@ export class ServicesComponent implements OnInit {
   portEndList: number[] = [8201, 8202, 8203, 8204, 8205, 8206];
   mbrList: number[] = [1, 5, 10, 15, 20];
 
-  config: any[] = [];
+  config = [];
 
-  selectedSite: any = '';
+  selectedSite: string = '';
 
-  siteApplications: any[] = [];
+  siteApplications = [];
 
   siteSubscription: Subscription;
 
   editService: number[] = [];
 
   addServiceFormGroup = new FormGroup({
-    appName: new FormControl('', Validators.required),
-    newProtocol: new FormControl('', Validators.required),
-    newPortStart: new FormControl('', Validators.required),
-    newAddress: new FormControl('', Validators.required),
-    newMbr: new FormControl('', Validators.required),
-    newPortEnd: new FormControl('', Validators.required),
+    // appName: new FormControl('', Validators.required),
+    // newProtocol: new FormControl('', Validators.required),
+    // newPortStart: new FormControl('', Validators.required),
+    // newAddress: new FormControl('', Validators.required),
+    // newMbr: new FormControl('', Validators.required),
+    // newPortEnd: new FormControl('', Validators.required),
   });
 
+  addNewServiceError: boolean = false;
+
   editServiceFormGroup = new FormGroup({
-    appName: new FormControl('', Validators.required),
-    newProtocol: new FormControl('', Validators.required),
-    newPortStart: new FormControl('', Validators.required),
-    newAddress: new FormControl('', Validators.required),
-    newMbr: new FormControl('', Validators.required),
-    newPortEnd: new FormControl('', Validators.required),
+    // appName: new FormControl('', Validators.required),
+    // newProtocol: new FormControl('', Validators.required),
+    // newPortStart: new FormControl('', Validators.required),
+    // newAddress: new FormControl('', Validators.required),
+    // newMbr: new FormControl('', Validators.required),
+    // newPortEnd: new FormControl('', Validators.required),
   });
+
+  editServiceFormError: boolean = false;
 
   constructor(
     public deviceService: DeviceSimService,
@@ -84,14 +88,25 @@ export class ServicesComponent implements OnInit {
     // this.anankiFormGroup = new FormGroup({
     //   appName: new FormControl(null),
     //   protocol: new FormControl(null),
-    //   portStart: new FormControl(null),
+    //   portStart: new FormuControl(null),
     //   mbr: new FormControl(null),
     //   portEnd: new FormControl(),
     // });
     this.assignSelectedSite();
   }
 
-  assignSelectedSite(): any {
+  newServiceFormGroup(): void {
+    this.addServiceFormGroup = new FormGroup({
+      appName: new FormControl('', Validators.required),
+      newProtocol: new FormControl('', Validators.required),
+      newPortStart: new FormControl('', Validators.required),
+      newAddress: new FormControl('', Validators.required),
+      newMbr: new FormControl('', Validators.required),
+      newPortEnd: new FormControl('', Validators.required),
+    });
+  }
+
+  assignSelectedSite(): void {
     // console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
       // console.log(data);
@@ -101,22 +116,29 @@ export class ServicesComponent implements OnInit {
     });
   }
 
-  addNewService(): any {
-    this.siteApplications.push({
-      'display-name': this.addServiceFormGroup.value.appName,
-      protocol: this.addServiceFormGroup.value.newProtocol,
-      portStart: this.addServiceFormGroup.value.newPortStart,
-      address: this.addServiceFormGroup.value.newAddress,
-      mbr: this.addServiceFormGroup.value.newMbr,
-      portEnd: this.addServiceFormGroup.value.newPortEnd,
-      deviceName: 'device-1',
-    });
+  addNewService(): void {
+    this.addNewServiceError = false;
+    if (this.addServiceFormGroup.invalid) {
+      this.addNewServiceError = true;
+    } else if (this.addServiceFormGroup.valid) {
+      this.siteApplications.push({
+        'display-name': this.addServiceFormGroup.value.appName,
+        protocol: this.addServiceFormGroup.value.newProtocol,
+        portStart: this.addServiceFormGroup.value.newPortStart,
+        address: this.addServiceFormGroup.value.newAddress,
+        mbr: this.addServiceFormGroup.value.newMbr,
+        portEnd: this.addServiceFormGroup.value.newPortEnd,
+        deviceName: 'device-1',
+      });
+      this.addNewServiceForm = !this.addNewServiceForm;
+      this.addNewServiceError = false;
+    }
     // console.log(this.siteApplications);
-    this.addNewServiceForm = !this.addNewServiceForm;
   }
 
-  editTrigger(serviceIndex: number): any {
+  editTrigger(serviceIndex: number): void {
     this.addNewServiceForm = false;
+    this.editServiceFormError = false;
     this.closeEdit();
     const editServiceIndex = this.editService.indexOf(serviceIndex);
     if (editServiceIndex >= 0) {
@@ -124,23 +146,32 @@ export class ServicesComponent implements OnInit {
     } else {
       this.siteApplications[serviceIndex].form = new FormGroup({
         appName: new FormControl(
-          this.siteApplications[serviceIndex]['display-name']
+          this.siteApplications[serviceIndex]['display-name'],
+          Validators.required
         ),
         newProtocol: new FormControl(
-          this.siteApplications[serviceIndex].protocol
+          this.siteApplications[serviceIndex].protocol,
+          Validators.required
         ),
         newPortStart: new FormControl(
-          this.siteApplications[serviceIndex].portStart
+          this.siteApplications[serviceIndex].portStart,
+          Validators.required
         ),
         newAddress: new FormControl(
-          this.siteApplications[serviceIndex].address
+          this.siteApplications[serviceIndex].address,
+          Validators.required
         ),
-        newMbr: new FormControl(this.siteApplications[serviceIndex].mbr),
+        newMbr: new FormControl(
+          this.siteApplications[serviceIndex].mbr,
+          Validators.required
+        ),
         newPortEnd: new FormControl(
-          this.siteApplications[serviceIndex].portEnd
+          this.siteApplications[serviceIndex].portEnd,
+          Validators.required
         ),
       });
       this.editService.push(serviceIndex);
+      this.editServiceFormGroup = this.siteApplications[serviceIndex].form;
     }
   }
 
@@ -152,12 +183,12 @@ export class ServicesComponent implements OnInit {
     this.editService.pop();
   }
 
-  fetchData(): any {
+  fetchData(): void {
     this.deviceService.getData().subscribe((result) => {
-      const configArray: any[] = [];
-      const siteSlices: any[] = [];
-      const siteApplications: any[] = [];
-      const globalApplications: any[] = [];
+      const configArray = [];
+      const siteSlices = [];
+      const siteApplications = [];
+      const globalApplications = [];
       configArray.push(result);
       this.config = configArray;
       // console.log(this.config);
@@ -200,7 +231,7 @@ export class ServicesComponent implements OnInit {
                     siteApplications[siteAppIndex].application ==
                     globalApplications[appIndex]['application-id']
                   ) {
-                    const appInfo: any = {
+                    const appInfo = {
                       'display-name':
                         globalApplications[appIndex]['display-name'],
                       'application-id':
@@ -229,16 +260,21 @@ export class ServicesComponent implements OnInit {
   }
 
   onEdit(serviceIndex: number): void {
-    const service = this.siteApplications[serviceIndex];
-    const editForm = this.siteApplications[serviceIndex].form.value;
-    service['display-name'] = editForm.appName;
-    service.protocol = editForm.newProtocol;
-    service.portStart = editForm.newPortStart;
-    service.portEnd = editForm.newPortEnd;
-    service.address = editForm.newAddress;
-    service.mbr = 15;
-    service.deviceType = 'device-1';
-    this.closeEdit();
+    this.editServiceFormError = false;
+    if (this.editServiceFormGroup.invalid) {
+      this.editServiceFormError = true;
+    } else if (this.editServiceFormGroup.valid) {
+      const service = this.siteApplications[serviceIndex];
+      const editForm = this.siteApplications[serviceIndex].form.value;
+      service['display-name'] = editForm.appName;
+      service.protocol = editForm.newProtocol;
+      service.portStart = editForm.newPortStart;
+      service.portEnd = editForm.newPortEnd;
+      service.address = editForm.newAddress;
+      service.mbr = 15;
+      service.deviceType = 'device-1';
+      this.closeEdit();
+    }
   }
 
   deleteService(serviceIndex: number): void {
@@ -263,6 +299,7 @@ export class ServicesComponent implements OnInit {
   // }
 
   addNewServiceFormFun(): void {
+    this.newServiceFormGroup();
     this.closeEdit();
     this.addNewServiceForm = true;
     this.editServiceForm = false;

@@ -7,6 +7,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceSimService } from '../services/device-sim.service';
+import { GlobalDataService } from '../services/global-data.service';
 
 @Component({
   selector: 'aep-side-navbar',
@@ -17,7 +18,11 @@ export class SideNavbarComponent implements OnInit {
   imgSrc: string;
   url = '';
 
-  sites: any[] = [];
+  gotResult;
+
+  sites = [];
+
+  // elements: any[] = [];
 
   selectSite: string = this.deviceService.selectedSite;
 
@@ -60,17 +65,25 @@ export class SideNavbarComponent implements OnInit {
       auditInactive: '../../assets/SideCol-Navbar/slices.svg',
     },
   };
+  currentUrl: string;
 
-  constructor(public router: Router, public deviceService: DeviceSimService) {}
+  constructor(
+    public router: Router,
+    public deviceService: DeviceSimService,
+    public globalService: GlobalDataService
+  ) {
+    this.getCurrentRoute();
+  }
 
   ngOnInit(): void {
     this.fetchSites();
     // this.deviceService.mySite('freemont');
   }
 
-  fetchSites(): any {
+  fetchSites(): void {
     this.deviceService.getData().subscribe((result) => {
-      result.sites.map((site) => {
+      this.gotResult = result;
+      this.gotResult.sites.map((site) => {
         //console.log(site['site-id']);
         const siteID: string = site['site-id'];
         const siteName: string = site['display-name'];
@@ -80,8 +93,9 @@ export class SideNavbarComponent implements OnInit {
     });
   }
 
-  selectedSite(siteID: string): any {
+  selectedSite(siteID: string): void {
     this.deviceService.mySite(siteID);
+    // this.globalService.mySite(siteID);
     this.newSiteEvent.emit(siteID);
     this.selectSite = siteID;
     this.deviceService.selectedSite = siteID;
@@ -90,14 +104,8 @@ export class SideNavbarComponent implements OnInit {
     //console.log(this.deviceService.selectedSite);
   }
 
-  foreache(): any {
-    // alert("ds");
-    const slides = document.getElementsByClassName('menu');
-    for (let i = 0; i < slides.length; i++) {
-      // alert("ds" + i);
-      // if(document.getElementsByClassName("menu").contains('active')){
-      // alert("active");
-      // }
-    }
+  getCurrentRoute(): void {
+    this.currentUrl = this.router.url;
+    // console.log(this.router.url, 'Current URL');
   }
 }

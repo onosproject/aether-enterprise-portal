@@ -25,15 +25,15 @@
     >
       <div
         class="card-header card-header-warning card-header-icon card-header-bg"
-        style="
-          background-image: url('../../../../../assets/AdminPanel/card-header-bg.png');
-        "
+        [ngStyle]="{ 'background-image': 'url(' + baseUrl + site.image + ')' }"
       >
-        <!-- [ngStyle]="{ 'background-image': 'url(' + baseUrl + site.image + ')' }" -->
+        <!-- style="
+      background-image: url('../../../../../assets/AdminPanel/card-header-bg.png');
+    " -->
 
         <h3 class="card-title">{{ site["display-name"] }}</h3>
-        <div *ngIf="site.status === 1" class="alert-bx">ALERT</div>
-        <div *ngIf="site.status === 0" class="success-bx">HEALTHY</div>
+        <div *ngIf="site.alerts !== 0" class="alert-bx">ALERT</div>
+        <div *ngIf="site.alerts === 0" class="success-bx">HEALTHY</div>
       </div>
       <div class="card-body card-body-bx">
         <div class="row">
@@ -77,11 +77,11 @@
             <div class="service-bx">
               <div class="card-icon">
                 <img
-                  *ngIf="site.status === 1"
+                  *ngIf="site.alerts !== 0"
                   src="assets/AdminPanel/red-alert.svg"
                 />
                 <img
-                  *ngIf="site.status === 0"
+                  *ngIf="site.alerts === 0"
                   src="assets/AdminPanel/alert.svg"
                 />
               </div>

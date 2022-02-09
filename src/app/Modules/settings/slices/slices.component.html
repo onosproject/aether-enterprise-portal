@@ -3,944 +3,220 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<div class="container confi-slices-view my-4">
-  <div class="row">
-    <!--left side section-->
-    <div class="col-3">
-      <aep-side-navbar></aep-side-navbar>
+<div class="row container-fluid confi-slices-view">
+  <!-- <div class="row"> -->
+  <!--left side section-->
+  <div class="confi-slices-view-col-2 ml-6">
+    <aep-side-navbar></aep-side-navbar>
+  </div>
+  <!--RIGHT SIDE SECTION-->
+  <div class="right-section-col-lg-9 right-section my-2">
+    <div class="sec-1">
+      <div class="title-tab d-flex">
+        <div class="title-block">Slices</div>
+      </div>
     </div>
-    <!--RIGHT SIDE SECTION-->
-    <div class="col-9 right-section">
-      <div class="row sec-1">
-        <div class="title-tab d-flex">
-          <div class="title-block">Slices</div>
-        </div>
-      </div>
-      <div class="slices-view-cards">
-        <div class="row">
-          <mat-card
-            class="
-              create-new-slices
-              add-button
-              .button-medium-14
-              col-12
-              d-flex
-              my-1
-            "
-            *ngIf="!createNewSlices"
-          >
-            <button
-              class="btn col-3 button-medium-14 align-items-center"
-              (click)="createNewSlicesFun()"
-            >
-              Create new slices
-            </button>
-          </mat-card>
-          <!--CREATE NEW SLICES FORM-->
-          <div
-            class="create-new-slices-form my-1 forms-block"
-            *ngIf="createNewSlices"
-            [@inOutAnimation]
-          >
-            <mat-stepper #stepper>
-              <mat-step [stepControl]="firstFormGroup">
-                <form [formGroup]="firstFormGroup">
-                  <ng-template matStepLabel>Create New Slices</ng-template>
-                  <div class="d-flex my-4 p-2 form-body">
-                    <div class="left-sec left-sec d-flex flex-wrap">
-                      <div class="my-2 mx-3">
-                        <mat-label class="form-label">Slices Name </mat-label>
-                        <input
-                          class="form-control form-field-big"
-                          type="text"
-                          name="sliceName"
-                          formControlName="sliceName"
-                          id="sliceName"
-                          placeholder="device group name"
-                        />
-                      </div>
-                      <div class="mat-select-box my-2 mx-3">
-                        <h4 class="my-1">Select slice type</h4>
-                        <mat-form-field class="my-1" appearance="fill">
-                          <mat-select
-                            placeholder="Select Slice Type"
-                            formControlName="sliceType"
-                          >
-                            <mat-option
-                              [value]="sType"
-                              *ngFor="
-                                let sType of sliceTypes;
-                                let sTypeIndex = index
-                              "
-                              >{{ sType }}</mat-option
-                            >
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                      <div class="mat-select-box my-2 mx-3">
-                        <h4 class="my-1">MBR</h4>
-                        <mat-form-field class="my-1" appearance="fill">
-                          <mat-select
-                            placeholder="Max Bit Rate"
-                            formControlName="mbr"
-                          >
-                            <mat-option
-                              [value]="mBitRate"
-                              *ngFor="
-                                let mBitRate of maximumBitRate;
-                                let bitRateIndex = index
-                              "
-                              >{{ mBitRate }}</mat-option
-                            >
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                      <div class="mat-select-box my-2 mx-3">
-                        <h4 class="my-1">GBR</h4>
-                        <mat-form-field class="my-1" appearance="fill">
-                          <mat-select
-                            placeholder="Guaranteed Bit Rate"
-                            formControlName="gbr"
-                          >
-                            <mat-option
-                              [value]="gBitRate"
-                              *ngFor="
-                                let gBitRate of guaranteedBitRate;
-                                let bitRateIndex = index
-                              "
-                              >{{ gBitRate }}</mat-option
-                            >
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                      <div class="mat-select-box my-2 mx-3">
-                        <h4>traffic class</h4>
-                        <mat-form-field appearance="fill">
-                          <mat-select
-                            placeholder="Select a Class"
-                            formControlName="trafficClass"
-                          >
-                            <mat-option
-                              [value]="tClass"
-                              *ngFor="
-                                let tClass of trafficClass;
-                                let tClassIndex = index
-                              "
-                              >{{ tClass }}</mat-option
-                            >
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                      <div class="mat-select-box my-2 mx-3">
-                        <h4>uplink</h4>
-                        <mat-form-field appearance="fill">
-                          <mat-select
-                            placeholder="Frequency in GHz"
-                            formControlName="uplink"
-                          >
-                            <mat-option
-                              [value]="upFreq"
-                              *ngFor="
-                                let upFreq of uplink;
-                                let freqIndex = index
-                              "
-                              >{{ upFreq }}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                      <div class="mat-select-box my-2 mx-3">
-                        <h4>Downlink</h4>
-                        <mat-form-field appearance="fill">
-                          <mat-select
-                            placeholder="Frequency in GHz"
-                            formControlName="downlink"
-                          >
-                            <mat-option
-                              [value]="downFreq"
-                              *ngFor="
-                                let downFreq of downlink;
-                                let freqIndex = index
-                              "
-                              >{{ downFreq }}</mat-option
-                            >
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex btn-controls">
-                    <button
-                      mat-button
-                      matStepperNext
-                      class="back-btn"
-                      (click)="createNewSlices = !createNewSlices"
-                    >
-                      Cancel
-                    </button>
-                    <button mat-button matStepperNext class="next-btn">
-                      Next
-                    </button>
-                  </div>
-                </form>
-              </mat-step>
-              <mat-step
-                [stepControl]="secondFormGroup"
-                label="Add Device Groups"
-              >
-                <form [formGroup]="secondFormGroup">
-                  <div class="my-4 p-3 form-body">
-                    <!-- <div class="select-devices">Add Device Groups</div> -->
-                    <div class="col-12 d-flex">
-                      <div class="device-group-items d-flex flex-wrap">
-                        <div
-                          class="device-group-item"
-                          *ngFor="
-                            let deviceGroup of deviceGroupsInventory;
-                            let deviceGroupIndex = index
-                          "
-                        >
-                          <div
-                            class="mx-1 d-flex align-items-center"
-                            (click)="
-                              changeSelectionDeviceGroups(
-                                deviceGroup['device-group-id'],
-                                deviceGroup['display-name'],
-                                deviceGroup.devices,
-                                deviceGroupIndex
-                              )
-                            "
-                          >
-                            <div class="select">
-                              <img
-                                [src]="
-                                  deviceGroup.selected === 1
-                                    ? 'assets/deviceSim/selected-card.svg'
-                                    : 'assets/deviceSim/select.svg'
-                                "
-                              />
-                            </div>
-
-                            <div class="img-bg-popup">
-                              <img
-                                src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                class="mx-2"
-                              />
-                            </div>
-
-                            <div class="mx-1 device-group">
-                              {{ deviceGroup["display-name"] }}
-                            </div>
-                            <div class="status-dot">
-                              <img
-                                src="../../assets/deviceSim/success-dot.svg"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex btn-controls">
-                    <button mat-button matStepperPrevious class="back-btn">
-                      Back
-                    </button>
-                    <button mat-button matStepperNext class="next-btn">
-                      Next
-                    </button>
-                  </div>
-                </form>
-              </mat-step>
-              <mat-step [stepControl]="thirdFormGroup" label="Add Services">
-                <form [formGroup]="thirdFormGroup">
-                  <div class="my-4 p-3 form-body">
-                    <!-- <div class="select-devices">Add serives</div> -->
-                    <div class="col-12 d-flex">
-                      <div class="serive-items d-flex flex-wrap">
-                        <div
-                          class="serive-item"
-                          *ngFor="
-                            let services of servicesInventory;
-                            let serviceIndex = index
-                          "
-                        >
-                          <div
-                            class="mx-1 d-flex align-items-center"
-                            (click)="
-                              changeSelectionServices(
-                                services['application-id'],
-                                services['display-name'],
-                                serviceIndex
-                              )
-                            "
-                          >
-                            <div class="select">
-                              <img
-                                [src]="
-                                  services.selected === 1
-                                    ? 'assets/deviceSim/selected-card.svg'
-                                    : 'assets/deviceSim/select.svg'
-                                "
-                              />
-                            </div>
-
-                            <div class="img-bg-popup">
-                              <img
-                                src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                class="mx-2"
-                              />
-                            </div>
-
-                            <div class="mx-1 serive">
-                              {{ services["display-name"] }}
-                            </div>
-                            <div class="status-dot">
-                              <img
-                                src="../../assets/deviceSim/success-dot.svg"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="d-flex btn-controls">
-                    <button
-                      mat-button
-                      matStepperPrevious
-                      class="back-btn"
-                      (click)="emptySummaryArray()"
-                    >
-                      Back
-                    </button>
-                    <button
-                      mat-button
-                      matStepperNext
-                      class="next-btn"
-                      (click)="summaryTrigger()"
-                    >
-                      Next
-                    </button>
-                  </div>
-                </form>
-              </mat-step>
-              <mat-step>
-                <ng-template matStepLabel>Summary</ng-template>
-                <div class="my-4 p-3 form-body">
-                  <div class="add-slices-summary-title mx-2 my-2">Summary</div>
-                  <div class="add-slices-summary d-flex">
-                    <div class="col-12">
-                      <div class="selected-items d-flex flex-wrap">
-                        <form>
-                          <div class="d-flex selected-new-slices-fields">
-                            <div class="mat-select-box my-1 mx-1">
-                              <mat-label class="form-label"
-                                >Slices Name
-                              </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="sliceName"
-                                [formControl]="
-                                  getSummaryControl(
-                                    summaryArray[0].form,
-                                    'sliceName'
-                                  )
-                                "
-                                id="sliceName"
-                                placeholder="device group name"
-                              />
-                              <!-- <mat-label class="form-label"
-                                >Slices Name
-                              </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="devicegroupname"
-                                id="devicegroupname"
-                                placeholder="device group name"
-                                [value]="summaryArray[0].summarySliceName"
-                              /> -->
-                            </div>
-                            <div class="mat-select-box my-1 mx-1">
-                              <h4 class="my-1">Select slice type</h4>
-                              <mat-form-field
-                                *ngIf="summaryBool"
-                                class="my-1"
-                                appearance="fill"
-                              >
-                                <mat-select
-                                  [formControl]="
-                                    getSummaryControl(
-                                      summaryArray[0].form,
-                                      'sliceType'
-                                    )
-                                  "
-                                  placeholder="Select Slice Type"
-                                >
-                                  <mat-option
-                                    [value]="sType"
-                                    *ngFor="
-                                      let sType of sliceTypes;
-                                      let sTypeIndex = index
-                                    "
-                                    >{{ sType }}</mat-option
-                                  >
-                                </mat-select>
-                              </mat-form-field>
-                              <!-- <mat-label class="form-label"
-                                >Select Slices Type
-                              </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="devicegroupname"
-                                id="devicegroupname"
-                                placeholder="device group name"
-                                [value]="summaryArray[0].summarySliceType"
-                              /> -->
-                            </div>
-                            <div class="mat-select-box my-1 mx-1">
-                              <h4 class="my-1">MBR</h4>
-                              <mat-form-field
-                                *ngIf="summaryBool"
-                                class="my-1"
-                                appearance="fill"
-                              >
-                                <mat-label>Max Bit Rate</mat-label>
-                                <mat-select
-                                  [formControl]="
-                                    getSummaryControl(
-                                      summaryArray[0].form,
-                                      'mbr'
-                                    )
-                                  "
-                                >
-                                  <mat-option
-                                    [value]="mBitRate"
-                                    *ngFor="
-                                      let mBitRate of maximumBitRate;
-                                      let bitRateIndex = index
-                                    "
-                                    >{{ mBitRate }}</mat-option
-                                  >
-                                </mat-select>
-                              </mat-form-field>
-                              <!-- <mat-label class="form-label">MBR </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="devicegroupname"
-                                id="devicegroupname"
-                                placeholder="device group name"
-                                [value]="summaryArray[0].summarymbr"
-                              /> -->
-                            </div>
-                            <div class="mat-select-box my-1 mx-1">
-                              <h4 class="my-1">Selct slice type</h4>
-                              <mat-form-field
-                                *ngIf="summaryBool"
-                                class="my-1"
-                                appearance="fill"
-                              >
-                                <mat-label>Guaranteed Bit Rate</mat-label>
-                                <mat-select
-                                  [formControl]="
-                                    getSummaryControl(
-                                      summaryArray[0].form,
-                                      'gbr'
-                                    )
-                                  "
-                                >
-                                  <mat-option
-                                    [value]="gBitRate"
-                                    *ngFor="
-                                      let gBitRate of guaranteedBitRate;
-                                      let bitRateIndex = index
-                                    "
-                                    >{{ gBitRate }}</mat-option
-                                  >
-                                </mat-select>
-                              </mat-form-field>
-                              <!-- <mat-label class="form-label">GBR </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="devicegroupname"
-                                id="devicegroupname"
-                                placeholder="device group name"
-                                [value]="summaryArray[0].summarygbr"
-                              /> -->
-                            </div>
-                            <div class="mat-select-box my-1 mx-1">
-                              <h4 class="my-1">traffic class</h4>
-                              <mat-form-field
-                                *ngIf="summaryBool"
-                                class="my-1"
-                                appearance="fill"
-                              >
-                                <mat-label>Select a Class</mat-label>
-                                <mat-select
-                                  [formControl]="
-                                    getSummaryControl(
-                                      summaryArray[0].form,
-                                      'trafficClass'
-                                    )
-                                  "
-                                >
-                                  <mat-option
-                                    [value]="tClass"
-                                    *ngFor="
-                                      let tClass of trafficClass;
-                                      let tClassIndex = index
-                                    "
-                                    >{{ tClass }}</mat-option
-                                  >
-                                </mat-select>
-                              </mat-form-field>
-                              <!-- <mat-label class="form-label"
-                                >Traffic Class
-                              </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="devicegroupname"
-                                id="devicegroupname"
-                                placeholder="device group name"
-                                [value]="summaryArray[0].summaryTrafficClass"
-                              /> -->
-                            </div>
-                          </div>
-                          <div class="row selected-device-groups">
-                            <div class="title">Device groups</div>
-                            <div class="device-group-items d-flex flex-wrap">
-                              <div
-                                class="device-group-item"
-                                *ngFor="
-                                  let deviceGroups of selectedDeviceGroups;
-                                  let deviceGroupIndex = index
-                                "
-                              >
-                                <div class="mx-1 d-flex align-items-center">
-                                  <div
-                                    class="select"
-                                    (click)="
-                                      deleteSummaryDeviceGroups(
-                                        deviceGroupIndex
-                                      )
-                                    "
-                                  >
-                                    <img
-                                      src="../../../assets/CommonAssets/delete-red-bg.svg"
-                                    />
-                                  </div>
-
-                                  <div class="img-bg-popup">
-                                    <img
-                                      src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                      class="mx-2"
-                                    />
-                                  </div>
-
-                                  <div class="mx-1 device-group">
-                                    {{ deviceGroups["display-name"] }}
-                                  </div>
-                                  <div class="status-dot">
-                                    <img
-                                      src="../../assets/deviceSim/success-dot.svg"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row selected-serives">
-                            <div class="title">Services</div>
-                            <div class="serive-items d-flex flex-wrap">
-                              <div
-                                class="serive-item"
-                                *ngFor="
-                                  let service of selectedServices;
-                                  let serviceIndex = index
-                                "
-                              >
-                                <div class="mx-1 d-flex align-items-center">
-                                  <div
-                                    class="select"
-                                    (click)="
-                                      deleteSummaryServices(serviceIndex)
-                                    "
-                                  >
-                                    <img
-                                      src="../../../assets/CommonAssets/delete-red-bg.svg"
-                                    />
-                                  </div>
-
-                                  <div class="img-bg-popup">
-                                    <img
-                                      src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                      class="mx-2"
-                                    />
-                                  </div>
-
-                                  <div class="mx-1 serive">
-                                    {{ service["display-name"] }}
-                                  </div>
-                                  <div class="status-dot">
-                                    <img
-                                      src="../../assets/deviceSim/success-dot.svg"
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="d-flex btn-controls">
-                  <button mat-button matStepperPrevious class="back-btn">
-                    Back
-                  </button>
-                  <button mat-button class="next-btn" (click)="onSubmit()">
-                    Submit
-                  </button>
-                </div>
-              </mat-step>
-            </mat-stepper>
-          </div>
-          <!--END CREATE NEW SLICES FORM- FORM-->
-        </div>
-      </div>
-      <!--START Slices CARDS-->
-      <div
-        class="mat-acc px-0 my-2"
-        *ngFor="let slices of siteSlices; let slicesIndex = index"
+    <div class="slices-view-cards">
+      <!-- <div class=""> -->
+      <mat-card
+        class="create-new-slices add-button col-12 d-flex my-4"
+        *ngIf="!createNewSlices"
       >
-        <div class="row slices-cards-acc-cards">
-          <!--Header part-->
-          <svg:svg
-            *ngIf="
-              expandSlices.indexOf(slicesIndex) < 0 &&
-              editSlices.indexOf(slicesIndex) < 0
-            "
-            height="135"
-            class="slices__joiner"
-          >
-            <svg:g
-              aep-joiner
-              [dash]="'4 5'"
-              [title]="''"
-              [startX]="250"
-              [startY]="60"
-              [endX]="225"
-              [endY]="60"
-            ></svg:g>
-            <svg:g
-              aep-joiner
-              [dash]="'4 5'"
-              [title]="''"
-              [startX]="655"
-              [startY]="60"
-              [endX]="685"
-              [endY]="60"
-            ></svg:g>
-          </svg:svg>
-          <div
-            *ngIf="
-              expandSlices.indexOf(slicesIndex) < 0 &&
-              editSlices.indexOf(slicesIndex) < 0
-            "
-          >
-            <div class="plush-min">
-              <div
-                class="right-bx-shadow d-flex align-items-center slices__expand"
-                (click)="expandTrigger(slicesIndex)"
-                *ngIf="expandSlices.indexOf(slicesIndex) < 0"
-              >
-                <div class="plush-blue">
-                  <img
-                    class="mx-auto plush-blue"
-                    src="assets/AdminPanel/plush-blue.svg"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12">
-              <div class="device-group-items-acc d-flex flex-wrap">
-                <div class="connected-devices">
-                  <div
-                    class="label"
-                    *ngIf="
-                      !slices['device-groups'] ||
-                      slices['device-groups'].length === 0
-                    "
-                  >
-                    0 device groups 0 devices
-                  </div>
-                  <div
-                    class="label"
-                    *ngIf="
-                      slices['device-groups'] &&
-                      slices['device-groups'].length > 0
-                    "
-                  >
-                    {{ slices["device-groups"].length }} device groups |
-                    {{ getTotalDevices(slices["device-groups"]) }} devices
-                  </div>
-                  <div class="label-view d-flex slices__device-group">
-                    <!-- <span class="img file1"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span>
-                                       <span class="desc">Conneted Devices </span>
-                                       <span class="img dot"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span> -->
-                    <button mat-raised-button class="conected-devices-bx">
-                      <div class="card-icon">
-                        <img src="assets/AdminPanel/connected.svg" />
-                      </div>
-                      <div class="desc slices__name">Connected Devices</div>
-
-                      <div class="red-ellipse">
-                        <img src="assets/deviceSim/success-dot.svg" />
-                      </div>
-                    </button>
-                  </div>
-                </div>
-                <div class="center-block d-flex col-5">
-                  <div class="card-icon">
-                    <img
-                      src="assets/CommonAssets/stack-blue.svg"
-                      class="ng-tns-c138-2"
+        <button
+          class="
+            btn
+            col-3
+            confi-slices-view-add-new-slice
+            confi-slices-view-button-medium-14-slices
+            align-items-center
+          "
+          (click)="createNewSlicesFun()"
+        >
+          Create new slices
+        </button>
+      </mat-card>
+      <!--CREATE NEW SLICES FORM-->
+      <div
+        class="create-new-slices-form my-1 forms-block"
+        *ngIf="createNewSlices"
+      >
+        <mat-stepper
+          #stepper
+          ngClass="{{ 'last-edited-step-' + stepper.selectedIndex }}"
+        >
+          <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup">
+              <ng-template matStepLabel>Create New Slices</ng-template>
+              <div class="d-flex my-4 p-2 form-body">
+                <div class="left-sec left-sec d-flex flex-wrap">
+                  <div class="my-2 mx-3">
+                    <mat-label class="form-label">Slices Name </mat-label>
+                    <input
+                      class="form-control form-field-big"
+                      type="text"
+                      name="sliceName"
+                      formControlName="sliceName"
+                      id="sliceName"
+                      placeholder="device group name"
                     />
                   </div>
-                  <div class="desc">{{ slices["display-name"] }}</div>
-                  <div class="img edit">
-                    <div
-                      class="col-1 card-list-item text-center edit d-flex"
-                      (click)="editTrigger(slicesIndex)"
-                    >
-                      <img
-                        src="../../assets/services/pencil-white.svg"
-                        class="edit-img"
-                      />
-                      Edit
-                    </div>
+                  <div class="mat-select-box my-2 mx-3">
+                    <h4 class="my-1">Select slice type</h4>
+                    <mat-form-field class="my-1" appearance="fill">
+                      <mat-select
+                        placeholder="Select Slice Type"
+                        formControlName="sliceType"
+                      >
+                        <mat-option
+                          [value]="sType"
+                          *ngFor="
+                            let sType of sliceTypes;
+                            let sTypeIndex = index
+                          "
+                          >{{ sType }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
                   </div>
-                </div>
-                <div class="connected-services">
-                  <div
-                    class="label"
-                    *ngIf="
-                      !slices.applications || slices.applications.length === 0
-                    "
-                  >
-                    0 Services
+                  <div class="mat-select-box my-2 mx-3">
+                    <h4 class="my-1">MBR</h4>
+                    <mat-form-field class="my-1" appearance="fill">
+                      <mat-select
+                        placeholder="Max Bit Rate"
+                        formControlName="mbr"
+                      >
+                        <mat-option
+                          [value]="mBitRate"
+                          *ngFor="
+                            let mBitRate of maximumBitRate;
+                            let bitRateIndex = index
+                          "
+                          >{{ mBitRate }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
                   </div>
-                  <div
-                    class="label"
-                    *ngIf="
-                      slices.applications && slices.applications.length > 0
-                    "
-                  >
-                    {{ slices.applications.length }} Services
+                  <div class="mat-select-box my-2 mx-3">
+                    <h4 class="my-1">GBR</h4>
+                    <mat-form-field class="my-1" appearance="fill">
+                      <mat-select
+                        placeholder="Guaranteed Bit Rate"
+                        formControlName="gbr"
+                      >
+                        <mat-option
+                          [value]="gBitRate"
+                          *ngFor="
+                            let gBitRate of guaranteedBitRate;
+                            let bitRateIndex = index
+                          "
+                          >{{ gBitRate }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
                   </div>
-                  <div class="label-view d-flex slices__services">
-                    <button mat-raised-button class="conected-devices-bx">
-                      <div class="card-icon">
-                        <img src="assets/AdminPanel/service.svg" />
-                      </div>
-                      <div class="desc">Services</div>
-
-                      <div class="red-ellipse">
-                        <img src="assets/deviceSim/success-dot.svg" />
-                      </div>
-                    </button>
+                  <div class="mat-select-box my-2 mx-3">
+                    <h4>traffic class</h4>
+                    <mat-form-field appearance="fill">
+                      <mat-select
+                        placeholder="Select a Class"
+                        formControlName="trafficClass"
+                      >
+                        <mat-option
+                          [value]="tClass"
+                          *ngFor="
+                            let tClass of trafficClass;
+                            let tClassIndex = index
+                          "
+                          >{{ tClass }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mat-select-box my-2 mx-3">
+                    <h4>uplink</h4>
+                    <mat-form-field appearance="fill">
+                      <mat-select
+                        placeholder="Frequency in GHz"
+                        formControlName="uplink"
+                      >
+                        <mat-option
+                          [value]="upFreq"
+                          *ngFor="let upFreq of uplink; let freqIndex = index"
+                          >{{ upFreq }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="mat-select-box my-2 mx-3">
+                    <h4>Downlink</h4>
+                    <mat-form-field appearance="fill">
+                      <mat-select
+                        placeholder="Frequency in GHz"
+                        formControlName="downlink"
+                      >
+                        <mat-option
+                          [value]="downFreq"
+                          *ngFor="
+                            let downFreq of downlink;
+                            let freqIndex = index
+                          "
+                          >{{ downFreq }}</mat-option
+                        >
+                      </mat-select>
+                    </mat-form-field>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <!--content part-->
-
-          <div
-            class="acc-content"
-            *ngIf="expandSlices.indexOf(slicesIndex) >= 0"
-          >
-            <!--accordian content-->
-            <!--list view and connect view controls-->
-            <div class="acc-content-header d-flex">
-              <div
-                class="toggle-view"
-                *ngIf="listViewSlices.indexOf(slicesIndex) < 0"
-                (click)="listViewTrigger(slicesIndex)"
-              >
-                <img src="assets/CommonAssets/list-view.svg" />
-
-                List view
-              </div>
-              <div
-                class="toggle-view d-flex align-items-center"
-                *ngIf="listViewSlices.indexOf(slicesIndex) >= 0"
-              >
-                <div (click)="closeListView()">
-                  <img src="assets/AdminPanel/connected.svg" />
-
-                  Connect view
-                </div>
-
-                <div
-                  class="card-list-item text-center edit px-2"
-                  (click)="editTrigger(slicesIndex)"
-                  *ngIf="editSlices.indexOf(slicesIndex) < 0"
+              <div class="d-flex btn-controls">
+                <button
+                  mat-button
+                  matStepperNext
+                  class="back-btn"
+                  (click)="createNewSlices = !createNewSlices"
                 >
-                  <img
-                    src="../../assets/services/pencil.svg"
-                    class="ng-tns-c138-2"
-                  />
-                  Edit
-                </div>
+                  Cancel
+                </button>
+                <button mat-button matStepperNext class="next-btn">Next</button>
               </div>
-              <div class="minimise-bx" (click)="closeExpand()">
-                <img src="assets/AdminPanel/negative.svg" />
-              </div>
-            </div>
-            <!--connect view -->
-            <div
-              class="connect-view"
-              *ngIf="listViewSlices.indexOf(slicesIndex) < 0"
-            >
-              <div class="align-items-start d-flex flex-wrap">
-                <svg:svg
-                  [attr.height]="calculateSVGHeight(slices)"
-                  class="slices__joiner slices__joiner--expanded"
-                >
-                  <svg:g
-                    aep-joiner
-                    [title]="''"
-                    [startX]="255"
-                    [startY]="60"
-                    [endX]="225"
-                    [endY]="calculateVerticalPosition(deviceGroupIndex)"
-                    *ngFor="
-                      let deviceGroup of slices['device-groups'];
-                      let deviceGroupIndex = index
-                    "
-                  ></svg:g>
-                  <svg:g
-                    aep-joiner
-                    [title]="''"
-                    [startX]="655"
-                    [startY]="60"
-                    [endX]="685"
-                    [endY]="calculateVerticalPosition(serviceIndex)"
-                    *ngFor="
-                      let services of slices.applications;
-                      let serviceIndex = index
-                    "
-                  ></svg:g>
-                </svg:svg>
-                <div class="connected-devices">
-                  <div class="label">
-                    {{ slices["device-groups"].length }} device groups |
-                    {{ getTotalDevices(slices["device-groups"]) }} devices
-                  </div>
-                  <div
-                    class="label-view d-flex slices__device-group"
-                    *ngFor="let deviceGroup of slices['device-groups']"
-                  >
-                    <button mat-raised-button class="conected-devices-bx">
-                      <div class="card-icon">
-                        <img src="assets/AdminPanel/connected.svg" />
-                      </div>
-                      <div class="desc slices__name">
-                        {{ deviceGroup["display-name"] }}
-                      </div>
-
-                      <div class="red-ellipse">
-                        <img src="assets/deviceSim/success-dot.svg" />
-                      </div>
-                    </button>
-                  </div>
-                </div>
-                <div class="center-block d-flex col-5">
-                  <div class="card-icon">
-                    <img
-                      src="assets/CommonAssets/stack-blue.svg"
-                      class="ng-tns-c138-2"
-                    />
-                  </div>
-                  <div class="desc">{{ slices["display-name"] }}</div>
-                  <div class="img edit">
-                    <div
-                      class="col-1 card-list-item text-center edit d-flex"
-                      (click)="editTrigger(slicesIndex)"
-                    >
-                      <img
-                        src="../../assets/services/pencil-white.svg"
-                        class="edit-img"
-                      />
-                      Edit
-                    </div>
-                  </div>
-                </div>
-                <div class="connected-services">
-                  <div class="label">
-                    {{ slices.applications.length }} Services
-                  </div>
-                  <div
-                    class="label-view d-flex slices__device-group"
-                    *ngFor="let services of slices.applications"
-                  >
-                    <button mat-raised-button class="conected-devices-bx">
-                      <div class="card-icon">
-                        <img src="assets/AdminPanel/service.svg" />
-                      </div>
-                      <div class="desc slices__name">
-                        {{ services["display-name"] }}
-                      </div>
-
-                      <div class="red-ellipse">
-                        <img src="assets/deviceSim/success-dot.svg" />
-                      </div>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--list view -->
-            <div
-              class="list-view"
-              *ngIf="listViewSlices.indexOf(slicesIndex) >= 0"
-            >
-              <div class="list-view-header d-flex">
-                <div class="card-icon">
-                  <img src="assets/CommonAssets/stack-blue.svg" />
-                </div>
-                <div class="label">Mission Critical slice</div>
-              </div>
-              <div class="device-group">
-                <div class="label">
-                  {{ slices["device-groups"].length }} device groups
-                </div>
-                <div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="secondFormGroup" label="Add Device Groups">
+            <form [formGroup]="secondFormGroup">
+              <div class="my-4 p-3 form-body">
+                <!-- <div class="select-devices">Add Device Groups</div> -->
+                <div class="col-12 d-flex">
                   <div class="device-group-items d-flex flex-wrap">
                     <div
                       class="device-group-item"
-                      *ngFor="let deviceGroup of slices['device-groups']"
+                      *ngFor="
+                        let deviceGroup of deviceGroupsInventory;
+                        let deviceGroupIndex = index
+                      "
                     >
-                      <div class="mx-1 d-flex align-items-center">
-                        <div class="img-bg-popup card-icon">
+                      <div
+                        class="mx-1 d-flex align-items-center"
+                        (click)="
+                          changeSelectionDeviceGroups(
+                            deviceGroup['device-group-id'],
+                            deviceGroup['display-name'],
+                            deviceGroup.devices,
+                            deviceGroupIndex
+                          )
+                        "
+                      >
+                        <div class="select">
                           <img
-                            src="assets/deviceSim/cc-cam-big.svg"
+                            [src]="
+                              deviceGroup.selected === 1
+                                ? 'assets/deviceSim/selected-card.svg'
+                                : 'assets/deviceSim/select.svg'
+                            "
+                          />
+                        </div>
+
+                        <div class="img-bg-popup">
+                          <img
+                            src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
                             class="mx-2"
                           />
                         </div>
@@ -956,20 +232,50 @@
                   </div>
                 </div>
               </div>
-              <div class="serives">
-                <div class="label">
-                  {{ slices.applications.length }} Services
-                </div>
-                <div>
+              <div class="d-flex btn-controls">
+                <button mat-button matStepperPrevious class="back-btn">
+                  Back
+                </button>
+                <button mat-button matStepperNext class="next-btn">Next</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step [stepControl]="thirdFormGroup" label="Add Services">
+            <form [formGroup]="thirdFormGroup">
+              <div class="my-4 p-3 form-body">
+                <!-- <div class="select-devices">Add serives</div> -->
+                <div class="col-12 d-flex">
                   <div class="serive-items d-flex flex-wrap">
                     <div
                       class="serive-item"
-                      *ngFor="let services of slices.applications"
+                      *ngFor="
+                        let services of servicesInventory;
+                        let serviceIndex = index
+                      "
                     >
-                      <div class="mx-1 d-flex align-items-center">
-                        <div class="img-bg-popup card-icon">
+                      <div
+                        class="mx-1 d-flex align-items-center"
+                        (click)="
+                          changeSelectionServices(
+                            services['application-id'],
+                            services['display-name'],
+                            serviceIndex
+                          )
+                        "
+                      >
+                        <div class="select">
                           <img
-                            src="assets/AdminPanel/service.svg"
+                            [src]="
+                              services.selected === 1
+                                ? 'assets/deviceSim/selected-card.svg'
+                                : 'assets/deviceSim/select.svg'
+                            "
+                          />
+                        </div>
+
+                        <div class="img-bg-popup">
+                          <img
+                            src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
                             class="mx-2"
                           />
                         </div>
@@ -985,250 +291,860 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <!--EDIT MISSION CRITICAL SLICE FORM-->
-          <div
-            class="edit-mission-cretical-form forms-block col-12"
-            *ngIf="editSlices.indexOf(slicesIndex) >= 0"
-            [@inOutAnimation]
-          >
-            <div class="form-head d-flex">
-              <div class="title">Edit Mission Critical Slices</div>
-              <div
-                class="card-list-item text-center edit-mission-close close"
-                (click)="closeEditView()"
-                *ngIf="editSlices.indexOf(slicesIndex) >= 0"
-              >
-                Close
+              <div class="d-flex btn-controls">
+                <button
+                  mat-button
+                  matStepperPrevious
+                  class="back-btn"
+                  (click)="emptySummaryArray()"
+                >
+                  Back
+                </button>
+                <button
+                  mat-button
+                  matStepperNext
+                  class="next-btn"
+                  (click)="summaryTrigger()"
+                >
+                  Next
+                </button>
               </div>
-            </div>
-
-            <form>
-              <div class="mx-3 edit-section">
-                <div class="my-4 p-2 form-body">
-                  <div class="left-sec left-sec d-flex flex-wrap">
-                    <div class="my-2 mx-3">
-                      <mat-label class="form-label">Slices Name </mat-label>
-                      <input
-                        class="form-control form-field-big"
-                        type="text"
-                        name="sliceName"
-                        [formControl]="getEditControl(slices.form, 'sliceName')"
-                        id="sliceName"
-                        placeholder="device group name"
-                      />
-                    </div>
-                    <div class="mat-select-box my-2 mx-3">
-                      <h4 class="my-1">Select slice type</h4>
-                      <mat-form-field class="my-1" appearance="fill">
-                        <mat-label>select</mat-label>
-                        <mat-select
-                          [formControl]="
-                            getEditControl(slices.form, 'sliceType')
-                          "
-                        >
-                          <mat-option
-                            [value]="sType"
-                            *ngFor="
-                              let sType of sliceTypes;
-                              let sTypeIndex = index
+            </form>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Summary</ng-template>
+            <div class="my-4 p-3 form-body">
+              <div class="add-slices-summary-title mx-2 my-2">Summary</div>
+              <div class="add-slices-summary d-flex">
+                <div class="col-12">
+                  <div class="selected-items d-flex flex-wrap">
+                    <form>
+                      <div class="d-flex selected-new-slices-fields">
+                        <div class="mat-select-box my-1 mx-1">
+                          <mat-label class="form-label">Slices Name </mat-label>
+                          <input
+                            *ngIf="summaryBool"
+                            class="form-control form-field-big"
+                            type="text"
+                            name="sliceName"
+                            [formControl]="
+                              getSummaryControl(
+                                summaryArray[0].form,
+                                'sliceName'
+                              )
                             "
-                            >{{ sType }}</mat-option
+                            id="sliceName"
+                            placeholder="device group name"
+                          />
+                          <!-- <mat-label class="form-label"
+                                >Slices Name
+                              </mat-label>
+                              <input
+                                *ngIf="summaryBool"
+                                class="form-control form-field-big"
+                                type="text"
+                                name="devicegroupname"
+                                id="devicegroupname"
+                                placeholder="device group name"
+                                [value]="summaryArray[0].summarySliceName"
+                              /> -->
+                        </div>
+                        <div class="mat-select-box my-1 mx-1">
+                          <h4 class="my-1">Select slice type</h4>
+                          <mat-form-field
+                            *ngIf="summaryBool"
+                            class="my-1"
+                            appearance="fill"
                           >
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                    <div class="mat-select-box my-2 mx-3">
-                      <h4 class="my-1">MBR</h4>
-                      <mat-form-field class="my-1" appearance="fill">
-                        <mat-label>Max Bit Rate</mat-label>
-                        <mat-select
-                          [formControl]="getEditControl(slices.form, 'mbr')"
-                        >
-                          <mat-option
-                            [value]="mBitRate"
-                            *ngFor="
-                              let mBitRate of maximumBitRate;
-                              let bitRateIndex = index
-                            "
-                            >{{ mBitRate }}</mat-option
+                            <mat-select
+                              [formControl]="
+                                getSummaryControl(
+                                  summaryArray[0].form,
+                                  'sliceType'
+                                )
+                              "
+                              placeholder="Select Slice Type"
+                            >
+                              <mat-option
+                                [value]="sType"
+                                *ngFor="
+                                  let sType of sliceTypes;
+                                  let sTypeIndex = index
+                                "
+                                >{{ sType }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                          <!-- <mat-label class="form-label"
+                                >Select Slices Type
+                              </mat-label>
+                              <input
+                                *ngIf="summaryBool"
+                                class="form-control form-field-big"
+                                type="text"
+                                name="devicegroupname"
+                                id="devicegroupname"
+                                placeholder="device group name"
+                                [value]="summaryArray[0].summarySliceType"
+                              /> -->
+                        </div>
+                        <div class="mat-select-box my-1 mx-1">
+                          <h4 class="my-1">MBR</h4>
+                          <mat-form-field
+                            *ngIf="summaryBool"
+                            class="my-1"
+                            appearance="fill"
                           >
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                    <div class="mat-select-box my-2 mx-3">
-                      <h4 class="my-1">Selct slice type</h4>
-                      <mat-form-field class="my-1" appearance="fill">
-                        <mat-label>Guaranteed Bit Rate</mat-label>
-                        <mat-select
-                          [formControl]="getEditControl(slices.form, 'gbr')"
-                        >
-                          <mat-option
-                            [value]="gBitRate"
-                            *ngFor="
-                              let gBitRate of guaranteedBitRate;
-                              let bitRateIndex = index
-                            "
-                            >{{ gBitRate }}</mat-option
+                            <mat-label>Max Bit Rate</mat-label>
+                            <mat-select
+                              [formControl]="
+                                getSummaryControl(summaryArray[0].form, 'mbr')
+                              "
+                            >
+                              <mat-option
+                                [value]="mBitRate"
+                                *ngFor="
+                                  let mBitRate of maximumBitRate;
+                                  let bitRateIndex = index
+                                "
+                                >{{ mBitRate }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                          <!-- <mat-label class="form-label">MBR </mat-label>
+                              <input
+                                *ngIf="summaryBool"
+                                class="form-control form-field-big"
+                                type="text"
+                                name="devicegroupname"
+                                id="devicegroupname"
+                                placeholder="device group name"
+                                [value]="summaryArray[0].summarymbr"
+                              /> -->
+                        </div>
+                        <div class="mat-select-box my-1 mx-1">
+                          <h4 class="my-1">Selct slice type</h4>
+                          <mat-form-field
+                            *ngIf="summaryBool"
+                            class="my-1"
+                            appearance="fill"
                           >
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                    <div class="mat-select-box my-2 mx-3">
-                      <h4 class="my-1">traffic class</h4>
-                      <mat-form-field class="my-1" appearance="fill">
-                        <mat-label>Select a Class</mat-label>
-                        <mat-select
-                          [formControl]="
-                            getEditControl(slices.form, 'trafficClass')
-                          "
-                        >
-                          <mat-option
-                            [value]="tClass"
-                            *ngFor="
-                              let tClass of trafficClass;
-                              let tClassIndex = index
-                            "
-                            >{{ tClass }}</mat-option
+                            <mat-label>Guaranteed Bit Rate</mat-label>
+                            <mat-select
+                              [formControl]="
+                                getSummaryControl(summaryArray[0].form, 'gbr')
+                              "
+                            >
+                              <mat-option
+                                [value]="gBitRate"
+                                *ngFor="
+                                  let gBitRate of guaranteedBitRate;
+                                  let bitRateIndex = index
+                                "
+                                >{{ gBitRate }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                          <!-- <mat-label class="form-label">GBR </mat-label>
+                              <input
+                                *ngIf="summaryBool"
+                                class="form-control form-field-big"
+                                type="text"
+                                name="devicegroupname"
+                                id="devicegroupname"
+                                placeholder="device group name"
+                                [value]="summaryArray[0].summarygbr"
+                              /> -->
+                        </div>
+                        <div class="mat-select-box my-1 mx-1">
+                          <h4 class="my-1">traffic class</h4>
+                          <mat-form-field
+                            *ngIf="summaryBool"
+                            class="my-1"
+                            appearance="fill"
                           >
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                    <div class="mat-select-box my-2 mx-3">
-                      <h4 class="my-1">uplink</h4>
-                      <mat-form-field class="my-1" appearance="fill">
-                        <mat-label>Frequency in GHz</mat-label>
-                        <mat-select
-                          [formControl]="getEditControl(slices.form, 'uplink')"
-                        >
-                          <mat-option
-                            [value]="upFreq"
-                            *ngFor="let upFreq of uplink; let freqIndex = index"
-                          >
-                            {{ upFreq }}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                    <div class="mat-select-box my-2 mx-3">
-                      <h4 class="my-1">Downlink</h4>
-                      <mat-form-field class="my-1" appearance="fill">
-                        <!-- <mat-label>Frequency in GHz</mat-label> -->
-                        <mat-select
-                          [formControl]="
-                            getEditControl(slices.form, 'downlink')
-                          "
-                        >
-                          <mat-option
-                            [value]="downFreq"
-                            *ngFor="
-                              let downFreq of downlink;
-                              let freqIndex = index
-                            "
-                            >{{ downFreq }}</mat-option
-                          >
-                        </mat-select>
-                      </mat-form-field>
-                    </div>
-                  </div>
-                  <div class="dg">
-                    <div class="remove-device-label mx-4">Devices groups</div>
-                    <div class="my-2 mx-4">
-                      <div class="device-group-items d-flex flex-wrap">
-                        <div
-                          class="device-group-item"
-                          *ngFor="
-                            let deviceGroups of siteSlices[slicesIndex][
-                              'device-groups'
-                            ];
-                            let deviceGroupIndex = index
-                          "
-                        >
-                          <div class="mx-1 d-flex align-items-center">
-                            <div
-                              class="select"
-                              (click)="
-                                deleteDeviceGroups(
-                                  slicesIndex,
-                                  deviceGroupIndex
+                            <mat-label>Select a Class</mat-label>
+                            <mat-select
+                              [formControl]="
+                                getSummaryControl(
+                                  summaryArray[0].form,
+                                  'trafficClass'
                                 )
                               "
                             >
-                              <img
-                                src="../../../assets/CommonAssets/delete-red-bg.svg"
-                              />
-                            </div>
-
-                            <div class="img-bg-popup">
-                              <img
-                                src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                class="mx-2"
-                              />
-                            </div>
-
-                            <div class="mx-1 camera">
-                              {{ deviceGroups["display-name"] }}
-                            </div>
-                            <div class="status-dot">
-                              <img
-                                src="../../assets/deviceSim/success-dot.svg"
-                              />
-                            </div>
-                          </div>
+                              <mat-option
+                                [value]="tClass"
+                                *ngFor="
+                                  let tClass of trafficClass;
+                                  let tClassIndex = index
+                                "
+                                >{{ tClass }}</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                          <!-- <mat-label class="form-label"
+                                >Traffic Class
+                              </mat-label>
+                              <input
+                                *ngIf="summaryBool"
+                                class="form-control form-field-big"
+                                type="text"
+                                name="devicegroupname"
+                                id="devicegroupname"
+                                placeholder="device group name"
+                                [value]="summaryArray[0].summaryTrafficClass"
+                              /> -->
                         </div>
                       </div>
-                    </div>
-                    <div class="edit-add-new-device">
-                      <div class="d-flex">
-                        <div
-                          class="label mx-4 my-3"
-                          (click)="editAddDeviceGroupFun()"
-                          *ngIf="!editAddDeviceGroup"
-                        >
-                          +Add new devices groups
-                        </div>
-                      </div>
-
-                      <div class="my-2 mx-4" *ngIf="editAddDeviceGroup">
-                        <div class="d-flex">
-                          <div class="label-select">
-                            Select devices to add to the group
-                          </div>
-                          <div
-                            class="label mx-4 cancel"
-                            (click)="editAddDeviceGroup = !editAddDeviceGroup"
-                            *ngIf="editAddDeviceGroup"
-                          >
-                            Cancel
-                          </div>
-                        </div>
-
+                      <div class="row selected-device-groups">
+                        <div class="title">Device groups</div>
                         <div class="device-group-items d-flex flex-wrap">
                           <div
                             class="device-group-item"
                             *ngFor="
-                              let deviceGroups of deviceGroupsInventory;
-                              let deviceGroupsIndex = index
-                            "
-                            (click)="
-                              changeSelectionAddDeviceGroups(
-                                deviceGroups['device-group-id'],
-                                deviceGroups['display-name'],
-                                deviceGroups.devices,
-                                deviceGroupsIndex
-                              )
+                              let deviceGroups of selectedDeviceGroups;
+                              let deviceGroupIndex = index
                             "
                           >
                             <div class="mx-1 d-flex align-items-center">
-                              <div class="select">
+                              <div
+                                class="select"
+                                (click)="
+                                  deleteSummaryDeviceGroups(deviceGroupIndex)
+                                "
+                              >
                                 <img
-                                  [src]="
-                                    deviceGroups.selected === 1
-                                      ? 'assets/deviceSim/selected-card.svg'
-                                      : 'assets/deviceSim/select.svg'
-                                  "
+                                  src="../../../assets/CommonAssets/delete-red-bg.svg"
+                                />
+                              </div>
+
+                              <div class="img-bg-popup">
+                                <img
+                                  src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+                                  class="mx-2"
+                                />
+                              </div>
+
+                              <div class="mx-1 device-group">
+                                {{ deviceGroups["display-name"] }}
+                              </div>
+                              <div class="status-dot">
+                                <img
+                                  src="../../assets/deviceSim/success-dot.svg"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row selected-serives">
+                        <div class="title">Services</div>
+                        <div class="serive-items d-flex flex-wrap">
+                          <div
+                            class="serive-item"
+                            *ngFor="
+                              let service of selectedServices;
+                              let serviceIndex = index
+                            "
+                          >
+                            <div class="mx-1 d-flex align-items-center">
+                              <div
+                                class="select"
+                                (click)="deleteSummaryServices(serviceIndex)"
+                              >
+                                <img
+                                  src="../../../assets/CommonAssets/delete-red-bg.svg"
+                                />
+                              </div>
+
+                              <div class="img-bg-popup">
+                                <img
+                                  src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+                                  class="mx-2"
+                                />
+                              </div>
+
+                              <div class="mx-1 serive">
+                                {{ service["display-name"] }}
+                              </div>
+                              <div class="status-dot">
+                                <img
+                                  src="../../assets/deviceSim/success-dot.svg"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex btn-controls">
+              <button mat-button matStepperPrevious class="back-btn">
+                Back
+              </button>
+              <button mat-button class="next-btn" (click)="onSubmit()">
+                Submit
+              </button>
+            </div>
+          </mat-step>
+        </mat-stepper>
+      </div>
+      <!--END CREATE NEW SLICES FORM- FORM-->
+      <!-- </div> -->
+      <!-- </div> -->
+      <!--START Slices CARDS-->
+      <div
+        class="mat-acc px-0 my-2"
+        *ngFor="let slices of siteSlices; let slicesIndex = index"
+      >
+        <div class="slices-cards-acc-cards">
+          <div class="">
+            <!--Header part-->
+            <svg:svg
+              *ngIf="
+                expandSlices.indexOf(slicesIndex) < 0 &&
+                editSlices.indexOf(slicesIndex) < 0
+              "
+              height="135"
+              class="slices__joiner"
+            >
+              <svg:g
+                aep-joiner
+                [dash]="'4 5'"
+                [title]="''"
+                [startX]="250"
+                [startY]="60"
+                [endX]="225"
+                [endY]="60"
+              ></svg:g>
+              <svg:g
+                aep-joiner
+                [dash]="'4 5'"
+                [title]="''"
+                [startX]="655"
+                [startY]="60"
+                [endX]="685"
+                [endY]="60"
+              ></svg:g>
+            </svg:svg>
+            <div
+              *ngIf="
+                expandSlices.indexOf(slicesIndex) < 0 &&
+                editSlices.indexOf(slicesIndex) < 0
+              "
+            >
+              <div class="plush-min">
+                <div
+                  class="
+                    right-bx-shadow
+                    d-flex
+                    align-items-center
+                    slices__expand
+                  "
+                  (click)="expandTrigger(slicesIndex)"
+                  *ngIf="expandSlices.indexOf(slicesIndex) < 0"
+                >
+                  <div class="plush-blue">
+                    <img
+                      class="mx-auto plush-blue"
+                      src="assets/AdminPanel/plush-blue.svg"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="device-group-items-acc d-flex flex-wrap">
+                  <div class="connected-devices">
+                    <div
+                      class="label"
+                      *ngIf="
+                        !slices['device-groups'] ||
+                        slices['device-groups'].length === 0
+                      "
+                    >
+                      0 device groups 0 devices
+                    </div>
+                    <div
+                      class="label"
+                      *ngIf="
+                        slices['device-groups'] &&
+                        slices['device-groups'].length > 0
+                      "
+                    >
+                      {{ slices["device-groups"].length }} device groups |
+                      {{ getTotalDevices(slices["device-groups"]) }} devices
+                    </div>
+                    <div class="label-view d-flex slices__device-group">
+                      <!-- <span class="img file1"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span>
+                                       <span class="desc">Conneted Devices </span>
+                                       <span class="img dot"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span> -->
+                      <button mat-raised-button class="conected-devices-bx">
+                        <div class="card-icon">
+                          <img src="assets/AdminPanel/connected.svg" />
+                        </div>
+                        <div class="desc slices__name">Connected Devices</div>
+
+                        <div class="red-ellipse">
+                          <img src="assets/deviceSim/success-dot.svg" />
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="center-block d-flex col-5">
+                    <div class="card-icon">
+                      <img
+                        src="assets/CommonAssets/stack-blue.svg"
+                        class="ng-tns-c138-2"
+                      />
+                    </div>
+                    <div class="desc">{{ slices["display-name"] }}</div>
+                    <div class="img edit">
+                      <div
+                        class="col-1 card-list-item text-center edit d-flex"
+                        (click)="editTrigger(slicesIndex)"
+                      >
+                        <img
+                          src="../../assets/services/pencil-white.svg"
+                          class="edit-img"
+                        />
+                        Edit
+                      </div>
+                    </div>
+                  </div>
+                  <div class="connected-services">
+                    <div
+                      class="label"
+                      *ngIf="
+                        !slices.applications || slices.applications.length === 0
+                      "
+                    >
+                      0 Services
+                    </div>
+                    <div
+                      class="label"
+                      *ngIf="
+                        slices.applications && slices.applications.length > 0
+                      "
+                    >
+                      {{ slices.applications.length }} Services
+                    </div>
+                    <div class="label-view d-flex slices__services">
+                      <button mat-raised-button class="conected-devices-bx">
+                        <div class="card-icon">
+                          <img src="assets/AdminPanel/service.svg" />
+                        </div>
+                        <div class="desc">Services</div>
+
+                        <div class="red-ellipse">
+                          <img src="assets/deviceSim/success-dot.svg" />
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--content part-->
+
+            <div
+              class="acc-content"
+              *ngIf="expandSlices.indexOf(slicesIndex) >= 0"
+            >
+              <!--accordian content-->
+              <!--list view and connect view controls-->
+              <div class="acc-content-header d-flex">
+                <div
+                  class="toggle-view"
+                  *ngIf="listViewSlices.indexOf(slicesIndex) < 0"
+                  (click)="listViewTrigger(slicesIndex)"
+                >
+                  <img src="assets/CommonAssets/list-view.svg" />
+
+                  List view
+                </div>
+                <div
+                  class="toggle-view d-flex align-items-center"
+                  *ngIf="listViewSlices.indexOf(slicesIndex) >= 0"
+                >
+                  <div (click)="closeListView()">
+                    <img src="assets/AdminPanel/connected.svg" />
+
+                    Connect view
+                  </div>
+
+                  <div
+                    class="card-list-item text-center edit px-2"
+                    (click)="editTrigger(slicesIndex)"
+                    *ngIf="editSlices.indexOf(slicesIndex) < 0"
+                  >
+                    <img
+                      src="../../assets/services/pencil.svg"
+                      class="ng-tns-c138-2"
+                    />
+                    Edit
+                  </div>
+                </div>
+                <div class="minimise-bx" (click)="closeExpand()">
+                  <img src="assets/AdminPanel/negative.svg" />
+                </div>
+              </div>
+              <!--connect view -->
+              <div
+                class="connect-view"
+                *ngIf="listViewSlices.indexOf(slicesIndex) < 0"
+              >
+                <div class="align-items-start d-flex flex-wrap">
+                  <svg:svg
+                    [attr.height]="calculateSVGHeight(slices)"
+                    class="slices__joiner slices__joiner--expanded"
+                  >
+                    <svg:g
+                      aep-joiner
+                      [title]="''"
+                      [startX]="255"
+                      [startY]="60"
+                      [endX]="225"
+                      [endY]="calculateVerticalPosition(deviceGroupIndex)"
+                      *ngFor="
+                        let deviceGroup of slices['device-groups'];
+                        let deviceGroupIndex = index
+                      "
+                    ></svg:g>
+                    <svg:g
+                      aep-joiner
+                      [title]="''"
+                      [startX]="655"
+                      [startY]="60"
+                      [endX]="685"
+                      [endY]="calculateVerticalPosition(serviceIndex)"
+                      *ngFor="
+                        let services of slices.applications;
+                        let serviceIndex = index
+                      "
+                    ></svg:g>
+                  </svg:svg>
+                  <div class="connected-devices">
+                    <div class="label">
+                      {{ slices["device-groups"].length }} device groups |
+                      {{ getTotalDevices(slices["device-groups"]) }} devices
+                    </div>
+                    <div
+                      class="label-view d-flex slices__device-group"
+                      *ngFor="let deviceGroup of slices['device-groups']"
+                    >
+                      <button mat-raised-button class="conected-devices-bx">
+                        <div class="card-icon">
+                          <img src="assets/AdminPanel/connected.svg" />
+                        </div>
+                        <div class="desc slices__name">
+                          {{ deviceGroup["display-name"] }}
+                        </div>
+
+                        <div class="red-ellipse">
+                          <img src="assets/deviceSim/success-dot.svg" />
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="center-block d-flex col-5">
+                    <div class="card-icon">
+                      <img
+                        src="assets/CommonAssets/stack-blue.svg"
+                        class="ng-tns-c138-2"
+                      />
+                    </div>
+                    <div class="desc">{{ slices["display-name"] }}</div>
+                    <div class="img edit">
+                      <div
+                        class="col-1 card-list-item text-center edit d-flex"
+                        (click)="editTrigger(slicesIndex)"
+                      >
+                        <img
+                          src="../../assets/services/pencil-white.svg"
+                          class="edit-img"
+                        />
+                        Edit
+                      </div>
+                    </div>
+                  </div>
+                  <div class="connected-services">
+                    <div class="label">
+                      {{ slices.applications.length }} Services
+                    </div>
+                    <div
+                      class="label-view d-flex slices__device-group"
+                      *ngFor="let services of slices.applications"
+                    >
+                      <button mat-raised-button class="conected-devices-bx">
+                        <div class="card-icon">
+                          <img src="assets/AdminPanel/service.svg" />
+                        </div>
+                        <div class="desc slices__name">
+                          {{ services["display-name"] }}
+                        </div>
+
+                        <div class="red-ellipse">
+                          <img src="assets/deviceSim/success-dot.svg" />
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--list view -->
+              <div
+                class="list-view"
+                *ngIf="listViewSlices.indexOf(slicesIndex) >= 0"
+              >
+                <div class="list-view-header d-flex">
+                  <div class="card-icon">
+                    <img src="assets/CommonAssets/stack-blue.svg" />
+                  </div>
+                  <div class="label">Mission Critical slice</div>
+                </div>
+                <div class="device-group">
+                  <div class="label">
+                    {{ slices["device-groups"].length }} device groups
+                  </div>
+                  <div>
+                    <div class="device-group-items d-flex flex-wrap">
+                      <div
+                        class="device-group-item"
+                        *ngFor="let deviceGroup of slices['device-groups']"
+                      >
+                        <div class="mx-1 d-flex align-items-center">
+                          <div class="img-bg-popup card-icon">
+                            <img
+                              src="assets/deviceSim/cc-cam-big.svg"
+                              class="mx-2"
+                            />
+                          </div>
+
+                          <div class="mx-1 device-group">
+                            {{ deviceGroup["display-name"] }}
+                          </div>
+                          <div class="status-dot">
+                            <img src="../../assets/deviceSim/success-dot.svg" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="serives">
+                  <div class="label">
+                    {{ slices.applications.length }} Services
+                  </div>
+                  <div>
+                    <div class="serive-items d-flex flex-wrap">
+                      <div
+                        class="serive-item"
+                        *ngFor="let services of slices.applications"
+                      >
+                        <div class="mx-1 d-flex align-items-center">
+                          <div class="img-bg-popup card-icon">
+                            <img
+                              src="assets/AdminPanel/service.svg"
+                              class="mx-2"
+                            />
+                          </div>
+
+                          <div class="mx-1 serive">
+                            {{ services["display-name"] }}
+                          </div>
+                          <div class="status-dot">
+                            <img src="../../assets/deviceSim/success-dot.svg" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--EDIT MISSION CRITICAL SLICE FORM-->
+            <div
+              class="edit-mission-cretical-form forms-block col-12"
+              *ngIf="editSlices.indexOf(slicesIndex) >= 0"
+            >
+              <div class="form-head d-flex">
+                <div class="title">Edit Mission Critical Slices</div>
+                <div
+                  class="card-list-item text-center edit-mission-close close"
+                  (click)="closeEditView()"
+                  *ngIf="editSlices.indexOf(slicesIndex) >= 0"
+                >
+                  Close
+                </div>
+              </div>
+
+              <form>
+                <div class="mx-3 edit-section">
+                  <div class="my-4 p-2 form-body">
+                    <div class="left-sec left-sec d-flex flex-wrap">
+                      <div class="my-2 mx-3">
+                        <mat-label class="form-label">Slices Name </mat-label>
+                        <input
+                          class="form-control form-field-big"
+                          type="text"
+                          name="sliceName"
+                          [formControl]="
+                            getEditControl(slices.form, 'sliceName')
+                          "
+                          id="sliceName"
+                          placeholder="device group name"
+                        />
+                      </div>
+                      <div class="mat-select-box my-2 mx-3">
+                        <h4 class="my-1">Select slice type</h4>
+                        <mat-form-field class="my-1" appearance="fill">
+                          <mat-label>select</mat-label>
+                          <mat-select
+                            [formControl]="
+                              getEditControl(slices.form, 'sliceType')
+                            "
+                          >
+                            <mat-option
+                              [value]="sType"
+                              *ngFor="
+                                let sType of sliceTypes;
+                                let sTypeIndex = index
+                              "
+                              >{{ sType }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="mat-select-box my-2 mx-3">
+                        <h4 class="my-1">MBR</h4>
+                        <mat-form-field class="my-1" appearance="fill">
+                          <mat-label>Max Bit Rate</mat-label>
+                          <mat-select
+                            [formControl]="getEditControl(slices.form, 'mbr')"
+                          >
+                            <mat-option
+                              [value]="mBitRate"
+                              *ngFor="
+                                let mBitRate of maximumBitRate;
+                                let bitRateIndex = index
+                              "
+                              >{{ mBitRate }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="mat-select-box my-2 mx-3">
+                        <h4 class="my-1">Selct slice type</h4>
+                        <mat-form-field class="my-1" appearance="fill">
+                          <mat-label>Guaranteed Bit Rate</mat-label>
+                          <mat-select
+                            [formControl]="getEditControl(slices.form, 'gbr')"
+                          >
+                            <mat-option
+                              [value]="gBitRate"
+                              *ngFor="
+                                let gBitRate of guaranteedBitRate;
+                                let bitRateIndex = index
+                              "
+                              >{{ gBitRate }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="mat-select-box my-2 mx-3">
+                        <h4 class="my-1">traffic class</h4>
+                        <mat-form-field class="my-1" appearance="fill">
+                          <mat-label>Select a Class</mat-label>
+                          <mat-select
+                            [formControl]="
+                              getEditControl(slices.form, 'trafficClass')
+                            "
+                          >
+                            <mat-option
+                              [value]="tClass"
+                              *ngFor="
+                                let tClass of trafficClass;
+                                let tClassIndex = index
+                              "
+                              >{{ tClass }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="mat-select-box my-2 mx-3">
+                        <h4 class="my-1">uplink</h4>
+                        <mat-form-field class="my-1" appearance="fill">
+                          <mat-label>Frequency in GHz</mat-label>
+                          <mat-select
+                            [formControl]="
+                              getEditControl(slices.form, 'uplink')
+                            "
+                          >
+                            <mat-option
+                              [value]="upFreq"
+                              *ngFor="
+                                let upFreq of uplink;
+                                let freqIndex = index
+                              "
+                            >
+                              {{ upFreq }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="mat-select-box my-2 mx-3">
+                        <h4 class="my-1">Downlink</h4>
+                        <mat-form-field class="my-1" appearance="fill">
+                          <!-- <mat-label>Frequency in GHz</mat-label> -->
+                          <mat-select
+                            [formControl]="
+                              getEditControl(slices.form, 'downlink')
+                            "
+                          >
+                            <mat-option
+                              [value]="downFreq"
+                              *ngFor="
+                                let downFreq of downlink;
+                                let freqIndex = index
+                              "
+                              >{{ downFreq }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="dg">
+                      <div class="remove-device-label mx-4">Devices groups</div>
+                      <div class="my-2 mx-4">
+                        <div class="device-group-items d-flex flex-wrap">
+                          <div
+                            class="device-group-item"
+                            *ngFor="
+                              let deviceGroups of siteSlices[slicesIndex][
+                                'device-groups'
+                              ];
+                              let deviceGroupIndex = index
+                            "
+                          >
+                            <div class="mx-1 d-flex align-items-center">
+                              <div
+                                class="select"
+                                (click)="
+                                  deleteDeviceGroups(
+                                    slicesIndex,
+                                    deviceGroupIndex
+                                  )
+                                "
+                              >
+                                <img
+                                  src="../../../assets/CommonAssets/delete-red-bg.svg"
                                 />
                               </div>
 
@@ -1251,70 +1167,26 @@
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="sg">
-                      <div class="remove-device-label mx-4">Services</div>
-                      <div class="my-2 mx-4">
-                        <div class="device-group-items d-flex flex-wrap">
-                          <div
-                            class="device-group-item"
-                            *ngFor="
-                              let services of siteSlices[slicesIndex]
-                                .applications;
-                              let serviceIndex = index
-                            "
-                          >
-                            <div class="mx-1 d-flex align-items-center">
-                              <div
-                                class="select"
-                                (click)="
-                                  deleteServices(slicesIndex, serviceIndex)
-                                "
-                              >
-                                <img
-                                  src="../../../assets/CommonAssets/delete-red-bg.svg"
-                                />
-                              </div>
-
-                              <div class="img-bg-popup">
-                                <img
-                                  src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
-                                  class="mx-2"
-                                />
-                              </div>
-
-                              <div class="mx-1 camera">
-                                {{ services["display-name"] }}
-                              </div>
-                              <div class="status-dot">
-                                <img
-                                  src="../../assets/deviceSim/success-dot.svg"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                       <div class="edit-add-new-device">
                         <div class="d-flex">
                           <div
                             class="label mx-4 my-3"
-                            (click)="editAddServicesFun()"
-                            *ngIf="!editAddServices"
+                            (click)="editAddDeviceGroupFun()"
+                            *ngIf="!editAddDeviceGroup"
                           >
-                            +Add new services
+                            +Add new devices groups
                           </div>
                         </div>
 
-                        <div class="my-2 mx-4" *ngIf="editAddServices">
+                        <div class="my-2 mx-4" *ngIf="editAddDeviceGroup">
                           <div class="d-flex">
                             <div class="label-select">
                               Select devices to add to the group
                             </div>
                             <div
                               class="label mx-4 cancel"
-                              (click)="editAddServices = !editAddServices"
-                              *ngIf="editAddServices"
+                              (click)="editAddDeviceGroup = !editAddDeviceGroup"
+                              *ngIf="editAddDeviceGroup"
                             >
                               Cancel
                             </div>
@@ -1324,14 +1196,15 @@
                             <div
                               class="device-group-item"
                               *ngFor="
-                                let services of servicesInventory;
-                                let serviceIndex = index
+                                let deviceGroups of deviceGroupsInventory;
+                                let deviceGroupsIndex = index
                               "
                               (click)="
-                                changeSelectionAddServices(
-                                  services['application-id'],
-                                  services['display-name'],
-                                  serviceIndex
+                                changeSelectionAddDeviceGroups(
+                                  deviceGroups['device-group-id'],
+                                  deviceGroups['display-name'],
+                                  deviceGroups.devices,
+                                  deviceGroupsIndex
                                 )
                               "
                             >
@@ -1339,10 +1212,54 @@
                                 <div class="select">
                                   <img
                                     [src]="
-                                      services.selected === 1
+                                      deviceGroups.selected === 1
                                         ? 'assets/deviceSim/selected-card.svg'
                                         : 'assets/deviceSim/select.svg'
                                     "
+                                  />
+                                </div>
+
+                                <div class="img-bg-popup">
+                                  <img
+                                    src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+                                    class="mx-2"
+                                  />
+                                </div>
+
+                                <div class="mx-1 camera">
+                                  {{ deviceGroups["display-name"] }}
+                                </div>
+                                <div class="status-dot">
+                                  <img
+                                    src="../../assets/deviceSim/success-dot.svg"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="sg">
+                        <div class="remove-device-label mx-4">Services</div>
+                        <div class="my-2 mx-4">
+                          <div class="device-group-items d-flex flex-wrap">
+                            <div
+                              class="device-group-item"
+                              *ngFor="
+                                let services of siteSlices[slicesIndex]
+                                  .applications;
+                                let serviceIndex = index
+                              "
+                            >
+                              <div class="mx-1 d-flex align-items-center">
+                                <div
+                                  class="select"
+                                  (click)="
+                                    deleteServices(slicesIndex, serviceIndex)
+                                  "
+                                >
+                                  <img
+                                    src="../../../assets/CommonAssets/delete-red-bg.svg"
                                   />
                                 </div>
 
@@ -1365,52 +1282,122 @@
                             </div>
                           </div>
                         </div>
+                        <div class="edit-add-new-device">
+                          <div class="d-flex">
+                            <div
+                              class="label mx-4 my-3"
+                              (click)="editAddServicesFun()"
+                              *ngIf="!editAddServices"
+                            >
+                              +Add new services
+                            </div>
+                          </div>
+
+                          <div class="my-2 mx-4" *ngIf="editAddServices">
+                            <div class="d-flex">
+                              <div class="label-select">
+                                Select devices to add to the group
+                              </div>
+                              <div
+                                class="label mx-4 cancel"
+                                (click)="editAddServices = !editAddServices"
+                                *ngIf="editAddServices"
+                              >
+                                Cancel
+                              </div>
+                            </div>
+
+                            <div class="device-group-items d-flex flex-wrap">
+                              <div
+                                class="device-group-item"
+                                *ngFor="
+                                  let services of servicesInventory;
+                                  let serviceIndex = index
+                                "
+                                (click)="
+                                  changeSelectionAddServices(
+                                    services['application-id'],
+                                    services['display-name'],
+                                    serviceIndex
+                                  )
+                                "
+                              >
+                                <div class="mx-1 d-flex align-items-center">
+                                  <div class="select">
+                                    <img
+                                      [src]="
+                                        services.selected === 1
+                                          ? 'assets/deviceSim/selected-card.svg'
+                                          : 'assets/deviceSim/select.svg'
+                                      "
+                                    />
+                                  </div>
+
+                                  <div class="img-bg-popup">
+                                    <img
+                                      src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
+                                      class="mx-2"
+                                    />
+                                  </div>
+
+                                  <div class="mx-1 camera">
+                                    {{ services["display-name"] }}
+                                  </div>
+                                  <div class="status-dot">
+                                    <img
+                                      src="../../assets/deviceSim/success-dot.svg"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <mat-card-actions class="form-actions d-flex mx-auto my-3">
-                <div
-                  class="card-item-delete d-flex mx-2"
-                  (click)="openDeleteDialog(slicesIndex)"
-                >
-                  <div>
-                    <img
-                      class="ng-tns-c119-0"
-                      src="../../assets/services/delete.svg"
-                    />
+                <mat-card-actions class="form-actions d-flex mx-auto my-3">
+                  <div
+                    class="card-item-delete d-flex mx-2"
+                    (click)="openDeleteDialog(slicesIndex)"
+                  >
+                    <div>
+                      <img
+                        class="ng-tns-c119-0"
+                        src="../../assets/services/delete.svg"
+                      />
+                    </div>
+                    <div class="delete-label">Delete Slice</div>
                   </div>
-                  <div class="delete-label">Delete Slice</div>
-                </div>
-                <div class="button-sec">
-                  <button
-                    mat-button
-                    type="button"
-                    class="cancel btn btn-white mx-2"
-                    (click)="closeEditView()"
-                    [@inOutAnimation]
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    class="add btn btn-save mx-2"
-                    type="button"
-                    (click)="onEdit(slicesIndex)"
-                    [@inOutAnimation]
-                    mat-raised-button
-                    color="primary"
-                  >
-                    Save
-                  </button>
-                </div>
-              </mat-card-actions>
-            </form>
+                  <div class="button-sec">
+                    <button
+                      mat-button
+                      type="button"
+                      class="cancel btn btn-white mx-2"
+                      (click)="closeEditView()"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      class="add btn btn-save mx-2"
+                      type="button"
+                      (click)="onEdit(slicesIndex)"
+                      mat-raised-button
+                      color="primary"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </mat-card-actions>
+              </form>
+            </div>
+            <!--END EDIT MISSION CRITICAL SLICE FORM-->
           </div>
-          <!--END EDIT MISSION CRITICAL SLICE FORM-->
         </div>
       </div>
       <!--END Slices CARDS-->
     </div>
   </div>
+  <!-- </div> -->
 </div>

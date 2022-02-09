@@ -18,9 +18,9 @@ import { RecomissionComponent } from '../dialogs/recomission/recomission.compone
   styles: [],
 })
 export class SmallCellComponent implements OnInit {
-  siteSubscription: any = null;
+  siteSubscription = null;
   selectedSite: string = '';
-  config: any = null;
+  config = null;
   viewType: string = 'Physical';
   baseUrl = environment.baseUrl;
   selectedPlan: number = 0;
@@ -153,7 +153,7 @@ export class SmallCellComponent implements OnInit {
     this.assignSelectedSite();
   }
 
-  assignSelectedSite(): any {
+  assignSelectedSite(): void {
     //console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
       // //console.log(data);
@@ -164,7 +164,7 @@ export class SmallCellComponent implements OnInit {
   }
 
   fetchConfig(): void {
-    this.siteService.GetAllConfig().subscribe((response: any) => {
+    this.siteService.GetAllConfig().subscribe((response) => {
       this.config = response;
     });
   }
