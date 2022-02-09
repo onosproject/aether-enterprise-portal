@@ -1,12 +1,6 @@
+import { TimelineMetric } from './timeline-metric.model';
+
 export interface TimelineResult {
-  metric: {
-    device_status: string;
-    iccid: string;
-    instance: string;
-    job: string;
-    serial_number: string;
-    site: string;
-    __name__: string;
-  };
+  metric: TimelineMetric;
   values: [number, string];
 }

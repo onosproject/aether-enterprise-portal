@@ -26,6 +26,7 @@ import { GlobalDataService } from 'src/app/services/global-data.service';
 import { Config } from 'src/app/models/config.model';
 import { TimesObject } from 'src/app/models/times-object.model';
 import { TimelineTimes } from 'src/app/models/timeline-times.model';
+import { TimelineData } from 'src/app/models/timeline.model';
 @Component({
   selector: 'aep-device-sim',
   templateUrl: './device-sim.component.html',
@@ -762,7 +763,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   // }
   // }
 
-  fetchPromApiWeek(site: string, iccid: string): Observable<any> {
+  fetchPromApiWeek(site: string, iccid: string): Observable<TimelineData> {
     const headers = {
       Accept: 'application/json',
       Authorization:
@@ -783,10 +784,12 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     //   '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
     //   query
     // );
-    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+    return this.http.get<TimelineData>(this.deviceService.promApiUrl + query, {
+      headers,
+    });
   }
 
-  fetchPromApi(site: string, iccid: string): Observable<any> {
+  fetchPromApi(site: string, iccid: string): Observable<TimelineData> {
     this.formatDate();
     const headers = {
       Accept: 'application/json',
@@ -809,7 +812,9 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       '.000Z&step=60m';
 
     //console.log(query);
-    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+    return this.http.get<TimelineData>(this.deviceService.promApiUrl + query, {
+      headers,
+    });
   }
 
   fetchPromWeek(site: string, iccid: string, index: number): void {
@@ -884,6 +889,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.timesArray.splice(0, this.timesArray.length);
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApi(site, iccid).subscribe((data) => {
+      // console.log(data);
+      // console.log(typeof(data.data.result[0].values[0][1]));
       //console.log(data.data.result[0]);
       let valuesArray = [];
       // valuesArray.push(data.data.result[0].values);
@@ -926,6 +933,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.timesArray = timesArray;
       const eventArray = [];
       this.fetchDotsApi(site, iccid).subscribe((eventData) => {
+        console.log(eventData);
         // const mainObject = {};
         // const eventArray: any[] = [];
         // eventArray = eventData.data.result[0].values[0][0];
@@ -983,7 +991,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   //   });
   // }
 
-  fetchDotsApi(site: string, iccid: string): any {
+  fetchDotsApi(site: string, iccid: string): Observable<TimelineData> {
     this.formatDate();
     const headers = {
       Accept: 'application/json',
@@ -1006,7 +1014,9 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       '.000Z&step=1d';
 
     //console.log(query);
-    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+    return this.http.get<TimelineData>(this.deviceService.promApiUrl + query, {
+      headers,
+    });
   }
 
   fetchDots(site: string, serialNum: string): void {
