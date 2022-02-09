@@ -175,6 +175,7 @@ export class AdminComponent implements OnInit {
       //console.log(user, user.cities);
       return user;
     });
+    console.log(this.users);
   }
 
   fileTrigger(event: Event): void {
@@ -201,7 +202,7 @@ export class AdminComponent implements OnInit {
       });
       return city;
     });
-    //console.log(this.cities);
+    console.log(this.cities);
   }
 
   // for userView edit

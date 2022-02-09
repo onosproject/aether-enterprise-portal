@@ -565,9 +565,7 @@
                                   <mat-option
                                     [value]="permissionIndex"
                                     *ngFor="
-                                      let users1 of city.users;
-                                      let permission;
-                                      of: permissions;
+                                      let permission of permissions;
                                       let permissionIndex = index
                                     "
                                     >{{ permission.viewValue }}</mat-option
