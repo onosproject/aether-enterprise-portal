@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # aether-enterprise-portal
 Aether Enterprise Portal
 
@@ -11,7 +17,7 @@ For typescript and CSS like:
 /*
  * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
  *
- * SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
+ * SPDX-License-Identifier: Apache-2.0
  */
 ```
 
@@ -20,7 +26,7 @@ For html like
 <!--
 ~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
 ~
-~ SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
+~ SPDX-License-Identifier: Apache-2.0
 -->
 ```
 

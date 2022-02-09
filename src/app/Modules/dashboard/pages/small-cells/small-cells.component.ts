@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Output, EventEmitter } from '@angular/core';
 import { smallCell } from '../../../../shared/classes/dashboard-data';
 import { Router, ActivatedRoute } from '@angular/router';
