@@ -1,3 +1,8 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
 <svg width="141" height="53" viewBox="0 0 141 53" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M11.9275 9.60578L0 0.320068V37.4629V52.3201H141V37.4629V24.9272L124.387 15.6415L115.867 4.49864L102.236 9.60578L88.6042 0.320068L76.2508 20.2844L65.1752 9.60578L55.8036 15.6415L44.7281 9.60578L35.7825 15.6415L24.707 4.49864L11.9275 9.60578Z" fill="url(#paint0_linear_1272_36765)"/>
 <defs>

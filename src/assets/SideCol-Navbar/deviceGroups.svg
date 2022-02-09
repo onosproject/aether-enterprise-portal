@@ -1,3 +1,8 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 <rect x="0.599609" y="0.600586" width="9.35009" height="9.35009" rx="1.5" stroke="#0063F7"/>
 <rect x="3.5498" y="3.55029" width="10.3501" height="10.3501" rx="2" fill="#0063F7"/>

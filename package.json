@@ -16,7 +16,7 @@
     "url": "git+https://github.com/onosproject/aether-enterprise-portal.git"
   },
   "author": "ONF",
-  "license": "SEE LICENSE IN LicenseRef-ONF-Member-1.0.txt",
+  "license": "Apache-2.0",
   "private": true,
   "dependencies": {
     "@angular/animations": "~12.2.0",
