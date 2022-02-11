@@ -123,7 +123,7 @@ export class SlicesComponent {
     setTimeout(() => {
       this.sliceData = value.siteData;
       this.logicforAlertData(value.siteData);
-      // console.log('siteData||||', this.sliceData);
+      console.log('siteData||||', this.sliceData);
     }, 20);
   }
 

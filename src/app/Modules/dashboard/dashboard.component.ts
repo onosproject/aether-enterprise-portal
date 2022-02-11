@@ -3,7 +3,7 @@ import { GraphComponent } from './pages/modals/graph-modal/graph.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SitesService } from 'src/app/services/sites/sites.service';
 import { environment } from 'src/environments/environment';
-import { Config } from 'src/app/models/config.model';
+// import { Config } from 'src/app/models/config.model';
 import { smallCell } from '../../shared/classes/dashboard-data';
 import { SitePlan } from 'src/app/models/site-plan.model';
 

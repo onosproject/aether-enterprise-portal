@@ -11,7 +11,7 @@ export class GraphComponent {
   @ViewChild('myCanvas', { static: true }) canvas: ElementRef;
   TabParentValue = ['bandwidth'];
   TabChildValue = ['1h'];
-  lineChartData: ChartDataSets[] = [{ data: [12, 6, 9, 8, 0] }];
+  lineChartData: ChartDataSets[] = [{ data: [12, 6, 9, 3, 9] }];
 
   lineChartLabels: Label[] = ['', '', '', '', ''];
 
@@ -32,6 +32,7 @@ export class GraphComponent {
         },
       ],
     },
+    // elements: { line: { tension: 0 } },
   };
 
   public lineChartColors: Color[] = [
