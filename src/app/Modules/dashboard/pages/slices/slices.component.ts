@@ -14,6 +14,7 @@ import { smallCell } from '../../../../shared/classes/dashboard-data';
 import { SitePlan } from 'src/app/models/site-plan.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Slice } from 'src/app/models/slice.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'aep-slices',
@@ -32,7 +33,6 @@ export class SlicesComponent {
   isExpand: boolean = false;
   deviceGroups;
   openAccordion: boolean[] = [];
-  // openAccordion2: any = [];
   openAccordionRight: boolean[] = [];
   isEditable: boolean = false;
   siteIndex: number = 0;
@@ -50,7 +50,121 @@ export class SlicesComponent {
   innerWidth: number = window.innerWidth;
   innerHeight = 2000;
   sitePlans: SitePlan;
-
+  viewType: string = 'Logical';
+  baseUrl: string = environment.baseUrl.substring(
+    0,
+    environment.baseUrl.length - 1
+  );
+  config = null;
+  selectedPlan: number = 0;
+  smallCells = [
+    {
+      'display-name': 'North Cell',
+      position: {
+        'position-x': 200,
+        'position-y': 100,
+        'site-plan': 'floor-0',
+      },
+    },
+    {
+      'display-name': 'South Cell',
+      position: {
+        'position-x': 100,
+        'position-y': 300,
+        'site-plan': 'floor-1',
+      },
+    },
+    {
+      'display-name': 'East Cell',
+      position: {
+        'position-x': 300,
+        'position-y': 400,
+        'site-plan': 'floor-2',
+      },
+    },
+    {
+      'display-name': 'West Cell',
+      position: {
+        'position-x': 200,
+        'position-y': 200,
+        'site-plan': 'floor-3',
+      },
+    },
+  ];
+  devices = [
+    {
+      'display-name': 'Camera 1',
+      position: {
+        'position-x': 500,
+        'position-y': 200,
+        'site-plan': 'floor-0',
+      },
+      'site-position': {
+        'position-x': 200,
+        'position-y': 100,
+      },
+    },
+    {
+      'display-name': 'Camera 2',
+      position: {
+        'position-x': 450,
+        'position-y': 300,
+        'site-plan': 'floor-1',
+      },
+      'site-position': {
+        'position-x': 100,
+        'position-y': 300,
+      },
+    },
+    {
+      'display-name': 'Phone 1',
+      position: {
+        'position-x': 100,
+        'position-y': 400,
+        'site-plan': 'floor-2',
+      },
+      'site-position': {
+        'position-x': 300,
+        'position-y': 400,
+      },
+    },
+    {
+      'display-name': 'Phone 2',
+      position: {
+        'position-x': 250,
+        'position-y': 300,
+        'site-plan': 'floor-3',
+      },
+      'site-position': {
+        'position-x': 200,
+        'position-y': 200,
+      },
+    },
+    {
+      'display-name': 'Phone 3',
+      position: {
+        'position-x': 350,
+        'position-y': 350,
+        'site-plan': 'floor-1',
+      },
+      'site-position': {
+        'position-x': 100,
+        'position-y': 300,
+      },
+    },
+    {
+      'display-name': 'Phone 4',
+      position: {
+        'position-x': 300,
+        'position-y': 300,
+        'site-plan': 'floor-0',
+      },
+      'site-position': {
+        'position-x': 200,
+        'position-y': 100,
+      },
+    },
+  ];
   constructor(
     public dialog: MatDialog,
     private sitesService: SitesService,
@@ -62,13 +176,10 @@ export class SlicesComponent {
   }
 
   expandSlice(): void {
-    // this.expandId = id;
     this.isEditable = false;
   }
 
   collapseSlice(): void {
-    // alert(this.siteIndex);
-    // this.panelOpenState = false;
     if (this.isExpand) {
       this.informParent.emit({ isalert: false, viewType: false });
       this.isExpand = false;
@@ -81,15 +192,10 @@ export class SlicesComponent {
     if (this.isEditable) {
       this.isEditable = false;
     }
-    // this.isEditable = !this.isEditable;
     for (let i = 0; i < this.sliceData[index].devices.length; i++) {
       if (this.sliceData[index].alerts === 0) {
         this.sliceData[index].devices[i].isExpanded = false;
       }
-      // if (this.sliceData[index].alerts !== 0) {
-      //   let element = <HTMLElement>document.getElementById('deviceGroup');
-      //   element.className = 'show';
-      // }
     }
     for (let i = 0; i < this.sliceData[index].services.length; i++) {
       this.sliceData[index].services[i].isExpanded = false;
@@ -110,27 +216,18 @@ export class SlicesComponent {
   }): void {
     this.TabValue = [];
     this.siteIndex = value.siteIndex;
-    // console.log('this.sitePlans', value.sitePlans);
     this.sitePlans = value.sitePlans;
+    this.config = value.sitePlans;
 
-    // if (this.sitePlans === null) {
-    //   this.sitePlans = null;
-    // } else {
-    //   this.sitePlans = value.sitePlans;
-    // }
     for (let i = 0; i < value.siteData.length; i++) {
       this.TabValue.push('1h' + i);
       if (value.siteData[i].alerts !== 0) {
         value.siteData[i].devices[0].isExpanded = true;
-        // console.log('-----', value.siteData[i].devices[0]);
       }
-      // console.log('-----', this.sliceData[i].alerts);
-      // console.log('-----', { ...this.sliceData[i] });
     }
     setTimeout(() => {
       this.sliceData = value.siteData;
       this.logicforAlertData();
-      // console.log('siteData||||', this.sliceData);
     }, 20);
   }
 
@@ -235,32 +332,22 @@ export class SlicesComponent {
 
   openAlerts(numberOfAlerts: number, groupName: string): void {
     this.sitesService.numberOfAlerts = numberOfAlerts;
-    // smallCell[0][0].alerts = [];
-    // console.log(groupName);
 
     const filteredArray = this.sitesService.allSmallCellsData.filter((res) => {
       return res.group === groupName;
     });
     smallCell[0][0].alerts = filteredArray;
-    // console.log(filteredArray);
 
     this.isExpand = true;
     this.isAcknowledged = 8;
     this.isEditable = false;
     this.openAccordion = [];
     this.openAccordionRight = [];
-    // for (let i = 0; i < this.sliceData[this.siteIndex].devices.length; i++) {
-    //   this.sliceData[this.siteIndex].devices[i].isExpanded = false;
-    // }
-    // for (let i = 0; i < this.sliceData[this.siteIndex].services.length; i++) {
-    //   this.sliceData[this.siteIndex].services[i].isExpanded = false;
-    // }
+
     this.informParent.emit({ isalert: true, viewType: false });
   }
 
   onEdit(sliceId: number, index: number): void {
-    // console.log(this.sliceData[index]);
-    // alert(sliceId);
     this.sliceId = sliceId;
     this.siteIndex = index;
     if (this.isEditable) {
@@ -350,15 +437,12 @@ export class SlicesComponent {
   }
 
   hideAcknowledgedView(): void {
-    // this.sliceId = null;
-    // this.siteIndex = 0;
     this.openAccordion = [];
     this.openAccordionRight = [];
     this.isAcknowledged = 12;
     this.isExpand = false;
     this.group = '';
     this.serialNumber = '';
-    // this.panelOpenState = false;
     this.panelIndex = undefined;
     // console.log(this.sliceData[this.siteIndex].devices[i]);
 
@@ -378,19 +462,6 @@ export class SlicesComponent {
     // this.serialNumber = JSON.stringify(event.serialNumber);
     this.serialNumber = event.serialNumber;
   }
-
-  // calculateDeviceTop(index: number, deviceGroups: any): number {
-  //   if (index === 0) {
-  //     return 20;
-  //   } else {
-  //     let height = 20;
-  //     for (let i = 0; i < index; i++) {
-  //       height += deviceGroups[i].isExpanded ? 420 : 120;
-  //     }
-  //     // return index * (isExpaned ? 400 : 100) + 20 * (index + 1);
-  //     return height;
-  //   }
-  // }
 
   calculateDeviceTop(index: number, deviceGroups: DeviceGroup): number {
     if (index === 0) {
@@ -422,13 +493,6 @@ export class SlicesComponent {
     }
     return height;
   }
-  // calculateServiceHeight(deviceGroups: any): number {
-  //   let height = 0;
-  //   for (let i = 0; i < deviceGroups.length; i++) {
-  //     height += deviceGroups[i].isExpanded ? 310 : deviceGroups.length * 150;
-  //   }
-  //   return height;
-  // }
 
   goToPhysicalView(): void {
     if (this.sitePlans !== null && this.sitePlans !== undefined) {
@@ -447,8 +511,6 @@ export class SlicesComponent {
   }
 
   calculateSVGHeight(deviceGroups: DeviceGroup[]): number {
-    // const totalHeight = noOfDeviceGroups * (isExpanded ? 420 : 120);
-    // return totalHeight > 450 ? totalHeight : 450;
     let totalHeight = 0;
     for (let i = 0; i < deviceGroups.length; i++) {
       totalHeight += deviceGroups[i]?.isExpanded ? 420 : 120;
@@ -458,42 +520,8 @@ export class SlicesComponent {
     return totalHeight > 450 ? totalHeight : 450;
   }
 
-  // calculateDeviceTop(index: number, deviceGroups: any): number {
-  //   if (index === 0) {
-  //     return 20;
-  //   } else {
-  //     let height = 20;
-  //     for (let i = 0; i < index; i++) {
-  //       height += deviceGroups[i].isExpanded ? 420 : 120;
-  //     }
-  //     // return index * (isExpaned ? 400 : 100) + 20 * (index + 1);
-  //     return height;
-  //   }
-  // }
-
-  // calculateJointVerticalPosition(
-  //   deviceGroups: [
-  //     { 'display-name': string; devices: []; isExpanded: boolean }
-  //   ],
-  //   index: number
-  // ): number {
-  //   let height =
-  //     deviceGroups.length !== index
-  //       ? deviceGroups[index].isExpanded
-  //         ? 140
-  //         : 56
-  //       : 56;
-  //   for (let i = 0; i < index; i++) {
-  //     height += deviceGroups[i].isExpanded ? 250 : 85;
-  //   }
-  //   return height;
-  // }
-  // calculateServiceHeight(deviceGroups: any): number {
-  //   let height = 0;
-  //   for (let i = 0; i < deviceGroups.length; i++) {
-  //     height += deviceGroups[i].isExpanded ? 310 : deviceGroups.length * 150;
-  //   }
-  //   return height;
+  // viewType(value: string): void {
+  //   console.log(value);
   // }
 }
 

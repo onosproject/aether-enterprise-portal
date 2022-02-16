@@ -347,6 +347,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.selectedDate = index;
       this.dateSelected = date;
     }
+    this.zoomgraph(false, this.zoomIn + 1);
   }
   zoomgraph(value: boolean, zoomIn: number): void {
     // this.getCurrentSite();
