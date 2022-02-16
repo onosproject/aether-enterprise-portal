@@ -555,7 +555,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     //   });
     // });
     this.deviceService.myDevice.subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       this.deviceSimForm.patchValue(
         {
           deviceName: data['display-name'],
@@ -632,7 +632,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   openDialog(): void {
     this.deviceService.mySims(this.simInventory);
-    console.log(this.simInventory);
+    // console.log(this.simInventory);
     const dialogRef = this.dialog.open(SelectSimsComponent, {
       width: '690px',
       data: { name: this.name, animal: this.animal },
