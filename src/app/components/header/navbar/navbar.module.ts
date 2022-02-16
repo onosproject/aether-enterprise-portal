@@ -13,7 +13,7 @@ import { MenuDirective } from './menu.directive';
 
 @NgModule({
   declarations: [NavbarComponent, MenuDirective],
-  imports: [CommonModule, MaterialModule, RouterModule],
+  imports: [MaterialModule, RouterModule],
   exports: [NavbarComponent],
 })
 export class NavbarModule {}
