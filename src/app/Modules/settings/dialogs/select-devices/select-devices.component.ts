@@ -172,6 +172,6 @@ export class SelectDevicesComponent implements OnInit {
     this.deviceService.getDevice().subscribe((data) => {
       this.inventoryDevices = data;
     });
-    console.log(this.inventoryDevices);
+    // console.log(this.inventoryDevices);
   }
 }
