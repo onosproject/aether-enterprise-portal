@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
@@ -13,7 +19,7 @@ import { SelectSimsComponent } from '../dialogs/select-sims/select-sims.componen
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 
 import { ConfigService } from 'src/app/services/config.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 // chart imports
 import * as d3Time from 'd3-timelines-edited';
@@ -23,6 +29,10 @@ import { DeleteDevicesComponent } from '../dialogs/delete-devices/delete-devices
 import { DeleteInventoryComponent } from '../dialogs/delete-inventory/delete-inventory.component';
 import { DeviceSimHelperService } from './device-sim-helper.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
+import { Config } from 'src/app/models/config.model';
+import { TimesObject } from 'src/app/models/times-object.model';
+import { TimelineTimes } from 'src/app/models/timeline-times.model';
+import { TimelineData } from 'src/app/models/timeline.model';
 @Component({
   selector: 'aep-device-sim',
   templateUrl: './device-sim.component.html',
@@ -50,8 +60,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   inventoryDeviceEditForm: boolean = false;
   newSim = new FormControl('');
   browseSims = new FormControl('');
-  toggle: any;
-  editObject: any;
+  toggle;
+  editObject;
   inventorySimsTabStyle: string = 'false';
   inventoryDeviceTabStyle: string = 'false';
   deviceSimView: string = 'true';
@@ -69,20 +79,20 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   deviceSimsDetailsProgressToggleWeek: boolean = false;
   deviceSimsDetailsProgressToggleDay: boolean = true;
 
-  config: any[] = [];
+  config = [];
 
-  selectedSite: any = '';
+  selectedSite = '';
 
-  selectedSim: any = '';
+  selectedSim = '';
 
   selectedDevice: number = 0;
 
   siteSubscription: Subscription;
-  siteConfig: any[] = [];
+  siteConfig = [];
 
-  deviceInventory: any[] = [];
+  deviceInventory = [];
 
-  simInventory: any[] = [];
+  simInventory = [];
 
   editInventory: number[] = [];
 
@@ -90,11 +100,11 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   deviceDetails: number[] = [];
 
-  deviceType: any[] = ['Phone', 'Camera', 'Sensor', 'IOT', 'Other'];
+  deviceType: string[] = ['Phone', 'Camera', 'Sensor', 'IOT', 'Other'];
 
-  cancelledSimsStorage: any[] = [];
+  cancelledSimsStorage = [];
 
-  lastWeekDates: any[] = [];
+  lastWeekDates = [];
   lastWeekDatesLength: number;
   selectedDate: number = -1;
   isZoomIn: boolean = false;
@@ -126,7 +136,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   //   [{ timeStamp: 1640939280, activeStatus: '1' }],
   // ];
 
-  valuesArray: any[] = [
+  valuesArray: [number, string][] = [
     [1640874480, '1'],
     [1640878080, '0'],
     [1640881680, '1'],
@@ -148,16 +158,16 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     [1640939280, '1'],
   ];
 
-  timesArray: any[] = [];
+  timesArray = [];
 
-  timesDiffArray: any[] = [];
+  timesDiffArray = [];
 
-  apiPreviousDate: any = '';
-  apiPreviousTime: any = '';
-  apiCurrentDate: any = '';
-  apiCurrentTime: any = '';
+  apiPreviousDate = '';
+  apiPreviousTime = '';
+  apiCurrentDate = '';
+  apiCurrentTime = '';
 
-  valuesArrayFinal: any[] = [
+  valuesArrayFinal = [
     { activeStatus: '1', times: [] },
     { activeStatus: '0', times: [] },
   ];
@@ -227,8 +237,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.assignSelectedSite();
     this.configService.fetchDeviceConfig();
     this.configService.fetchOther();
-    this.deviceService.getSiteIds();
-    this.deviceService.selectedId();
+    // this.deviceService.getSiteIds();
+    // this.deviceService.selectedId();
     //console.log(this.valuesArrayFinal);
 
     // setInterval(() => {
@@ -241,18 +251,18 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     // this.globalService.fetchSubCompleteData();
   }
 
-  getCurrentSite(): void {
-    this.globalService.getSite().subscribe((data) => {
-      this.selectedSite = data;
-    });
-  }
+  // getCurrentSite(): void {
+  //   this.globalService.getSite().subscribe((data) => {
+  //     this.selectedSite = data;
+  //   });
+  // }
 
-  getCompleteData(): void {
-    if (this.globalService.loggedIn == true) {
-      this.globalService.fetchCompleteData();
-    }
-    this.globalService.loggedIn = false;
-  }
+  // getCompleteData(): void {
+  //   if (this.globalService.loggedIn == true) {
+  //     this.globalService.fetchCompleteData();
+  //   }
+  //   this.globalService.loggedIn = false;
+  // }
 
   // new formGroup functions
   configDeviceSim(): void {
@@ -262,6 +272,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       deviceLocation: new FormControl('', Validators.required),
       deviceSerialNum: new FormControl('', Validators.required),
     });
+    this.activeNewDeviceForm();
   }
 
   configInventoryDevice(): void {
@@ -336,6 +347,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.selectedDate = index;
       this.dateSelected = date;
     }
+    this.zoomgraph(false, this.zoomIn + 1);
   }
   zoomgraph(value: boolean, zoomIn: number): void {
     // this.getCurrentSite();
@@ -384,42 +396,42 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     }
   }
 
-  siteConfigNew: any[] = [];
+  siteConfigNew = [];
 
-  siteDeviceInventory: any[] = [];
+  siteDeviceInventory = [];
 
-  fetchDataNew(): any {
-    this.globalService.getDeviceSims().subscribe((data: any[]) => {
-      // this.getCurrentSite();
-      // console.log(data);
-      this.siteConfigNew = data;
-      if (this.siteConfigNew.length > 0) {
-        for (let i = 0; i < this.siteConfigNew.length; i++) {
-          this.fetchProm2(this.selectedSite, this.siteConfigNew[i].sim, i);
-          //console.log("+++++++++", this.siteConfig[0][i].sim)
-        }
-      }
-    });
-  }
+  // fetchDataNew(): any {
+  //   this.globalService.getDeviceSims().subscribe((data: any[]) => {
+  //     // this.getCurrentSite();
+  //     // console.log(data);
+  //     this.siteConfigNew = data;
+  //     if (this.siteConfigNew.length > 0) {
+  //       for (let i = 0; i < this.siteConfigNew.length; i++) {
+  //         this.fetchProm2(this.selectedSite, this.siteConfigNew[i].sim, i);
+  //         //console.log("+++++++++", this.siteConfig[0][i].sim)
+  //       }
+  //     }
+  //   });
+  // }
 
-  fetchDevicesInventory(): any {
-    // console.log('lol');
-    this.globalService.getDeviceInventory().subscribe((data: any[]) => {
-      // this.getCurrentSite();
-      // console.log(data);
-      this.siteDeviceInventory = data;
-    });
-  }
+  // fetchDevicesInventory(): void {
+  //   // console.log('lol');
+  //   this.globalService.getDeviceInventory().subscribe((data: any[]) => {
+  //     // this.getCurrentSite();
+  //     // console.log(data);
+  //     this.siteDeviceInventory = data;
+  //   });
+  // }
 
-  fetchData(): any {
+  fetchData(): void {
     // this.getCurrentSite();
-    this.deviceService.getData().subscribe((result) => {
-      const configArray: any[] = [];
+    this.deviceService.getData().subscribe((result: Config) => {
+      const configArray = [];
       configArray.push(result);
       this.config = configArray;
       //console.log(this.config);
-      configArray.map((item) => {
-        const sitesArray: any[] = [];
+      configArray.map((item: Config) => {
+        const sitesArray = [];
         const sitesConfig = item.sites;
         //console.log(item.sites);
         sitesConfig.map((site) => {
@@ -443,11 +455,11 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         }
       });
       //console.log('This is global sites array', this.siteConfig);
-      console.log(this.config);
+      // console.log(this.config);
     });
   }
 
-  addNewDevice1(): any {
+  addNewDevice1(): void {
     //console.log('addNewDevice');
     this.addNewDeviceSimError = false;
     if (this.deviceSimForm.invalid) {
@@ -473,7 +485,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     }
   }
 
-  assignSelectedSite(): any {
+  assignSelectedSite(): void {
     //console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
       // this.siteSubscription = this.globalService.getSite().subscribe((data) => {
@@ -507,7 +519,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
   }
 
-  editTrigger(index: number): any {
+  editTrigger(index: number): void {
     this.closeEdit();
     this.closeDetails();
     const editDeviceIndex = this.editDevices.indexOf(index);
@@ -547,7 +559,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     return deviceSimEditForm.get(param) as FormControl;
   }
 
-  deleteDevice(index: number): any {
+  deleteDevice(index: number): void {
     const simIccid = this.siteConfig[0][index].sim;
     // const siteName = this.siteConfig[0][index]['display-name'];
     //console.log(siteName);
@@ -561,7 +573,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     //console.log(this.deviceInventory);
   }
 
-  cancelSim(index: number): any {
+  cancelSim(index: number): void {
     const simIccid = this.siteConfig[0][index].sim;
     this.cancelledSimsStorage.push({ simIccid });
     //console.log('THe Cancelled SIMS are: -->', this.cancelledSimsStorage);
@@ -571,6 +583,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   openDialog(): void {
     this.deviceService.mySims(this.simInventory);
+    console.log(this.simInventory);
     const dialogRef = this.dialog.open(SelectSimsComponent, {
       width: '690px',
       data: { name: this.name, animal: this.animal },
@@ -607,7 +620,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
   }
 
-  closeEdit(): any {
+  closeEdit(): void {
     this.activeNewDevice = false;
     this.editDevices.pop();
   }
@@ -628,7 +641,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     }
   }
 
-  addNewDeviceInventory(): any {
+  addNewDeviceInventory(): void {
     // console.log('add NewDevice to Inventory');
     this.addNewInventoryDeviceError = false;
     if (this.inventoryDeviceSimForm.invalid) {
@@ -648,7 +661,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     }
   }
 
-  inventoryEditTrigger(index: number): any {
+  inventoryEditTrigger(index: number): void {
     this.addNewDevice = false;
     this.closeEditInventory();
     const editInventoryIndex = this.editInventory.indexOf(index);
@@ -718,11 +731,11 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
   }
 
-  closeEditInventory(): any {
+  closeEditInventory(): void {
     this.editInventory.pop();
   }
 
-  detailsTrigger(index: number, sim: string): any {
+  detailsTrigger(index: number, sim: string): void {
     // this.getCurrentSite();
     this.selectedDate = -1;
     this.zoomIn = 0;
@@ -746,7 +759,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     // this.testDot();
   }
 
-  closeDetails(): any {
+  closeDetails(): void {
     this.activeNewDevice = false;
     this.deviceDetails.pop();
   }
@@ -758,7 +771,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   // }
   // }
 
-  fetchPromApiWeek(site: string, iccid: string): any {
+  fetchPromApiWeek(site: string, iccid: string): Observable<TimelineData> {
     const headers = {
       Accept: 'application/json',
       Authorization:
@@ -779,10 +792,12 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     //   '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
     //   query
     // );
-    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+    return this.http.get<TimelineData>(this.deviceService.promApiUrl + query, {
+      headers,
+    });
   }
 
-  fetchPromApi(site: string, iccid: string): any {
+  fetchPromApi(site: string, iccid: string): Observable<TimelineData> {
     this.formatDate();
     const headers = {
       Accept: 'application/json',
@@ -805,25 +820,31 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       '.000Z&step=60m';
 
     //console.log(query);
-    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+    return this.http.get<TimelineData>(this.deviceService.promApiUrl + query, {
+      headers,
+    });
   }
 
-  fetchPromWeek(site: string, iccid: string, index: number): any {
+  fetchPromWeek(site: string, iccid: string, index: number): void {
     // console.log(this.apiPreviousDate);
     // console.log(this.apiCurrentDate);
     this.timesArray.splice(0, this.timesArray.length);
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApiWeek(site, iccid).subscribe((data) => {
       // console.log(data);
-      let valuesArray: any[] = [];
+      let valuesArray = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
       // console.log(valuesArray);
-      const timesObject: any = {};
+      const timesObject: {
+        starting_time: string;
+        ending_time: string;
+        display: string;
+      } = { starting_time: '', ending_time: '', display: '' };
       timesObject.starting_time = '';
       timesObject.ending_time = '';
       timesObject.display = 'rect';
-      const timesArray: any[] = [];
+      const timesArray = [];
       // console.log(valuesArray);
       valuesArray.forEach((el, index) => {
         // console.log(el[1], timesObject);
@@ -870,22 +891,28 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     // console.log(this.valuesArrayFinal);
   }
 
-  fetchProm(site: string, iccid: string, index: number): any {
+  fetchProm(site: string, iccid: string, index: number): void {
     //console.log(this.apiPreviousDate);
     //console.log(this.apiCurrentDate);
     this.timesArray.splice(0, this.timesArray.length);
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApi(site, iccid).subscribe((data) => {
+      // console.log(data);
+      // console.log(typeof(data.data.result[0].values[0][1]));
       //console.log(data.data.result[0]);
-      let valuesArray: any[] = [];
+      let valuesArray = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
       //console.log(valuesArray);
-      const timesObject: any = {};
+      const timesObject: TimesObject = {
+        starting_time: '',
+        ending_time: '',
+        display: '',
+      };
       timesObject.starting_time = '';
       timesObject.ending_time = '';
       timesObject.display = 'rect';
-      const timesArray: any[] = [];
+      const timesArray = [];
       // console.log(valuesArray);
       valuesArray.forEach((el, index) => {
         //console.log(el[1], timesObject);
@@ -914,16 +941,20 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.timesArray = timesArray;
       const eventArray = [];
       this.fetchDotsApi(site, iccid).subscribe((eventData) => {
-        const mainObject: any = {};
+        console.log(eventData);
+        // const mainObject = {};
         // const eventArray: any[] = [];
         // eventArray = eventData.data.result[0].values[0][0];
 
-        const eventObject: any = {};
+        const eventObject: TimesObject = {
+          starting_time: '',
+          display: '',
+        };
         eventObject.starting_time = eventData.data.result[0].values[0][0];
         eventObject.display = 'circle';
         eventArray.push({ ...eventObject });
         // console.log(eventArray);
-        mainObject.times = eventArray;
+        // mainObject.times = eventArray;
 
         this.valuesArrayFinal[0].times = timesArray;
         this.valuesArrayFinal[1].times = eventArray;
@@ -968,7 +999,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   //   });
   // }
 
-  fetchDotsApi(site: string, iccid: string): any {
+  fetchDotsApi(site: string, iccid: string): Observable<TimelineData> {
     this.formatDate();
     const headers = {
       Accept: 'application/json',
@@ -991,16 +1022,18 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       '.000Z&step=1d';
 
     //console.log(query);
-    return this.http.get(this.deviceService.promApiUrl + query, { headers });
+    return this.http.get<TimelineData>(this.deviceService.promApiUrl + query, {
+      headers,
+    });
   }
 
   fetchDots(site: string, serialNum: string): void {
-    this.fetchDotsApi(site, serialNum).subscribe((data) => {
+    this.fetchDotsApi(site, serialNum).subscribe(() => {
       // console.log(data.data.result[0]);
     });
   }
 
-  displayChart(chartData: any[], index: number): void {
+  displayChart(chartData: TimelineTimes[], index: number): void {
     // alert("test");
     const width = '100%';
     const height = 50;
@@ -1025,7 +1058,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       .call(chart);
   }
 
-  displaySmallChart(chartData: any[], index: number): void {
+  displaySmallChart(chartData: TimelineTimes[], index: number): void {
     // alert("test");
     const width = 100;
     const height = 50;
@@ -1059,15 +1092,19 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.timesDiffArray.splice(0, this.timesDiffArray.length);
     this.fetchPromApi(site, iccid).subscribe((data) => {
       //console.log(data.data.result[0]);
-      let valuesArray: any[] = [];
+      let valuesArray = [];
       // valuesArray.push(data.data.result[0].values);
       valuesArray = data.data.result[0].values;
       //console.log(valuesArray);
-      const timesObject: any = {};
+      const timesObject: TimesObject = {
+        starting_time: '',
+        ending_time: '',
+        display: '',
+      };
       timesObject.starting_time = '';
       timesObject.ending_time = '';
       timesObject.display = 'rect';
-      const timesArray: any[] = [];
+      const timesArray = [];
       //console.log(valuesArray);
       valuesArray.forEach((el, index) => {
         //console.log(el[1], timesObject);

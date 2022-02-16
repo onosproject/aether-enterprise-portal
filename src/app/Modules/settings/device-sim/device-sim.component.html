@@ -1,3 +1,8 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
 <!-- <p>device-sim works!</p> -->
 <div class="row container-fluid device-sim-view">
   <!-- <div class="row"> -->
@@ -911,6 +916,24 @@
                           ></div>
                         </div>
                       </div>
+                      <div
+                        id="1W"
+                        class="
+                          progress
+                          col
+                          device-details-blocks device-progress-bar
+                        "
+                        *ngIf="
+                          deviceSimsDetailsProgressToggleWeek && zoomIn === 2
+                        "
+                      >
+                        <div>
+                          <div
+                            class="dayChart"
+                            id="device_timeline{{ deviceIndex }}"
+                          ></div>
+                        </div>
+                      </div>
                     </div>
                     <div class="button-sec d-flex">
                       <button
@@ -1224,6 +1247,7 @@
             <span class="down-up-load d-flex">
               <span class="download-template">
                 <img
+                  src="../../assets/deviceSim/pencil.svg"
                   class="ng-tns-c119-0"
                   src="../../assets/deviceSim/download.svg"
                 />

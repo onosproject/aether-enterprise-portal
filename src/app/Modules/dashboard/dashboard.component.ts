@@ -1,11 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, ViewChild } from '@angular/core';
 import { GraphComponent } from './pages/modals/graph-modal/graph.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SitesService } from 'src/app/services/sites/sites.service';
-import { environment } from 'src/environments/environment';
-// import { Config } from 'src/app/models/config.model';
 import { smallCell } from '../../shared/classes/dashboard-data';
 import { SitePlan } from 'src/app/models/site-plan.model';
+import { Slice } from 'src/app/models/slice.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'aep-dashboard',
@@ -14,15 +20,15 @@ import { SitePlan } from 'src/app/models/site-plan.model';
 })
 export class DashboardComponent {
   // @ViewChild('sites') sites: any;
-  @ViewChild('slices') slices: any;
-  @ViewChild('navbar') navbar: any;
+  @ViewChild('slices') slices;
+  @ViewChild('navbar') navbar;
 
-  isExpand: any = true;
+  isExpand: boolean = true;
   panelOpenState = false;
   isAcknowledged = 12;
   siteId: number;
   viewType: string = 'Logical';
-  config: any = null;
+  config = null;
   baseUrl: string = environment.baseUrl.substring(
     0,
     environment.baseUrl.length - 1
@@ -141,25 +147,20 @@ export class DashboardComponent {
 
   constructor(public dialog: MatDialog, public sitesService: SitesService) {}
 
-  // ngOnInit(): void {
-  //   // this.getSitePlans();
-  // }
-
-  // getSitePlans(): void {
-  //   this.sitesService.GetAllConfig().subscribe((response: Config) => {
-  //     this.config = response || null;
-  //   });
-  // }
-
   parentWillTakeAction(event: {
     siteId: string;
-    siteData: any[];
+    siteData: Slice[];
     siteIndex: number;
     alerts: number;
     sitePlans: SitePlan;
   }): void {
     // this.siteIndex = event.siteIndex;
     // console.log('||||||||||||||||||||', event);
+    if (this.isAcknowledged !== 12 || !this.isExpand) {
+      setTimeout(() => {
+        this.hideAcknowledgedView();
+      }, 100);
+    }
     this.navbar.getDataFromDashboard(event.siteId);
     this.siteId = event.alerts;
     if (event.sitePlans === null) {
@@ -176,10 +177,8 @@ export class DashboardComponent {
       this.slices.collapseAllCard();
       this.isExpand = true;
     }
+    this.slices.viewType = 'Logical';
     this.slices.onSelectCard(event);
-    setTimeout(() => {
-      this.hideAcknowledgedView();
-    }, 10);
   }
 
   parentWillTakeForExpand(): void {
@@ -221,22 +220,8 @@ export class DashboardComponent {
   openDialog(): void {
     this.dialog.open(GraphComponent, {
       width: '40%',
-      // height: '55%',
       panelClass: 'graph-modal-container',
     });
-    // const dialogRef = this.dialog.open(GraphComponent, {
-    //   width: '40%',
-    //   height: '55%',
-    // });
-
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result === 'true' && isDevice) {
-    //     this.sliceData[this.siteIndex].devices.splice(0, 1);
-    //   }
-    //   if (result === 'true' && !isDevice) {
-    //     this.sliceData[this.siteIndex].services.splice(0, 1);
-    //   }
-    // });
   }
 
   getSlices(): void {
@@ -244,6 +229,7 @@ export class DashboardComponent {
       siteId: this.sitesService.siteId,
       siteData: this.sitesService.siteData,
       siteIndex: this.sitesService.siteIndex,
+      sitePlans: this.sitesService.sitePlanes,
     });
   }
 }

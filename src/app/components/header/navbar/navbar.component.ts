@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SitesService } from 'src/app/services/sites/sites.service';

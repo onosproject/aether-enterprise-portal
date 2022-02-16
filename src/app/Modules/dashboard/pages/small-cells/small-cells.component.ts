@@ -1,8 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { smallCell } from '../../../../shared/classes/dashboard-data';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SitesService } from 'src/app/services/sites/sites.service';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'aep-small-cells',
@@ -20,9 +27,9 @@ export class SmallCellsComponent implements OnInit {
   isRaiseTicket: boolean = false;
   chatView: boolean = false;
   ResponedStatus: string = 'Critical';
-  smallCells: any = [];
-  tickets: any;
-  historys: any;
+  smallCells = [];
+  tickets;
+  historys;
   respondIndex: number;
   TabIndex: number = 0;
   respondTab: string;
@@ -44,13 +51,8 @@ export class SmallCellsComponent implements OnInit {
     // console.log('||||||||||||||', this.smallCells[0].alerts);
   }
 
-  ngOnInit() {
-    // for (let i = 0; i < this.sitesService.numberOfAlerts; i++) {
-    //   this.smallCells.push(smallCell[0][0].alerts[i]);
-    //   // console.log(smallCell[0][0].alerts[i]);
-    // }
+  ngOnInit(): void {
     this.smallCells = smallCell[0][0].alerts;
-    // console.log(smallCell[0][0].alerts);
   }
 
   setparent(index: number): void {
@@ -58,8 +60,6 @@ export class SmallCellsComponent implements OnInit {
     this.isRaiseTicket = false;
     this.chatView = false;
   }
-
-  // setAlertFromSlice(serialnumber: number): void {}
 
   setchild(index: number): void {
     this.child = index;
@@ -90,7 +90,7 @@ export class SmallCellsComponent implements OnInit {
     this.selectedFilter = value;
   }
 
-  selectedTabValue(event: { index: any }): void {
+  selectedTabValue(event: MatTabChangeEvent): void {
     // alert();
     this.TabIndex = event.index;
     // //console.log(event);

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # set default shell
 SHELL = bash -e -o pipefail
 
@@ -53,14 +57,15 @@ deps: # @HELP ensure that the required dependencies are in place
 lint: deps # @HELP calls "npm run lint" to perform static code analysis
 	npm run lint
 
-test: deps lint # @HELP perform a license check on the code and then invokes "npm run test"
+test: deps lint license_check # @HELP perform a license check on the code and then invokes "npm run test"
 	npm run test
 
 license_check: # @HELP examine and ensure license headers exist
 	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
-	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR} --boilerplate LicenseRef-ONF-Member-1.0
+	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR} --boilerplate SPDX-Apache-2.0
 
 jenkins-test: # @HELP target used in Jenkins to run validation (these tests run in a docker container, only use on VM executors)
+jenkins-test: license_check
 	${NODE} bash -c "cd /app && NG_CLI_ANALYTICS=false npm install --cache /tmp/empty-cache && npm run lint && npm test"
 
 jenkins-publish: build-tools docker-build docker-push # @HELP target used in Jenkins to publish docker images

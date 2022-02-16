@@ -1,3 +1,8 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
 <aep-navbar #navbar></aep-navbar>
 
 <div class="main-content">
@@ -151,6 +156,7 @@
                   let planIndex = index
                 "
                 [value]="planIndex"
+                (click)="slices.selectedPlan = planIndex"
               >
                 {{ plan.id }}
               </mat-button-toggle>
@@ -163,11 +169,22 @@
               class="section-group-btn"
               [(ngModel)]="viewType"
             >
-              <mat-button-toggle value="Logical" (click)="getSlices()"
+              <mat-button-toggle
+                value="Logical"
+                (click)="getSlices(); slices.viewType = 'Logical'"
                 >Logical</mat-button-toggle
               >
               <mat-button-toggle
+                *ngIf="config === null"
                 [disabled]="config === null"
+                value="Physical"
+                class="border-none"
+                >Physical</mat-button-toggle
+              >
+              <mat-button-toggle
+                *ngIf="config !== null"
+                [disabled]="config === null"
+                (click)="slices.viewType = 'Physical'"
                 value="Physical"
                 class="border-none"
                 >Physical</mat-button-toggle
@@ -175,11 +192,6 @@
             </mat-button-toggle-group>
           </div>
         </div>
-        <!-- <aep-slices
-          #slices
-          (informParent)="parentWillTakeActionSlice()"
-          *ngIf="viewType === 'Logical'"
-        ></aep-slices> -->
       </div>
       <div *ngIf="isAcknowledged === 8" class="col-lg-4">
         <div class="site-visite-bx">
@@ -194,10 +206,8 @@
       <aep-slices
         #slices
         (informParent)="parentWillTakeActionSlice($event)"
-        *ngIf="viewType === 'Logical'"
       ></aep-slices>
-      <div *ngIf="viewType === 'Physical'" class="dashboard__physical-view">
-        <!-- <svg></svg> -->
+      <!-- <div *ngIf="viewType === 'Physical'" class="dashboard__physical-view">
         <img
           class="dashboard__physical-view__image"
           [src]="
@@ -289,7 +299,7 @@
             </mat-menu>
           </div>
         </ng-container>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

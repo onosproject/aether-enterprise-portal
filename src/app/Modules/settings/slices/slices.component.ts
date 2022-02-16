@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
@@ -10,6 +16,9 @@ import { Subscription } from 'rxjs';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteSlicesComponent } from '../dialogs/delete-slices/delete-slices.component';
+import { Config } from 'src/app/models/config.model';
+import { Service } from 'src/app/models/service.model';
+import { DeviceGroup } from 'src/app/models/device-group.model';
 
 @Component({
   selector: 'aep-slices1',
@@ -102,29 +111,29 @@ export class SlicesComponent implements OnInit {
     this.assignSelectedSite();
   }
 
-  config: any[] = [];
+  config = [];
 
-  siteDeviceGroups: any[] = [];
+  siteDeviceGroups = [];
 
   numOfDeviceGroups: number = 0;
 
-  totalDevicesArray: any[] = [];
+  totalDevicesArray = [];
 
-  siteSlices: any[] = [];
+  siteSlices = [];
 
-  siteServices: any[] = [];
+  siteServices = [];
 
   siteSubscription: Subscription;
 
-  selectedSite: any = '';
+  selectedSite: string = '';
 
-  selectedDeviceGroups: any[] = [];
+  selectedDeviceGroups = [];
 
-  selectedServices: any[] = [];
+  selectedServices = [];
 
-  remainingDeviceGroups: any[] = [];
+  remainingDeviceGroups = [];
 
-  deviceGroupsInventory: any[] = [
+  deviceGroupsInventory = [
     {
       'device-group-id': 'sensors',
       devices: ['000SEN1', '000SEN2', '000SEN3'],
@@ -145,7 +154,7 @@ export class SlicesComponent implements OnInit {
     },
   ];
 
-  servicesInventory: any[] = [
+  servicesInventory: Service[] = [
     {
       'application-id': 'VC-application',
       'display-name': 'Voice Control',
@@ -163,7 +172,7 @@ export class SlicesComponent implements OnInit {
     },
   ];
 
-  remainingServices: any[] = [];
+  remainingServices = [];
 
   expandSlices: number[] = [];
 
@@ -171,21 +180,21 @@ export class SlicesComponent implements OnInit {
 
   editSlices: number[] = [];
 
-  selectedAddDeviceGroups: any[] = [];
+  selectedAddDeviceGroups = [];
 
-  selectedAddServices: any[] = [];
+  selectedAddServices = [];
 
-  summaryArray: any[] = [];
+  summaryArray = [];
 
   summaryBool: boolean = false;
 
   // dropdowns arrays
-  sliceTypes: any[] = ['cameras', 'sensors', 'phones'];
+  sliceTypes: string[] = ['cameras', 'sensors', 'phones'];
   maximumBitRate: number[] = [1, 5, 10];
   guaranteedBitRate: number[] = [1, 5, 10];
-  trafficClass: any[] = ['Sensitive', 'Best-Effort', 'Undesired'];
-  uplink: any[] = ['5-6 GHz', '14-14.5 GHz', '27-31 GHz'];
-  downlink: any[] = ['3-4 GHz', '11-12 GHz', '17-21 GHz'];
+  trafficClass: string[] = ['Sensitive', 'Best-Effort', 'Undesired'];
+  uplink: string[] = ['5-6 GHz', '14-14.5 GHz', '27-31 GHz'];
+  downlink: string[] = ['3-4 GHz', '11-12 GHz', '17-21 GHz'];
 
   // formGroups
   firstFormGroup = new FormGroup({
@@ -198,7 +207,7 @@ export class SlicesComponent implements OnInit {
     downlink: new FormControl('', Validators.required),
   });
 
-  summaryTrigger(): any {
+  summaryTrigger(): void {
     this.summaryBool = true;
     //console.log(this.summaryArray);
     this.summaryArray.push({
@@ -222,7 +231,7 @@ export class SlicesComponent implements OnInit {
     //console.log(this.summaryArray[0].summarySliceType);
   }
 
-  emptySummaryArray(): any {
+  emptySummaryArray(): void {
     this.summaryBool = false;
     this.summaryArray.splice(0, this.summaryArray.length);
   }
@@ -234,19 +243,20 @@ export class SlicesComponent implements OnInit {
   changeSelectionDeviceGroups(
     id: string,
     name: string,
-    devices: any[],
+    devices: string[],
     deviceGroupIndex: number
   ): void {
     //console.log(this.siteDeviceGroups[0][deviceGroupIndex], id);
     if (this.deviceGroupsInventory[deviceGroupIndex].selected == 0) {
       // //console.log("if")
       this.deviceGroupsInventory[deviceGroupIndex].selected = 1;
-      const selectedDeviceGroupInfo: any = {
+      const selectedDeviceGroupInfo = {
         'device-group-id': id,
         devices: devices,
         'display-name': name,
         selected: 1,
       };
+      console.log(selectedDeviceGroupInfo);
       this.selectedDeviceGroups.push(selectedDeviceGroupInfo);
     } else {
       // //console.log("else")
@@ -259,10 +269,9 @@ export class SlicesComponent implements OnInit {
         }
       }
     }
-    //console.log(this.selectedDeviceGroups);
   }
 
-  deleteSummaryDeviceGroups(deviceGroupIndex: number): any {
+  deleteSummaryDeviceGroups(deviceGroupIndex: number): void {
     //console.log(this.selectedDeviceGroups);
     this.selectedDeviceGroups.splice(deviceGroupIndex, 1);
     //console.log(this.selectedDeviceGroups);
@@ -275,7 +284,7 @@ export class SlicesComponent implements OnInit {
   ): void {
     if (this.servicesInventory[serviceIndex].selected == 0) {
       this.servicesInventory[serviceIndex].selected = 1;
-      const selectedServiceInfo: any = {
+      const selectedServiceInfo = {
         'application-id': id,
         'display-name': name,
         selected: 1,
@@ -292,15 +301,15 @@ export class SlicesComponent implements OnInit {
     //console.log(this.selectedServices);
   }
 
-  deleteSummaryServices(serviceIndex: number): any {
+  deleteSummaryServices(serviceIndex: number): void {
     //console.log(this.selectedServices);
     this.selectedServices.splice(serviceIndex, 1);
     //console.log(this.selectedServices);
   }
 
   onSubmit(): void {
-    const applications: any[] = [];
-    const deviceGroups: any[] = [];
+    const applications = [];
+    const deviceGroups = [];
     const summaryForm = this.summaryArray[0].form.value;
     this.selectedServices.forEach((service) => {
       applications.push(service);
@@ -367,7 +376,7 @@ export class SlicesComponent implements OnInit {
     this.createNewSlices = false;
   }
 
-  assignSelectedSite(): any {
+  assignSelectedSite(): void {
     //console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
       // //console.log(data);
@@ -377,17 +386,17 @@ export class SlicesComponent implements OnInit {
     });
   }
 
-  fetchData(): any {
+  fetchData(): void {
     this.createNewSlices = false;
     this.closeExpand();
     this.closeListView();
-    this.deviceService.getData().subscribe((result) => {
-      const configArray: any[] = [];
+    this.deviceService.getData().subscribe((result: Config) => {
+      const configArray = [];
       configArray.push(result);
       this.config = configArray;
       configArray.map((item) => {
-        const sitesSlices: any[] = [];
-        const sitesDevicesGroups: any[] = [];
+        const sitesSlices = [];
+        const sitesDevicesGroups = [];
         const sitesServices = item.applications;
         const sitesConfig = item.sites;
         sitesConfig.map((site) => {
@@ -440,9 +449,9 @@ export class SlicesComponent implements OnInit {
     // //console.log(this.totalDevicesArray);
   }
 
-  dataConvert(): any {
-    const remainingDeviceGroups: any[] = [];
-    const remainingServices: any[] = [];
+  dataConvert(): void {
+    const remainingDeviceGroups = [];
+    const remainingServices = [];
     this.siteSlices.forEach((slices) => {
       //console.log(slices, slicesIndex);
       //console.log(slices['device-groups']);
@@ -463,7 +472,7 @@ export class SlicesComponent implements OnInit {
                 slices['traffic-class'] = 'Sensitive';
                 slices['uplink'] = '5-6 GHz';
                 slices['downlink'] = '11-12 GHz';
-                const deviceGroupInfo: any = {
+                const deviceGroupInfo = {
                   'device-group-id': deviceGroup['device-group-id'],
                   devices: deviceGroup.devices,
                   'display-name': deviceGroup['display-name'],
@@ -495,7 +504,7 @@ export class SlicesComponent implements OnInit {
             //console.log(slices.applications[serviceIndex]);
             //console.log('yes');
 
-            const serviceInfo: any = {
+            const serviceInfo = {
               'application-id': siteService['application-id'],
               'display-name': siteService['display-name'],
             };
@@ -522,7 +531,7 @@ export class SlicesComponent implements OnInit {
     this.createNewSlices = true;
   }
 
-  expandTrigger(index: number): any {
+  expandTrigger(index: number): void {
     this.createNewSlices = false;
     this.closeExpand();
     const expandSlicesIndex = this.expandSlices.indexOf(index);
@@ -533,12 +542,12 @@ export class SlicesComponent implements OnInit {
     }
   }
 
-  closeExpand(): any {
+  closeExpand(): void {
     this.closeListView();
     this.expandSlices.pop();
   }
 
-  getTotalDevices(data: any[]): number {
+  getTotalDevices(data: DeviceGroup[]): number {
     let count = 0;
     for (let i = 0; i < data.length; i++) {
       count = data[i].devices.length + count;
@@ -556,11 +565,11 @@ export class SlicesComponent implements OnInit {
     }
   }
 
-  closeListView(): any {
+  closeListView(): void {
     this.listViewSlices.pop();
   }
 
-  editTrigger(index: number): any {
+  editTrigger(index: number): void {
     this.createNewSlices = false;
     this.closeEditView();
     this.closeExpand();
@@ -585,7 +594,7 @@ export class SlicesComponent implements OnInit {
     // );
   }
 
-  closeEditView(): any {
+  closeEditView(): void {
     //console.log(this.siteSlices);
     this.editSlices.pop();
   }
@@ -594,7 +603,7 @@ export class SlicesComponent implements OnInit {
     return slicesEditForm.get(param) as FormControl;
   }
 
-  onEdit(sliceIndex: number): any {
+  onEdit(sliceIndex: number): void {
     const slice = this.siteSlices[sliceIndex];
     const editForm = this.siteSlices[sliceIndex].form.value;
     slice['display-name'] = editForm.sliceName;
@@ -650,7 +659,7 @@ export class SlicesComponent implements OnInit {
     //console.log(this.siteSlices);
   }
 
-  deleteDeviceGroups(sliceIndex: number, deviceGroupIndex: number): any {
+  deleteDeviceGroups(sliceIndex: number, deviceGroupIndex: number): void {
     //console.log(this.siteSlices[sliceIndex]['device-groups'][deviceGroupIndex]);
     this.siteSlices[sliceIndex]['device-groups'][deviceGroupIndex].selected = 0;
     this.deviceGroupsInventory.push(
@@ -659,7 +668,7 @@ export class SlicesComponent implements OnInit {
     this.siteSlices[sliceIndex]['device-groups'].splice(deviceGroupIndex, 1);
   }
 
-  deleteServices(sliceIndex: number, serviceIndex: number): any {
+  deleteServices(sliceIndex: number, serviceIndex: number): void {
     //console.log(this.siteSlices[sliceIndex].applications[serviceIndex]);
     this.siteSlices[sliceIndex].applications[serviceIndex].selected = 0;
     this.servicesInventory.push(
@@ -668,7 +677,7 @@ export class SlicesComponent implements OnInit {
     this.siteSlices[sliceIndex].applications.splice(serviceIndex, 1);
   }
 
-  deleteSlice(sliceIndex: number): any {
+  deleteSlice(sliceIndex: number): void {
     const deviceGroupInfo = this.siteSlices[sliceIndex]['device-groups'];
     //console.log(deviceGroupInfo);
     const serviceInfo = this.siteSlices[sliceIndex].applications;
@@ -691,13 +700,13 @@ export class SlicesComponent implements OnInit {
   changeSelectionAddDeviceGroups(
     id: string,
     name: string,
-    devices: any[],
+    devices: string[],
     deviceGroupsIndex: number
-  ): any {
+  ): void {
     if (this.deviceGroupsInventory[deviceGroupsIndex].selected == 0) {
       // //console.log("if")
       this.deviceGroupsInventory[deviceGroupsIndex].selected = 1;
-      const selectedAddDeviceGroupInfo: any = {
+      const selectedAddDeviceGroupInfo = {
         'device-group-id': id,
         devices: devices,
         'display-name': name,
@@ -722,10 +731,10 @@ export class SlicesComponent implements OnInit {
     id: string,
     name: string,
     serviceIndex: number
-  ): any {
+  ): void {
     if (this.servicesInventory[serviceIndex].selected == 0) {
       this.servicesInventory[serviceIndex].selected = 1;
-      const selectedAddServiceInfo: any = {
+      const selectedAddServiceInfo = {
         'application-id': id,
         'display-name': name,
         selected: 1,

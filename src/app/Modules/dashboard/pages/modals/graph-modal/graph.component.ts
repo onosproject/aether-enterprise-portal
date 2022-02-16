@@ -1,5 +1,11 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { ChartDataSets, ChartOptions } from 'chart.js';
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 
 @Component({
@@ -7,11 +13,11 @@ import { Color, Label } from 'ng2-charts';
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.scss'],
 })
-export class GraphComponent {
+export class GraphComponent implements OnInit {
   @ViewChild('myCanvas', { static: true }) canvas: ElementRef;
   TabParentValue = ['bandwidth'];
   TabChildValue = ['1h'];
-  lineChartData: ChartDataSets[] = [{ data: [12, 6, 9, 3, 9] }];
+  lineChartData: ChartDataSets[] = [{ data: [12, 6, 9, 8, 0] }];
 
   lineChartLabels: Label[] = ['', '', '', '', ''];
 
@@ -32,7 +38,6 @@ export class GraphComponent {
         },
       ],
     },
-    // elements: { line: { tension: 0 } },
   };
 
   public lineChartColors: Color[] = [
@@ -42,11 +47,11 @@ export class GraphComponent {
     },
   ];
   lineChartLegend = false;
-  lineChartType: any = 'line';
-  chartColors: any;
-  canvasss: any;
-  ctx: any;
-  ngOnInit() {
+  lineChartType: ChartType = 'line';
+  chartColors;
+  canvasss;
+  ctx;
+  ngOnInit(): void {
     const gradient = this.canvas.nativeElement
       .getContext('2d')
       .createLinearGradient(0, 0, 0, 250);

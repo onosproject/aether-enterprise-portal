@@ -1,9 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { SitesService } from '../../../../services/sites/sites.service';
 import { environment } from '../../../../../environments/environment';
 import { Site } from 'src/app/models/site.model';
 import { GlobalDataService } from 'src/app/services/global-data.service';
+import { DeviceGroup } from 'src/app/models/device-group.model';
+import { Device } from 'src/app/models/device.model';
 
 @Component({
   selector: 'aep-sites',
@@ -11,12 +19,12 @@ import { GlobalDataService } from 'src/app/services/global-data.service';
   styleUrls: ['./sites.component.scss'],
 })
 export class SitesComponent {
-  sites: any;
+  sites;
   selected: string = 'freemont';
-  sitesResponse: any;
+  sitesResponse;
   baseUrl: string = environment.baseUrl.slice(0, -1);
 
-  @Input() message: any;
+  @Input() message;
   @Output() informParent = new EventEmitter();
 
   constructor(
@@ -28,7 +36,7 @@ export class SitesComponent {
     // //console.log(sites);
     sitesService.GetAllConfig().subscribe(
       (response) => {
-        // console.log('Site Response', response);
+        console.log('Site Response', response);
 
         this.sitesResponse = response;
         this.sites = this.sitesResponse.sites;
@@ -60,7 +68,7 @@ export class SitesComponent {
           this.sitesResponse.sites[0].devices,
           0
         );
-        // console.log('Site Response', this.sitesResponse);
+        // //console.log('Site Response', this.sitesResponse);
       },
       () => {
         // //console.log('Site Error', error);
@@ -71,18 +79,15 @@ export class SitesComponent {
   onSelectCard(
     value: string,
     siteData: Site,
-    deviceGroup: {
-      'device-group-id': string;
-      devices: any[];
-    }[],
-    device: {
-      'serial-number': string;
-    }[],
+    deviceGroup: DeviceGroup[],
+    device: Device[],
     siteIndex: number
   ): void {
     this.sitesService.siteIndex = null;
     this.sitesService.siteId = '';
     this.sitesService.siteData = null;
+    this.sitesService.sitePlanes = null;
+
     this.deviceService.mySite(value);
     // setTimeout(() => {
     //   this.globalService.mySite(value);
@@ -91,12 +96,7 @@ export class SitesComponent {
     for (let i = 0; i < siteData.slices.length; i++) {
       const selecteddevice = [];
       for (let j = 0; j < siteData.slices[i]['device-groups'].length; j++) {
-        // console.log(
-        //   '||||||||||||||||||||',
-        //   siteData.slices[i]['device-groups'][j]
-        // );
         for (let k = 0; k < deviceGroup.length; k++) {
-          // console.log('+++++++++++++++++', deviceGroup[k]['device-group-id']);
           if (
             siteData.slices[i]['device-groups'][j] ===
             deviceGroup[k]['device-group-id']
@@ -183,6 +183,7 @@ export class SitesComponent {
       plans = siteData['site-plans'];
       // console.log('-++-+-+-+-+-+-+-++', siteData);
     }
+    this.sitesService.sitePlanes = plans;
 
     this.informParent.emit({
       siteId: value,
@@ -209,14 +210,4 @@ export class SitesComponent {
     }
     return totalService;
   }
-
-  // getTotalDevices(
-  //   data: [{ 'display-name': string; devices: []; isExpanded: boolean }]
-  // ): number {
-  //   let count = 0;
-  //   for (let i = 0; i < data.length; i++) {
-  //     count = data[i].devices.length + count;
-  //   }
-  //   return count;
-  // }
 }

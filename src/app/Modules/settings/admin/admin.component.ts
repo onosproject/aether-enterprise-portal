@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 // import { trigger, style, animate, transition } from '@angular/animations';
@@ -54,8 +60,8 @@ export class AdminComponent implements OnInit {
 
   // variables
   id: number;
-  toggle: any;
-  editObject: any;
+  toggle;
+  editObject;
   siteViewStyle: string = 'false';
   userViewStyle: string = 'true';
 
@@ -68,7 +74,7 @@ export class AdminComponent implements OnInit {
   citySubscription: Subscription;
 
   // Image variables
-  fileUrl: any = '';
+  fileUrl: string | ArrayBuffer = '';
   imageLoaded: boolean = false;
   addUserError: boolean = false;
   editUserError: boolean = false;
@@ -175,6 +181,7 @@ export class AdminComponent implements OnInit {
       //console.log(user, user.cities);
       return user;
     });
+    console.log(this.users);
   }
 
   fileTrigger(event: Event): void {
@@ -250,7 +257,7 @@ export class AdminComponent implements OnInit {
     //console.log(this.editUsers);
   }
 
-  closeUserViewEdit(): any {
+  closeUserViewEdit(): void {
     this.editUsers.pop();
   }
 
@@ -266,7 +273,7 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  closeSiteViewEdit(): any {
+  closeSiteViewEdit(): void {
     this.editCities.pop();
   }
 
@@ -521,7 +528,7 @@ export class AdminComponent implements OnInit {
       panelClass: 'audit-user-modal-container',
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(() => {
       // console.log(`Dialog result: ${result}`);
     });
   }

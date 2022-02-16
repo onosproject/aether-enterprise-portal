@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceSimService } from '../services/device-sim.service';
@@ -12,7 +18,9 @@ export class SideNavbarComponent implements OnInit {
   imgSrc: string;
   url = '';
 
-  sites: any[] = [];
+  gotResult;
+
+  sites = [];
 
   // elements: any[] = [];
 
@@ -72,9 +80,10 @@ export class SideNavbarComponent implements OnInit {
     // this.deviceService.mySite('freemont');
   }
 
-  fetchSites(): any {
+  fetchSites(): void {
     this.deviceService.getData().subscribe((result) => {
-      result.sites.map((site) => {
+      this.gotResult = result;
+      this.gotResult.sites.map((site) => {
         //console.log(site['site-id']);
         const siteID: string = site['site-id'];
         const siteName: string = site['display-name'];
@@ -84,7 +93,7 @@ export class SideNavbarComponent implements OnInit {
     });
   }
 
-  selectedSite(siteID: string): any {
+  selectedSite(siteID: string): void {
     this.deviceService.mySite(siteID);
     // this.globalService.mySite(siteID);
     this.newSiteEvent.emit(siteID);
@@ -95,7 +104,7 @@ export class SideNavbarComponent implements OnInit {
     //console.log(this.deviceService.selectedSite);
   }
 
-  getCurrentRoute(): any {
+  getCurrentRoute(): void {
     this.currentUrl = this.router.url;
     // console.log(this.router.url, 'Current URL');
   }

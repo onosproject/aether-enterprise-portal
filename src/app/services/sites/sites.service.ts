@@ -1,8 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Slice } from 'src/app/models/slice.model';
+import { SitePlan } from 'src/app/models/site-plan.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +25,9 @@ export class SitesService {
   siteId: string;
   siteIndex: number;
   siteData: Slice[];
+  sitePlanes: SitePlan;
   numberOfAlerts: number;
-  allSmallCellsData: any;
+  allSmallCellsData;
 
   constructor(public http: HttpClient) {}
 

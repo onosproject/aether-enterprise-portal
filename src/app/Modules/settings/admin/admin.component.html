@@ -1,3 +1,8 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
 <!-- <app-navbar></app-navbar> -->
 
 <!-- <h3>Admin panel works..</h3> -->
@@ -565,9 +570,7 @@
                                   <mat-option
                                     [value]="permissionIndex"
                                     *ngFor="
-                                      let users1 of city.users;
-                                      let permission;
-                                      of: permissions;
+                                      let permission of permissions;
                                       let permissionIndex = index
                                     "
                                     >{{ permission.viewValue }}</mat-option
@@ -787,6 +790,8 @@
                     width="7.69px"
                   />
                 </div>
+                <!-- </div> -->
+                <!-- </div> -->
               </div>
               <!-- </div> -->
               <!-- </div> -->
