@@ -12,6 +12,31 @@ import { environment } from 'src/environments/environment';
 import { DecomissionComponent } from '../dialogs/decomission/decomission.component';
 import { RecomissionComponent } from '../dialogs/recomission/recomission.component';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'aep-snack-bar-component-example-snack',
+  template:
+    '<div class="snack-div"><p>No SitePlans available for this site.</p> <img src="assets/AdminPanel/close-snack.svg" /></div>',
+  styles: [
+    `
+      .snack-div {
+        justify-content: space-between;
+        display: flex;
+        height: 10px;
+        img {
+          margin: 5px 6px;
+          position: absolute;
+          right: 8px;
+          width: 11px;
+        }
+      }
+    `,
+  ],
+})
+export class PizzaPartyComponent {}
+
 @Component({
   selector: 'aep-small-cell',
   templateUrl: './small-cell.component.html',
@@ -25,6 +50,8 @@ export class SmallCellComponent implements OnInit {
   baseUrl = environment.baseUrl;
   selectedPlan: number = 0;
   displayDetails: number[] = [];
+  sitePlanPresent: boolean = false;
+  sitePlanPresentIndex: number = 0;
 
   /* Static Data start */
   smallCells = [
@@ -144,9 +171,11 @@ export class SmallCellComponent implements OnInit {
   /* Static Data end */
 
   constructor(
+    public router: Router,
     public deviceService: DeviceSimService,
     public siteService: SitesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -158,7 +187,7 @@ export class SmallCellComponent implements OnInit {
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
       // //console.log(data);
       this.selectedSite = data;
-      //console.log(this.selectedSite);
+      // console.log(this.selectedSite);
       this.fetchConfig();
     });
   }
@@ -166,6 +195,33 @@ export class SmallCellComponent implements OnInit {
   fetchConfig(): void {
     this.siteService.GetAllConfig().subscribe((response) => {
       this.config = response;
+      // console.log(this.config);
+      this.checkSitePlans();
+    });
+  }
+
+  checkSitePlans(): void {
+    if (this.router.url === '/small-cells') {
+      this.config?.sites.forEach((site) => {
+        if (this.selectedSite === site['site-id']) {
+          if (site['site-plans']) {
+            this.sitePlanPresent = true;
+            // console.log(this.config?.sites.indexOf(site));
+            this.sitePlanPresentIndex = this.config?.sites.indexOf(site);
+          } else {
+            this.sitePlanPresent = false;
+            this.showSnackBar();
+          }
+        }
+      });
+    }
+  }
+
+  showSnackBar(): void {
+    this.snackBar.openFromComponent(PizzaPartyComponent, {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      duration: 3000,
     });
   }
 

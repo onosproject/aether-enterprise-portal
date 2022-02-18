@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { SimInventory } from '../models/sim-inventory.model';
+import { InventoryDevice } from '../models/inventory-device.model';
 // import { Config } from '../models/config.model';
 
 @Injectable({
@@ -32,10 +33,13 @@ export class DeviceSimService {
 
   mySim1: Observable<string>;
   private mySimSubject = new Subject<string>();
-  private myDeviceSubject = new BehaviorSubject<number>(0);
+
+  myDevice: Observable<InventoryDevice[]>;
+  private myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);
 
   constructor(public http: HttpClient) {
     this.mySim1 = this.mySimSubject.asObservable();
+    this.myDevice = this.myDeviceSubject.asObservable();
   }
 
   mySite(data: string): void {
@@ -64,11 +68,11 @@ export class DeviceSimService {
     this.mySimSubject.next(data);
   }
 
-  getDevice(): Observable<number> {
+  getDevice(): Observable<InventoryDevice[]> {
     return this.myDeviceSubject.asObservable();
   }
 
-  setDevice(data: number): void {
+  setDevice(data: InventoryDevice[]): void {
     // this.selectedSim = data
     // //console.log(this.selectedSim)
     this.myDeviceSubject.next(data);
