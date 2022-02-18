@@ -13,6 +13,7 @@
     <div
       class="nomarLR mt-1 float-left col-{{ isAcknowledged }} ctm_new_component"
       [class.alert-services]="isAcknowledged !== 12"
+      *ngIf="viewType === 'Logical'"
     >
       <mat-accordion
         class="example-headers-align"
@@ -1333,16 +1334,7 @@
                       *ngFor="let deviceGroup of slice.devices; let i = index"
                     ></svg:g>
                   </ng-container>
-                  <!-- <svg:g
-                  aep-joiner
-                  [dash]="'4 5'"
-                  [title]="''"
-                  [startX]="innerWidth / 2.55"
-                  [startY]="215"
-                  [endX]="innerWidth / 3.25"
-                  [endY]="calculateJointVerticalPosition(slice.devices, i)"
-                  *ngFor="let deviceGroup of slice.devices; let i = index"
-                ></svg:g> -->
+
                   <svg:g
                     aep-joiner
                     [dash]="'4 5'"
@@ -1363,28 +1355,110 @@
                     [endY]="200"
                     *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
                   ></svg:g>
-
-                  <!-- <svg:g
-                    aep-joiner
-                    [dash]="'4 5'"
-                    [title]="''"
-                    [startX]="840"
-                    [startY]="215"
-                    [endX]="300"
-                    [endY]="
-                      calculateJointVerticalPosition(
-                        slice.devices,
-                        slice.devices.length
-                      )
-                    "
-                    *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
-                  ></svg:g> -->
                 </svg:svg>
               </div>
             </div>
           </mat-action-row>
         </mat-expansion-panel>
       </mat-accordion>
+    </div>
+    <div
+      *ngIf="viewType === 'Physical'"
+      class="dashboard__physical-view nomarLR mt-1 float-left col-{{
+        isAcknowledged
+      }} ctm_new_component"
+      [class.alert-services]="isAcknowledged !== 12"
+    >
+      <img
+        class="dashboard__physical-view__image"
+        [src]="
+          baseUrl +
+          config?.['site-plan-list'][selectedPlan][
+            'svg-file'
+          ]
+        "
+        #physicalViewImage
+      />
+      <ng-container *ngFor="let device of devices">
+        <div
+          class="dashboard__physical-view__device"
+          *ngIf="
+            device['position'] &&
+            config?.['site-plan-list'][selectedPlan]
+              .id === device['position']['site-plan']
+          "
+          [style]="
+            'top: ' +
+            device['position']['position-y'] +
+            'px; ' +
+            'left: ' +
+            device['position']['position-x'] +
+            'px;'
+          "
+          [matMenuTriggerFor]="deviceMenu"
+        >
+          <mat-icon class="dashboard__device-icon">videocam</mat-icon>
+          <mat-menu #deviceMenu="matMenu">
+            <div class="dashboard__menu">
+              <span>Device: {{ device["display-name"] }}</span>
+              <span class="dashboard__menu__site">{{
+                device["position"]["site-plan"]
+              }}</span>
+              <span class="dashboard__menu__details">Details</span>
+            </div>
+          </mat-menu>
+        </div>
+      </ng-container>
+      <svg:svg height="800" width="800">
+        <ng-container *ngFor="let device of devices">
+          <svg:line
+            *ngIf="
+              device['position'] &&
+              config?.['site-plan-list'][selectedPlan]
+                .id === device['position']['site-plan']
+            "
+            [attr.x1]="device['position']['position-x']"
+            [attr.y1]="device['position']['position-y'] + 20"
+            [attr.x2]="device['site-position']['position-x']"
+            [attr.y2]="device['site-position']['position-y'] + 30"
+            style="stroke: #0063f7; stroke-width: 2"
+            stroke-dasharray="5,5"
+          />
+        </ng-container>
+      </svg:svg>
+      <ng-container *ngFor="let smallCell of smallCells">
+        <div
+          class="dashboard__physical-view__small-cell"
+          *ngIf="
+            smallCell['position'] &&
+            config?.['site-plan-list'][selectedPlan]
+              .id === smallCell['position']['site-plan']
+          "
+          [style]="
+            'top: ' +
+            smallCell['position']['position-y'] +
+            'px; ' +
+            'left: ' +
+            smallCell['position']['position-x'] +
+            'px;'
+          "
+          [matMenuTriggerFor]="menu"
+        >
+          <mat-icon class="dashboard__cell-icon">cell_tower</mat-icon>
+          <mat-menu #menu="matMenu">
+            <div class="dashboard__menu dashboard__menu__centered">
+              <span class="dashboard__menu__small-cell"
+                ><mat-icon>wifi_tethering</mat-icon>
+                {{ smallCell["display-name"] }}</span
+              >
+              <span class="dashboard__menu__site dashboard__menu__site--big">{{
+                smallCell["position"]["site-plan"]
+              }}</span>
+              <span class="dashboard__menu__details">Details</span>
+            </div>
+          </mat-menu>
+        </div>
+      </ng-container>
     </div>
     <div
       class="nomarLR mt-1 float-left col-4 small-cell"

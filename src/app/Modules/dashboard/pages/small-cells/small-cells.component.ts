@@ -52,12 +52,7 @@ export class SmallCellsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // for (let i = 0; i < this.sitesService.numberOfAlerts; i++) {
-    //   this.smallCells.push(smallCell[0][0].alerts[i]);
-    //   // console.log(smallCell[0][0].alerts[i]);
-    // }
     this.smallCells = smallCell[0][0].alerts;
-    // console.log(smallCell[0][0].alerts);
   }
 
   setparent(index: number): void {
@@ -65,8 +60,6 @@ export class SmallCellsComponent implements OnInit {
     this.isRaiseTicket = false;
     this.chatView = false;
   }
-
-  // setAlertFromSlice(serialnumber: number): void {}
 
   setchild(index: number): void {
     this.child = index;

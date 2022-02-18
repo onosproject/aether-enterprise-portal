@@ -86,6 +86,8 @@ export class SitesComponent {
     this.sitesService.siteIndex = null;
     this.sitesService.siteId = '';
     this.sitesService.siteData = null;
+    this.sitesService.sitePlanes = null;
+
     this.deviceService.mySite(value);
     // setTimeout(() => {
     //   this.globalService.mySite(value);
@@ -94,12 +96,7 @@ export class SitesComponent {
     for (let i = 0; i < siteData.slices.length; i++) {
       const selecteddevice = [];
       for (let j = 0; j < siteData.slices[i]['device-groups'].length; j++) {
-        // console.log(
-        //   '||||||||||||||||||||',
-        //   siteData.slices[i]['device-groups'][j]
-        // );
         for (let k = 0; k < deviceGroup.length; k++) {
-          // console.log('+++++++++++++++++', deviceGroup[k]['device-group-id']);
           if (
             siteData.slices[i]['device-groups'][j] ===
             deviceGroup[k]['device-group-id']
@@ -112,13 +109,6 @@ export class SitesComponent {
                   devices.push(device[n]);
                 }
               }
-              // groupName = deviceGroup[k]['display-name'];
-              // selecteddevice.push({
-              //   'display-name': groupName,
-              //   devices: devices,
-              //   isExpanded: false,
-              // });
-              // siteData.slices[i]['devices'] = selecteddevice;
             }
             groupName = deviceGroup[k]['display-name'];
             selecteddevice.push({
@@ -193,6 +183,7 @@ export class SitesComponent {
       plans = siteData['site-plans'];
       // console.log('-++-+-+-+-+-+-+-++', siteData);
     }
+    this.sitesService.sitePlanes = plans;
 
     this.informParent.emit({
       siteId: value,
@@ -219,14 +210,4 @@ export class SitesComponent {
     }
     return totalService;
   }
-
-  // getTotalDevices(
-  //   data: [{ 'display-name': string; devices: []; isExpanded: boolean }]
-  // ): number {
-  //   let count = 0;
-  //   for (let i = 0; i < data.length; i++) {
-  //     count = data[i].devices.length + count;
-  //   }
-  //   return count;
-  // }
 }
