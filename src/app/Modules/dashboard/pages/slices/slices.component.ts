@@ -219,11 +219,6 @@ export class SlicesComponent {
     this.sitePlans = value.sitePlans;
     this.config = value.sitePlans;
 
-    // if (this.sitePlans === null) {
-    //   this.sitePlans = null;
-    // } else {
-    //   this.sitePlans = value.sitePlans;
-    // }
     for (let i = 0; i < value.siteData.length; i++) {
       this.TabValue.push('1h' + i);
       if (value.siteData[i].alerts !== 0) {
@@ -348,6 +343,7 @@ export class SlicesComponent {
     this.isEditable = false;
     this.openAccordion = [];
     this.openAccordionRight = [];
+
     this.informParent.emit({ isalert: true, viewType: false });
   }
 
@@ -441,8 +437,6 @@ export class SlicesComponent {
   }
 
   hideAcknowledgedView(): void {
-    // this.sliceId = null;
-    // this.siteIndex = 0;
     this.openAccordion = [];
     this.openAccordionRight = [];
     this.isAcknowledged = 12;
@@ -528,44 +522,6 @@ export class SlicesComponent {
 
   // viewType(value: string): void {
   //   console.log(value);
-  // }
-
-  // calculateDeviceTop(index: number, deviceGroups: any): number {
-  //   if (index === 0) {
-  //     return 20;
-  //   } else {
-  //     let height = 20;
-  //     for (let i = 0; i < index; i++) {
-  //       height += deviceGroups[i].isExpanded ? 420 : 120;
-  //     }
-  //     // return index * (isExpaned ? 400 : 100) + 20 * (index + 1);
-  //     return height;
-  //   }
-  // }
-
-  // calculateJointVerticalPosition(
-  //   deviceGroups: [
-  //     { 'display-name': string; devices: []; isExpanded: boolean }
-  //   ],
-  //   index: number
-  // ): number {
-  //   let height =
-  //     deviceGroups.length !== index
-  //       ? deviceGroups[index].isExpanded
-  //         ? 140
-  //         : 56
-  //       : 56;
-  //   for (let i = 0; i < index; i++) {
-  //     height += deviceGroups[i].isExpanded ? 250 : 85;
-  //   }
-  //   return height;
-  // }
-  // calculateServiceHeight(deviceGroups: any): number {
-  //   let height = 0;
-  //   for (let i = 0; i < deviceGroups.length; i++) {
-  //     height += deviceGroups[i].isExpanded ? 310 : deviceGroups.length * 150;
-  //   }
-  //   return height;
   // }
 }
 

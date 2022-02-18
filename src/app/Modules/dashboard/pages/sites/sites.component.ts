@@ -36,7 +36,7 @@ export class SitesComponent {
     // //console.log(sites);
     sitesService.GetAllConfig().subscribe(
       (response) => {
-        console.log('Site Response', response);
+        // console.log('Site Response', response);
 
         this.sitesResponse = response;
         this.sites = this.sitesResponse.sites;
@@ -96,12 +96,7 @@ export class SitesComponent {
     for (let i = 0; i < siteData.slices.length; i++) {
       const selecteddevice = [];
       for (let j = 0; j < siteData.slices[i]['device-groups'].length; j++) {
-        // console.log(
-        //   '||||||||||||||||||||',
-        //   siteData.slices[i]['device-groups'][j]
-        // );
         for (let k = 0; k < deviceGroup.length; k++) {
-          // console.log('+++++++++++++++++', deviceGroup[k]['device-group-id']);
           if (
             siteData.slices[i]['device-groups'][j] ===
             deviceGroup[k]['device-group-id']
