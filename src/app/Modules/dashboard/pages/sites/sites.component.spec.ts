@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SitesComponent } from "./sites.component";
-import { HttpClientModule } from "@angular/common/http";
+import { SitesComponent } from './sites.component';
+import { HttpClientModule } from '@angular/common/http';
 
-describe("SitesComponent", () => {
+describe('SitesComponent', () => {
   let component: SitesComponent;
   let fixture: ComponentFixture<SitesComponent>;
 
@@ -26,7 +26,7 @@ describe("SitesComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });
