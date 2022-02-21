@@ -72,6 +72,7 @@
               right: -10px;
             }
           }
+
           .title {
             font-family: Inter;
             font-style: normal;
@@ -102,9 +103,32 @@
         border-top-right-radius: 0px !important;
         border-top-left-radius: 0 !important;
       }
+      &-new-service-form-next {
+        padding: 0px 32px 20px 32px;
+      }
+      &-edit-service-form-next {
+        padding: 24px 32px 20px 32px;
+      }
     }
   }
 }
+
+.service-form-title {
+  margin-left: 35px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 36px;
+  color: #3c4257;
+}
+
+.service-forms-gen {
+  border-radius: 5px;
+  background: #eff1f3;
+  padding: 32px !important;
+}
+
 .form-actions {
   padding-bottom: 0 !important;
   .button-sec {
@@ -236,6 +260,7 @@
   }
   .mat-form-field-flex {
     background: #eff1f3;
+    padding: 32px;
   }
   .mat-form-field-infix {
     background: #ffffff;

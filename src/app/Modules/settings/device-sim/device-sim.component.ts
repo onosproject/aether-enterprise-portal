@@ -25,10 +25,15 @@ import { Observable, Subscription } from 'rxjs';
 import * as d3Time from 'd3-timelines-edited';
 import * as d3 from 'd3';
 
+// Dialog Imports
 import { DeleteDevicesComponent } from '../dialogs/delete-devices/delete-devices.component';
 import { DeleteInventoryComponent } from '../dialogs/delete-inventory/delete-inventory.component';
+
+// Service Imports
 import { DeviceSimHelperService } from './device-sim-helper.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
+
+// Model Imports
 import { Config } from 'src/app/models/config.model';
 import { TimesObject } from 'src/app/models/times-object.model';
 import { TimelineTimes } from 'src/app/models/timeline-times.model';
@@ -169,8 +174,16 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   valuesArrayFinal = [
     { activeStatus: '1', times: [] },
-    { activeStatus: '0', times: [] },
+    { activeStatus: '2', times: [] },
+    { activeStatus: '3', times: [] },
+    { activeStatus: '4', times: [] },
+    { activeStatus: '5', times: [] },
+    { activeStatus: '6', times: [] },
   ];
+
+  // valuesArrayFinal[0].times = valueParentArray.filter(x => {
+  //   x.status == 0
+  // });
 
   simpleData = [
     {
@@ -272,7 +285,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       deviceLocation: new FormControl('', Validators.required),
       deviceSerialNum: new FormControl('', Validators.required),
     });
-    this.activeNewDeviceForm();
+    // this.activeNewDeviceForm();
   }
 
   configInventoryDevice(): void {
@@ -347,6 +360,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.selectedDate = index;
       this.dateSelected = date;
     }
+    this.zoomgraph(false, this.zoomIn + 1);
   }
   zoomgraph(value: boolean, zoomIn: number): void {
     // this.getCurrentSite();
@@ -431,6 +445,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       //console.log(this.config);
       configArray.map((item: Config) => {
         const sitesArray = [];
+        const tempDeviceInventory = [];
         const sitesConfig = item.sites;
         //console.log(item.sites);
         sitesConfig.map((site) => {
@@ -438,13 +453,30 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
           //console.log(this.selectedSite);
           if (site['site-id'] === this.selectedSite) {
             sitesArray.push(site.devices);
-            //console.log(
-            //   'This is Local sites array',
-            //   this.selectedSite,
-            //   sitesArray
-            // );
+            console.log(
+              'This is Local sites array',
+              this.selectedSite,
+              sitesArray
+            );
+            // site.devices.forEach((device) => {
+            //   console.log(device);
+            //   if ('sim' in device) {
+            //   } else {
+            //     this.deviceInventory.push(site.devices);
+            //   }
+            //   console.log(this.deviceInventory);
+            // });
           }
         });
+
+        sitesArray[0]?.forEach((device) => {
+          if (!('sim' in device)) {
+            tempDeviceInventory.push(device);
+          }
+        });
+
+        this.deviceInventory = tempDeviceInventory;
+        console.log(this.deviceInventory);
         this.siteConfig = sitesArray;
         if (this.siteConfig.length > 0) {
           for (let i = 0; i < this.siteConfig[0].length; i++) {
@@ -503,18 +535,35 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   assignSelectedSim(): void {
     this.deviceService.mySim1.subscribe((data) => {
-      this.selectedSim = data;
+      // this.selectedSim = data;
       //console.log(this.selectedSim);
+      this.deviceSimForm.patchValue(
+        {
+          newSim: data,
+        },
+        { emitEvent: false }
+      );
     });
   }
 
   assignSelectedDevice(): void {
-    this.deviceService.getDevice().subscribe((data) => {
-      // this.selectedDevice = data;
-      //console.log(this.selectedSim);
-      this.deviceSimForm.patchValue({
-        deviceSerialNum: data,
-      });
+    // this.deviceService.getDevice().subscribe((data) => {
+    //   // this.selectedDevice = data;
+    //   //console.log(this.selectedSim);
+    //   this.deviceSimForm.patchValue({
+    //     deviceSerialNum: data,
+    //   });
+    // });
+    this.deviceService.myDevice.subscribe((data) => {
+      // console.log(data);
+      this.deviceSimForm.patchValue(
+        {
+          deviceName: data['display-name'],
+          deviceLocation: data['location'],
+          deviceSerialNum: data['serial-number'],
+        },
+        { emitEvent: false }
+      );
     });
   }
 
@@ -577,12 +626,13 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.cancelledSimsStorage.push({ simIccid });
     //console.log('THe Cancelled SIMS are: -->', this.cancelledSimsStorage);
     delete this.siteConfig[0][index].sim;
+    this.closeEdit();
     this.closeEditInventory();
   }
 
   openDialog(): void {
     this.deviceService.mySims(this.simInventory);
-    console.log(this.simInventory);
+    // console.log(this.simInventory);
     const dialogRef = this.dialog.open(SelectSimsComponent, {
       width: '690px',
       data: { name: this.name, animal: this.animal },
@@ -595,6 +645,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   }
 
   openDialog1(): void {
+    this.deviceService.setDevice(this.deviceInventory);
     const dialogRef = this.dialog.open(SelectDevicesComponent, {
       width: '870px',
       data: { name: this.name, animal: this.animal },
@@ -656,7 +707,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         type: this.inventoryDeviceSimForm.value.inventoryDeviceType,
         selected: 0,
       });
-      this.activeNewDeviceForm();
+      this.addNewDeviceFun();
     }
   }
 
@@ -938,9 +989,14 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       });
       // console.log(timesArray);
       this.timesArray = timesArray;
-      const eventArray = [];
+      const eventArray1 = [];
+      const eventArray2 = [];
+      const eventArray3 = [];
+      const eventArray4 = [];
+      const eventArray5 = [];
       this.fetchDotsApi(site, iccid).subscribe((eventData) => {
-        console.log(eventData);
+        // console.log(eventData);
+        // console.log(eventData.data.result);
         // const mainObject = {};
         // const eventArray: any[] = [];
         // eventArray = eventData.data.result[0].values[0][0];
@@ -948,20 +1004,82 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         const eventObject: TimesObject = {
           starting_time: '',
           display: '',
+          msg: '',
         };
-        eventObject.starting_time = eventData.data.result[0].values[0][0];
+        // const eventStorageArray = [];
+        eventData.data.result.forEach((eventCore) => {
+          // console.log(eventCore.metric.time);
+          // const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+
+          // eventStorageArray.push(eventDate);
+          // console.log(lolArray);
+          // console.log(eventDate);
+          // console.log(eventCore.values[0][1]);
+          if (eventCore.values[0][1] === '1') {
+            // console.log('if-1');
+            const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+            const eventMsg = eventCore.metric.msg;
+            eventObject.starting_time = eventDate;
+            eventObject.display = 'circle';
+            eventObject.msg = eventMsg;
+            eventArray1.push({ ...eventObject });
+          }
+          if (eventCore.values[0][1] === '2') {
+            // console.log('if-2');
+            const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+            const eventMsg = eventCore.metric.msg;
+            eventObject.starting_time = eventDate;
+            eventObject.display = 'circle';
+            eventObject.msg = eventMsg;
+            eventArray2.push({ ...eventObject });
+          }
+          if (eventCore.values[0][1] === '3') {
+            // console.log('if-3');
+            const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+            const eventMsg = eventCore.metric.msg;
+            eventObject.starting_time = eventDate;
+            eventObject.display = 'circle';
+            eventObject.msg = eventMsg;
+            eventArray3.push({ ...eventObject });
+          }
+          if (eventCore.values[0][1] === '4') {
+            // console.log('if-4');
+            const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+            const eventMsg = eventCore.metric.msg;
+            eventObject.starting_time = eventDate;
+            eventObject.display = 'circle';
+            eventObject.msg = eventMsg;
+            eventArray4.push({ ...eventObject });
+          }
+          if (eventCore.values[0][1] === '5') {
+            // console.log('if-5');
+            const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+            const eventMsg = eventCore.metric.msg;
+            eventObject.starting_time = eventDate;
+            eventObject.display = 'circle';
+            eventObject.msg = eventMsg;
+            eventArray5.push({ ...eventObject });
+          }
+        });
+
+        // eventObject.starting_time = eventData.data.result[0].values[0][0];
         eventObject.display = 'circle';
-        eventArray.push({ ...eventObject });
-        // console.log(eventArray);
+        // eventArray.push({ ...eventObject });
+        // console.log(eventArray1);
         // mainObject.times = eventArray;
 
         this.valuesArrayFinal[0].times = timesArray;
-        this.valuesArrayFinal[1].times = eventArray;
+        this.valuesArrayFinal[1].times = eventArray1;
+        this.valuesArrayFinal[2].times = eventArray2;
+        this.valuesArrayFinal[3].times = eventArray3;
+        this.valuesArrayFinal[4].times = eventArray4;
+        this.valuesArrayFinal[5].times = eventArray5;
 
         const finalArray = this.valuesArrayFinal;
 
         this.displayChart(finalArray, index);
-        this.displaySmallChart(finalArray, index);
+        // document.getElementById('');
+        // this.displaySmallChart(finalArray, index);
         this.valuesArrayFinal[0].times = [];
         // console.log(finalArray);
         // this.valuesArrayFinal.push(mainObject);
@@ -1032,15 +1150,29 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     });
   }
 
+  // mouseover(d: any, i: any, datum: any) {
+  //   console.log(d, i, datum);
+  // }
+
   displayChart(chartData: TimelineTimes[], index: number): void {
     // alert("test");
-    const width = '100%';
+    // document.getElementById('small_device_timeline' + index).remove();
+    // const width = '100%';
+    const width = 1200;
     const height = 50;
 
     const colorScale = d3
       .scaleOrdinal()
-      .range(['#06D6A0', '#EF233C', '#ffffff'])
-      .domain(['1', '0', '']);
+      .range([
+        '#06D6A0',
+        '#EF233C',
+        '#FFA500',
+        '#FFFF00',
+        '#0000FF',
+        '#06D6A0',
+        '#ffffff',
+      ])
+      .domain(['1', '2', '3', '4', '5', '6', '']);
 
     const chart = d3Time
       .timelines()
@@ -1049,28 +1181,168 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       .colorProperty('activeStatus')
       .margin({ left: 0, right: 0, top: 30, bottom: 0 });
 
+    // .on('mouseover', function (d, index, chartData) {
+    //   this.mouseover(d, index, chartData);
+    // });
+
+    // const tooltip = d3
+    //   // .select('#device_timeline' + index)
+    //   .select('#tooltip_display')
+    //   .append('div')
+    //   .style('position', 'absolute')
+    //   .style('z-index', '10')
+    //   .style('visibility', 'hidden')
+    //   .style('background', '#06D6A0')
+    //   // .style('left', '100px')
+    //   .text('a simple tooltip');
+
+    // const tooltip1 = d3
+    //   // .select('#device_timeline' + index)
+    //   .select('#tooltip_display1')
+    //   .append('div')
+    //   .style('position', 'absolute')
+    //   .style('z-index', '10')
+    //   .style('visibility', 'hidden')
+    //   .style('background', '#06D6A0')
+    //   // .style('left', '100px')
+    //   .text('a simple tooltip');
+
+    const tooltip2 = d3
+      // .select('#device_timeline' + index)
+      .select('#tooltip_display2')
+      .append('div')
+      .attr('class', 'tooltip_display');
+    // .style('position', 'absolute')
+    // .style('z-index', '10')
+    // .style('visibility', 'hidden')
+    // .style('background', '#FFFFFF')
+    // .style('box-shadow', 10 + 'px')
+    // .style('color', '#EF233C')
+    // .style('padding', 8 + 'px')
+    // .style('font-family', 'Inter')
+    // .style('font-style', 'normal')
+    // .style('font-size', 12 + 'px')
+    // .style('line-height', 16 + 'px')
+    // .style('letter-spacing', 0.02 + 'em')
+    // .style('left', '100px')
+    // .text('a simple tooltip');
+    // d3.select('rect').attr('rx', 10).attr('ry', 10);
+
     d3.select('#device_timeline' + index)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
       .datum(chartData)
-      .call(chart);
+      .call(chart)
+      .on('mouseover', function (d) {
+        // console.log(d, i);
+        const tooltipTimeInt = parseInt(
+          d.srcElement.__data__.starting_time,
+          10
+        );
+
+        function getDateSuffix(n) {
+          const dateSuffix = ['st', 'nd', 'rd'];
+          const exceptionDates = [11, 12, 13];
+          const nth =
+            dateSuffix[(n % 10) - 1] == undefined ||
+            exceptionDates.includes(n % 100)
+              ? 'th'
+              : dateSuffix[(n % 10) - 1];
+          return n + nth;
+        }
+
+        const tooltipTimeStr = tooltipTimeInt.toString() + '000';
+        const tooltipTime = parseInt(tooltipTimeStr, 10);
+        // tooltip.text(new Date(d.srcElement.__data__.starting_time) + 'index');
+        // tooltip1.text(d.srcElement.__data__.msg);
+        const currentTooltipTime = new Date(tooltipTime);
+        const hours = currentTooltipTime.getHours();
+        const correctHours = hours <= 9 ? '0' + hours : hours;
+        const minutes = currentTooltipTime.getMinutes();
+        const correctminutes = minutes <= 9 ? '0' + minutes : minutes;
+        const date = currentTooltipTime.getDate();
+        const correctDate = getDateSuffix(date);
+        const month = currentTooltipTime.toLocaleString('default', {
+          month: 'short',
+        });
+        const year = currentTooltipTime.getFullYear();
+        tooltip2.html(
+          d.srcElement.__data__.msg +
+            '<br>' +
+            'Time: ' +
+            correctHours +
+            ':' +
+            correctminutes +
+            ',' +
+            ' ' +
+            correctDate +
+            ' ' +
+            month +
+            ' ' +
+            year
+        );
+        if (d.srcElement.__data__.msg) {
+          return (
+            // console.log(
+            //   Math.round(d.srcElement.__data__.starting_time) + parseInt('000')
+            // ),
+            // tooltip.style('visibility', 'visible'),
+            // tooltip.style('left', d.clientX - 370 + 'px'),
+            // tooltip1.style('visibility', 'visible'),
+            // tooltip1.style('left', d.clientX - 370 + 'px'),
+            tooltip2.style('visibility', 'visible'),
+            tooltip2.style('left', d.clientX - 370 + 'px')
+          );
+        }
+        return tooltip2.style('visibility', 'hidden');
+        //
+      })
+
+      // .on("mousemove", function(){return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");})
+      .on('mousemove', function () {
+        // return console.log('mousemove function');
+      })
+
+      .on('mouseout', function () {
+        return (
+          // tooltip.style('visibility', 'hidden'),
+          // tooltip1.style('visibility', 'hidden'),
+          tooltip2.style('visibility', 'hidden')
+        );
+      });
+
+    // d3Time.timelines().hover(function (d, i, datum) {
+    // console.log(d, i, datum);
+    // d is the current rendering object
+    // i is the index during d3 rendering
+    // datum is the data object
+    // });
   }
 
   displaySmallChart(chartData: TimelineTimes[], index: number): void {
     // alert("test");
-    const width = 100;
+    const width = 500;
     const height = 50;
 
     const colorScale = d3
       .scaleOrdinal()
-      .range(['#06D6A0', '#EF233C', '#ffffff'])
-      .domain(['1', '0', '']);
+      .range([
+        '#06D6A0',
+        '#EF233C',
+        '#FFA500',
+        '#FFFF00',
+        '#0000FF',
+        '#06D6A0',
+        '#ffffff',
+      ])
+      .domain(['1', '2', '3', '4', '5', '6', '']);
 
     const chart = d3Time
       .timelines()
       .colors(colorScale)
-      .colorProperty('activeStatus');
+      .colorProperty('activeStatus')
+      .margin({ left: 0, right: 0, top: 30, bottom: 0 });
 
     d3.select('#small_device_timeline' + index)
       .append('svg')
@@ -1093,7 +1365,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       //console.log(data.data.result[0]);
       let valuesArray = [];
       // valuesArray.push(data.data.result[0].values);
-      valuesArray = data.data.result[0].values;
+      valuesArray = data.data.result[0]?.values;
       //console.log(valuesArray);
       const timesObject: TimesObject = {
         starting_time: '',
@@ -1105,7 +1377,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       timesObject.display = 'rect';
       const timesArray = [];
       //console.log(valuesArray);
-      valuesArray.forEach((el, index) => {
+      valuesArray?.forEach((el, index) => {
         //console.log(el[1], timesObject);
         //console.log(timesObject.starting_time);
         if (el[1] === '1' && timesObject.starting_time === '') {
@@ -1130,40 +1402,96 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       });
       //console.log(timesArray);
       this.timesArray = timesArray;
-      // const eventArray = [];
-      // this.fetchDotsApi(site, iccid).subscribe((eventData) => {
-      //   const mainObject: any = {};
-      //   // const eventArray: any[] = [];
-      //   // eventArray = eventData.data.result[0].values[0][0];
 
-      //   const eventObject: any = {};
-      //   eventObject.starting_time = eventData.data.result[0].values[0][0];
-      //   eventObject.display = 'circle';
-      //   eventArray.push({ ...eventObject });
-      //   console.log(eventArray);
-      //   mainObject.times = eventArray;
+      const eventArray1 = [];
+      const eventArray2 = [];
+      const eventArray3 = [];
+      const eventArray4 = [];
+      const eventArray5 = [];
+      this.fetchDotsApi(site, iccid).subscribe((eventData) => {
+        // console.log(eventData);
+        // console.log(eventData.data.result);
+        // const mainObject = {};
+        // const eventArray: any[] = [];
+        // eventArray = eventData.data.result[0].values[0][0];
+        const eventObject: TimesObject = {
+          starting_time: '',
+          display: '',
+        };
+        const lolArray = [];
+        eventData.data.result.forEach((eventCore) => {
+          // console.log(eventCore.metric.time);
+          const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
 
-      //   // this.valuesArrayFinal[0].times = timesArray;
-      //   // this.valuesArrayFinal[1].times = eventArray;
+          lolArray.push(eventDate);
+          // console.log(lolArray);
+          // console.log(eventDate);
+          // console.log(eventCore.values[0][1]);
+          if (eventCore.values[0][1] === '1') {
+            // console.log('if-1');
+            const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+            eventObject.starting_time = eventDate;
+            eventObject.display = 'circle';
+            eventArray1.push({ ...eventObject });
+          }
+          if (eventCore.values[0][1] === '2') {
+            // console.log('if-2');
+            const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+            eventObject.starting_time = eventDate;
+            eventObject.display = 'circle';
+            eventArray2.push({ ...eventObject });
+          }
+          if (eventCore.values[0][1] === '3') {
+            // console.log('if-3');
+            const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+            eventObject.starting_time = eventDate;
+            eventObject.display = 'circle';
+            eventArray3.push({ ...eventObject });
+          }
+          if (eventCore.values[0][1] === '4') {
+            // console.log('if-4');
+            const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+            eventObject.starting_time = eventDate;
+            eventObject.display = 'circle';
+            eventArray4.push({ ...eventObject });
+          }
+          if (eventCore.values[0][1] === '5') {
+            // console.log('if-5');
+            const eventDate = new Date(eventCore.metric.time).getTime() / 1000;
+            eventObject.starting_time = eventDate;
+            eventObject.display = 'circle';
+            eventArray5.push({ ...eventObject });
+          }
+        });
 
-      //   const finalArray = this.valuesArrayFinal;
+        // eventObject.starting_time = eventData.data.result[0].values[0][0];
+        eventObject.display = 'circle';
+        // eventArray.push({ ...eventObject });
+        // console.log(eventArray1);
+        // mainObject.times = eventArray;
 
-      //   // this.displayChart(finalArray, index);
-      //   this.displaySmallChart(finalArray, index);
-      //   // this.valuesArrayFinal[0].times = [];
-      //   console.log(finalArray);
-      //   // this.valuesArrayFinal.push(mainObject);
-      //   // console.log(this.valuesArrayFinal);
-      // });
-      // this.valuesArrayFinal[1].times = eventArray;this.valuesArrayFinal[0].times = timesArray;
-      // this.valuesArrayFinal[1].times = eventArray;
-      //console.log(timesObject);
-      //console.log(this.timesArray);
-      this.valuesArrayFinal[0].times = timesArray;
-      const finalArray = this.valuesArrayFinal;
-      //console.log(finalArray);
-      this.displaySmallChart(finalArray, index);
-      this.valuesArrayFinal[0].times = [];
+        this.valuesArrayFinal[0].times = timesArray;
+        this.valuesArrayFinal[1].times = eventArray1;
+        this.valuesArrayFinal[2].times = eventArray2;
+        this.valuesArrayFinal[3].times = eventArray3;
+        this.valuesArrayFinal[4].times = eventArray4;
+        this.valuesArrayFinal[5].times = eventArray5;
+
+        const finalArray = this.valuesArrayFinal;
+
+        this.displaySmallChart(finalArray, index);
+        // this.displaySmallChart(finalArray, index);
+        // this.valuesArrayFinal[0].times = [];
+        // console.log(finalArray);
+        // this.valuesArrayFinal.push(mainObject);
+        // console.log(this.valuesArrayFinal);
+      });
+
+      // this.valuesArrayFinal[0].times = timesArray;
+      // const finalArray = this.valuesArrayFinal;
+      // //console.log(finalArray);
+      // this.displaySmallChart(finalArray, index);
+      // this.valuesArrayFinal[0].times = [];
     });
   }
 
@@ -1277,7 +1605,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   activeNewDeviceForm(): void {
     this.closeEdit();
     this.closeDetails();
-    this.activeNewDevice = true;
+    this.activeNewDevice = !this.activeNewDevice;
     this.configDeviceSim();
     this.deviceSimsDetailItemDetailsPopUp = false;
     this.deviceSimsDetailViewEditForm = false;
