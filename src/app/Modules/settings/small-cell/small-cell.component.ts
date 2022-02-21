@@ -47,7 +47,10 @@ export class SmallCellComponent implements OnInit {
   selectedSite: string = '';
   config = null;
   viewType: string = 'Physical';
-  baseUrl = environment.baseUrl;
+  baseUrl: string = environment.baseUrl.substring(
+    0,
+    environment.baseUrl.length - 1
+  );
   selectedPlan: number = 0;
   displayDetails: number[] = [];
   sitePlanPresent: boolean = false;
