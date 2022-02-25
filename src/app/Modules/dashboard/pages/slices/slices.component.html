@@ -1338,7 +1338,6 @@
                       *ngFor="let deviceGroup of slice.devices; let i = index"
                     ></svg:g>
                   </ng-container>
-
                   <svg:g
                     aep-joiner
                     [dash]="'4 5'"
@@ -1349,7 +1348,8 @@
                     [endY]="215"
                     *ngIf="isAcknowledged !== 8 && slice.services.length !== 0"
                   ></svg:g>
-                  <svg:g
+
+                  <!-- <svg:g
                     aep-joiner
                     [dash]="'4 5'"
                     [title]="''"
@@ -1358,7 +1358,7 @@
                     [endX]="innerWidth / 2.15"
                     [endY]="200"
                     *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
-                  ></svg:g>
+                  ></svg:g> -->
                 </svg:svg>
               </div>
             </div>
