@@ -11,7 +11,8 @@ import { SitesService } from 'src/app/services/sites/sites.service';
 import { smallCell } from '../../shared/classes/dashboard-data';
 import { SitePlan } from 'src/app/models/site-plan.model';
 import { Slice } from 'src/app/models/slice.model';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../src/environments/environment';
+// import { SlicesComponent } from '../../../../src/app/Modules/dashboard/pages/slices/slices.component';
 
 @Component({
   selector: 'aep-dashboard',
@@ -21,7 +22,7 @@ import { environment } from 'src/environments/environment';
 export class DashboardComponent {
   // @ViewChild('sites') sites: any;
   @ViewChild('slices') slices;
-  @ViewChild('navbar') navbar;
+  // @ViewChild('navbar') navbar;
 
   isExpand: boolean = true;
   panelOpenState = false;
@@ -35,115 +36,6 @@ export class DashboardComponent {
   );
   selectedPlan: number = 0;
   siteIndex = 0;
-  smallCells = [
-    {
-      'display-name': 'North Cell',
-      position: {
-        'position-x': 200,
-        'position-y': 100,
-        'site-plan': 'floor-0',
-      },
-    },
-    {
-      'display-name': 'South Cell',
-      position: {
-        'position-x': 100,
-        'position-y': 300,
-        'site-plan': 'floor-1',
-      },
-    },
-    {
-      'display-name': 'East Cell',
-      position: {
-        'position-x': 300,
-        'position-y': 400,
-        'site-plan': 'floor-2',
-      },
-    },
-    {
-      'display-name': 'West Cell',
-      position: {
-        'position-x': 200,
-        'position-y': 200,
-        'site-plan': 'floor-3',
-      },
-    },
-  ];
-
-  devices = [
-    {
-      'display-name': 'Camera 1',
-      position: {
-        'position-x': 500,
-        'position-y': 200,
-        'site-plan': 'floor-0',
-      },
-      'site-position': {
-        'position-x': 200,
-        'position-y': 100,
-      },
-    },
-    {
-      'display-name': 'Camera 2',
-      position: {
-        'position-x': 450,
-        'position-y': 300,
-        'site-plan': 'floor-1',
-      },
-      'site-position': {
-        'position-x': 100,
-        'position-y': 300,
-      },
-    },
-    {
-      'display-name': 'Phone 1',
-      position: {
-        'position-x': 100,
-        'position-y': 400,
-        'site-plan': 'floor-2',
-      },
-      'site-position': {
-        'position-x': 300,
-        'position-y': 400,
-      },
-    },
-    {
-      'display-name': 'Phone 2',
-      position: {
-        'position-x': 250,
-        'position-y': 300,
-        'site-plan': 'floor-3',
-      },
-      'site-position': {
-        'position-x': 200,
-        'position-y': 200,
-      },
-    },
-    {
-      'display-name': 'Phone 3',
-      position: {
-        'position-x': 350,
-        'position-y': 350,
-        'site-plan': 'floor-1',
-      },
-      'site-position': {
-        'position-x': 100,
-        'position-y': 300,
-      },
-    },
-    {
-      'display-name': 'Phone 4',
-      position: {
-        'position-x': 300,
-        'position-y': 300,
-        'site-plan': 'floor-0',
-      },
-      'site-position': {
-        'position-x': 200,
-        'position-y': 100,
-      },
-    },
-  ];
 
   constructor(public dialog: MatDialog, public sitesService: SitesService) {}
 
@@ -161,7 +53,7 @@ export class DashboardComponent {
         this.hideAcknowledgedView();
       }, 100);
     }
-    this.navbar.getDataFromDashboard(event.siteId);
+    // this.navbar.getDataFromDashboard(event.siteId);
     this.siteId = event.alerts;
     if (event.sitePlans === null) {
       this.viewType = 'Logical';

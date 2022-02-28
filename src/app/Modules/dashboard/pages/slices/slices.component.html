@@ -1334,7 +1334,6 @@
                       *ngFor="let deviceGroup of slice.devices; let i = index"
                     ></svg:g>
                   </ng-container>
-
                   <svg:g
                     aep-joiner
                     [dash]="'4 5'"
@@ -1345,7 +1344,8 @@
                     [endY]="215"
                     *ngIf="isAcknowledged !== 8 && slice.services.length !== 0"
                   ></svg:g>
-                  <svg:g
+
+                  <!-- <svg:g
                     aep-joiner
                     [dash]="'4 5'"
                     [title]="''"
@@ -1354,7 +1354,7 @@
                     [endX]="innerWidth / 2.15"
                     [endY]="200"
                     *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
-                  ></svg:g>
+                  ></svg:g> -->
                 </svg:svg>
               </div>
             </div>
@@ -1464,9 +1464,7 @@
       class="nomarLR mt-1 float-left col-4 small-cell"
       *ngIf="isAcknowledged === 8"
     >
-      <aep-small-cells
-        (informParent)="selectedDevice($event)"
-      ></aep-small-cells>
+      <aep-alerts (informParent)="selectedDevice($event)"></aep-alerts>
     </div>
   </div>
 </div>

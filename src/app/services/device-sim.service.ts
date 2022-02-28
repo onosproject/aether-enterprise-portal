@@ -8,7 +8,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { SimInventory } from '../models/sim-inventory.model';
-import { InventoryDevice } from '../models/inventory-device.model';
 // import { Config } from '../models/config.model';
 
 @Injectable({
@@ -26,20 +25,17 @@ export class DeviceSimService {
   selectedSims = [];
 
   mySite1: Observable<string>;
-  private mySiteSubject = new BehaviorSubject<string>('');
+  public mySiteSubject = new BehaviorSubject<string>('');
 
   mySims1: Observable<SimInventory[]>;
-  private mySimsSubject = new BehaviorSubject<SimInventory[]>([]);
+  public mySimsSubject = new BehaviorSubject<SimInventory[]>([]);
 
   mySim1: Observable<string>;
-  private mySimSubject = new Subject<string>();
-
-  myDevice: Observable<InventoryDevice[]>;
-  private myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);
+  public mySimSubject = new Subject<string>();
+  public myDeviceSubject = new BehaviorSubject<number>(0);
 
   constructor(public http: HttpClient) {
     this.mySim1 = this.mySimSubject.asObservable();
-    this.myDevice = this.myDeviceSubject.asObservable();
   }
 
   mySite(data: string): void {
@@ -68,11 +64,11 @@ export class DeviceSimService {
     this.mySimSubject.next(data);
   }
 
-  getDevice(): Observable<InventoryDevice[]> {
+  getDevice(): Observable<number> {
     return this.myDeviceSubject.asObservable();
   }
 
-  setDevice(data: InventoryDevice[]): void {
+  setDevice(data: number): void {
     // this.selectedSim = data
     // //console.log(this.selectedSim)
     this.myDeviceSubject.next(data);

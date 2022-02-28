@@ -14,9 +14,9 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { SitesComponent } from './pages/sites/sites.component';
 import { SlicesComponent } from './pages/slices/slices.component';
-import { ModalComponent } from './pages/modals/delet-card/modal.component';
+import { ModalComponent } from './pages/modals/delete-card/modal.component';
 import { GraphComponent } from './pages/modals/graph-modal/graph.component';
-import { SmallCellsComponent } from './pages/small-cells/small-cells.component';
+import { AlertsComponent } from './pages/alerts/alerts.component';
 import { FormsModule } from '@angular/forms';
 import { JoinerModule } from '../joiner/joiner.module';
 import { NavbarModule } from 'src/app/components/header/navbar/navbar.module';
@@ -29,7 +29,7 @@ import { ChartsModule } from 'ng2-charts';
     SlicesComponent,
     ModalComponent,
     GraphComponent,
-    SmallCellsComponent,
+    AlertsComponent,
     // NavbarComponent,
   ],
   imports: [

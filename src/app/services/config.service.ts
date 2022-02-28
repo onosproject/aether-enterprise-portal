@@ -25,7 +25,9 @@ export class ConfigService {
         if (site['display-name'] == 'Freemont, CA') {
           this.fremontData.push(site.devices);
           // //console.log(this.fremontData);
-        } else if (site['display-name'] == 'Berlin, DE') {
+        }
+        /* istanbul ignore else */
+        if (site['display-name'] == 'Berlin, DE') {
           this.berlinData.push(site.devices);
           // //console.log(this.berlinData);
         }

@@ -34,7 +34,11 @@ export class SitesComponent {
   ) {
     // this.sites = sites[0];
     // //console.log(sites);
-    sitesService.GetAllConfig().subscribe(
+    this.getConfigData();
+  }
+
+  getConfigData(): void {
+    this.sitesService.GetAllConfig().subscribe(
       (response) => {
         // console.log('Site Response', response);
 
@@ -43,6 +47,7 @@ export class SitesComponent {
 
         // logic for alerts start
         let valueOfAlerts = 2;
+
         for (let i = 0; i < this.sites.length; i++) {
           if (i % 2 !== 1 || i === 0) {
             valueOfAlerts += 2;
@@ -88,10 +93,6 @@ export class SitesComponent {
     this.sitesService.siteData = null;
     this.sitesService.sitePlanes = null;
 
-    this.deviceService.mySite(value);
-    // setTimeout(() => {
-    //   this.globalService.mySite(value);
-    // }, 10);
     this.selected = value;
     for (let i = 0; i < siteData.slices.length; i++) {
       const selecteddevice = [];
@@ -147,10 +148,12 @@ export class SitesComponent {
     this.getServices(siteData, value, siteIndex);
 
     // logic for alerts end
+    this.deviceService.mySite(value);
 
     // console.log('+++++', siteData.slices);
   }
   getServices(siteData: Site, value: string, siteIndex: number): void {
+    // console.log(siteData);
     for (let i = 0; i < siteData.slices.length; i++) {
       const selectedService = [];
       const service = [];

@@ -12,11 +12,11 @@ import { SitesService } from 'src/app/services/sites/sites.service';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
-  selector: 'aep-small-cells',
-  templateUrl: './small-cells.component.html',
-  styleUrls: ['./small-cells.component.scss'],
+  selector: 'aep-alerts',
+  templateUrl: './alerts.component.html',
+  styleUrls: ['./alerts.component.scss'],
 })
-export class SmallCellsComponent implements OnInit {
+export class AlertsComponent implements OnInit {
   @Output() informParent = new EventEmitter();
 
   parent: number = 0;
@@ -37,8 +37,8 @@ export class SmallCellsComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private route: Router,
-    private snackBar: MatSnackBar,
+    public route: Router,
+    public snackBar: MatSnackBar,
     private sitesService: SitesService
   ) {
     this.tickets = smallCell[0][0].tickets;
@@ -123,7 +123,7 @@ export class SmallCellsComponent implements OnInit {
         object = this.smallCells.splice(index, 1);
         smallCell[0][0].history.push(object[0]);
 
-        this.snackBar.openFromComponent(PizzaPartyComponent, {
+        this.snackBar.openFromComponent(SnackBarComponent, {
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
           duration: 2000,
@@ -138,7 +138,7 @@ export class SmallCellsComponent implements OnInit {
         let object = [];
         object = this.tickets.splice(index, 1);
         smallCell[0][0].history.push(object[0]);
-        this.snackBar.openFromComponent(PizzaPartyComponent, {
+        this.snackBar.openFromComponent(SnackBarComponent, {
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
           duration: 2000,
@@ -205,4 +205,4 @@ export class SmallCellsComponent implements OnInit {
     `,
   ],
 })
-export class PizzaPartyComponent {}
+export class SnackBarComponent {}

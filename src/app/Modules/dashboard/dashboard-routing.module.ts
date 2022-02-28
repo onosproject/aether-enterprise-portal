@@ -7,11 +7,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
-import { SmallCellsComponent } from './pages/small-cells/small-cells.component';
+import { AlertsComponent } from './pages/alerts/alerts.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
-  { path: 'Small-Cells', component: SmallCellsComponent },
+  { path: 'Small-Cells', component: AlertsComponent },
 ];
 
 @NgModule({

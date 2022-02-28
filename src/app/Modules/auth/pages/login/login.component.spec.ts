@@ -9,7 +9,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { ReactiveFormsModule } from '@angular/forms/';
 import { RouterTestingModule } from '@angular/router/testing';
-
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
@@ -29,5 +28,36 @@ describe('LoginComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should run #ngOnInit()', async () => {
+    component.form = component.formBuilder.group({
+      email: component.email,
+      password: component.password,
+    });
+    spyOn(component.formBuilder, 'group');
+    component.ngOnInit();
+    // expect(component.formBuilder.group).toHaveBeenCalled();
+  });
+
+  it('should run #getErrorMessage()', async () => {
+    component.email = component.email;
+    spyOn(component.email, 'hasError');
+    component.password = component.password;
+    spyOn(component.password, 'hasError');
+    component.getErrorMessage();
+    // expect(component.email.hasError).toHaveBeenCalled();
+    // expect(component.password.hasError).toHaveBeenCalled();
+  });
+
+  it('should run #onSubmit()', async () => {
+    component.onSubmit();
+  });
+
+  it('should run #goToForgotPassword()', async () => {
+    component.route = component.route;
+    spyOn(component.route, 'navigate');
+    component.goToForgotPassword();
+    // expect(component.route.navigate).toHaveBeenCalled();
   });
 });

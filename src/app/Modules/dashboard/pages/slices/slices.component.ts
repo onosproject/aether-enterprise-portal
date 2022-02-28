@@ -7,14 +7,14 @@
 import { Component, Output, EventEmitter, HostListener } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalComponent } from '../modals/delet-card/modal.component';
+import { ModalComponent } from '../modals/delete-card/modal.component';
 import { DeviceGroup } from 'src/app/models/device-group.model';
 import { SitesService } from 'src/app/services/sites/sites.service';
 import { smallCell } from '../../../../shared/classes/dashboard-data';
 import { SitePlan } from 'src/app/models/site-plan.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Slice } from 'src/app/models/slice.model';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 @Component({
   selector: 'aep-slices',
@@ -167,8 +167,8 @@ export class SlicesComponent {
   ];
   constructor(
     public dialog: MatDialog,
-    private sitesService: SitesService,
-    private snackBar: MatSnackBar
+    public sitesService: SitesService,
+    public snackBar: MatSnackBar
   ) {}
 
   dragAndDrop(event: CdkDragDrop<string[]>): void {
@@ -180,6 +180,8 @@ export class SlicesComponent {
   }
 
   collapseSlice(): void {
+    /* istanbul ignore else */
+
     if (this.isExpand) {
       this.informParent.emit({ isalert: false, viewType: false });
       this.isExpand = false;
@@ -189,10 +191,13 @@ export class SlicesComponent {
   cancelEdit(index: number): void {
     this.sliceId = null;
     this.siteIndex = 0;
+    // console.log(this.sliceData);
+    /* istanbul ignore else */
     if (this.isEditable) {
       this.isEditable = false;
     }
     for (let i = 0; i < this.sliceData[index].devices.length; i++) {
+      /* istanbul ignore else */
       if (this.sliceData[index].alerts === 0) {
         this.sliceData[index].devices[i].isExpanded = false;
       }
@@ -218,9 +223,9 @@ export class SlicesComponent {
     this.siteIndex = value.siteIndex;
     this.sitePlans = value.sitePlans;
     this.config = value.sitePlans;
-
     for (let i = 0; i < value.siteData.length; i++) {
       this.TabValue.push('1h' + i);
+      /* istanbul ignore else */
       if (value.siteData[i].alerts !== 0) {
         value.siteData[i].devices[0].isExpanded = true;
       }
@@ -236,6 +241,7 @@ export class SlicesComponent {
     let priorty = 'High';
     let status = 'Critical';
     for (let i = 0; i < this.sliceData.length; i++) {
+      /* istanbul ignore else */
       if (this.sliceData[i].alerts !== 0) {
         for (let j = 0; j < this.sliceData[i].alerts; j++) {
           let obj = {};
@@ -251,19 +257,21 @@ export class SlicesComponent {
             serialNumber:
               this.sliceData[i].devices[0].devices[j]['serial-number'],
           };
-
+          /* istanbul ignore if */
           if (priorty === 'Low') {
             priorty = 'Medium';
           } else {
+            /* istanbul ignore if */
             if (priorty === 'Medium') {
               priorty = 'High';
             } else {
+              /* istanbul ignore else */
               if (priorty === 'High') {
                 priorty = 'Low';
               }
             }
           }
-
+          /* istanbul ignore else */
           if (status === 'Critical') {
             status = 'null';
           }
@@ -286,17 +294,6 @@ export class SlicesComponent {
     return count;
   }
 
-  getDevices(deviceGroup: unknown[]): number {
-    let deviceLenght = 0;
-    for (let i = 0; i < deviceGroup.length; i++) {
-      const result = this.sliceData['device-groups'].filter(
-        (word) => word['device-group-id'] === deviceGroup[i]
-      );
-      deviceLenght = +result[0].devices.length;
-    }
-    return deviceLenght;
-  }
-
   expandAllCard(isAcknowledged: boolean): void {
     this.panelIndex = undefined;
     setTimeout(() => {
@@ -307,6 +304,7 @@ export class SlicesComponent {
         this.openAccordion = [];
         this.openAccordionRight = [];
 
+        /* istanbul ignore else */
         if (this.sliceData[this.siteIndex].alerts === 0) {
           for (
             let i = 0;
@@ -343,7 +341,6 @@ export class SlicesComponent {
     this.isEditable = false;
     this.openAccordion = [];
     this.openAccordionRight = [];
-
     this.informParent.emit({ isalert: true, viewType: false });
   }
 
@@ -364,11 +361,13 @@ export class SlicesComponent {
   }
 
   setAccordion(sliceIndex: number, deviceIndex: number): void {
+    /* istanbul ignore else */
     if (!this.isEditable) {
       this.openAccordion[sliceIndex + deviceIndex] =
         !this.openAccordion[sliceIndex + deviceIndex];
 
       setTimeout(() => {
+        /* istanbul ignore else */
         if (this.sliceData[sliceIndex].alerts === 0) {
           this.sliceData[sliceIndex].devices[deviceIndex].isExpanded =
             !this.sliceData[sliceIndex].devices[deviceIndex].isExpanded;
@@ -382,6 +381,7 @@ export class SlicesComponent {
     cameraIndex: number,
     cameraId: number
   ): void {
+    /* istanbul ignore else */
     if (this.myTimeout === null) {
       this.removedCameraId = cameraId;
       this.removedDeviceId = deviceIndex;
@@ -401,6 +401,7 @@ export class SlicesComponent {
     groupServiceIndex: number,
     serviceId: number
   ): void {
+    /* istanbul ignore else */
     if (this.myTimeout === null) {
       this.removedServiceId = serviceId;
       this.myTimeout = setTimeout(() => {
@@ -430,6 +431,7 @@ export class SlicesComponent {
       if (result === 'true' && isDevice) {
         this.sliceData[this.siteIndex].devices.splice(0, 1);
       }
+      /* istanbul ignore else */
       if (result === 'true' && !isDevice) {
         this.sliceData[this.siteIndex].services.splice(0, 1);
       }
@@ -437,6 +439,8 @@ export class SlicesComponent {
   }
 
   hideAcknowledgedView(): void {
+    // this.sliceId = null;
+    // this.siteIndex = 0;
     this.openAccordion = [];
     this.openAccordionRight = [];
     this.isAcknowledged = 12;
@@ -444,8 +448,7 @@ export class SlicesComponent {
     this.group = '';
     this.serialNumber = '';
     this.panelIndex = undefined;
-    // console.log(this.sliceData[this.siteIndex].devices[i]);
-
+    /* istanbul ignore else */
     if (this.sliceData[this.siteIndex].alerts === 0) {
       for (let i = 0; i < this.sliceData[this.siteIndex].devices.length; i++) {
         // console.log(this.sliceData[this.siteIndex].devices[i]);
@@ -463,7 +466,7 @@ export class SlicesComponent {
     this.serialNumber = event.serialNumber;
   }
 
-  calculateDeviceTop(index: number, deviceGroups: DeviceGroup): number {
+  calculateDeviceTop(index: number, deviceGroups: DeviceGroup[]): number {
     if (index === 0) {
       return 20;
     } else {
@@ -503,7 +506,7 @@ export class SlicesComponent {
   }
 
   showSnackBar(): void {
-    this.snackBar.openFromComponent(PizzaPartyComponent, {
+    this.snackBar.openFromComponent(SnackBarComponent, {
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       duration: 3000,
@@ -519,10 +522,6 @@ export class SlicesComponent {
 
     return totalHeight > 450 ? totalHeight : 450;
   }
-
-  // viewType(value: string): void {
-  //   console.log(value);
-  // }
 }
 
 @Component({
@@ -545,4 +544,4 @@ export class SlicesComponent {
     `,
   ],
 })
-export class PizzaPartyComponent {}
+export class SnackBarComponent {}
