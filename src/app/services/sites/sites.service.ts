@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Slice } from 'src/app/models/slice.model';
+import { SitePlan } from 'src/app/models/site-plan.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class SitesService {
   siteId: string;
   siteIndex: number;
   siteData: Slice[];
+  sitePlanes: SitePlan;
   numberOfAlerts: number;
   allSmallCellsData;
 

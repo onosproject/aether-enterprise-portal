@@ -11,15 +11,16 @@ import { SimInventory } from '../models/sim-inventory.model';
 import { InventoryDevice } from '../models/inventory-device.model';
 // import { DeviceSimComponent } from '../Modules/settings/device-sim/device-sim.component';
 import { TimelineData } from '../models/timeline.model';
+import { environment } from '../../environments/environment';
 // import { Config } from '../models/config.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeviceSimService {
-  apiUrl: string = 'https://chronos-dev.onlab.us/chronos-exporter/config';
+  apiUrl: string = environment.baseUrl + 'chronos-exporter/config';
 
-  promApiUrl: string = 'https://chronos-dev.onlab.us/prometheus/api/v1';
+  promApiUrl: string = environment.baseUrl + 'prometheus/api/v1';
 
   siteIds: string[] = [];
 
