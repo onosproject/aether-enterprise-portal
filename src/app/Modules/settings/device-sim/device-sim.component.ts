@@ -38,7 +38,6 @@ import { Config } from 'src/app/models/config.model';
 import { TimesObject } from 'src/app/models/times-object.model';
 import { TimelineTimes } from 'src/app/models/timeline-times.model';
 import { TimelineData } from 'src/app/models/timeline.model';
-
 @Component({
   selector: 'aep-device-sim',
   templateUrl: './device-sim.component.html',
@@ -361,6 +360,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       this.selectedDate = index;
       this.dateSelected = date;
     }
+    this.zoomgraph(false, this.zoomIn + 1);
   }
   zoomgraph(value: boolean, zoomIn: number): void {
     // this.getCurrentSite();

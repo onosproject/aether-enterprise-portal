@@ -21,15 +21,11 @@
                 <div class="chart-bx-left py-1 px-2">
                   <h4 class="chart-bx-h">All Slices</h4>
                   <div class="percentage-indicator">
-                    <p>
-                      80%
-                      <span class="text-success"
-                        ><img src="assets/AdminPanel/traingle.svg" /> 10%
-                      </span>
-                    </p>
+                    <p>64%</p>
                   </div>
+                  <p class="compare-detail">Throughput</p>
                   <p class="compare-detail">
-                    Bandwidth compared to 85% last hour
+                    Bandwidth Available: <strong>10 Gbps</strong>
                   </p>
                 </div>
               </div>
@@ -51,15 +47,13 @@
                   <h4 class="chart-bx-h">All Slices</h4>
                   <div class="percentage-indicator">
                     <p>
-                      80%
+                      0.05%
                       <span class="text-success"
                         ><img src="assets/AdminPanel/traingle.svg" /> 10%
                       </span>
                     </p>
                   </div>
-                  <p class="compare-detail">
-                    Bandwidth compared to 85% last hour
-                  </p>
+                  <p class="compare-detail">Packet Loss</p>
                 </div>
               </div>
               <div class="col-lg-6">
@@ -101,17 +95,7 @@
                           <p class="no-highlights">0 Alerts</p>
                         </div>
                       </div>
-                      <!-- <div
-                        class="highlighted-counting"
-                        *ngIf="siteId === 'berlin'"
-                      >
-                        <div class="card-icon">
-                          <img src="assets/AdminPanel/alert.svg" />
-                        </div>
-                        <div class="card-category">
-                          <p class="no-highlights">0 Alerts</p>
-                        </div>
-                      </div> -->
+                      -->
                     </div>
                   </div>
                   <p class="compare-detail mb-0" *ngIf="siteId !== 0">
@@ -173,6 +157,7 @@
                   let planIndex = index
                 "
                 [value]="planIndex"
+                (click)="slices.selectedPlan = planIndex"
               >
                 {{ plan.id }}
               </mat-button-toggle>
@@ -185,11 +170,22 @@
               class="section-group-btn"
               [(ngModel)]="viewType"
             >
-              <mat-button-toggle value="Logical" (click)="getSlices()"
+              <mat-button-toggle
+                value="Logical"
+                (click)="getSlices(); slices.viewType = 'Logical'"
                 >Logical</mat-button-toggle
               >
               <mat-button-toggle
+                *ngIf="config === null"
                 [disabled]="config === null"
+                value="Physical"
+                class="border-none"
+                >Physical</mat-button-toggle
+              >
+              <mat-button-toggle
+                *ngIf="config !== null"
+                [disabled]="config === null"
+                (click)="slices.viewType = 'Physical'"
                 value="Physical"
                 class="border-none"
                 >Physical</mat-button-toggle
@@ -197,11 +193,6 @@
             </mat-button-toggle-group>
           </div>
         </div>
-        <!-- <aep-slices
-          #slices
-          (informParent)="parentWillTakeActionSlice()"
-          *ngIf="viewType === 'Logical'"
-        ></aep-slices> -->
       </div>
       <div *ngIf="isAcknowledged === 8" class="col-lg-4">
         <div class="site-visite-bx">
@@ -216,10 +207,8 @@
       <aep-slices
         #slices
         (informParent)="parentWillTakeActionSlice($event)"
-        *ngIf="viewType === 'Logical'"
       ></aep-slices>
-      <div *ngIf="viewType === 'Physical'" class="dashboard__physical-view">
-        <!-- <svg></svg> -->
+      <!-- <div *ngIf="viewType === 'Physical'" class="dashboard__physical-view">
         <img
           class="dashboard__physical-view__image"
           [src]="
@@ -311,7 +300,7 @@
             </mat-menu>
           </div>
         </ng-container>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
