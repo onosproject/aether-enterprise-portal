@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -19,6 +19,7 @@ import { DeleteSlicesComponent } from '../dialogs/delete-slices/delete-slices.co
 import { Config } from 'src/app/models/config.model';
 import { Service } from 'src/app/models/service.model';
 import { DeviceGroup } from 'src/app/models/device-group.model';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'aep-slices1',
@@ -38,6 +39,7 @@ import { DeviceGroup } from 'src/app/models/device-group.model';
   styles: [],
 })
 export class SlicesComponent implements OnInit {
+  @ViewChild('stepper', { static: false }) stepper: MatStepper;
   listConnectViewToggle: boolean = true;
   editMissionCriticalSliceForm: boolean = false;
   detailsContent: boolean = false;
@@ -52,6 +54,7 @@ export class SlicesComponent implements OnInit {
   editAddServices: boolean = false;
   isLinear = false;
   // firstFormGroup: FormGroup;
+  addNewSliceError: boolean = false;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   summaryForm: FormGroup;
@@ -110,6 +113,10 @@ export class SlicesComponent implements OnInit {
 
     this.assignSelectedSite();
   }
+
+  firstFormError: boolean = false;
+
+  firstFormComplete: boolean = false;
 
   config = [];
 
@@ -197,19 +204,40 @@ export class SlicesComponent implements OnInit {
   downlink: string[] = ['3-4 GHz', '11-12 GHz', '17-21 GHz'];
 
   // formGroups
-  firstFormGroup = new FormGroup({
-    sliceName: new FormControl('', Validators.required),
-    sliceType: new FormControl('', Validators.required),
-    mbr: new FormControl('', Validators.required),
-    gbr: new FormControl('', Validators.required),
-    trafficClass: new FormControl('', Validators.required),
-    uplink: new FormControl('', Validators.required),
-    downlink: new FormControl('', Validators.required),
-  });
+  firstFormGroup = new FormGroup({});
+
+  summarySliceEditFormGroup = new FormGroup({});
+
+  newFormGroup(): void {
+    this.addNewSliceError = false;
+    this.firstFormError = false;
+    this.firstFormGroup = new FormGroup({
+      sliceName: new FormControl('', Validators.required),
+      sliceType: new FormControl('', Validators.required),
+      mbr: new FormControl('', Validators.required),
+      gbr: new FormControl('', Validators.required),
+      trafficClass: new FormControl('', Validators.required),
+      uplink: new FormControl('', Validators.required),
+      downlink: new FormControl('', Validators.required),
+    });
+  }
+
+  firstFormNext(): void {
+    this.firstFormError = false;
+    if (this.firstFormGroup.invalid) {
+      this.firstFormError = true;
+      this.stepper.selected.completed = false;
+    }
+    if (this.firstFormGroup.valid) {
+      this.firstFormComplete = true;
+      this.stepper.next();
+      this.stepper.selected.completed = true;
+    }
+  }
 
   summaryTrigger(): void {
     this.summaryBool = true;
-    //console.log(this.summaryArray);
+    console.log(this.summaryArray);
     this.summaryArray.push({
       summarySliceName: this.firstFormGroup.value.sliceName,
       summarySliceType: this.firstFormGroup.value.sliceType,
@@ -219,6 +247,7 @@ export class SlicesComponent implements OnInit {
       summarymbr: this.firstFormGroup.value.mbr,
       summarygbr: this.firstFormGroup.value.gbr,
     });
+    console.log(this.summaryArray);
     this.summaryArray[0].form = new FormGroup({
       sliceName: new FormControl(this.summaryArray[0].summarySliceName),
       sliceType: new FormControl(this.summaryArray[0].summarySliceType),
@@ -228,6 +257,7 @@ export class SlicesComponent implements OnInit {
       uplink: new FormControl(this.summaryArray[0].summaryUplink),
       downlink: new FormControl(this.summaryArray[0].summaryDownlink),
     });
+    this.summarySliceEditFormGroup = this.summaryArray[0].form;
     //console.log(this.summaryArray[0].summarySliceType);
   }
 
@@ -308,72 +338,77 @@ export class SlicesComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const applications = [];
-    const deviceGroups = [];
-    const summaryForm = this.summaryArray[0].form.value;
-    this.selectedServices.forEach((service) => {
-      applications.push(service);
-    });
-    this.selectedDeviceGroups.forEach((deviceGroup) => {
-      deviceGroups.push(deviceGroup);
-    });
-    this.siteSlices.push({
-      applications: applications,
-      'device-groups': deviceGroups,
-      'display-name': summaryForm.sliceName + ' Slice',
-      'slice-type': summaryForm.sliceType,
-      downlink: this.firstFormGroup.value.downlink,
-      uplink: this.firstFormGroup.value.uplink,
-      'traffic-class': this.firstFormGroup.value.trafficClass,
-      mbr: this.firstFormGroup.value.mbr,
-      gbr: this.firstFormGroup.value.gbr,
-    });
-    for (
-      let selectedIndex = 0;
-      selectedIndex < this.selectedDeviceGroups.length;
-      selectedIndex++
-    ) {
-      // slice['device-groups'].push(this.selectedAddDeviceGroups[selectedIndex]);
+    this.addNewSliceError = false;
+    if (this.summarySliceEditFormGroup.invalid) {
+      this.addNewSliceError = true;
+    }
+    if (this.summarySliceEditFormGroup.valid) {
+      const applications = [];
+      const deviceGroups = [];
+      const summaryForm = this.summaryArray[0].form.value;
+      this.selectedServices.forEach((service) => {
+        applications.push(service);
+      });
+      this.selectedDeviceGroups.forEach((deviceGroup) => {
+        deviceGroups.push(deviceGroup);
+      });
+      this.siteSlices.push({
+        applications: applications,
+        'device-groups': deviceGroups,
+        'display-name': summaryForm.sliceName + ' Slice',
+        'slice-type': summaryForm.sliceType,
+        downlink: this.firstFormGroup.value.downlink,
+        uplink: this.firstFormGroup.value.uplink,
+        'traffic-class': this.firstFormGroup.value.trafficClass,
+        mbr: this.firstFormGroup.value.mbr,
+        gbr: this.firstFormGroup.value.gbr,
+      });
       for (
-        let inventoryIndex = 0;
-        inventoryIndex < this.deviceGroupsInventory.length;
-        inventoryIndex++
+        let selectedIndex = 0;
+        selectedIndex < this.selectedDeviceGroups.length;
+        selectedIndex++
       ) {
-        if (
-          this.deviceGroupsInventory[inventoryIndex]['device-group-id'] ==
-          this.selectedDeviceGroups[selectedIndex]['device-group-id']
+        // slice['device-groups'].push(this.selectedAddDeviceGroups[selectedIndex]);
+        for (
+          let inventoryIndex = 0;
+          inventoryIndex < this.deviceGroupsInventory.length;
+          inventoryIndex++
         ) {
-          this.deviceGroupsInventory.splice(inventoryIndex, 1);
+          if (
+            this.deviceGroupsInventory[inventoryIndex]['device-group-id'] ==
+            this.selectedDeviceGroups[selectedIndex]['device-group-id']
+          ) {
+            this.deviceGroupsInventory.splice(inventoryIndex, 1);
+          }
         }
       }
-    }
-    this.selectedDeviceGroups.splice(0, this.selectedDeviceGroups.length);
+      this.selectedDeviceGroups.splice(0, this.selectedDeviceGroups.length);
 
-    for (
-      let selectedIndex = 0;
-      selectedIndex < this.selectedServices.length;
-      selectedIndex++
-    ) {
-      // slice['device-groups'].push(this.selectedAddDeviceGroups[selectedIndex]);
       for (
-        let inventoryIndex = 0;
-        inventoryIndex < this.servicesInventory.length;
-        inventoryIndex++
+        let selectedIndex = 0;
+        selectedIndex < this.selectedServices.length;
+        selectedIndex++
       ) {
-        if (
-          this.servicesInventory[inventoryIndex]['application-id'] ==
-          this.selectedServices[selectedIndex]['application-id']
+        // slice['device-groups'].push(this.selectedAddDeviceGroups[selectedIndex]);
+        for (
+          let inventoryIndex = 0;
+          inventoryIndex < this.servicesInventory.length;
+          inventoryIndex++
         ) {
-          this.servicesInventory.splice(inventoryIndex, 1);
+          if (
+            this.servicesInventory[inventoryIndex]['application-id'] ==
+            this.selectedServices[selectedIndex]['application-id']
+          ) {
+            this.servicesInventory.splice(inventoryIndex, 1);
+          }
         }
       }
+      this.selectedServices.splice(0, this.selectedServices.length);
+      //console.log(this.selectedDeviceGroups, this.deviceGroupsInventory);
+      //console.log(this.siteSlices);
+      this.emptySummaryArray();
+      this.createNewSlices = false;
     }
-    this.selectedServices.splice(0, this.selectedServices.length);
-    //console.log(this.selectedDeviceGroups, this.deviceGroupsInventory);
-    //console.log(this.siteSlices);
-    this.emptySummaryArray();
-    this.firstFormGroup.reset();
-    this.createNewSlices = false;
   }
 
   assignSelectedSite(): void {
@@ -439,9 +474,9 @@ export class SlicesComponent implements OnInit {
         //   totalDevicesArray.push(...slices['device-groups'][0].devices);
         //   //console.log(totalDevicesArray);
         // });
-        //console.log(this.siteServices);
-        //console.log(this.siteDeviceGroups);
-        //console.log(this.siteSlices);
+        console.log(this.siteServices);
+        console.log(this.siteDeviceGroups);
+        console.log(this.siteSlices);
         // //console.log(this.config);
         // this.totalDevicesArray = totalDevicesArray
       });
@@ -528,6 +563,7 @@ export class SlicesComponent implements OnInit {
   createNewSlicesFun(): void {
     this.closeExpand();
     this.closeEditView();
+    this.newFormGroup();
     this.createNewSlices = true;
   }
 

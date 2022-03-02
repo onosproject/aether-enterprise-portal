@@ -58,11 +58,36 @@
                       formControlName="sliceName"
                       id="sliceName"
                       placeholder="device group name"
+                      [ngClass]="{
+                        'is-invalid':
+                          (firstFormError ||
+                            firstFormGroup.get('sliceName').touched) &&
+                          firstFormGroup.get('sliceName').invalid
+                      }"
                     />
+                    <div
+                      *ngIf="
+                        (firstFormError ||
+                          firstFormGroup.get('sliceName').touched) &&
+                        firstFormGroup.get('sliceName').invalid
+                      "
+                      class="error-field"
+                    >
+                      Slice name is required
+                    </div>
                   </div>
                   <div class="mat-select-box my-2 mx-3">
                     <h4 class="my-1">Select slice type</h4>
-                    <mat-form-field class="my-1" appearance="fill">
+                    <mat-form-field
+                      class="my-1"
+                      appearance="fill"
+                      [ngClass]="{
+                        'is-invalid':
+                          (firstFormError ||
+                            firstFormGroup.get('sliceType').touched) &&
+                          firstFormGroup.get('sliceType').invalid
+                      }"
+                    >
                       <mat-select
                         placeholder="Select Slice Type"
                         formControlName="sliceType"
@@ -77,10 +102,29 @@
                         >
                       </mat-select>
                     </mat-form-field>
+                    <div
+                      *ngIf="
+                        (firstFormError ||
+                          firstFormGroup.get('sliceType').touched) &&
+                        firstFormGroup.get('sliceType').invalid
+                      "
+                      class="error-field"
+                    >
+                      Slice type is required
+                    </div>
                   </div>
                   <div class="mat-select-box my-2 mx-3">
                     <h4 class="my-1">MBR</h4>
-                    <mat-form-field class="my-1" appearance="fill">
+                    <mat-form-field
+                      class="my-1"
+                      appearance="fill"
+                      [ngClass]="{
+                        'is-invalid':
+                          (firstFormError ||
+                            firstFormGroup.get('mbr').touched) &&
+                          firstFormGroup.get('mbr').invalid
+                      }"
+                    >
                       <mat-select
                         placeholder="Max Bit Rate"
                         formControlName="mbr"
@@ -95,10 +139,29 @@
                         >
                       </mat-select>
                     </mat-form-field>
+                    <div
+                      *ngIf="
+                        (firstFormError ||
+                          firstFormGroup.get('sliceType').touched) &&
+                        firstFormGroup.get('sliceType').invalid
+                      "
+                      class="error-field"
+                    >
+                      MBR is required
+                    </div>
                   </div>
                   <div class="mat-select-box my-2 mx-3">
                     <h4 class="my-1">GBR</h4>
-                    <mat-form-field class="my-1" appearance="fill">
+                    <mat-form-field
+                      class="my-1"
+                      appearance="fill"
+                      [ngClass]="{
+                        'is-invalid':
+                          (firstFormError ||
+                            firstFormGroup.get('gbr').touched) &&
+                          firstFormGroup.get('gbr').invalid
+                      }"
+                    >
                       <mat-select
                         placeholder="Guaranteed Bit Rate"
                         formControlName="gbr"
@@ -113,10 +176,28 @@
                         >
                       </mat-select>
                     </mat-form-field>
+                    <div
+                      *ngIf="
+                        (firstFormError ||
+                          firstFormGroup.get('sliceType').touched) &&
+                        firstFormGroup.get('sliceType').invalid
+                      "
+                      class="error-field"
+                    >
+                      GBR is required
+                    </div>
                   </div>
                   <div class="mat-select-box my-2 mx-3">
                     <h4>traffic class</h4>
-                    <mat-form-field appearance="fill">
+                    <mat-form-field
+                      appearance="fill"
+                      [ngClass]="{
+                        'is-invalid':
+                          (firstFormError ||
+                            firstFormGroup.get('trafficClass').touched) &&
+                          firstFormGroup.get('trafficClass').invalid
+                      }"
+                    >
                       <mat-select
                         placeholder="Select a Class"
                         formControlName="trafficClass"
@@ -131,10 +212,28 @@
                         >
                       </mat-select>
                     </mat-form-field>
+                    <div
+                      *ngIf="
+                        (firstFormError ||
+                          firstFormGroup.get('sliceType').touched) &&
+                        firstFormGroup.get('sliceType').invalid
+                      "
+                      class="error-field"
+                    >
+                      Traffic Class is required
+                    </div>
                   </div>
                   <div class="mat-select-box my-2 mx-3">
                     <h4>uplink</h4>
-                    <mat-form-field appearance="fill">
+                    <mat-form-field
+                      appearance="fill"
+                      [ngClass]="{
+                        'is-invalid':
+                          (firstFormError ||
+                            firstFormGroup.get('uplink').touched) &&
+                          firstFormGroup.get('uplink').invalid
+                      }"
+                    >
                       <mat-select
                         placeholder="Frequency in GHz"
                         formControlName="uplink"
@@ -146,10 +245,28 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
+                    <div
+                      *ngIf="
+                        (firstFormError ||
+                          firstFormGroup.get('sliceType').touched) &&
+                        firstFormGroup.get('sliceType').invalid
+                      "
+                      class="error-field"
+                    >
+                      Uplink Frequency is required
+                    </div>
                   </div>
                   <div class="mat-select-box my-2 mx-3">
                     <h4>Downlink</h4>
-                    <mat-form-field appearance="fill">
+                    <mat-form-field
+                      appearance="fill"
+                      [ngClass]="{
+                        'is-invalid':
+                          (firstFormError ||
+                            firstFormGroup.get('downlink').touched) &&
+                          firstFormGroup.get('downlink').invalid
+                      }"
+                    >
                       <mat-select
                         placeholder="Frequency in GHz"
                         formControlName="downlink"
@@ -164,6 +281,16 @@
                         >
                       </mat-select>
                     </mat-form-field>
+                    <div
+                      *ngIf="
+                        (firstFormError ||
+                          firstFormGroup.get('sliceType').touched) &&
+                        firstFormGroup.get('sliceType').invalid
+                      "
+                      class="error-field"
+                    >
+                      Downlink Frequency is required
+                    </div>
                   </div>
                 </div>
               </div>
@@ -176,7 +303,21 @@
                 >
                   Cancel
                 </button>
-                <button mat-button matStepperNext class="next-btn">Next</button>
+                <button
+                  mat-button
+                  (click)="firstFormNext()"
+                  *ngIf="!firstFormGroup.pristine"
+                  class="next-btn-active"
+                >
+                  Next
+                </button>
+                <button
+                  mat-button
+                  class="next-btn-inactive"
+                  *ngIf="firstFormGroup.pristine"
+                >
+                  Next
+                </button>
               </div>
             </form>
           </mat-step>
@@ -236,7 +377,21 @@
                 <button mat-button matStepperPrevious class="back-btn">
                   Back
                 </button>
-                <button mat-button matStepperNext class="next-btn">Next</button>
+                <button
+                  mat-button
+                  matStepperNext
+                  class="next-btn-active"
+                  *ngIf="selectedDeviceGroups.length > 0"
+                >
+                  Next
+                </button>
+                <button
+                  mat-button
+                  class="next-btn-inactive"
+                  *ngIf="selectedDeviceGroups.length < 1"
+                >
+                  Next
+                </button>
               </div>
             </form>
           </mat-step>
@@ -303,8 +458,16 @@
                 <button
                   mat-button
                   matStepperNext
-                  class="next-btn"
+                  class="next-btn-active"
                   (click)="summaryTrigger()"
+                  *ngIf="selectedServices.length > 0"
+                >
+                  Next
+                </button>
+                <button
+                  mat-button
+                  class="next-btn-inactive"
+                  *ngIf="selectedServices.length < 1"
                 >
                   Next
                 </button>
@@ -318,7 +481,10 @@
               <div class="add-slices-summary d-flex">
                 <div class="col-12">
                   <div class="selected-items d-flex flex-wrap">
-                    <form>
+                    <form
+                      [formGroup]="summarySliceEditFormGroup"
+                      *ngIf="summaryBool"
+                    >
                       <div class="d-flex selected-new-slices-fields">
                         <div class="mat-select-box my-1 mx-1">
                           <mat-label class="form-label">Slices Name </mat-label>
@@ -335,7 +501,25 @@
                             "
                             id="sliceName"
                             placeholder="device group name"
+                            [ngClass]="{
+                              'is-invalid':
+                                (addNewSliceError ||
+                                  summaryArray[0].form.get('sliceName')
+                                    .touched) &&
+                                summaryArray[0].form.get('sliceName').invalid
+                            }"
                           />
+                          <div
+                            *ngIf="
+                              (addNewSliceError ||
+                                summaryArray[0].form.get('sliceName')
+                                  .touched) &&
+                              summaryArray[0].form.get('sliceName').invalid
+                            "
+                            class="error-field"
+                          >
+                            Slice name is required
+                          </div>
                           <!-- <mat-label class="form-label"
                                 >Slices Name
                               </mat-label>
@@ -355,6 +539,13 @@
                             *ngIf="summaryBool"
                             class="my-1"
                             appearance="fill"
+                            [ngClass]="{
+                              'is-invalid':
+                                (addNewSliceError ||
+                                  summaryArray[0].form.get('sliceType')
+                                    .touched) &&
+                                summaryArray[0].form.get('sliceType').invalid
+                            }"
                           >
                             <mat-select
                               [formControl]="
@@ -375,6 +566,17 @@
                               >
                             </mat-select>
                           </mat-form-field>
+                          <div
+                            *ngIf="
+                              (addNewSliceError ||
+                                summaryArray[0].form.get('sliceType')
+                                  .touched) &&
+                              summaryArray[0].form.get('sliceType').invalid
+                            "
+                            class="error-field"
+                          >
+                            Slice Type is required
+                          </div>
                           <!-- <mat-label class="form-label"
                                 >Select Slices Type
                               </mat-label>
@@ -394,6 +596,12 @@
                             *ngIf="summaryBool"
                             class="my-1"
                             appearance="fill"
+                            [ngClass]="{
+                              'is-invalid':
+                                (addNewSliceError ||
+                                  summaryArray[0].form.get('mbr').touched) &&
+                                summaryArray[0].form.get('mbr').invalid
+                            }"
                           >
                             <mat-label>Max Bit Rate</mat-label>
                             <mat-select
@@ -411,6 +619,16 @@
                               >
                             </mat-select>
                           </mat-form-field>
+                          <div
+                            *ngIf="
+                              (addNewSliceError ||
+                                summaryArray[0].form.get('mbr').touched) &&
+                              summaryArray[0].form.get('mbr').invalid
+                            "
+                            class="error-field"
+                          >
+                            MBR is required
+                          </div>
                           <!-- <mat-label class="form-label">MBR </mat-label>
                               <input
                                 *ngIf="summaryBool"
@@ -428,6 +646,12 @@
                             *ngIf="summaryBool"
                             class="my-1"
                             appearance="fill"
+                            [ngClass]="{
+                              'is-invalid':
+                                (addNewSliceError ||
+                                  summaryArray[0].form.get('gbr').touched) &&
+                                summaryArray[0].form.get('gbr').invalid
+                            }"
                           >
                             <mat-label>Guaranteed Bit Rate</mat-label>
                             <mat-select
@@ -445,6 +669,16 @@
                               >
                             </mat-select>
                           </mat-form-field>
+                          <div
+                            *ngIf="
+                              (addNewSliceError ||
+                                summaryArray[0].form.get('gbr').touched) &&
+                              summaryArray[0].form.get('gbr').invalid
+                            "
+                            class="error-field"
+                          >
+                            GBR is required
+                          </div>
                           <!-- <mat-label class="form-label">GBR </mat-label>
                               <input
                                 *ngIf="summaryBool"
@@ -462,6 +696,13 @@
                             *ngIf="summaryBool"
                             class="my-1"
                             appearance="fill"
+                            [ngClass]="{
+                              'is-invalid':
+                                (addNewSliceError ||
+                                  summaryArray[0].form.get('trafficClass')
+                                    .touched) &&
+                                summaryArray[0].form.get('trafficClass').invalid
+                            }"
                           >
                             <mat-label>Select a Class</mat-label>
                             <mat-select
@@ -482,6 +723,17 @@
                               >
                             </mat-select>
                           </mat-form-field>
+                          <div
+                            *ngIf="
+                              (addNewSliceError ||
+                                summaryArray[0].form.get('trafficClass')
+                                  .touched) &&
+                              summaryArray[0].form.get('trafficClass').invalid
+                            "
+                            class="error-field"
+                          >
+                            Traffic Class is required
+                          </div>
                           <!-- <mat-label class="form-label"
                                 >Traffic Class
                               </mat-label>
@@ -673,11 +925,21 @@
                       class="label"
                       *ngIf="
                         slices['device-groups'] &&
-                        slices['device-groups'].length > 0
+                        slices['device-groups'].length !== 0
                       "
                     >
                       {{ slices["device-groups"].length }} device groups |
                       {{ getTotalDevices(slices["device-groups"]) }} devices
+                    </div>
+                    <div
+                      class="label"
+                      *ngIf="
+                        slices['device-groups'] &&
+                        slices['device-groups'].length === 0
+                      "
+                    >
+                      {{ slices["device-groups"].length }} device groups | 0
+                      devices
                     </div>
                     <div class="label-view d-flex slices__device-group">
                       <!-- <span class="img file1"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span>
@@ -830,9 +1092,25 @@
                     ></svg:g>
                   </svg:svg>
                   <div class="connected-devices">
-                    <div class="label">
+                    <div
+                      class="label"
+                      *ngIf="
+                        slices['device-groups'] &&
+                        slices['device-groups'].length !== 0
+                      "
+                    >
                       {{ slices["device-groups"].length }} device groups |
                       {{ getTotalDevices(slices["device-groups"]) }} devices
+                    </div>
+                    <div
+                      class="label"
+                      *ngIf="
+                        slices['device-groups'] &&
+                        slices['device-groups'].length === 0
+                      "
+                    >
+                      {{ slices["device-groups"].length }} device groups | 0
+                      devices
                     </div>
                     <div
                       class="label-view d-flex slices__device-group"

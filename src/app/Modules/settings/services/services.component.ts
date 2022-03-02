@@ -118,9 +118,11 @@ export class ServicesComponent implements OnInit {
 
   addNewService(): void {
     this.addNewServiceError = false;
+    /* istanbul ignore else*/
     if (this.addServiceFormGroup.invalid) {
       this.addNewServiceError = true;
-    } else if (this.addServiceFormGroup.valid) {
+    }
+    /* istanbul ignore else*/ if (this.addServiceFormGroup.valid) {
       this.siteApplications.push({
         'display-name': this.addServiceFormGroup.value.appName,
         protocol: this.addServiceFormGroup.value.newProtocol,
@@ -201,6 +203,7 @@ export class ServicesComponent implements OnInit {
         // console.log(config.sites);
         config.sites.forEach((siteConfig) => {
           // console.log(siteConfig);
+          /* istanbul ignore else*/
           if (siteConfig['site-id'] == this.selectedSite) {
             siteSlices.push(siteConfig.slices);
             // console.log(siteSlices);
@@ -255,15 +258,18 @@ export class ServicesComponent implements OnInit {
         });
       });
       this.siteApplications = siteApplications;
-      // console.log(this.siteApplications);
+      console.log(this.siteApplications);
     });
   }
 
   onEdit(serviceIndex: number): void {
     this.editServiceFormError = false;
+    /* istanbul ignore else*/
     if (this.editServiceFormGroup.invalid) {
       this.editServiceFormError = true;
-    } else if (this.editServiceFormGroup.valid) {
+    }
+    /* istanbul ignore else*/
+    if (this.editServiceFormGroup.valid) {
       const service = this.siteApplications[serviceIndex];
       const editForm = this.siteApplications[serviceIndex].form.value;
       service['display-name'] = editForm.appName;
@@ -287,6 +293,7 @@ export class ServicesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      /* istanbul ignore else*/
       if (result == 'true') {
         this.deleteService(serviceIndex);
       }

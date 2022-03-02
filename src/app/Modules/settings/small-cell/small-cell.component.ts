@@ -205,12 +205,20 @@ export class SmallCellComponent implements OnInit {
       this.config?.sites.forEach((site) => {
         if (this.selectedSite === site['site-id']) {
           if (site['site-plans']) {
+            // if (this.viewType !== 'List') {
+            //   this.viewType = 'Physical';
+            // }
             this.sitePlanPresent = true;
             // console.log(this.config?.sites.indexOf(site));
             this.sitePlanPresentIndex = this.config?.sites.indexOf(site);
           } else {
-            this.sitePlanPresent = false;
-            this.showSnackBar();
+            if (this.viewType === 'List') {
+              this.sitePlanPresent = false;
+            } else {
+              this.viewType = 'List';
+              this.sitePlanPresent = false;
+              this.showSnackBar();
+            }
           }
         }
       });

@@ -9,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { SimInventory } from '../models/sim-inventory.model';
 import { InventoryDevice } from '../models/inventory-device.model';
+// import { DeviceSimComponent } from '../Modules/settings/device-sim/device-sim.component';
+import { TimelineData } from '../models/timeline.model';
 // import { Config } from '../models/config.model';
 
 @Injectable({
@@ -37,8 +39,14 @@ export class DeviceSimService {
   myDevice: Observable<InventoryDevice[]>;
   private myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);
 
-  constructor(public http: HttpClient) {
-    this.mySim1 = this.mySimSubject.asObservable();
+  myDevice1: Observable<InventoryDevice>;
+  private myDeviceSubject1 = new BehaviorSubject<InventoryDevice[]>([])
+
+  constructor(
+    public http: HttpClient
+  ) // public deviceSimComp: DeviceSimComponent
+  {
+    // this.mySim1 = this.mySimSubject.asObservable();
     this.myDevice = this.myDeviceSubject.asObservable();
   }
 
@@ -51,6 +59,14 @@ export class DeviceSimService {
 
   getSite(): Observable<string> {
     return this.mySiteSubject.asObservable();
+  }
+
+  getSim1(): Observable<string> {
+    return this.mySimSubject.asObservable();
+  }
+
+  getDevice1(): Observable<InventoryDevice[]> {
+    return this.myDeviceSubject1.asObservable();
   }
 
   mySims(data: SimInventory[]): void {
@@ -72,10 +88,14 @@ export class DeviceSimService {
     return this.myDeviceSubject.asObservable();
   }
 
+  myDevices(data: InventoryDevice[]): void {
+    this.myDeviceSubject.next(data)
+  }
+
   setDevice(data: InventoryDevice[]): void {
     // this.selectedSim = data
     // //console.log(this.selectedSim)
-    this.myDeviceSubject.next(data);
+    this.myDeviceSubject1.next(data);
   }
 
   getData(): Observable<unknown> {
@@ -87,36 +107,110 @@ export class DeviceSimService {
     return this.http.get(this.apiUrl, { headers });
   }
 
-  // getPromData(): any {
-  //   const headers = {
-  //     Accept: 'application/json',
-  //     Authorization:
-  //       'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
-  //     // Authorization: "Basic b25mc3RhZmY6azd5ZXN0RDhLYmRvN0xFZDZGa0hYR0UzeXJ6OGNMVENrc01rbkZ5b0pUdA=="
-  //   };
-  //   const tempQuery: string =
-  //     '/query_range?query=device_connected_status{site="freemont", iccid="123-456-781"}&start=2021-12-27T13:42:00.000Z&end=2021-12-28T13:42:00.000Z&step=60m';
-  //   // const tempQuery1: string = '/labels'
-  //   return this.http.get(this.promApiUrl + tempQuery, { headers });
-  // }
+  promSite: string = '';
+  promIccid: string = '';
+  promPrev: string = '';
+  promCurr: string = '';
 
-  // postData(data): any{
-  //   const headers = {
-  //     Accept: 'application/json',
-  //   };
-  //   return this.http.post(this.apiUrl, data, { headers });
-  // }
+  getPromWeekData(
+    site: string,
+    iccid: string,
+    apiCurr: string,
+    apiPrev: string
+  ): Observable<TimelineData> {
+    const headers = {
+      Accept: 'application/json',
+      Authorization:
+        'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
+    };
+    const query: string =
+      '/query_range?query=device_connected_status{site="' +
+      site +
+      '", iccid="' +
+      iccid +
+      '"}&start=' +
+      apiCurr +
+      '&end=' +
+      apiPrev +
+      '&step=60m';
 
-  // getSiteIds(): any {
-  //   this.getData().subscribe((result) => {
-  //     result.sites.map((site) => {
-  //       this.siteIds.push(site['site-id']);
-  //       // //console.log(this.siteIds)
-  //     });
-  //   });
-  // }
+    // console.log(
+    //   '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
+    //   query
+    // );
+    return this.http.get<TimelineData>(this.promApiUrl + query, {
+      headers,
+    });
+  }
 
-  // selectedId(): any {
-  // //console.log(this.selectedSite)
-  // }
+  getPromDayData(
+    site: string,
+    iccid: string,
+    apiPrevDate: string,
+    apiPrevTime: string,
+    apiCurrDate: string,
+    apiCurrTime: string
+  ): Observable<TimelineData> {
+    const headers = {
+      Accept: 'application/json',
+      Authorization:
+        'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
+    };
+    const query: string =
+      '/query_range?query=device_connected_status{site="' +
+      site +
+      '", iccid="' +
+      iccid +
+      '"}&start=' +
+      apiPrevDate +
+      'T' +
+      apiPrevTime +
+      '.000Z&end=' +
+      apiCurrDate +
+      'T' +
+      apiCurrTime +
+      '.000Z&step=60m';
+
+    // console.log(
+    //   '+++++++++++++++++++++++++++++++++++++++++ ||||||||||||||||||||||||',
+    //   query
+    // );
+    return this.http.get<TimelineData>(this.promApiUrl + query, {
+      headers,
+    });
+  }
+
+  getPromDotsData(
+    site: string,
+    iccid: string,
+    apiPrevDate: string,
+    apiPrevTime: string,
+    apiCurrDate: string,
+    apiCurrTime: string
+  ): Observable<TimelineData> {
+    const headers = {
+      Accept: 'application/json',
+      // Authorization:
+      //   'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
+    };
+    const query: string =
+      '/query_range?query=device_connection_event_core{site="' +
+      site +
+      '", iccid="' +
+      iccid +
+      '"}&start=' +
+      apiPrevDate +
+      'T' +
+      apiPrevTime +
+      '.000Z&end=' +
+      apiCurrDate +
+      'T' +
+      apiCurrTime +
+      '.000Z&step=1d';
+
+    //console.log(query);
+    return this.http.get<TimelineData>(this.promApiUrl + query, {
+      headers,
+    });
+  }
 }

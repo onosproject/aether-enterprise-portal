@@ -20,6 +20,7 @@ import { Device } from 'src/app/models/device.model';
 })
 export class SitesComponent {
   sites;
+
   selected: string = 'freemont';
   sitesResponse;
   baseUrl: string = environment.baseUrl.slice(0, -1);
@@ -40,7 +41,16 @@ export class SitesComponent {
 
         this.sitesResponse = response;
         this.sites = this.sitesResponse.sites;
-
+        this.sites.forEach((site) => {
+          site.unprovisionedDevices = [];
+          site.devices.forEach((device) => {
+            // console.log(device);
+            if (!('sim' in device)) {
+              site.unprovisionedDevices.push(device);
+            }
+          });
+        });
+        // console.log(this.sites);
         // logic for alerts start
         let valueOfAlerts = 2;
         for (let i = 0; i < this.sites.length; i++) {

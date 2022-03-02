@@ -320,13 +320,20 @@
     <!-- <mat-icon>developer_board</mat-icon> -->
     <img src="assets/Navbar/devices.svg" />
 
-    <span>{{ devices }} Devices</span>
+    <span
+      >{{ devices }} Devices
+      <sub
+        style="position: absolute; top: 41px; left: 50px"
+        class="aether-CompanyMenu-UnprovisionedDevices"
+        >{{ unprovisionedDevices }} Unprovisioned</sub
+      ></span
+    >
   </button>
-  <button mat-menu-item>
+  <!-- <button mat-menu-item>
     <span class="aether-CompanyMenu-UnprovisionedDevices"
       >{{ unprovisionedDevices }} Unprovisioned</span
     >
-  </button>
+  </button> -->
   <button mat-menu-item>
     <!-- <mat-icon>filter_none</mat-icon> -->
     <img src="assets/AdminPanel/slices.svg" />
