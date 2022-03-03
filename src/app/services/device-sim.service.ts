@@ -9,15 +9,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { SimInventory } from '../models/sim-inventory.model';
 import { InventoryDevice } from '../models/inventory-device.model';
+import { environment } from '../../environments/environment';
 // import { Config } from '../models/config.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeviceSimService {
-  apiUrl: string = 'https://chronos-dev.onlab.us/chronos-exporter/config';
+  apiUrl: string = environment.baseUrl + 'chronos-exporter/config';
 
-  promApiUrl: string = 'https://chronos-dev.onlab.us/prometheus/api/v1';
+  promApiUrl: string = environment.baseUrl + 'prometheus/api/v1';
 
   siteIds: string[] = [];
 
