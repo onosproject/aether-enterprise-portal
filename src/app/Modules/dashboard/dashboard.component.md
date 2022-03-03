@@ -46,6 +46,11 @@ Dashboard is the default landing page for the users after they are able to succe
 
 When the **Dashboard** is loaded:
 
-- Users will see the login page with couple of inputs.
-- If users click on the `Submit` button without providing credentials. An error message will be displayed.
-- No APIs are integrated for now
+- A function is called to set the current Site.
+- A REST-API request is sent as a GET to [https://chronos-dev.onlab.us/chronos-exporter/config](https://chronos-dev.onlab.us/chronos-exporter/config).
+- Dashboard is created as an Angular Module.
+- All the visual information available in the dashboard are broken into multiple Angular components and are avilable in the pages folder.
+- Using **@Input, @Output** and **@ViewChild** parameters from Angular Core are used to pass the information from Dashboard Component to the pages components.
+- **parentWillTakeAction** function declared in the Dashboard component is responsible for handling the click functionalities.
+- The Slices in the slices component can be drag and drop which will help the user to assign them as per their requirement.
+- [Joiner Module](/src/app/Modules/joiner/joiner.component.md) is used in the Small Cells and Slices for connecting the HTML elements with svg lines.
