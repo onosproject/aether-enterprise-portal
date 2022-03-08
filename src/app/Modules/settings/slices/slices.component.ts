@@ -59,39 +59,24 @@ export class SlicesComponent implements OnInit {
   thirdFormGroup: FormGroup;
   summaryForm: FormGroup;
 
-  editMissionCriticalSlices(): void {
-    this.editMissionCriticalSlicesForm = true;
-    this.editMissionCriticalSliceForm = true;
-    // this.headerContent = false;
-    // this.hideRightBx = false;
-  }
-  editMissionCriticalSlicesClose(): void {
-    this.editMissionCriticalSlicesForm = false;
-    this.editMissionCriticalSliceForm = false;
-    // this.headerContent = true;
-    // this.hideRightBx = true;
-  }
   editAddDeviceGroupFun(): void {
     this.editAddDeviceGroup = true;
   }
   editAddServicesFun(): void {
     this.editAddServices = true;
   }
-  collapseSlice(): void {
-    this.panelOpenState = true;
-    this.hideRightBx = true;
-  }
-  openPanel1(): void {
-    //this.panelOpenState = false;
-    //this.hideRightBx = false;
-    this.detailsContent = true;
-    this.headerContent = false;
-  }
-
-  detailsclose(): void {
-    this.detailsContent = false;
-    this.headerContent = true;
-  }
+  // collapseSlice(): void {
+  // ! not being used #check
+  //   this.panelOpenState = true;
+  //   this.hideRightBx = true;
+  // }
+  // openPanel1(): void {
+  // ! not being used #check
+  //   //this.panelOpenState = false;
+  //   //this.hideRightBx = false;
+  //   this.detailsContent = true;
+  //   this.headerContent = false;
+  // }
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -226,12 +211,13 @@ export class SlicesComponent implements OnInit {
     this.firstFormError = false;
     if (this.firstFormGroup.invalid) {
       this.firstFormError = true;
-      this.stepper.selected.completed = false;
+      // this.stepper.selected.completed = false;
     }
     if (this.firstFormGroup.valid) {
       this.firstFormComplete = true;
-      this.stepper.next();
-      this.stepper.selected.completed = true;
+      // this.stepper.next();
+      this.stepper.selectedIndex = 1;
+      // this.stepper.selected.completed = true;
     }
   }
 
@@ -249,13 +235,27 @@ export class SlicesComponent implements OnInit {
     });
     console.log(this.summaryArray);
     this.summaryArray[0].form = new FormGroup({
-      sliceName: new FormControl(this.summaryArray[0].summarySliceName),
-      sliceType: new FormControl(this.summaryArray[0].summarySliceType),
-      mbr: new FormControl(this.summaryArray[0].summarymbr),
-      gbr: new FormControl(this.summaryArray[0].summarygbr),
-      trafficClass: new FormControl(this.summaryArray[0].summaryTrafficClass),
-      uplink: new FormControl(this.summaryArray[0].summaryUplink),
-      downlink: new FormControl(this.summaryArray[0].summaryDownlink),
+      sliceName: new FormControl(this.summaryArray[0].summarySliceName, [
+        Validators.required,
+      ]),
+      sliceType: new FormControl(this.summaryArray[0].summarySliceType, [
+        Validators.required,
+      ]),
+      mbr: new FormControl(this.summaryArray[0].summarymbr, [
+        Validators.required,
+      ]),
+      gbr: new FormControl(this.summaryArray[0].summarygbr, [
+        Validators.required,
+      ]),
+      trafficClass: new FormControl(this.summaryArray[0].summaryTrafficClass, [
+        Validators.required,
+      ]),
+      uplink: new FormControl(this.summaryArray[0].summaryUplink, [
+        Validators.required,
+      ]),
+      downlink: new FormControl(this.summaryArray[0].summaryDownlink, [
+        Validators.required,
+      ]),
     });
     this.summarySliceEditFormGroup = this.summaryArray[0].form;
     //console.log(this.summaryArray[0].summarySliceType);
@@ -276,9 +276,7 @@ export class SlicesComponent implements OnInit {
     devices: string[],
     deviceGroupIndex: number
   ): void {
-    //console.log(this.siteDeviceGroups[0][deviceGroupIndex], id);
     if (this.deviceGroupsInventory[deviceGroupIndex].selected == 0) {
-      // //console.log("if")
       this.deviceGroupsInventory[deviceGroupIndex].selected = 1;
       const selectedDeviceGroupInfo = {
         'device-group-id': id,
@@ -289,12 +287,10 @@ export class SlicesComponent implements OnInit {
       console.log(selectedDeviceGroupInfo);
       this.selectedDeviceGroups.push(selectedDeviceGroupInfo);
     } else {
-      // //console.log("else")
       this.deviceGroupsInventory[deviceGroupIndex].selected = 0;
       for (let i = 0; i < this.selectedDeviceGroups.length; i++) {
-        //console.log(i);
+        /* istanbul ignore else*/
         if (this.selectedDeviceGroups[i]['device-group-id'] == id) {
-          // //console.log(this.selectedDeviceGroups[i]['device-group-id'])
           this.selectedDeviceGroups.splice(i, 1);
         }
       }
@@ -321,8 +317,9 @@ export class SlicesComponent implements OnInit {
       };
       this.selectedServices.push(selectedServiceInfo);
     } else {
-      this.servicesInventory[serviceIndex].selected = 1;
+      this.servicesInventory[serviceIndex].selected = 0;
       for (let i = 0; i < this.selectedServices.length; i++) {
+        /* istanbul ignore else*/
         if (this.selectedServices[i]['application-id'] == id) {
           this.selectedServices.splice(i, 1);
         }
@@ -374,6 +371,7 @@ export class SlicesComponent implements OnInit {
           inventoryIndex < this.deviceGroupsInventory.length;
           inventoryIndex++
         ) {
+          /* istanbul ignore else*/
           if (
             this.deviceGroupsInventory[inventoryIndex]['device-group-id'] ==
             this.selectedDeviceGroups[selectedIndex]['device-group-id']
@@ -395,6 +393,7 @@ export class SlicesComponent implements OnInit {
           inventoryIndex < this.servicesInventory.length;
           inventoryIndex++
         ) {
+          /* istanbul ignore else*/
           if (
             this.servicesInventory[inventoryIndex]['application-id'] ==
             this.selectedServices[selectedIndex]['application-id']
@@ -500,6 +499,7 @@ export class SlicesComponent implements OnInit {
             deviceGroups.forEach((deviceGroup) => {
               // //console.log(deviceGroups[deviceGroupIndex]['device-group-id'])
               //console.log(deviceGroup['device-group-id'], deviceGroupIndex);
+              /* istanbul ignore else*/
               if (sliceDeviceGroups == deviceGroup['device-group-id']) {
                 slices['slice-type'] = sliceDeviceGroups;
                 slices['mbr'] = 5;
@@ -535,6 +535,7 @@ export class SlicesComponent implements OnInit {
         //console.log(service, serviceIndex);
         this.siteServices.forEach((siteService) => {
           //console.log(siteService['application-id'], siteServiceIndex);
+          /* istanbul ignore else*/
           if (service == siteService['application-id']) {
             //console.log(slices.applications[serviceIndex]);
             //console.log('yes');
@@ -660,6 +661,7 @@ export class SlicesComponent implements OnInit {
         inventoryIndex < this.deviceGroupsInventory.length;
         inventoryIndex++
       ) {
+        /* istanbul ignore else*/
         if (
           this.deviceGroupsInventory[inventoryIndex]['device-group-id'] ==
           this.selectedAddDeviceGroups[selectedIndex]['device-group-id']
@@ -681,6 +683,7 @@ export class SlicesComponent implements OnInit {
         inventoryIndex < this.servicesInventory.length;
         inventoryIndex++
       ) {
+        /* istanbul ignore else*/
         if (
           this.servicesInventory[inventoryIndex]['application-id'] ==
           this.selectedAddServices[selectedIndex]['application-id']
@@ -714,18 +717,21 @@ export class SlicesComponent implements OnInit {
   }
 
   deleteSlice(sliceIndex: number): void {
-    const deviceGroupInfo = this.siteSlices[sliceIndex]['device-groups'];
-    //console.log(deviceGroupInfo);
-    const serviceInfo = this.siteSlices[sliceIndex].applications;
+    if (this.siteSlices[sliceIndex].length > 0) {
+      const deviceGroupInfo = this.siteSlices[sliceIndex]['device-groups'];
 
-    // deviceGroupInfo.selected = 1;
-    serviceInfo.selected = 1;
-    this.remainingDeviceGroups.push(deviceGroupInfo);
-    for (let i = 0; i < this.remainingDeviceGroups.length; i++) {
-      this.remainingDeviceGroups[i].selected = 1;
+      //console.log(deviceGroupInfo);
+      const serviceInfo = this.siteSlices[sliceIndex].applications;
+
+      // deviceGroupInfo.selected = 1;
+      serviceInfo.selected = 1;
+      this.remainingDeviceGroups.push(deviceGroupInfo);
+      for (let i = 0; i < this.remainingDeviceGroups.length; i++) {
+        this.remainingDeviceGroups[i].selected = 1;
+      }
+      this.remainingServices.push(serviceInfo);
+      this.siteSlices.splice(sliceIndex, 1);
     }
-    this.remainingServices.push(serviceInfo);
-    this.siteSlices.splice(sliceIndex, 1);
     // //console.log(
     //   this.siteSlices,
     //   this.remainingDeviceGroups,
@@ -755,6 +761,7 @@ export class SlicesComponent implements OnInit {
       for (let i = 0; i < this.selectedAddDeviceGroups.length; i++) {
         //console.log(i);
         // //console.log(this.selectedAddDeviceGroups[i])
+        /* istanbul ignore else*/
         if (this.selectedAddDeviceGroups[i]['device-group-id'] == id) {
           this.selectedAddDeviceGroups.splice(i, 1);
         }
@@ -779,6 +786,7 @@ export class SlicesComponent implements OnInit {
     } else {
       this.servicesInventory[serviceIndex].selected = 0;
       for (let i = 0; i < this.selectedAddServices.length; i++) {
+        /* istanbul ignore else*/
         if (this.selectedAddServices[i]['application-id'] == id) {
           this.selectedAddServices.splice(i, 1);
         }
@@ -793,6 +801,7 @@ export class SlicesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      /* istanbul ignore else*/
       if (result == 'true') {
         this.deleteSlice(sliceIndex);
       }
@@ -810,9 +819,12 @@ export class SlicesComponent implements OnInit {
     slices['applications'].forEach(() => {
       servicesHeight += 72;
     });
+    /* istanbul ignore else*/
     if (deviceGroupsHeight < minimumHeight && servicesHeight < minimumHeight) {
       return minimumHeight;
-    } else if (deviceGroupsHeight > servicesHeight) {
+    }
+    /* istanbul ignore else*/
+    if (deviceGroupsHeight > servicesHeight) {
       return deviceGroupsHeight;
     } else {
       return servicesHeight;

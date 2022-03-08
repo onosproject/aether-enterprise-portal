@@ -258,7 +258,7 @@ export class ServicesComponent implements OnInit {
         });
       });
       this.siteApplications = siteApplications;
-      console.log(this.siteApplications);
+      // console.log(this.siteApplications);
     });
   }
 
@@ -277,8 +277,8 @@ export class ServicesComponent implements OnInit {
       service.portStart = editForm.newPortStart;
       service.portEnd = editForm.newPortEnd;
       service.address = editForm.newAddress;
-      service.mbr = 15;
-      service.deviceType = 'device-1';
+      service.mbr = editForm.newMbr;
+      service.deviceName = 'device-1';
       this.closeEdit();
     }
   }
@@ -309,13 +309,6 @@ export class ServicesComponent implements OnInit {
     this.newServiceFormGroup();
     this.closeEdit();
     this.addNewServiceForm = true;
-    this.editServiceForm = false;
-  }
-  editServiceFormFun(): void {
-    this.addNewServiceForm = false;
-    this.editServiceForm = true;
-  }
-  editServiceFormClose(): void {
     this.editServiceForm = false;
   }
 }

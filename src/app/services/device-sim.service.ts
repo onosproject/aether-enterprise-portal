@@ -18,9 +18,13 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class DeviceSimService {
-  apiUrl: string = environment.baseUrl + 'chronos-exporter/config';
+  // apiUrl: string = environment.baseUrl + 'chronos-exporter/config';
 
-  promApiUrl: string = environment.baseUrl + 'prometheus/api/v1';
+  apiUrl: string = environment.configUrl;
+
+  // promApiUrl: string = environment.baseUrl + 'prometheus/api/v1';
+
+  promApiUrl: string = environment.promUrl;
 
   siteIds: string[] = [];
 
@@ -41,12 +45,11 @@ export class DeviceSimService {
   private myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);
 
   myDevice1: Observable<InventoryDevice>;
-  private myDeviceSubject1 = new BehaviorSubject<InventoryDevice[]>([])
+  private myDeviceSubject1 = new BehaviorSubject<InventoryDevice[]>([]);
 
   constructor(
-    public http: HttpClient
-  ) // public deviceSimComp: DeviceSimComponent
-  {
+    public http: HttpClient // public deviceSimComp: DeviceSimComponent
+  ) {
     // this.mySim1 = this.mySimSubject.asObservable();
     this.myDevice = this.myDeviceSubject.asObservable();
   }
@@ -90,7 +93,7 @@ export class DeviceSimService {
   }
 
   myDevices(data: InventoryDevice[]): void {
-    this.myDeviceSubject.next(data)
+    this.myDeviceSubject.next(data);
   }
 
   setDevice(data: InventoryDevice[]): void {

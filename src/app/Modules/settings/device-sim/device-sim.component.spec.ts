@@ -20,9 +20,20 @@ import { DeleteDevicesComponent } from '../dialogs/delete-devices/delete-devices
 import { DeleteInventoryComponent } from '../dialogs/delete-inventory/delete-inventory.component';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { Meta } from '@angular/platform-browser';
+
+class MetaStub {
+  getTag(): HTMLMetaElement {
+    return {
+      content: 'somecontent',
+    } as HTMLMetaElement;
+  }
+}
 // import * as d3 from 'd3';
 
 describe('DeviceSimComponent', () => {
+  // let meta: Meta;
   let component: DeviceSimComponent;
   let fixture: ComponentFixture<DeviceSimComponent>;
 
@@ -30,7 +41,10 @@ describe('DeviceSimComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MaterialModule, HttpClientModule, NoopAnimationsModule],
       declarations: [DeviceSimComponent],
-      providers: [{ provide: DeviceSimService, useClass: DeviceSimStub }],
+      providers: [
+        { provide: DeviceSimService, useClass: DeviceSimStub },
+        { provide: Meta, useClass: MetaStub },
+      ],
       // providers: [DeviceSimService],
     }).compileComponents();
   });
@@ -39,6 +53,14 @@ describe('DeviceSimComponent', () => {
     fixture = TestBed.createComponent(DeviceSimComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  beforeEach(() => {
+    component.selectedSite = 'fremont';
+    component.selectedSimDetails = '123-456-789';
+    component.selectedIndexDetails = 0;
+    component.apiPreviousDate = '2022-03-07T10:35:26.000Z';
+    component.apiCurrentDate = '2022-03-08T10:35:26.000Z';
   });
 
   it('should create', () => {
@@ -64,30 +86,30 @@ describe('DeviceSimComponent', () => {
     expect(component.getLastWeek).toHaveBeenCalled();
   });
 
-  it('should run #configDeviceSim()', async () => {
+  it('should run #configDeviceSim()', () => {
     spyOn(component, 'configDeviceSim').and.callThrough();
     component.configDeviceSim();
     expect(component.configDeviceSim).toHaveBeenCalled();
   });
 
-  it('should run #configInventoryDevice()', async () => {
+  it('should run #configInventoryDevice()', () => {
     spyOn(component, 'configInventoryDevice').and.callThrough();
     component.configInventoryDevice();
     expect(component.configInventoryDevice).toHaveBeenCalled();
   });
 
   // new test by ngentest
-  it('should run #getLastWeek()', async () => {
+  it('should run #getLastWeek()', () => {
     spyOn(component, 'getLastWeek').and.callThrough();
     component.getLastWeek();
-    expect(component.getLastWeek).toHaveBeenCalled();
     expect(component.lastWeekDates.length).toBeGreaterThan(0);
     expect(component.lastWeekDatesLength).toEqual(
       component.lastWeekDates.length
     );
   });
 
-  it('should run #getDateForZoom()', async () => {
+  it('should run #getDateForZoom()', () => {
+    spyOn(component, 'zoomgraph');
     spyOn(component, 'getDateForZoom').and.callThrough();
     const index = 0;
     const date = 'now';
@@ -96,9 +118,11 @@ describe('DeviceSimComponent', () => {
     component.getDateForZoom(index, date2);
     expect(component.selectedDate).toEqual(index);
     expect(component.dateSelected).toEqual(date2);
+    expect(component.zoomgraph).toHaveBeenCalled();
   });
 
   it('should run #zoomgraph() zoomLevel: 1', async () => {
+    spyOn(component, 'fetchPromWeek');
     spyOn(component, 'zoomgraph').and.callThrough();
     component.lastWeekDates = [
       {
@@ -113,6 +137,9 @@ describe('DeviceSimComponent', () => {
     const value = true;
     const zoomIn = 1;
     component.selectedDate = 0;
+    // const index = 0;
+    // const sim = '123-456-789';
+    // component.detailsTrigger(index, sim)
     component.zoomgraph(value, zoomIn);
     expect(component.zoomIn).toEqual(zoomIn);
     expect(component.apiPreviousDate).toEqual(
@@ -121,9 +148,11 @@ describe('DeviceSimComponent', () => {
     expect(component.apiCurrentDate).toEqual(
       component.lastWeekDates[component.selectedDate + 1].string_date
     );
+    expect(component.fetchPromWeek).toHaveBeenCalled();
   });
 
   it('should run #zoomgraph() zoomLevel: 2', async () => {
+    spyOn(component, 'fetchPromWeek');
     spyOn(component, 'zoomgraph').and.callThrough();
     component.lastWeekDates = [
       {
@@ -138,6 +167,9 @@ describe('DeviceSimComponent', () => {
     const value = true;
     const zoomIn = 2;
     component.selectedDate = 1;
+    // const index = 0;
+    // const sim = '123-456-789';
+    // component.detailsTrigger(index, sim)
     component.zoomgraph(value, zoomIn);
     expect(component.zoomIn).toEqual(zoomIn);
     expect(component.isZoomIn).toBeTrue();
@@ -147,14 +179,19 @@ describe('DeviceSimComponent', () => {
     expect(component.apiCurrentDate).toEqual(
       component.lastWeekDates[component.selectedDate].string_date
     );
+    expect(component.fetchPromWeek).toHaveBeenCalled();
   });
 
   it('should run #zoomgraph() zoomLevel: 0', async () => {
+    spyOn(component, 'fetchPromWeek');
     spyOn(component, 'zoomgraph').and.callThrough();
     const value = true;
     const zoomIn = 0;
     // component.zoomgraph(true, 0);
     // component.zoomgraph(true, 1);
+    const index = 0;
+    const sim = '123-456-789';
+    component.detailsTrigger(index, sim);
     component.zoomgraph(value, zoomIn);
     expect(component.zoomIn).toEqual(zoomIn);
     expect(component.apiPreviousDate).toEqual(
@@ -164,30 +201,178 @@ describe('DeviceSimComponent', () => {
       component.lastWeekDates[component.lastWeekDates.length - 1].string_date
     );
     expect(component.isZoomIn).toBeFalse();
+    expect(component.fetchPromWeek).toHaveBeenCalled();
   });
 
-  it('should run #closeEdit()', async () => {
-    component.editDevices = component.editDevices;
-    spyOn(component.editDevices, 'pop');
+  it('should run #closeEdit()', () => {
+    component.editDevices = [0, 0];
     component.closeEdit();
-    // expect(component.editDevices.pop).toHaveBeenCalled();
+    expect(component.editDevices.length).toBeLessThan(2);
   });
 
-  it('should run #closeEditInventory()', async () => {
-    component.editInventory = component.editInventory;
-    spyOn(component.editInventory, 'pop');
+  it('should run #closeEditInventory()', () => {
+    component.editInventory = [0, 0];
     component.closeEditInventory();
-    // expect(component.editInventory.pop).toHaveBeenCalled();
+    expect(component.editInventory.length).toBeLessThan(2);
   });
 
-  it('should run #closeDetails()', async () => {
-    component.deviceDetails = component.deviceDetails;
-    spyOn(component.deviceDetails, 'pop');
+  it('should run #closeDetails()', () => {
+    component.deviceDetails = [0, 0];
     component.closeDetails();
-    // expect(component.deviceDetails.pop).toHaveBeenCalled();
+    expect(component.deviceDetails.length).toBeLessThan(2);
   });
 
-  it('should run #fetchData() to get the api data', async () => {
+  it('should run #fetchData() to get the api data', () => {
+    spyOn(component.deviceService, 'getData').and.returnValue(
+      of({
+        applications: [
+          {
+            'application-id': 'nvr-application',
+            'display-name': 'Network Video Recorder',
+          },
+        ],
+        enterprise: [
+          {
+            'display-name': 'Tesla',
+            'enterprise-id': 'tesla',
+            image: '/chronos-exporter/images/tesla-logo.png',
+          },
+        ],
+        sites: [
+          {
+            'device-groups': [
+              {
+                'device-group-id': 'phones',
+                devices: ['752365A', '752908B'],
+                'display-name': 'Phones group',
+              },
+              {
+                'device-group-id': 'cameras',
+                devices: ['7568112'],
+                'display-name': 'Cameras group',
+              },
+              {
+                'device-group-id': 'cameras',
+                devices: ['7568118'],
+                'display-name': 'Cameras group',
+              },
+            ],
+            devices: [
+              {
+                'device-group-id-in': 'phones',
+                'display-name': 'Phone 1',
+                imei: '123-456-7891',
+                location: 'Somewhere',
+                position: {
+                  'position-x': 110,
+                  'position-y': 50,
+                  'site-plan': 'floor-0',
+                },
+                'serial-number': '752365A',
+                sim: '123-456-789',
+                type: 'Pixel 5 Phone',
+              },
+              {
+                'device-group-id-in': 'cameras',
+                'display-name': 'Camera 2',
+                imei: '123-456-7894',
+                location: 'South Gate',
+                'serial-number': '7568112',
+                sim: '123-456-786',
+                type: 'Camera',
+              },
+              {
+                'device-group-id-in': 'cameras',
+                'display-name': 'Camera 8',
+                imei: '',
+                location: 'Corridor 3',
+                'serial-number': '7568118',
+                type: 'Camera',
+              },
+            ],
+            'display-name': 'Fremont, CA',
+            image: '/chronos-exporter/images/los-angeles-us.png',
+            sims: [
+              {
+                'display-name': 'Sim 11',
+                iccid: '123-456-791',
+              },
+            ],
+            'site-id': 'fremont',
+            'site-plans': [
+              {
+                isometric: true,
+                layers: [
+                  {
+                    'layer-id': 'Structure',
+                  },
+                  {
+                    'layer-id': 'Text',
+                  },
+                ],
+                origin: 'ORIGIN_TOP_LEFT',
+                'site-plan-list': [
+                  {
+                    id: 'floor-0',
+                    offsets: {
+                      'x-offset': 0,
+                      'y-offset': 0,
+                      'z-offset': 0,
+                    },
+                    'svg-file':
+                      '/chronos-exporter/site-plans/fremont/floor-0.svg',
+                  },
+                  {
+                    id: 'floor-1',
+                    offsets: {
+                      'x-offset': 0,
+                      'y-offset': 0,
+                      'z-offset': 100,
+                    },
+                    'svg-file':
+                      '/chronos-exporter/site-plans/fremont/floor-1.svg',
+                  },
+                  {
+                    id: 'floor-2',
+                    offsets: {
+                      'x-offset': 0,
+                      'y-offset': 0,
+                      'z-offset': 200,
+                    },
+                    'svg-file':
+                      '/chronos-exporter/site-plans/fremont/floor-2.svg',
+                  },
+                  {
+                    id: 'floor-3',
+                    offsets: {
+                      'x-offset': 0,
+                      'y-offset': 0,
+                      'z-offset': 300,
+                    },
+                    'svg-file':
+                      '/chronos-exporter/site-plans/fremont/floor-3.svg',
+                  },
+                ],
+              },
+            ],
+            slices: [
+              {
+                applications: ['nvr-application', 'occupant-counter'],
+                'device-groups': ['cameras'],
+                'display-name': 'Cameras Slice',
+                'slice-id': 'freemont-slice-cameras',
+              },
+            ],
+            'small-cells': [
+              {
+                'display-name': 'North Cell',
+                'small-cell-id': 'freemont-sc-north',
+              },
+            ],
+          },
+        ],
+      })
+    );
     spyOn(component, 'fetchData').and.callThrough();
     spyOn(component, 'fetchProm2').and.callThrough();
     component.selectedSite = 'fremont';
@@ -407,7 +592,7 @@ describe('DeviceSimComponent', () => {
     // expect(component.)
   });
 
-  it('should run #deleteDevice()', async () => {
+  it('should run #deleteDevice()', () => {
     spyOn(component, 'deleteDevice').and.callThrough();
     const index = 0;
     component.siteConfig = [
@@ -442,7 +627,7 @@ describe('DeviceSimComponent', () => {
     // expect(component.siteConfig[0].splice(index, 1)).toHaveBeenCalled;
   });
 
-  it('should run #cancelSim()', async () => {
+  it('should run #cancelSim()', () => {
     spyOn(component, 'cancelSim').and.callThrough();
     const index = 0;
     component.siteConfig = [
@@ -475,7 +660,8 @@ describe('DeviceSimComponent', () => {
     // expect(component.closeEdit).toHaveBeenCalled();
   });
 
-  it('should run assignSelectedSite()', async () => {
+  it('should run assignSelectedSite()', () => {
+    spyOn(component.deviceService, 'getSite').and.returnValue(of('fremont'));
     spyOn(component, 'assignSelectedSite').and.callThrough();
     spyOn(component, 'fetchData').and.callThrough();
     // component.selectedSite = 'fremont';
@@ -485,7 +671,10 @@ describe('DeviceSimComponent', () => {
     expect(component.fetchData).toHaveBeenCalled();
   });
 
-  it('should run assignSelectedSim()', async () => {
+  it('should run assignSelectedSim()', () => {
+    spyOn(component.deviceService, 'getSim1').and.returnValue(
+      of('123-456-789')
+    );
     component.configDeviceSim();
     const deviceSimForm = component.deviceSimForm;
     spyOn(component, 'assignSelectedSim').and.callThrough();
@@ -494,7 +683,7 @@ describe('DeviceSimComponent', () => {
     expect(deviceSimForm.value.newSim).toEqual(sim);
   });
 
-  it('should run #addNewDevice1()', async () => {
+  it('should run #addNewDevice1() --> invalid', () => {
     component.configDeviceSim();
     const deviceSimForm = component.deviceSimForm;
     spyOn(component, 'addNewDevice1').and.callThrough();
@@ -508,7 +697,15 @@ describe('DeviceSimComponent', () => {
     expect(component.addNewDeviceSimError).toBeTrue();
   });
 
-  it('should run #addNewDevice1()', async () => {
+  it('should run #addNewDevice1()', () => {
+    component.activeNewDevice = true;
+    component.configDeviceSim();
+    const deviceSimForm = component.deviceSimForm;
+    const deviceSimControls = deviceSimForm.controls;
+    deviceSimControls.newSim.setValue('123-456-789');
+    deviceSimControls.deviceName.setValue('New Device');
+    deviceSimControls.deviceLocation.setValue('New Location');
+    deviceSimControls.deviceSerialNum.setValue('752365A');
     component.siteConfig = [
       [
         {
@@ -521,12 +718,18 @@ describe('DeviceSimComponent', () => {
         },
       ],
     ];
-    component.addNewDeviceSimError = true || false;
+    // component.addNewDeviceSimError = true || false;
     component.addNewDevice1();
+    expect(deviceSimForm.valid).toBeTrue();
+    expect(component.siteConfig[0].length).toBeGreaterThan(1);
+    expect(component.activeNewDevice).toBeFalse();
+    expect(component.addNewDeviceSimError).toBeFalse();
   });
 
-  it('should run #editTrigger()', async () => {
+  it('should run #editTrigger() --> else case', () => {
     // component.editDevices = [0, 1, 2];
+    spyOn(component, 'closeEdit');
+    spyOn(component, 'closeDetails');
     const index = 0;
     component.siteConfig = [
       [
@@ -540,11 +743,30 @@ describe('DeviceSimComponent', () => {
         },
       ],
     ];
-    component.deviceSimEditForm = new FormGroup({});
     component.editTrigger(index);
+    const editForm = (component.deviceSimEditForm =
+      component.deviceSimEditForm);
+    const editFormControls = editForm.controls;
+    const editConfig = component.siteConfig[0][index];
+    expect(component.closeEdit).toHaveBeenCalled();
+    expect(component.closeDetails).toHaveBeenCalled();
+    expect(editFormControls.newSim.value).toEqual(editConfig.sim);
+    expect(editFormControls.deviceName.value).toEqual(
+      editConfig['display-name']
+    );
+    expect(editFormControls.deviceLocation.value).toEqual(editConfig.location);
+    expect(editFormControls.deviceSerialNum.value).toEqual(
+      editConfig['serial-number']
+    );
+    expect(component.editDevices.length).toBeGreaterThan(0);
+    expect(component.deviceSimEditForm).toEqual(
+      component.siteConfig[0][index].form
+    );
   });
 
-  it('should run #editTrigger()', async () => {
+  it('should run #editTrigger() --> if case', () => {
+    spyOn(component, 'closeEdit');
+    spyOn(component, 'closeDetails');
     component.editDevices = [0, 0];
     const index = 0;
     component.siteConfig = [
@@ -569,22 +791,61 @@ describe('DeviceSimComponent', () => {
     ];
     component.deviceSimEditForm = new FormGroup({});
     component.editTrigger(index);
+    expect(component.closeEdit).toHaveBeenCalled();
+    expect(component.closeDetails).toHaveBeenCalled();
   });
 
-  it('should run #getEditControl()', async () => {
+  it('should run #getEditControl()', () => {
+    const index = 0;
     const param = 'newSim';
-    component.getEditControl(component.deviceSimEditForm, param);
+    const param1 = 'deviceName';
+    const param2 = 'deviceLocation';
+    const param3 = 'deviceSerialNum';
+    // component.siteApplications = [
+    //   {
+    //     address: 'address-1',
+    //     'application-id': 'nvr-application',
+    //     deviceName: 'device-1',
+    //     'display-name': 'Network Video Recorder',
+    //     mbr: 15,
+    //     portEnd: 8201,
+    //     portStart: 4201,
+    //     protocol: 'protocol-1',
+    //   },
+    // ];
+    component.editTrigger(index);
+    const editForm = (component.deviceSimEditForm =
+      component.deviceSimEditForm);
+    component.getEditControl(editForm, param);
+    component.getEditControl(editForm, param1);
+    component.getEditControl(editForm, param2);
+    component.getEditControl(editForm, param3);
+    const gotControl = editForm.get(param) as FormControl;
+    const gotControl1 = editForm.get(param1) as FormControl;
+    const gotControl2 = editForm.get(param2) as FormControl;
+    const gotControl3 = editForm.get(param3) as FormControl;
+    // const editFormControls = editForm.controls;
+    expect(component.getEditControl(editForm, param)).toEqual(gotControl);
+    expect(component.getEditControl(editForm, param1)).toEqual(gotControl1);
+    expect(component.getEditControl(editForm, param2)).toEqual(gotControl2);
+    expect(component.getEditControl(editForm, param3)).toEqual(gotControl3);
+    // expect(editForm.get('appName')).toEqual(editFormControls.appName);
+    // expect(editForm.get('newProtocol')).toEqual(editFormControls.newProtocol);
+    // expect(editForm.get('newPortStart')).toEqual(editFormControls.newPortStart);
+    // expect(editForm.get('newAddress')).toEqual(editFormControls.newAddress);
+    // expect(editForm.get('newMbr')).toEqual(editFormControls.newMbr);
+    // expect(editForm.get('newPortEnd')).toEqual(editFormControls.newPortEnd);
   });
 
-  it('should run #openDialog()', async () => {
+  it('should run #openDialog()', () => {
     component.openDialog();
   });
 
-  it('should run #openDialog1()', async () => {
+  it('should run #openDialog1()', () => {
     component.openDialog1();
   });
 
-  it('should run #openDeleteDialog()', async () => {
+  it('should run #openDeleteDialog()', () => {
     // component.siteConfig = [
     //   [
     //     {
@@ -616,7 +877,7 @@ describe('DeviceSimComponent', () => {
     expect(component.closeEdit).toHaveBeenCalled();
   });
 
-  it('should run #actualEdit()', async () => {
+  it('should run #actualEdit()', () => {
     component.siteConfig = [
       [
         {
@@ -657,7 +918,7 @@ describe('DeviceSimComponent', () => {
     component.actualEdit(index);
   });
 
-  it('should run #actualEdit()', async () => {
+  it('should run #actualEdit()', () => {
     component.deviceSimEditForm = new FormGroup({
       newSim: new FormControl('', Validators.required),
       deviceName: new FormControl('', Validators.required),
@@ -676,7 +937,7 @@ describe('DeviceSimComponent', () => {
     component.actualEdit(index);
   });
 
-  it('should run #addNewDeviceInventory()', async () => {
+  it('should run #addNewDeviceInventory()', () => {
     component.inventoryDeviceSimForm = new FormGroup({
       inventoryDeviceName: new FormControl('', Validators.required),
       inventoryDeviceLocation: new FormControl('', Validators.required),
@@ -687,7 +948,7 @@ describe('DeviceSimComponent', () => {
     component.addNewDeviceInventory();
   });
 
-  it('should run #addNewDeviceInventory()', async () => {
+  it('should run #addNewDeviceInventory()', () => {
     component.deviceInventory = [
       {
         'display-name': 'Camera 8',
@@ -701,7 +962,7 @@ describe('DeviceSimComponent', () => {
     component.addNewDeviceInventory();
   });
 
-  it('should run #inventoryEditTrigger()', async () => {
+  it('should run #inventoryEditTrigger()', () => {
     component.deviceInventory = [
       {
         'display-name': 'Camera 8',
@@ -717,7 +978,7 @@ describe('DeviceSimComponent', () => {
     component.inventoryEditTrigger(index);
   });
 
-  it('should run #inventoryEditTrigger()', async () => {
+  it('should run #inventoryEditTrigger()', () => {
     component.editInventory = [0, 0];
     component.deviceInventory = [
       {
@@ -734,12 +995,12 @@ describe('DeviceSimComponent', () => {
     component.inventoryEditTrigger(index);
   });
 
-  it('should run #getEditInventoryControl()', async () => {
+  it('should run #getEditInventoryControl()', () => {
     const param = '0';
     component.getEditInventoryControl(component.inventoryEditForm, param);
   });
 
-  it('should run #actualInventoryEdit()', async () => {
+  it('should run #actualInventoryEdit()', () => {
     component.deviceInventory = [
       {
         'display-name': 'Camera 8',
@@ -763,7 +1024,7 @@ describe('DeviceSimComponent', () => {
     component.actualInventoryEdit(inventoryDeviceIndex);
   });
 
-  it('should run #actualInventoryEdit()', async () => {
+  it('should run #actualInventoryEdit()', () => {
     component.inventoryEditForm = new FormGroup({
       inventoryDeviceName: new FormControl('', Validators.required),
       inventoryDeviceLocation: new FormControl('', Validators.required),
@@ -775,12 +1036,12 @@ describe('DeviceSimComponent', () => {
     component.actualInventoryEdit(inventoryDeviceIndex);
   });
 
-  it('should run #deleteInventoryDevice()', async () => {
+  it('should run #deleteInventoryDevice()', () => {
     const inventoryDeviceIndex = 0;
     component.deleteInventoryDevice(inventoryDeviceIndex);
   });
 
-  it('should run #openDeleteInventoryDialog()', async () => {
+  it('should run #openDeleteInventoryDialog()', () => {
     const inventoryDeviceIndex = 0;
     spyOn(component.dialog, 'open').and.returnValue({
       afterClosed: () => of('true'),
@@ -788,7 +1049,7 @@ describe('DeviceSimComponent', () => {
     component.openDeleteInventoryDialog(inventoryDeviceIndex);
   });
 
-  it('should run #detailsTrigger()', async () => {
+  it('should run #detailsTrigger()', () => {
     const index = 0;
     const sim = '123-456-789';
     // component.selectedDate = -1;
@@ -801,7 +1062,7 @@ describe('DeviceSimComponent', () => {
     component.detailsTrigger(index, sim);
   });
 
-  it('should run #detailsTrigger()', async () => {
+  it('should run #detailsTrigger()', () => {
     component.deviceDetails = [0, 0];
     const index = 0;
     const sim = '123-456-789';
@@ -815,20 +1076,228 @@ describe('DeviceSimComponent', () => {
     component.detailsTrigger(index, sim);
   });
 
-  // it('should run #fetchPromApiWeek()', async () => {
+  // it('should run #fetchPromApiWeek()', () => {
   //   const site = 'fremont';
   //   const iccid = '123-456-789';
   //   // component.fetchPromApiWeek(site, iccid);
   // });
 
-  it('should run #fetchPromWeek()', async () => {
+  it('should run #fetchPromWeek()', () => {
+    spyOn(component, 'fetchPromApiWeek').and.returnValue(
+      of({
+        status: 'success',
+        data: {
+          result: [
+            {
+              metric: {
+                __name__: 'device_connected_status',
+                device_status: 'Active',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                serial_number: '752365A',
+                site: 'fremont',
+              },
+              values: [
+                [1645249991.788, '1'],
+                [1645491191.788, '0'],
+                [1645249991.788, '1'],
+              ],
+            },
+          ],
+        },
+      })
+    );
+    spyOn(component, 'fetchDotsApiWeek').and.returnValue(
+      of({
+        status: 'success',
+        data: {
+          result: [
+            {
+              metric: {
+                __name__: 'device_connected_status',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '752908B: core event number-10127',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-24T14:42:48.363628138Z',
+              },
+              values: [
+                [1645713852, '1'],
+
+                [1645713852, '4'],
+                [1645713852, '5'],
+              ],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10021',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T21:13:50.2829109Z',
+              },
+              values: [[1645713852, '2']],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10023',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T21:22:25.296128912Z',
+              },
+              values: [[1645713852, '3']],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10031',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T21:42:38.368040384Z',
+              },
+              values: [[1645713852, '4']],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10033',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T22:06:36.407900416Z',
+              },
+              values: [[1645713852, '5']],
+            },
+          ],
+        },
+      })
+    );
     const site = 'fremont';
     const iccid = '123-456-789';
     const index = 0;
     component.fetchPromWeek(site, iccid, index);
   });
 
-  it('should run #fetchProm()', async () => {
+  it('should run #fetchProm()', () => {
+    spyOn(component, 'fetchPromApi').and.returnValue(
+      of({
+        status: 'success',
+        data: {
+          result: [
+            {
+              metric: {
+                __name__: 'device_connected_status',
+                device_status: 'Active',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                serial_number: '752365A',
+                site: 'fremont',
+              },
+              values: [
+                [1645249991.788, '1'],
+                [1645491191.788, '0'],
+                [1645791191.788, '1'],
+              ],
+            },
+          ],
+        },
+      })
+    );
+    spyOn(component, 'fetchDotsApi').and.returnValue(
+      of({
+        status: 'success',
+        data: {
+          result: [
+            {
+              metric: {
+                __name__: 'device_connected_status',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '752908B: core event number-10127',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-24T14:42:48.363628138Z',
+              },
+              values: [
+                [1645713852, '1'],
+
+                [1645713852, '4'],
+                [1645713852, '5'],
+              ],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10021',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T21:13:50.2829109Z',
+              },
+              values: [[1645713852, '2']],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10023',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T21:22:25.296128912Z',
+              },
+              values: [[1645713852, '3']],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10031',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T21:42:38.368040384Z',
+              },
+              values: [[1645713852, '4']],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10033',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T22:06:36.407900416Z',
+              },
+              values: [[1645713852, '5']],
+            },
+          ],
+        },
+      })
+    );
     const site = 'fremont';
     const iccid = '123-456-789';
     const index = 0;
@@ -836,13 +1305,19 @@ describe('DeviceSimComponent', () => {
     component.fetchProm(site, iccid, index);
   });
 
-  it('should run #fetchDotsApi()', async () => {
+  it('should run #fetchDotsApi()', () => {
     const site = 'fremont';
     const iccid = '123-456-789';
     component.fetchDotsApi(site, iccid);
   });
 
-  // it('should run #displayChart()', async () => {
+  it('should run #fetchDotsApiWeek()', () => {
+    const site = 'fremont';
+    const iccid = '123-456-789';
+    component.fetchDotsApiWeek(site, iccid);
+  });
+
+  // it('should run #displayChart()', () => {
   //   const index = 0;
   //   const chartData = [
   //     {
@@ -866,45 +1341,152 @@ describe('DeviceSimComponent', () => {
   //     .dispatchEvent(new MouseEvent('mouseover'));
   // });
 
-  it('should run #displaySmallChart()', async () => {
+  it('should run #displaySmallChart()', () => {
     const index = 0;
     const chartData = [];
 
     component.displaySmallChart(chartData, index);
   });
 
-  it('should run #fetchProm2()', async () => {
+  it('should run #fetchProm2()', () => {
+    spyOn(component, 'fetchPromApi').and.returnValue(
+      of({
+        status: 'success',
+        data: {
+          result: [
+            {
+              metric: {
+                __name__: 'device_connected_status',
+                device_status: 'Active',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                serial_number: '752365A',
+                site: 'fremont',
+              },
+              values: [
+                [1645249991.788, '1'],
+                [1645491191.788, '0'],
+                [1645791191.788, '1'],
+              ],
+            },
+          ],
+        },
+      })
+    );
+    spyOn(component, 'fetchDotsApi').and.returnValue(
+      of({
+        status: 'success',
+        data: {
+          result: [
+            {
+              metric: {
+                __name__: 'device_connected_status',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '752908B: core event number-10127',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-24T14:42:48.363628138Z',
+              },
+              values: [
+                [1645713852, '1'],
+
+                [1645713852, '4'],
+                [1645713852, '5'],
+              ],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10021',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T21:13:50.2829109Z',
+              },
+              values: [[1645713852, '2']],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10023',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T21:22:25.296128912Z',
+              },
+              values: [[1645713852, '3']],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10031',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T21:42:38.368040384Z',
+              },
+              values: [[1645713852, '4']],
+            },
+            {
+              metric: {
+                __name__: 'device_connection_event_core',
+                iccid: '123-456-789',
+                instance: 'chronos-exporter:2112',
+                job: 'chronos-exporter',
+                msg: '7568111: core event number-10033',
+                serial_number: '752365A',
+                site: 'fremont',
+                time: '2022-02-23T22:06:36.407900416Z',
+              },
+              values: [[1645713852, '5']],
+            },
+          ],
+        },
+      })
+    );
     const site = 'fremont';
     const iccid = '123-456-789';
     const index = 0;
     component.fetchProm2(site, iccid, index);
   });
 
-  it('should run #deviceSimsDetailsProgressToggleDayFun()', async () => {
+  it('should run #deviceSimsDetailsProgressToggleDayFun()', () => {
     component.deviceSimsDetailsProgressToggleDayFun();
   });
 
-  it('should run #deviceSimsDetailsProgressToggleWeekFun()', async () => {
+  it('should run #deviceSimsDetailsProgressToggleWeekFun()', () => {
+    const index = 0;
+    const sim = '123-456-789';
+    component.detailsTrigger(index, sim);
     component.deviceSimsDetailsProgressToggleWeekFun();
   });
 
-  it('should run #activeNewDeviceForm()', async () => {
+  it('should run #activeNewDeviceForm()', () => {
     component.activeNewDeviceForm();
   });
 
-  it('should run #simsView()', async () => {
+  it('should run #simsView()', () => {
     component.simsView();
   });
 
-  it('should run #inventoryDeviceTab()', async () => {
+  it('should run #inventoryDeviceTab()', () => {
     component.inventoryDeviceTab();
   });
 
-  it('should run #inventorySimsTab()', async () => {
+  it('should run #inventorySimsTab()', () => {
     component.inventorySimsTab();
   });
 
-  it('should run #cancelledSims()', async () => {
+  it('should run #cancelledSims()', () => {
     component.cancelledSims();
   });
 });
