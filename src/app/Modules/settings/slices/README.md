@@ -2,7 +2,7 @@
 
 Slices component is used to display the Slices.
 
-- Each slice has multiple [`Device Groups`](/src/app/Modules/settings/device-groups/device-groups.component.md) and the [Services](/src/app/Modules/settings/services/services.component.md) (applications) they can access.
+- Each slice has multiple [`Device Groups`](../device-groups/README.md) and the [Services](../services/README.md) (applications) they can access.
 - Creating a slice is a multi step process.
 - In the first step the basic slice details are provided.
 
@@ -25,7 +25,7 @@ Slices component is used to display the Slices.
   ![Slice edit](images/slices-edit.png)
 
 - While editing users will be provided the option to delete the slice which on confirmation will be deleted.
-- On clicking of delete button a popup will be triggered that will open [Delete Dialog](/src/app/Modules/settings/dialogs/dialogs.md)
+- On clicking of delete button a popup will be triggered that will open [Delete Dialog](../dialogs/README.md)
 
 ## Developer Information
 

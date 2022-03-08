@@ -15,7 +15,7 @@ Device SIM Component is used to connect a device with a SIM to access aether net
 
   ![Activate Device with data](images/device-sim-add-data.png)
 
-- The dialog screens for selecting the devices and SIMs can be found [here](/src/app/Modules/settings/dialogs/dialogs.md).
+- The dialog screens for selecting the devices and SIMs can be found [here](../dialogs/README.md).
 - User has to fill the required details and press **Activate** button or the required fields will be highlighted as shown below:
 
   ![Activate Device Error](images/device-sim-add-error.png)
@@ -25,7 +25,7 @@ Device SIM Component is used to connect a device with a SIM to access aether net
   ![Edit Acticated Device](images/device-sim-edit.png)
 
 - In edit screen user has an option to delete the device and SIM connection. The action will trigger and open dialog.
-- The dialog can be viewed in the [`Dialog Components`](/src/app/Modules/settings/dialogs/dialogs.md).
+- The dialog can be viewed in the [`Dialog Components`](../dialogs/README.md).
 - Users can also monitor the activities that are performed the device using the **Details** button available for every activated device.
 
   ![Activated Device Data](images/device-sim-details.png)
@@ -48,7 +48,7 @@ Device SIM Component is used to connect a device with a SIM to access aether net
   ![Edit Device](images/device-sim-device-edit.png)
 
 - In edit screen user has an option to delete the device and SIM connection. The action will trigger and open dialog.
-- The dialog can be viewed in the [`Dialog Components`](/src/app/Modules/settings/dialogs/dialogs.md).
+- The dialog can be viewed in the [`Dialog Components`](../dialogs/README.md).
 - SIMs section in the inventory displays the SIMs that are inactive.
 
   ![SIMs in inventory](images/device-sim-sims.png)

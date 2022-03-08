@@ -26,7 +26,7 @@ Dashboard is the default landing page for the users after they are able to succe
 
   ![Small Cell View](images/dashboard-physical-view.png)
 
-- The operations on the Small Cell view is similar to the [Small Cells](/src/app/Modules/settings/small-cell/small-cell.component.md) view.
+- The operations on the Small Cell view is similar to the [Small Cells](../settings/small-cell/README.md) view.
 - Users can also look at the alerts in the site using the `Highlights` section in the top of the dashboard screen.
 - When user clicks on the alerts an alerts section is opened to the right of the site view as shown below:
 
@@ -53,4 +53,4 @@ When the **Dashboard** is loaded:
 - Using **@Input, @Output** and **@ViewChild** parameters from Angular Core are used to pass the information from Dashboard Component to the pages components.
 - **parentWillTakeAction** function declared in the Dashboard component is responsible for handling the click functionalities.
 - The Slices in the slices component can be drag and drop which will help the user to assign them as per their requirement.
-- [Joiner Module](/src/app/Modules/joiner/joiner.component.md) is used in the Small Cells and Slices for connecting the HTML elements with svg lines.
+- [Joiner Module](../joiner/README.md) is used in the Small Cells and Slices for connecting the HTML elements with svg lines.

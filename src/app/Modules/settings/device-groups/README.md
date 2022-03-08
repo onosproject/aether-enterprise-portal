@@ -24,7 +24,7 @@ Device Groups Component is used to grouping multiple devices of the organization
 
 - In edit screen users have the option to select new devices and unselect the existing devices.
 - In edit device group screen user has an option to delete the delete device group. The action will trigger and open dialog.
-- The dialog can be viewed in the [`Dialog Components`](/src/app/Modules/settings/dialogs/dialogs.md).
+- The dialog can be viewed in the [`Dialog Components`](../dialogs/README.md).
 
 ## Developer Information
 

@@ -18,7 +18,7 @@ Services Component is used to handle the Services(Applications) supported by the
   ![Edit Service](images/services-edit.png)
 
 - In edit service screen user has an option to delete the service. The action will trigger and open dialog.
-- The dialog can be viewed in the [`Dialog Components`](/src/app/Modules/settings/dialogs/dialogs.md).
+- The dialog can be viewed in the [`Dialog Components`](../dialogs/README.md).
 
 ## Developer Information
 

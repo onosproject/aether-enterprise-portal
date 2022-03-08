@@ -18,7 +18,7 @@ Admin Component is used to handle the users in the Organization. The default vie
   ![Edit User](images/admin-edit.png)
 
 - In edit user screen user has an option to view the audit of the user and also to delete the user. Both of the actions will trigger and open dialogs.
-- These dialogs can be viewed in the [`Dialog Components`](/src/app/Modules/settings/dialogs/dialogs.md).
+- These dialogs can be viewed in the [`Dialog Components`](../dialogs/README.md).
 
 - Admin also has the option to view the users based on the sites using the `filter by site` that is located in the top right of the screen.
 
