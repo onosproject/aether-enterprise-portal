@@ -278,6 +278,7 @@ export class DeviceGroupsComponent implements OnInit {
         selected: 1,
       };
       this.selectedDevices.push(selectedDeviceInfo);
+      console.log(this.selectedDevices);
     } else {
       this.deviceInventory[deviceIndex].selected = 0;
       for (let i = 0; i < this.selectedDevices.length; i++) {
@@ -290,6 +291,7 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   newFormGroup(): void {
+    this.firstFormError = false;
     this.addNewDeviceGroupError = false;
     this.firstFormGroup = new FormGroup({
       newDeviceGroup: new FormControl('', Validators.required),
@@ -324,14 +326,15 @@ export class DeviceGroupsComponent implements OnInit {
     if (this.firstFormGroup.invalid) {
       // console.log('if');
       this.firstFormError = true;
-      this.stepper.selected.completed = false;
+      // this.stepper.selected.completed = false;
       // console.log(this.stepper.selected.completed);
     } else if (this.firstFormGroup.valid) {
       // console.log('else');
       this.firstFormComplete = true;
-      this.stepper.next();
-      this.stepper.selected.completed = true;
-      // console.log(this.stepper.selected.completed);
+      // this.stepper.next();
+      this.stepper.selectedIndex = 1;
+      // this.stepper.selected.completed = true;
+      console.log(this.stepper);
     }
     // console.log(this.firstFormComplete);
   }
@@ -342,10 +345,11 @@ export class DeviceGroupsComponent implements OnInit {
       this.addNewDeviceGroupError = true;
     } else if (this.firstFormGroup.valid) {
       const selectedDevices = [];
-      // console.log(selectedDevices);
+
       this.selectedDevices.forEach((device) => {
         selectedDevices.push(device);
       });
+      // console.log(this.selectedDevices);
       this.siteDeviceGroups[0].push({
         'display-name': this.summaryArray[0].summaryDeviceGroupName + 'Group',
         description: this.summaryArray[0].summaryDescription,
@@ -553,6 +557,7 @@ export class DeviceGroupsComponent implements OnInit {
       });
       this.editDeviceGroup.push(index);
       this.deviceGroupEditForm = this.siteDeviceGroups[0][index].form;
+      console.log(this.siteDeviceGroups[0][index]);
     }
   }
 
@@ -625,6 +630,7 @@ export class DeviceGroupsComponent implements OnInit {
           inventoryIndex < this.deviceInventory.length;
           inventoryIndex++
         ) {
+          /* istanbul ignore else*/
           if (
             this.deviceInventory[inventoryIndex]['serial-number'] ==
             this.selectedAddDevices[selectedIndex]['serial-number']

@@ -44,7 +44,7 @@ interface Permission {
   styles: [],
 })
 export class AdminComponent implements OnInit {
-  constructor(private userService: UserService, public dialog: MatDialog) {}
+  constructor(public userService: UserService, public dialog: MatDialog) {}
 
   // Boolean Triggers
   AddNew: boolean = false;
@@ -185,6 +185,7 @@ export class AdminComponent implements OnInit {
   }
 
   fileTrigger(event: Event): void {
+    console.log(event);
     // console.log(event.target.files);
     const file = (<HTMLInputElement>event.target).files[0];
     const reader = new FileReader();
@@ -249,6 +250,7 @@ export class AdminComponent implements OnInit {
         securityAlert: new FormControl(this.users[index].securityAlert),
         cities: cities,
       });
+      console.log(this.users[index]);
       const editControls = this.users[index].form.controls;
       this.editControls = editControls;
       // console.log(this.users[index].form);
@@ -321,60 +323,34 @@ export class AdminComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // this.userService.addUser(this.userForm.value);
     this.userFormSubmit = true;
     this.addUserError = false;
-    // let emailAlert = this.userForm.value.emailAlert;
-    // let deviceAlert = this.userForm.value.deviceAlert;
-    // let siteEquipmentAlert = this.userForm.value.siteEquipmentAlert;
-    // let centralAlert = this.userForm.value.centralAlert;
-    // let securityAlert = this.userForm.value.securityAlert;
-    // if (this.userForm.value.emailAlert === '' || null) {
-    //   this.userForm.value.emailAlert = false;
-    // }
-    // if (this.userForm.value.deviceAlert === '' || null) {
-    //   this.userForm.value.deviceAlert = false;
-    // }
-    // if (this.userForm.value.siteEquipmentAlert === '' || null) {
-    //   this.userForm.value.siteEquipmentAlert = false;
-    // }
-    // if (this.userForm.value.centralAlert == '' || null) {
-    //   this.userForm.value.centralAlert = false;
-    // }
-    // if (this.userForm.value.securityAlert == '' || null) {
-    //   this.userForm.value.securityAlert = false;
-    // }
-    // console.log(this.userForm);
     const isCitySelected =
       this.userForm.value.cities.includes(1) ||
       this.userForm.value.cities.includes(2) ||
       this.userForm.value.cities.includes(3);
+    /* istanbul ignore else*/
     if (this.userForm.invalid || !isCitySelected) {
       this.addUserError = true;
-    } else if (this.userForm.valid) {
+    }
+    /* istanbul ignore else*/
+    if (this.userForm.valid) {
       const id =
         this.users.length > 0 ? this.users[this.users.length - 1].id + 1 : 1;
-
-      // this.users.push({
       this.userService.addUser({
         id: id,
         ppic: this.fileUrl,
-        // ppic: this.userForm.value.ppic,
         active: this.userForm.value.active,
         name: this.userForm.value.name,
         email: this.userForm.value.email,
         cities: this.userForm.value.cities,
         emailAlert: this.userForm.value.emailAlert,
-        // emailAlert: emailAlert,
         deviceAlert: this.userForm.value.deviceAlert,
-        // deviceAlert: deviceAlert,
         siteEquipmentAlert: this.userForm.value.siteEquipmentAlert,
-        // siteEquipmentAlert: siteEquipmentAlert,
         centralAlert: this.userForm.value.centralAlert,
-        // centralAlert: centralAlert,
         securityAlert: this.userForm.value.securityAlert,
-        // securityAlert: securityAlert,
       });
+      console.log(this.userForm);
       for (let i = 0; i < this.cities.length; i++) {
         // console.log('forloop');
         if (this.userForm.value.cities[i] > 0) {
@@ -391,9 +367,10 @@ export class AdminComponent implements OnInit {
       this.imageLoaded = false;
       // console.log(this.cities, this.users);
       this.AddNew = !this.AddNew;
-    } else {
-      return;
     }
+    // else {
+    //   return;
+    // }
   }
 
   // getControlEdit(cityIndex):FormControl {
@@ -407,6 +384,8 @@ export class AdminComponent implements OnInit {
     for (let i = 0; i < this.cities.length; i++) {
       cities.push(new FormControl(0));
     }
+    console.log(this.cities);
+    console.log(this.users);
   }
   onEdit(index: number): void {
     //console.log(this.userService.getUser(index));
@@ -419,9 +398,11 @@ export class AdminComponent implements OnInit {
       this.userForm.value.cities.includes(3);
     this.editFormSubmit = true;
     this.editUserError = false;
-    if (this.userForm.invalid || !isCitySelected) {
+    /* istanbul ignore else*/
+    if (this.users[index].form.invalid || !isCitySelected) {
       this.editUserError = true;
     }
+    /* istanbul ignore else*/
     if (this.users[index].form.valid) {
       user.ppic = form.ppic;
       user.name = form.name;
@@ -500,9 +481,11 @@ export class AdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      /* istanbul ignore else*/
       if (result == 'true') {
         this.confirmDelCity(cityIndex, userIndex);
       }
+      /* istanbul ignore else*/
       if (result == 'true' && this.doneActive == false) {
         this.doneActive = true;
       }
@@ -515,6 +498,7 @@ export class AdminComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      /* istanbul ignore else*/
       if (result == 'true') {
         this.confirmDelete(userIndex);
       }
