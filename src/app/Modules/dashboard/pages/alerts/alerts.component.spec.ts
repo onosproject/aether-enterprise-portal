@@ -42,19 +42,19 @@ describe('SmallCellsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should run #ngOnInit()', async () => {
+  it('should run #ngOnInit()', () => {
     component.ngOnInit();
   });
 
-  it('should run #setparent()', async () => {
+  it('should run #setparent()', () => {
     component.setparent(0);
   });
 
-  it('should run #setchild()', async () => {
+  it('should run #setchild()', () => {
     component.setchild(0);
   });
 
-  it('should run #selectFilter()', async () => {
+  it('should run #selectFilter()', () => {
     component.smallCells = [
       {
         id: 1,
@@ -67,7 +67,7 @@ describe('SmallCellsComponent', () => {
     component.TabIndex = 0;
     component.selectFilter('All');
   });
-  it('should run #selectFilter()', async () => {
+  it('should run #selectFilter()', () => {
     component.smallCells = [
       {
         id: 1,
@@ -81,7 +81,7 @@ describe('SmallCellsComponent', () => {
     component.selectFilter('Ignore');
   });
 
-  it('should run #selectFilter()', async () => {
+  it('should run #selectFilter()', () => {
     component.smallCells = [
       {
         id: 1,
@@ -94,7 +94,7 @@ describe('SmallCellsComponent', () => {
     component.TabIndex = 1;
     component.selectFilter('All');
   });
-  it('should run #selectFilter()', async () => {
+  it('should run #selectFilter()', () => {
     component.smallCells = [
       {
         id: 1,
@@ -108,43 +108,47 @@ describe('SmallCellsComponent', () => {
     component.selectFilter('Ignore');
   });
 
-  // it('should run #selectedTabValue()', async () => {
+  // it('should run #selectedTabValue()', () => {
   //    component.selectedTabValue(<MatTabChangeEvent>);
   // });
 
-  it('should run #selectedDevice()', async () => {
+  it('should run #selectedDevice()', () => {
     component.informParent = component.informParent;
+    spyOn(component.informParent, 'emit');
     component.selectedDevice('', {});
+    expect(component.informParent.emit).toHaveBeenCalled();
   });
 
-  it('should run #raiseTicket()', async () => {
+  it('should run #raiseTicket()', () => {
     component.raiseTicket();
   });
 
-  it('should run #openChatView()', async () => {
+  it('should run #openChatView()', () => {
     component.openChatView();
   });
 
-  it('should run #setResponedStatus()', async () => {
+  it('should run #setResponedStatus()', () => {
     component.TabIndex = 1;
-
     component.tickets = [
       {
         status: null,
       },
     ];
+    spyOn(component.tickets, 'splice').and.callThrough();
     component.smallCells = [
       {
         status: null,
       },
     ];
-
+    component.snackBar = component.snackBar;
+    spyOn(component.snackBar, 'openFromComponent');
     component.setResponedStatus('Resolved', 0);
+    expect(component.tickets.splice).toHaveBeenCalled();
+    expect(component.snackBar.openFromComponent).toHaveBeenCalled();
   });
 
-  it('should run #setResponedStatus()', async () => {
+  it('should run #setResponedStatus()', () => {
     component.TabIndex = 1;
-
     component.tickets = [
       {
         status: null,
@@ -155,57 +159,43 @@ describe('SmallCellsComponent', () => {
         status: null,
       },
     ];
-
+    component.snackBar = component.snackBar;
     component.setResponedStatus('ignor', 0);
   });
 
-  it('should run #setResponedStatus()', async () => {
-    component.tickets = [
-      {
-        status: null,
-      },
-    ];
+  it('should run #sortData()', () => {
     component.smallCells = [
       {
         status: null,
       },
     ];
-    component.TabIndex = 0;
-    component.setResponedStatus('Resolved', 0);
-  });
-
-  it('should run #setResponedStatus()', async () => {
-    component.tickets = [
+    spyOn(component.smallCells, 'sort').and.returnValue([
       {
-        status: null,
+        priorty: {},
       },
-    ];
-    component.smallCells = [
-      {
-        status: null,
-      },
-    ];
-    component.TabIndex = 0;
-    component.setResponedStatus('ignor', 0);
-  });
-
-  it('should run #sortData()', async () => {
-    component.smallCells = [
-      {
-        status: null,
-      },
-    ];
+    ]);
     component.TabIndex = 1;
-    component.sortData('high');
-    component.sortData('low');
 
+    component.tickets = component.tickets;
+    spyOn(component.tickets, 'sort').and.returnValue([
+      {
+        priorty: {},
+      },
+    ]);
+    component.sortData('high');
+    component.tickets = component.tickets;
+    component.sortData('low');
     component.TabIndex = 0;
     component.sortData('high');
     component.sortData('low');
+    expect(component.smallCells.sort).toHaveBeenCalled();
+    expect(component.tickets.sort).toHaveBeenCalled();
   });
 
-  it('should run #goToDashboard()', async () => {
+  it('should run #goToDashboard()', () => {
     component.route = component.route;
+    spyOn(component.route, 'navigate');
     component.goToDashboard();
+    expect(component.route.navigate).toHaveBeenCalled();
   });
 });

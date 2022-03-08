@@ -191,7 +191,6 @@ export class SlicesComponent {
   cancelEdit(index: number): void {
     this.sliceId = null;
     this.siteIndex = 0;
-    // console.log(this.sliceData);
     /* istanbul ignore else */
     if (this.isEditable) {
       this.isEditable = false;
@@ -233,7 +232,7 @@ export class SlicesComponent {
     setTimeout(() => {
       this.sliceData = value.siteData;
       this.logicforAlertData();
-    }, 20);
+    }, 10);
   }
 
   logicforAlertData(): void {
@@ -279,7 +278,6 @@ export class SlicesComponent {
           smallCell[0][0].alerts.push(obj);
         }
         this.sitesService.allSmallCellsData = smallCell[0][0].alerts;
-        // console.log('+++++++++++++', smallCell[0][0].alerts);
       }
     }
   }
@@ -451,7 +449,6 @@ export class SlicesComponent {
     /* istanbul ignore else */
     if (this.sliceData[this.siteIndex].alerts === 0) {
       for (let i = 0; i < this.sliceData[this.siteIndex].devices.length; i++) {
-        // console.log(this.sliceData[this.siteIndex].devices[i]);
         this.sliceData[this.siteIndex].devices[i].isExpanded = false;
       }
     }
@@ -462,7 +459,6 @@ export class SlicesComponent {
 
   selectedDevice(event: { group: string; serialNumber: number }): void {
     this.group = event.group;
-    // this.serialNumber = JSON.stringify(event.serialNumber);
     this.serialNumber = event.serialNumber;
   }
 

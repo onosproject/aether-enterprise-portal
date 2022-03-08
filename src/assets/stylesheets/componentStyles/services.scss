@@ -35,7 +35,7 @@
       .title-tab {
         margin-top: -4px;
         .title-block {
-          color: #3c4257;
+          color: $Shade_11;
           font-family: Inter;
           font-style: normal;
           font-weight: normal;
@@ -52,7 +52,7 @@
           .series-bg {
             height: 56px;
             width: 56px;
-            background: #edf4ff;
+            background: $Shade_0;
             border-radius: 50%;
             position: relative;
             margin-right: 10px;
@@ -65,7 +65,7 @@
             }
             &:after {
               content: "";
-              background: #97c1ff;
+              background: $Shade_2;
               height: 58px;
               width: 2px;
               position: absolute;
@@ -79,7 +79,7 @@
             font-size: 12px;
             line-height: 16px;
             letter-spacing: 0.02em;
-            color: #000000;
+            color: $Shade_10;
           }
           .desc {
             font-family: Inter;
@@ -88,7 +88,7 @@
             font-size: 14px;
             line-height: 150%;
             letter-spacing: 0.00625em;
-            color: #000000;
+            color: $Shade_10;
             padding-top: 6px;
           }
           &.status {
@@ -97,7 +97,7 @@
         }
       }
       &-edit-service-form {
-        border-top: 1px solid #97c1ff;
+        border-top: 1px solid $Shade_2;
         margin-top: -18px;
         border-top-right-radius: 0px !important;
         border-top-left-radius: 0 !important;
@@ -120,12 +120,12 @@
   border-radius: 45px;
 }
 .status-active {
-  background: #06d6a0;
-  color: #ffffff;
+  background: $AlertSuccess;
+  color: $SecondaryColor;
 }
 .status-in-active {
-  background: #d8d8d8;
-  color: #ffffff;
+  background: $Shade_1;
+  color: $SecondaryColor;
 }
 .edit {
   font-family: Inter;
@@ -134,7 +134,7 @@
   font-size: 14px;
   line-height: 150%;
   text-align: right;
-  color: #0063f7;
+  color: $primaryColor;
   cursor: pointer;
 }
 
@@ -143,8 +143,8 @@
   button {
     height: 48px;
     width: 216px;
-    color: #ffffff !important;
-    background: #0063f7 !important;
+    color: $SecondaryColor !important;
+    background: $primaryColor !important;
     border-radius: 4px !important;
     text-align: left;
     margin: 0 auto;
@@ -169,7 +169,7 @@
 }
 .form-field-bg {
   border-radius: 5px;
-  background: #eff1f3;
+  background: $Shade_0;
   padding-left: 15px;
 }
 .form-label {
@@ -179,41 +179,41 @@
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.02em;
-  color: #3c4257;
+  color: $Shade_11;
 }
 .form-control {
   border-radius: 0;
-  // border-bottom: 0.5px solid #3c4257;
+  // border-bottom: 0.5px solid $Shade_11;
   margin-top: 8px;
 }
 
 .btn-gray {
-  background: #a3a3a3;
+  background: $Shade_12;
   border-radius: 4px;
   padding: 10px 62px 10px 16px;
   border-radius: 6px;
-  color: #fff;
+  color: $SecondaryColor;
 }
 .btn-white {
-  background: #ffffff;
-  border: 1px solid #0063f7;
+  background: $SecondaryColor;
+  border: 1px solid $primaryColor;
   padding: 10px 62px 10px 16px;
 
   border-radius: 6px;
-  color: #0063f7;
+  color: $primaryColor;
 }
 .btn-save {
-  background: #0063f7;
+  background: $primaryColor;
   border-radius: 4px;
   padding: 10px 62px 10px 16px;
   border-radius: 6px;
-  color: #fff;
+  color: $SecondaryColor;
 }
 .close {
-  color: #ef233c;
+  color: $AlertCritical;
 }
 .card-item-delete {
-  color: #ef233c;
+  color: $AlertCritical;
   align-items: center;
   cursor: pointer;
   padding-left: 15px;
@@ -235,10 +235,10 @@
     height: 48px;
   }
   .mat-form-field-flex {
-    background: #eff1f3;
+    background: $Shade_0;
   }
   .mat-form-field-infix {
-    background: #ffffff;
+    background: $SecondaryColor;
     // width: 160px;
     height: 48px;
     // border-bottom: 1px solid;

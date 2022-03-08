@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { SitesService } from 'src/app/services/sites/sites.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../src/environments/environment';
 import { DecomissionComponent } from '../dialogs/decomission/decomission.component';
 import { RecomissionComponent } from '../dialogs/recomission/recomission.component';
 
@@ -157,11 +157,8 @@ export class SmallCellComponent implements OnInit {
   }
 
   assignSelectedSite(): void {
-    //console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-      // //console.log(data);
       this.selectedSite = data;
-      //console.log(this.selectedSite);
       this.fetchConfig();
     });
   }
@@ -176,6 +173,7 @@ export class SmallCellComponent implements OnInit {
     const detailsIndex = this.displayDetails.findIndex(
       (index: number) => index === smallCellIndex
     );
+
     if (detailsIndex >= 0) {
       this.displayDetails.splice(detailsIndex, 1);
     } else {

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import { UserService } from './user.service';
 
 describe('UserService', () => {
@@ -11,14 +16,14 @@ describe('UserService', () => {
     service.usersSubject = service.usersSubject || {};
     spyOn(service.usersSubject, 'asObservable');
     service.getUsers();
-    // expect(service.usersSubject.asObservable).toHaveBeenCalled();
+    expect(service.usersSubject.asObservable).toHaveBeenCalled();
   });
 
   it('should run #getCities()', async () => {
     service.citiesSubject = service.citiesSubject || {};
     spyOn(service.citiesSubject, 'asObservable');
     service.getCities();
-    // expect(service.citiesSubject.asObservable).toHaveBeenCalled();
+    expect(service.citiesSubject.asObservable).toHaveBeenCalled();
   });
 
   it('should run #getUser()', async () => {
@@ -34,100 +39,64 @@ describe('UserService', () => {
   });
 
   it('should run #addUser()', async () => {
-    service.users = service.users || {};
+    service.users = service.users;
     service.users.id = 'id';
-    spyOn(service.users, 'push');
+    spyOn(service.users, 'push').and.callThrough();
     service.users = ['users'];
-    service.usersSubject = service.usersSubject || {};
-    spyOn(service.usersSubject, 'next');
+    service.usersSubject = service.usersSubject;
+    spyOn(service.usersSubject, 'next').and.callThrough();
     service.addUser({
       id: {},
     });
-    // expect(service.users.push).toHaveBeenCalled();
-    // expect(service.usersSubject.next).toHaveBeenCalled();
+    expect(service.usersSubject.next).toHaveBeenCalled();
   });
 
   it('should run #updateUser()', async () => {
-    service.users = service.users || {};
+    service.users = service.users;
     service.users.index = 'index';
     service.users = ['users'];
-    service.usersSubject = service.usersSubject || {};
+    service.usersSubject = service.usersSubject;
     spyOn(service.usersSubject, 'next');
     service.updateUser({}, {});
-    // expect(service.usersSubject.next).toHaveBeenCalled();
+    expect(service.usersSubject.next).toHaveBeenCalled();
   });
 
   it('should run #updateCity()', async () => {
-    service.cities = service.cities || {};
+    service.cities = service.cities;
     service.cities.index = 'index';
     service.cities = ['cities'];
-    service.citiesSubject = service.citiesSubject || {};
+    service.citiesSubject = service.citiesSubject;
     spyOn(service.citiesSubject, 'next');
     service.updateCity({}, {});
-    // expect(service.citiesSubject.next).toHaveBeenCalled();
+    expect(service.citiesSubject.next).toHaveBeenCalled();
   });
 
   it('should run #updateCities()', async () => {
-    service.citiesSubject = service.citiesSubject || {};
+    service.citiesSubject = service.citiesSubject;
     spyOn(service.citiesSubject, 'next');
     service.updateCities('cities');
-    // expect(service.citiesSubject.next).toHaveBeenCalled();
+    expect(service.citiesSubject.next).toHaveBeenCalled();
   });
 
-  // it('should run #deleteUser()', async () => {
-  //   service.users = service.users || {};
-  //   service.users.index = {
-  //     id: {},
-  //   };
-  //   spyOn(service.users, 'splice');
-  //   service.users = ['users'];
-  //   service.cities = service.cities || {};
-  //   service.usersSubject = service.usersSubject || {};
-  //   spyOn(service.usersSubject, 'next');
-  //   service.deleteUser(0);
-  //   // expect(service.users.splice).toHaveBeenCalled();
-  //   // expect(service.usersSubject.next).toHaveBeenCalled();
-  // });
-
-  // it('should run #deleteUser()', async () => {
-  //   service.users = service.users || {};
-  //   service.users.index = {
-  //     id: 1,
-  //   };
-  //   spyOn(service.users, 'splice');
-  //   service.users = ['users'];
-  //   service.cities = service.cities || {};
-  //   service.usersSubject = service.usersSubject || {};
-  //   spyOn(service.usersSubject, 'next');
-  //   service.deleteUser(1);
-  //   // expect(service.users.splice).toHaveBeenCalled();
-  //   // expect(service.usersSubject.next).toHaveBeenCalled();
-  // });
-
-  it('should run #deleteCity()', async () => {
-    service.users = service.users || {};
-    service.users.index = {
-      id: {},
-    };
+  it('should run #deleteUser()', async () => {
+    service.users = [{ id: 1 }];
     spyOn(service.users, 'splice');
-    service.users = ['users'];
-    service.cities = service.cities || {};
-    // service.cities.i = {
-    //   users: {
-    //     findIndex: function () {
-    //       return [
-    //         {
-    //           userId: {},
-    //         },
-    //       ];
-    //     },
-    //     splice: function () {},
-    //   },
-    // };
-    service.usersSubject = service.usersSubject || {};
+    service.cities = [
+      {
+        id: 1,
+        name: 'Fremont, CA',
+        users: [
+          {
+            accessLevel: 1,
+            userId: 1,
+          },
+        ],
+      },
+    ];
+    service.usersSubject = service.usersSubject;
     spyOn(service.usersSubject, 'next');
-    service.deleteCity(1);
-    // expect(service.users.splice).toHaveBeenCalled();
-    // expect(service.usersSubject.next).toHaveBeenCalled();
+    service.deleteUser(0);
+    expect(service.users.splice).toHaveBeenCalled();
+    expect(service.usersSubject.next).toHaveBeenCalled();
   });
 });

@@ -15,7 +15,6 @@ import { DashboardModule } from './dashboard.module';
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -33,21 +32,28 @@ describe('DashboardComponent', () => {
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    jasmine.clock().install();
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should run #parentWillTakeAction()', async () => {
+  it('should run #parentWillTakeAction()', () => {
     spyOn(component, 'hideAcknowledgedView');
-    spyOn(component, 'getSlices');
+    spyOn(component, 'getSlices').and.callThrough();
+    component.slices = component.slices;
+    component.isAcknowledged = 8;
+    component.isExpand = false;
     spyOn(component.slices, 'expandAllCard');
     spyOn(component.slices, 'collapseAllCard');
     component.slices.viewType = 'viewType';
     spyOn(component.slices, 'onSelectCard');
-    component.isAcknowledged = 8;
-    component.isExpand = false;
+
     component.parentWillTakeAction({
       siteId: 'fremont',
       siteData: [
@@ -56,7 +62,13 @@ describe('DashboardComponent', () => {
           'device-groups': [],
           'display-name': 'Phones Slice',
           'slice-id': 'fremont-slice-phones',
-          devices: [],
+          devices: [
+            {
+              'display-name': 'Cameras group',
+              devices: [],
+              isExpanded: true,
+            },
+          ],
         },
       ],
       siteIndex: 0,
@@ -73,28 +85,40 @@ describe('DashboardComponent', () => {
           'device-groups': [],
           'display-name': 'Phones Slice',
           'slice-id': 'fremont-slice-phones',
-          devices: [],
+          devices: [
+            {
+              'display-name': 'Cameras group',
+              devices: [],
+              isExpanded: true,
+            },
+          ],
         },
       ],
       siteIndex: 0,
       alerts: 4,
       sitePlans: null,
     });
+
+    expect(component.slices.onSelectCard).toHaveBeenCalled();
+    expect(component.hideAcknowledgedView).not.toHaveBeenCalled();
+    jasmine.clock().tick(101);
+    expect(component.hideAcknowledgedView).toHaveBeenCalled();
+    expect(component.slices.expandAllCard).toHaveBeenCalled();
+    expect(component.slices.collapseAllCard).toHaveBeenCalled();
   });
 
-  it('should run #parentWillTakeForExpand()', async () => {
+  it('should run #parentWillTakeForExpand()', () => {
     component.isExpand = true;
     spyOn(component.slices, 'expandAllCard');
     spyOn(component.slices, 'collapseAllCard');
     component.parentWillTakeForExpand();
     component.isExpand = false;
     component.parentWillTakeForExpand();
-
-    // expect(component.slices.expandAllCard).toHaveBeenCalled();
-    // expect(component.slices.collapseAllCard).toHaveBeenCalled();
+    expect(component.slices.expandAllCard).toHaveBeenCalled();
+    expect(component.slices.collapseAllCard).toHaveBeenCalled();
   });
 
-  it('should run #parentWillTakeActionSlice()', async () => {
+  it('should run #parentWillTakeActionSlice()', () => {
     component.parentWillTakeActionSlice({
       viewType: true,
       isalert: true,
@@ -105,28 +129,46 @@ describe('DashboardComponent', () => {
     });
   });
 
-  it('should run #showAcknowledgedView()', async () => {
+  it('should run #showAcknowledgedView()', () => {
     spyOn(component.slices, 'expandAllCard');
     component.showAcknowledgedView(0);
-    // expect(component.slices.expandAllCard).toHaveBeenCalled();
+    expect(component.slices.expandAllCard).toHaveBeenCalled();
   });
 
-  it('should run #hideAcknowledgedView()', async () => {
+  it('should run #hideAcknowledgedView()', () => {
     spyOn(component.slices, 'hideAcknowledgedView');
     component.hideAcknowledgedView();
-    // expect(component.slices.hideAcknowledgedView).toHaveBeenCalled();
+    expect(component.slices.hideAcknowledgedView).toHaveBeenCalled();
   });
 
-  it('should run #openDialog()', async () => {
+  it('should run #openDialog()', () => {
     spyOn(component.dialog, 'open');
     component.openDialog();
-    // expect(component.dialog.open).toHaveBeenCalled();
+    expect(component.dialog.open).toHaveBeenCalled();
   });
 
-  it('should run #getSlices()', async () => {
-    spyOn(component.slices, 'onSelectCard');
-    component.sitesService.siteId = 'siteId';
+  it('should run #getSlices()', () => {
+    component.sitesService.siteId = 'fremont';
+    component.sitesService.siteData = [
+      {
+        applications: [],
+        'device-groups': [],
+        'display-name': 'Phones Slice',
+        'slice-id': 'fremont-slice-phones',
+        devices: [
+          { 'display-name': 'Cameras group', devices: [], isExpanded: true },
+        ],
+      },
+    ];
+    component.sitesService.siteIndex = 0;
+    component.sitesService.sitePlanes = {
+      isometric: true,
+      layers: [],
+      origin: 'ORIGIN_TOP_LEFT',
+    };
+    spyOn(component.slices, 'onSelectCard').and.callThrough();
+
     component.getSlices();
-    // expect(component.slices.onSelectCard).toHaveBeenCalled();
+    expect(component.slices.onSelectCard).toHaveBeenCalled();
   });
 });

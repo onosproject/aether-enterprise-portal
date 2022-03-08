@@ -30,34 +30,30 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should run #ngOnInit()', async () => {
+  it('should run #ngOnInit()', () => {
     component.form = component.formBuilder.group({
       email: component.email,
       password: component.password,
     });
     spyOn(component.formBuilder, 'group');
     component.ngOnInit();
-    // expect(component.formBuilder.group).toHaveBeenCalled();
+    expect(component.formBuilder.group).toHaveBeenCalled();
   });
 
-  it('should run #getErrorMessage()', async () => {
+  it('should run #getErrorMessage()', () => {
     component.email = component.email;
     spyOn(component.email, 'hasError');
     component.password = component.password;
     spyOn(component.password, 'hasError');
     component.getErrorMessage();
-    // expect(component.email.hasError).toHaveBeenCalled();
-    // expect(component.password.hasError).toHaveBeenCalled();
+    expect(component.email.hasError).toHaveBeenCalled();
+    expect(component.password.hasError).toHaveBeenCalled();
   });
 
-  it('should run #onSubmit()', async () => {
-    component.onSubmit();
-  });
-
-  it('should run #goToForgotPassword()', async () => {
+  it('should run #goToForgotPassword()', () => {
     component.route = component.route;
     spyOn(component.route, 'navigate');
     component.goToForgotPassword();
-    // expect(component.route.navigate).toHaveBeenCalled();
+    expect(component.route.navigate).toHaveBeenCalled();
   });
 });

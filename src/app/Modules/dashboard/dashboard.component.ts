@@ -12,7 +12,6 @@ import { smallCell } from '../../shared/classes/dashboard-data';
 import { SitePlan } from 'src/app/models/site-plan.model';
 import { Slice } from 'src/app/models/slice.model';
 import { environment } from '../../../../src/environments/environment';
-// import { SlicesComponent } from '../../../../src/app/Modules/dashboard/pages/slices/slices.component';
 
 @Component({
   selector: 'aep-dashboard',
@@ -20,10 +19,7 @@ import { environment } from '../../../../src/environments/environment';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  // @ViewChild('sites') sites: any;
   @ViewChild('slices') slices;
-  // @ViewChild('navbar') navbar;
-
   isExpand: boolean = true;
   panelOpenState = false;
   isAcknowledged = 12;
@@ -46,14 +42,11 @@ export class DashboardComponent {
     alerts: number;
     sitePlans: SitePlan;
   }): void {
-    // this.siteIndex = event.siteIndex;
-    // console.log('||||||||||||||||||||', event);
     if (this.isAcknowledged !== 12 || !this.isExpand) {
       setTimeout(() => {
         this.hideAcknowledgedView();
       }, 100);
     }
-    // this.navbar.getDataFromDashboard(event.siteId);
     this.siteId = event.alerts;
     if (event.sitePlans === null) {
       this.viewType = 'Logical';
@@ -102,7 +95,6 @@ export class DashboardComponent {
     this.sitesService.numberOfAlerts = numberOfAlerts;
     this.isAcknowledged = 8;
     this.slices.expandAllCard(true);
-    // this.isExpand = false;
   }
   hideAcknowledgedView(): void {
     this.isAcknowledged = 12;

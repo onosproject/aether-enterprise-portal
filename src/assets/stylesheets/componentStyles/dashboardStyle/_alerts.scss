@@ -14,8 +14,8 @@
     width: 100%;
     padding: 10px 0 10px;
     opacity: 0.6;
-    color: #97c1ff;
-    background-color: #ffffff;
+    color: $Shade_2;
+    background-color: $SecondaryColor;
     &:first-child {
       border-top-left-radius: 8px;
     }
@@ -24,12 +24,12 @@
     }
   }
   .mat-tab-label.mat-tab-label-active {
-    background: #0063f7;
+    background: $primaryColor;
     opacity: 1;
-    color: #fff;
+    color: $SecondaryColor;
   }
   .fixed_tab_header {
-    background: #fff;
+    background: $SecondaryColor;
     display: flex;
     justify-content: space-between;
     padding: 5px 15px 0;
@@ -40,10 +40,10 @@
       display: none;
     }
     .filter {
-      color: #0063f7;
+      color: $primaryColor;
     }
     .sort {
-      color: #0063f7;
+      color: $primaryColor;
       .mat-form-field {
         text-align: end;
       }
@@ -58,7 +58,7 @@
     width: 100%;
     padding: 10px 0 10px;
     opacity: 0.6;
-    color: #97c1ff;
+    color: $Shade_2;
   }
 
   // .ctm_new_component{
@@ -76,7 +76,7 @@
       width: 100%;
     }
     .alert_info {
-      color: #ef233c;
+      color: $AlertCritical;
       font-size: 14px;
       font-weight: 400;
       margin: 30px 0 0;
@@ -85,22 +85,22 @@
       }
     }
     .alert_info-medium {
-      color: #fb8500;
+      color: $AlertMedium;
       font-size: 14px;
       font-weight: 400;
       margin: 30px 0 0;
     }
     .alert_info-low {
-      color: #3c4257;
+      color: $Shade_11;
       font-size: 14px;
       font-weight: 400;
       margin: 30px 0 0;
     }
     .alert_info_history {
-      color: #3c4257;
+      color: $Shade_11;
     }
     .summary_data {
-      color: #3c4257;
+      color: $Shade_11;
       font-size: 12px;
     }
     .condition_status {
@@ -123,12 +123,12 @@
         margin: 0 auto;
       }
       .priority-critical {
-        background: #ef233c;
+        background: $AlertCritical;
         border-radius: 38px;
         padding: 5px 10px;
         display: flex;
         align-items: center;
-        color: #fff;
+        color: $SecondaryColor;
         font-size: 12px;
         @media only screen and (max-width: 1440px) {
           justify-content: center;
@@ -139,12 +139,12 @@
         }
       }
       .priority-critical-responed {
-        background: #0063f7;
+        background: $primaryColor;
         border-radius: 38px;
         padding: 5px 10px;
         display: flex;
         align-items: center;
-        color: #fff;
+        color: $SecondaryColor;
         font-size: 12px;
         @media only screen and (max-width: 1440px) {
           justify-content: center;
@@ -155,37 +155,37 @@
         }
       }
       .priority-high {
-        color: #ef233c;
+        color: $AlertCritical;
         @media only screen and (max-width: 1400px) {
           text-align: center;
         }
       }
       .priority-medium {
-        color: #fb8500;
+        color: $AlertMedium;
         @media only screen and (max-width: 1400px) {
           text-align: center;
         }
       }
       .priority-low {
-        color: #3c4257;
+        color: $Shade_11;
         @media only screen and (max-width: 1400px) {
           text-align: center;
         }
       }
       .priority-history {
-        background: #0063f7;
+        background: $primaryColor;
         border-radius: 38px;
         padding: 5px 10px;
         display: flex;
         align-items: center;
-        color: #fff;
+        color: $SecondaryColor;
         font-size: 12px;
         .mr-2 {
           margin-right: 5px;
         }
       }
       .upload_time {
-        color: #3c4257;
+        color: $Shade_11;
         font-size: 12px;
         margin-left: 10px;
         @media only screen and (max-width: 1400px) {
@@ -199,12 +199,12 @@
       padding-bottom: 21px;
       .ticket_raise {
         a {
-          color: #0063f7;
+          color: $primaryColor;
           text-decoration: none;
         }
       }
       .respond {
-        color: #0063f7;
+        color: $primaryColor;
         margin-left: 10px;
         // font-weight: 500;
         text-transform: capitalize;
@@ -219,19 +219,19 @@
     }
     .msg_received_bx {
       .msg_recived {
-        background: #ffffff;
+        background: $SecondaryColor;
         border-radius: 6px 6px 6px 0px;
         padding: 8px 20px;
         width: max-content;
         max-width: 100%;
         .msg_received_h {
           font-size: 14px;
-          color: #0063f7;
+          color: $primaryColor;
           max-width: 100%;
         }
       }
       .received_time {
-        color: #97c1ff;
+        color: $Shade_2;
         font-size: 10px;
         margin-bottom: 5px;
         max-width: 100%;
@@ -243,21 +243,21 @@
       align-items: flex-end;
       max-width: 100%;
       .msg_send {
-        background: #ffffff;
+        background: $SecondaryColor;
         border-radius: 6px 6px 6px 0px;
         padding: 8px 20px;
         width: max-content;
         max-width: 100%;
       }
       .send_time {
-        color: #97c1ff;
+        color: $Shade_2;
         font-size: 10px;
         margin-bottom: 5px;
         max-width: 100%;
       }
     }
     .problem_textarea {
-      border: 1px solid #97c1ff;
+      border: 1px solid $Shade_2;
       border-radius: 4px;
       box-shadow: none;
       .mat-form-field-wrapper {
@@ -273,7 +273,7 @@
   }
   .alert_card_bx {
     width: 100%;
-    background: #edf4ff;
+    background: $general-bg;
     border-radius: 8px;
     box-shadow: none;
     .ticket_category {
@@ -283,11 +283,11 @@
     }
     mat-form-field {
       width: 100%;
-      // background: #ffffff;
+      // background: $SecondaryColor;
       .mat-form-field-flex {
-        background-color: #fff;
+        background-color: $SecondaryColor;
         .mat-form-field-label {
-          color: #3c4257;
+          color: $Shade_11;
         }
       }
     }
@@ -304,11 +304,11 @@
         font-size: 14px;
       }
       .can-btn {
-        color: #0063f7;
+        color: $primaryColor;
       }
       .sub-btn {
-        background: #0063f7;
-        color: #ffffff;
+        background: $primaryColor;
+        color: $SecondaryColor;
         min-width: 128px;
         text-align: left;
       }
@@ -361,13 +361,13 @@
       }
       .parent-card {
         height: 101px;
-        border: 1px solid #97c1ff;
+        border: 1px solid $Shade_2;
         border-radius: 4px;
         box-shadow: none;
       }
     }
     .selected-small-cell-panel {
-      border: 1px solid #ef233c;
+      border: 1px solid $AlertCritical;
     }
   }
   .history-card {
@@ -384,7 +384,7 @@
   position: relative;
   &:after {
     content: "";
-    background: #ef233c;
+    background: $AlertCritical;
     position: absolute;
     left: 0;
     width: 6px;
@@ -406,7 +406,7 @@
 .section_close {
   margin: 20px 0 0;
   padding: 12px 0;
-  color: #0063f7;
+  color: $primaryColor;
   font-size: 14px;
   font-weight: 500;
 }
@@ -414,20 +414,20 @@
   [class~="mat-menu-content"] {
     padding: 0 !important;
     button {
-      border-bottom: 1px solid #c9deff;
-      color: #0063f7;
+      border-bottom: 1px solid $Shade_1;
+      color: $primaryColor;
       &:last-child {
         border: none;
       }
       &:hover {
-        background-color: #edf4ff;
+        background-color: $general-bg;
       }
     }
   }
 }
 
 .back-link {
-  color: #0063f7;
+  color: $primaryColor;
   font-weight: 500;
   margin-top: 20px !important;
   img {

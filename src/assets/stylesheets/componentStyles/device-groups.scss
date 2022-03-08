@@ -30,7 +30,7 @@
 
     .sec-1 {
       .title-tab .title-block {
-        color: #000000;
+        color: $Shade_10;
         font-family: Inter;
         font-style: normal;
         font-weight: normal;
@@ -62,8 +62,8 @@
     &-add-new-device-group {
       height: 48px;
       width: 254px;
-      color: #ffffff !important;
-      background: #0063f7 !important;
+      color: $SecondaryColor !important;
+      background: $primaryColor !important;
       margin-top: -3.9px;
       margin-left: auto;
       margin-right: auto;
@@ -95,15 +95,15 @@
     }
     .card-titles {
       padding: 10px 0 10px 0;
-      border-bottom: 1px solid #97c1ff;
+      border-bottom: 1px solid $Shade_2;
       .device-group {
         font-family: Inter;
         font-style: normal;
         font-weight: 600;
         font-size: 16px;
         line-height: 150%;
-        color: #3c4257;
-        border-right: 1px solid #97c1ff;
+        color: $Shade_11;
+        border-right: 1px solid $Shade_2;
         padding: 0 15px 0 0px;
       }
       .device-count {
@@ -112,8 +112,8 @@
         font-weight: normal;
         font-size: 16px;
         line-height: 22px;
-        color: #3c4257;
-        border-right: 1px solid #97c1ff;
+        color: $Shade_11;
+        border-right: 1px solid $Shade_2;
         padding: 0 15px 0 15px;
       }
       .device-domain {
@@ -123,7 +123,7 @@
         font-size: 14px;
         line-height: 150%;
         letter-spacing: 0.00625em;
-        color: #3c4257;
+        color: $Shade_11;
         padding: 0 15px 0 15px;
       }
       .edit {
@@ -138,7 +138,7 @@
         cursor: pointer;
         border: 1px solid transparent;
         border-radius: 4px;
-        background-color: #f0f3fa;
+        background-color: $Shade_0;
         padding: 8px 0px 8px 0px;
         margin: 8px 10px 8px 0;
         width: max-content;
@@ -149,7 +149,7 @@
           font-weight: 500;
           font-size: 14px;
           letter-spacing: 0.00625em;
-          color: #3c4257;
+          color: $Shade_11;
           padding-left: 5px;
         }
         .location {
@@ -159,7 +159,7 @@
           font-size: 12px;
           line-height: 16px;
           letter-spacing: 0.02em;
-          color: #3c4257;
+          color: $Shade_11;
           padding-left: 10px;
         }
         .status-dot {
@@ -168,7 +168,7 @@
         .img-bg {
           height: 24px;
           width: 24px;
-          background: #ffffff;
+          background: $SecondaryColor;
           border-radius: 50%;
           position: relative;
           img {
@@ -186,7 +186,7 @@
   .right-bx-shadow {
     background: linear-gradient(
       270deg,
-      #8ebcff -80.88%,
+      $Shade_2 -80.88%,
       rgba(255, 255, 255, 0) 100%
     );
     width: 25px;
@@ -222,20 +222,13 @@
       .mat-step-icon {
         height: 8px;
         width: 8px;
-        background: #d8d8d8;
+        background: $Shade_1;
         &.mat-step-icon-selected {
-          background: #0063f7;
+          background: $primaryColor;
         }
-        // &.mat-step-icon-state-edit,
-        // &.mat-step-icon-state-done {
-        //   background: #06d6a0;
-        //   + .mat-step-label {
-        //     color: #3c4257;
-        //   }
-        // }
       }
       .mat-step-label {
-        color: #d8d8d8;
+        color: $Shade_1;
         font-family: "Inter";
         font-weight: 400;
         font-size: 28px;
@@ -244,7 +237,7 @@
           overflow: inherit;
         }
         &.mat-step-label-selected {
-          color: #0063f7;
+          color: $primaryColor;
           font-family: "Inter";
           font-weight: 400;
           font-size: 28px;
@@ -265,44 +258,44 @@
       }
     }
     .next-btn-active {
-      color: #fff;
+      color: $SecondaryColor;
       height: 49px;
       width: 108px;
       text-align: start;
       margin-right: 1rem;
-      border: 1px solid #0063f7;
+      border: 1px solid $primaryColor;
       border-radius: 4px;
-      background: #0063f7;
+      background: $primaryColor;
     }
     .next-btn-inactive {
-      color: #fff;
+      color: $SecondaryColor;
       height: 49px;
       width: 108px;
       text-align: start;
       margin-right: 1rem;
-      border: 1px solid #d8d8d8;
+      border: 1px solid $Shade_1;
       border-radius: 4px;
-      background: #d8d8d8;
+      background: $Shade_1;
     }
     .back-btn {
-      color: #0063f7;
+      color: $primaryColor;
       height: 49px;
       width: 108px;
       text-align: start;
       margin-right: 2rem;
-      border: 1px solid #0063f7;
+      border: 1px solid $primaryColor;
       border-radius: 4px;
-      background: #fff;
+      background: $SecondaryColor;
     }
     .btn-controls {
       justify-content: right;
     }
     .form-body {
-      background: #eff1f3;
+      background: $Shade_0;
     }
     .device-group-items {
       .device-group-item {
-        background-color: #ffffff;
+        background-color: $SecondaryColor;
       }
     }
     .select {
@@ -360,21 +353,21 @@
   position: relative;
 }
 .card-item {
-  background: #fff;
+  background: $SecondaryColor;
   .card-list {
     margin-top: 16px;
   }
 }
 .edit-device-goup-form {
-  background-color: #fff;
+  background-color: $SecondaryColor;
   .edit-section {
     .form-sec {
-      background: #eff1f3;
+      background: $Shade_0;
     }
   }
   .device-group-items {
     .device-group-item {
-      background-color: #ffffff !important;
+      background-color: $SecondaryColor !important;
     }
   }
   .mat-card-actions {
@@ -390,11 +383,11 @@
     line-height: 150%;
     cursor: pointer;
 
-    color: #0063f7;
+    color: $primaryColor;
   }
   .cancel {
     margin-left: auto !important;
-    color: #ef233c;
+    color: $AlertCritical;
   }
 }
 
@@ -415,10 +408,10 @@
     height: 48px;
   }
   .mat-form-field-flex {
-    background: #eff1f3;
+    background: $Shade_0;
   }
   .mat-form-field-infix {
-    background: #ffffff;
+    background: $SecondaryColor;
     width: 386px;
     height: 48px;
     // border-bottom: 1px solid;
@@ -443,7 +436,7 @@
 //       width: 8px;
 //       background: red !important;
 //       &.mat-step-icon-selected {
-//         background: #0063f7;
+//         background: $primaryColor;
 //       }
 //     }
 //     .mat-step-label {
@@ -456,7 +449,7 @@
 //         overflow: inherit;
 //       }
 //       &.mat-step-label-selected {
-//         color: #0063f7;
+//         color: $primaryColor;
 //         font-family: "Inter";
 //         font-weight: 400;
 //         font-size: 28px;

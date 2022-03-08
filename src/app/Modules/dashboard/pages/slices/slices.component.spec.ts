@@ -11,14 +11,12 @@ import { MaterialModule } from 'src/app/Modules/material/material.module';
 
 import { SlicesComponent } from './slices.component';
 import { HttpClientModule } from '@angular/common/http';
-import { SitePlan } from 'src/app/models/site-plan.model';
 import { of } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '../modals/delete-card/modal.component';
 
 describe('SlicesComponent', () => {
   let component: SlicesComponent;
-  let _SitePlan: SitePlan;
 
   let fixture: ComponentFixture<SlicesComponent>;
 
@@ -33,6 +31,10 @@ describe('SlicesComponent', () => {
     fixture = TestBed.createComponent(SlicesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    jasmine.clock().install();
+  });
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   it('should create', () => {
@@ -49,18 +51,19 @@ describe('SlicesComponent', () => {
   //   component.dragAndDrop(event);
   // });
 
-  it('should run #expandSlice()', async () => {
+  it('should run #expandSlice()', () => {
     component.expandSlice();
   });
 
-  it('should run #collapseSlice()', async () => {
+  it('should run #collapseSlice()', () => {
     component.isExpand = true || false;
     component.informParent = component.informParent;
-
+    spyOn(component.informParent, 'emit').and.callThrough();
     component.collapseSlice();
+    expect(component.informParent.emit).toHaveBeenCalled();
   });
 
-  it('should run #cancelEdit()', async () => {
+  it('should run #cancelEdit()', () => {
     component.isEditable = true || false;
     component.sliceData = [
       {
@@ -81,13 +84,14 @@ describe('SlicesComponent', () => {
     component.cancelEdit(0);
   });
 
-  it('should run #collapseAllCard()', async () => {
+  it('should run #collapseAllCard()', () => {
     component.collapseAllCard();
   });
 
-  it('should run #onSelectCard()', async () => {
+  it('should run #onSelectCard()', () => {
     component.TabValue = [];
-    component.sliceData = [];
+    // component.sliceData = [];
+    spyOn(component, 'logicforAlertData');
     component.onSelectCard({
       siteId: '',
       siteData: [
@@ -102,11 +106,18 @@ describe('SlicesComponent', () => {
         },
       ],
       siteIndex: 0,
-      sitePlans: _SitePlan,
+      sitePlans: {
+        isometric: true,
+        layers: [],
+        origin: 'ORIGIN_TOP_LEFT',
+      },
     });
+    expect(component.logicforAlertData).not.toHaveBeenCalled();
+    jasmine.clock().tick(11);
+    expect(component.logicforAlertData).toHaveBeenCalled();
   });
 
-  it('should run #logicforAlertData()', async () => {
+  it('should run #logicforAlertData()', () => {
     component.sliceData = [
       {
         alerts: 1,
@@ -135,7 +146,7 @@ describe('SlicesComponent', () => {
     component.logicforAlertData();
   });
 
-  it('should run #getTotalDevices()', async () => {
+  it('should run #getTotalDevices()', () => {
     component.getTotalDevices([
       {
         'display-name': '',
@@ -145,13 +156,7 @@ describe('SlicesComponent', () => {
     ]);
   });
 
-  // it('should run #getDevices()', async () => {
-  //   component.sliceData = component.sliceData || {};
-  //   component.sliceData = [null];
-  //   component.getDevices([]);
-  // });
-
-  it('should run #expandAllCard()', async () => {
+  it('should run #expandAllCard()', () => {
     component.isExpand = true;
     component.panelIndex = undefined;
     component.siteIndex = 0;
@@ -171,10 +176,11 @@ describe('SlicesComponent', () => {
       },
     ];
     component.expandAllCard(true);
-    component.expandAllCard(false);
+    jasmine.clock().tick(11);
+    fixture.detectChanges();
   });
 
-  it('should run #openAlerts()', async () => {
+  it('should run #openAlerts()', () => {
     component.sitesService = component.sitesService;
     component.sitesService.numberOfAlerts = 0;
     component.sitesService.allSmallCellsData = [
@@ -183,10 +189,12 @@ describe('SlicesComponent', () => {
       },
     ];
     component.informParent = component.informParent;
+    spyOn(component.informParent, 'emit');
     component.openAlerts(0, '');
+    expect(component.informParent.emit).toHaveBeenCalled();
   });
 
-  it('should run #onEdit()', async () => {
+  it('should run #onEdit()', () => {
     component.isEditable = true;
     component.sliceData = [
       {
@@ -208,7 +216,7 @@ describe('SlicesComponent', () => {
     component.onEdit(0, 0);
   });
 
-  it('should run #setAccordion()', async () => {
+  it('should run #setAccordion()', () => {
     component.sliceData = [
       {
         alerts: 0,
@@ -225,42 +233,50 @@ describe('SlicesComponent', () => {
     component.setAccordion(0, 0);
   });
 
-  it('should run #removeDevice()', async () => {
+  it('should run #removeDevice()', () => {
     component.myTimeout = null;
     component.removeDevice(1, 0, 7568112);
   });
 
-  it('should run #removeServiceGroup()', async () => {
+  it('should run #removeServiceGroup()', () => {
     component.removeServiceGroup(0, 0, 0);
   });
 
-  it('should run #undoDevice()', async () => {
+  it('should run #undoDevice()', () => {
     component.undoDevice();
   });
 
-  it('should run #openDialog()', async () => {
+  it('should run #openDialog()', () => {
     component.dialog = component.dialog;
     spyOn(component.dialog, 'open').and.returnValue({
       afterClosed: () => of('true'),
     } as MatDialogRef<typeof ModalComponent>);
-    component.openDialog(0, true);
+    component.openDialog(11, true);
+    expect(component.dialog.open).toHaveBeenCalled();
   });
 
-  it('should run #openDialog()', async () => {
+  it('should run #openDialog()', () => {
     component.dialog = component.dialog;
     spyOn(component.dialog, 'open').and.returnValue({
       afterClosed: () => of('true'),
     } as MatDialogRef<typeof ModalComponent>);
     component.openDialog(0, false);
+    expect(component.dialog.open).toHaveBeenCalled();
   });
 
-  it('should run #hideAcknowledgedView()', async () => {
+  it('should run #hideAcknowledgedView()', () => {
     component.sliceData = [
       {
         alerts: 0,
         devices: [
           {
-            devices: [],
+            devices: [
+              {
+                'display-name': 'Cameras group',
+                devices: [],
+                isExpanded: true,
+              },
+            ],
           },
         ],
         services: [
@@ -271,14 +287,14 @@ describe('SlicesComponent', () => {
     component.hideAcknowledgedView();
   });
 
-  it('should run #selectedDevice()', async () => {
+  it('should run #selectedDevice()', () => {
     component.selectedDevice({
       group: '',
       serialNumber: 0,
     });
   });
 
-  it('should run #calculateDeviceTop()', async () => {
+  it('should run #calculateDeviceTop()', () => {
     component.calculateDeviceTop(0, [
       {
         'display-name': 'Cameras group',
@@ -287,7 +303,7 @@ describe('SlicesComponent', () => {
       },
     ]);
   });
-  it('should run #calculateDeviceTop()', async () => {
+  it('should run #calculateDeviceTop()', () => {
     component.calculateDeviceTop(1, [
       {
         'display-name': 'Cameras group',
@@ -299,35 +315,38 @@ describe('SlicesComponent', () => {
     ]);
   });
 
-  it('should run #calculateJointVerticalPosition()', async () => {
+  it('should run #calculateJointVerticalPosition()', () => {
     component.calculateJointVerticalPosition(
       [{ 'display-name': 'string', devices: [], isExpanded: true }],
       0
     );
   });
 
-  it('should run #goToPhysicalView()', async () => {
+  it('should run #goToPhysicalView()', () => {
     (component.sitePlans = {
       isometric: true,
       layers: [],
       origin: 'ORIGIN_TOP_LEFT',
     }),
       (component.informParent = component.informParent);
+    spyOn(component.informParent, 'emit');
+    spyOn(component, 'showSnackBar');
     component.goToPhysicalView();
     component.sitePlans = null;
     component.goToPhysicalView();
 
-    // expect(component.informParent.emit).toHaveBeenCalled();
-    // expect(component.showSnackBar).toHaveBeenCalled();
+    expect(component.informParent.emit).toHaveBeenCalled();
+    expect(component.showSnackBar).toHaveBeenCalled();
   });
 
-  it('should run #showSnackBar()', async () => {
+  it('should run #showSnackBar()', () => {
     component.snackBar = component.snackBar;
+    spyOn(component.snackBar, 'openFromComponent');
     component.showSnackBar();
-    // expect(component.snackBar.openFromComponent).toHaveBeenCalled();
+    expect(component.snackBar.openFromComponent).toHaveBeenCalled();
   });
 
-  it('should run #calculateSVGHeight()', async () => {
+  it('should run #calculateSVGHeight()', () => {
     component.calculateSVGHeight([
       { 'display-name': 'Cameras group', devices: [], isExpanded: true },
     ]);

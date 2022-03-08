@@ -41,13 +41,6 @@ export class LoginComponent implements OnInit {
     return this.email.hasError('email') ? 'Not a valid email' : '';
   }
 
-  onSubmit(): void {
-    // this.submitted = true;
-    // if (this.form.valid) {
-    //console.log(JSON.stringify(this.form.value));
-    // }
-  }
-
   goToForgotPassword(): void {
     this.route.navigate(['login/forgot-password']);
   }

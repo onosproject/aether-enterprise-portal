@@ -6,7 +6,6 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-// import { trigger, style, animate, transition } from '@angular/animations';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,7 +15,6 @@ import { MatStepper } from '@angular/material/stepper';
 import { DeviceGroupsHelperService } from './device-groups-helper.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 
-// * model imports
 import { SelectedDevice as selectedDeviceModel } from 'src/app/models/selected-device.model';
 import { InventoryDevice as inventoryDevice } from 'src/app/models/inventory-device.model';
 import { DeviceGroupSummary as deviceGroupSummary } from 'src/app/models/device-group-summary.model';
@@ -24,23 +22,10 @@ import { DeviceGroupSummary as deviceGroupSummary } from 'src/app/models/device-
 @Component({
   selector: 'aep-device-groups',
   templateUrl: './device-groups.component.html',
-  // animations: [
-  //   trigger('inOutAnimation', [
-  //     transition(':enter', [
-  //       style({ height: 0, opacity: 0 }),
-  //       animate('0.5s ease-out', style({ height: 500, opacity: 1 })),
-  //     ]),
-  //     transition(':leave', [
-  //       style({ height: 500, opacity: 1 }),
-  //       animate('0.5s ease-in', style({ height: 0, opacity: 0 })),
-  //     ]),
-  //   ]),
-  // ],
+
   styleUrls: [],
 })
 export class DeviceGroupsComponent implements OnInit {
-  //var
-  //anankiFormGroup: FormGroup;
   expandDeviceGroups: number[] = [];
 
   @ViewChild('stepper', { static: false }) stepper: MatStepper;
@@ -210,7 +195,6 @@ export class DeviceGroupsComponent implements OnInit {
     this.openContent = true;
   }
 
-  // forms
   firstFormGroup = new FormGroup({});
 
   secondFormGroup = new FormGroup({});
@@ -223,12 +207,7 @@ export class DeviceGroupsComponent implements OnInit {
 
   editDeviceGroupError: boolean = false;
 
-  deviceGroupEditForm = new FormGroup({
-    // newDeviceGroup: new FormControl('', Validators.required),
-    // newIpDomain: new FormControl('', Validators.required),
-    // newDescription: new FormControl('', Validators.required),
-    // newDevice: new FormControl('', Validators.required),
-  });
+  deviceGroupEditForm = new FormGroup({});
 
   constructor(
     public deviceService: DeviceSimService,
@@ -238,23 +217,8 @@ export class DeviceGroupsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.getCompleteData();
     this.assignSelectedSite();
-    // this.getCurrentSite();
   }
-
-  // getCompleteData(): void {
-  //   if (this.globalService.loggedIn == true) {
-  //     this.globalService.fetchCompleteData();
-  //   }
-  //   this.globalService.loggedIn = false;
-  // }
-
-  // getCurrentSite(): void {
-  //   this.globalService.getSite().subscribe((data) => {
-  //     this.selectedSite = data;
-  //   });
-  // }
 
   changeSelection(
     name: string,
@@ -265,7 +229,6 @@ export class DeviceGroupsComponent implements OnInit {
     type: string,
     deviceIndex: number
   ): void {
-    // console.log(this.deviceInventory[deviceIndex].selected);
     if (this.deviceInventory[deviceIndex].selected == 0) {
       this.deviceInventory[deviceIndex].selected = 1;
       const selectedDeviceInfo = {
@@ -286,7 +249,6 @@ export class DeviceGroupsComponent implements OnInit {
         }
       }
     }
-    // console.log(this.selectedDevices, this.deviceInventory, this.siteDevices);
   }
 
   newFormGroup(): void {
@@ -295,19 +257,16 @@ export class DeviceGroupsComponent implements OnInit {
       newDeviceGroup: new FormControl('', Validators.required),
       newIpDomain: new FormControl('', Validators.required),
       newDescription: new FormControl('', Validators.required),
-      // newDevice: new FormControl('', Validators.required),
     });
   }
 
   summaryTrigger(): void {
     this.summaryBool = true;
-    // console.log(this.summaryArray);
     this.summaryArray.push({
       summaryDeviceGroupName: this.firstFormGroup.value.newDeviceGroup,
       summaryIpDomain: this.firstFormGroup.value.newIpDomain,
       summaryDescription: this.firstFormGroup.value.newDescription,
     });
-    // console.log(this.summaryArray);
   }
 
   emptySummaryArray(): void {
@@ -321,28 +280,28 @@ export class DeviceGroupsComponent implements OnInit {
 
   firstFormNext(): void {
     this.firstFormError = false;
+    /* istanbul ignore else */
     if (this.firstFormGroup.invalid) {
-      // console.log('if');
       this.firstFormError = true;
-      this.stepper.selected.completed = false;
-      // console.log(this.stepper.selected.completed);
-    } else if (this.firstFormGroup.valid) {
-      // console.log('else');
-      this.firstFormComplete = true;
-      this.stepper.next();
-      this.stepper.selected.completed = true;
-      // console.log(this.stepper.selected.completed);
     }
-    // console.log(this.firstFormComplete);
+    /* istanbul ignore else */
+    if (this.firstFormGroup.valid) {
+      this.firstFormComplete = true;
+
+      this.stepper.selectedIndex = 1;
+    }
   }
 
   addNewDeviceG(): void {
     this.addNewDeviceGroupError = false;
+    /* istanbul ignore else */
     if (this.firstFormGroup.invalid) {
       this.addNewDeviceGroupError = true;
-    } else if (this.firstFormGroup.valid) {
+    }
+    /* istanbul ignore else */
+
+    if (this.firstFormGroup.valid) {
       const selectedDevices = [];
-      // console.log(selectedDevices);
       this.selectedDevices.forEach((device) => {
         selectedDevices.push(device);
       });
@@ -373,52 +332,25 @@ export class DeviceGroupsComponent implements OnInit {
             ) {
               this.deviceInventory.splice(inventoryIndex, 1);
             }
-            // if (
-            //   this.domainList[domainIndex] == this.summaryArray[0].summaryIpDomain
-            // ) {
-            //   this.domainList.splice(domainIndex, 1);
-            // }
           }
         }
       }
-      // console.log(this.deviceInventory, this.domainList);
       this.selectedDevices.splice(0, this.selectedDevices.length);
       this.emptySummaryArray();
-      // console.log(this.siteDeviceGroups);
-      // this.dataConvert();
-      // console.log(this.selectedDevices);
-      // this.selectedDevices = [];
       this.addNewdeviceGroupForm = !this.addNewdeviceGroupForm;
       this.emptySelectedDevices();
-      // this.firstFormGroup.reset();
-      // console.log(this.siteDeviceGroups);
       this.addNewdeviceGroupForm = false;
     }
   }
 
   assignSelectedSite(): void {
-    // console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-      // this.siteSubscription = this.globalService.getSite().subscribe((data) => {
-      // console.log(data);
       this.selectedSite = data;
-      // console.log(this.selectedSite);
       this.fetchData();
-      // this.fetchDataNew();
-
-      // this.globalService.fetchActivatedDevices(data);
     });
   }
 
   activatedDevices = [];
-
-  // fetchDataNew(): void {
-  //   this.globalService.getActivatedDevices().subscribe((data: any[]) => {
-  //     this.getCurrentSite();
-  //     this.activatedDevices = data;
-  //     // console.log(this.activatedDevices);
-  //   });
-  // }
 
   fetchData(): void {
     this.deviceService.getData().subscribe((result) => {
@@ -430,57 +362,37 @@ export class DeviceGroupsComponent implements OnInit {
         const sitesConfig = item.sites;
         const sitesDevices = [];
         sitesConfig.map((site) => {
+          /* istanbul ignore else */
           if (site['site-id'] === this.selectedSite) {
             sitesDevicesGroups.push(site['device-groups']);
-            //console.log(
-            //   'This is Local site-deviceGroups array',
-            //   this.selectedSite,
-            //   sitesDevicesGroups
-            // );
+
             sitesDevicesGroups[0].forEach((deviceGroup) => {
               deviceGroup.ipDomain = '162.153.31.005';
               deviceGroup.description =
                 'This is the default description of the current device group.';
             });
           }
+          /* istanbul ignore else */
           if (site['site-id'] === this.selectedSite) {
             sitesDevices.push(site.devices);
-            //console.log(
-            //   'This is Local site-devices array',
-            //   this.selectedSite,
-            //   sitesDevices
-            // );
+
             sitesDevices.forEach((siteDevice) => {
               siteDevice.forEach((singleDevice) => {
-                // siteDevice[singleDeviceIndex].selected = 1;
                 singleDevice.selected = 1;
-                // console.log(siteDevice[singleDeviceIndex])
               });
             });
           }
         });
-        // //console.log(sitesDevicesGroups);
-        // //console.log(sitesDevices);
+
         this.siteDevices = sitesDevices;
         this.siteDeviceGroups = sitesDevicesGroups;
         this.dataConvert();
-        // this.test1();
       });
-      //console.log(
-      // 'This is a global device-groups array for a site',
-      // this.siteDeviceGroups
-      // );
-      //console.log(
-      //   'This is a global devices-array for a site',
-      //   this.siteDevices
-      // );
-      //console.log(this.config);
     });
   }
 
   dataConvert(): void {
     this.siteDeviceGroups.forEach((deviceGroups) => {
-      //console.log(deviceGroups);
       deviceGroups.forEach((deviceGroup) => {
         deviceGroup.devices.forEach((groupedDevice, groupedDeviceIndex) => {
           this.siteDevices.forEach((siteDevices) => {
@@ -496,7 +408,6 @@ export class DeviceGroupsComponent implements OnInit {
                     siteDevices[siteDeviceIndex]['serial-number'],
                 };
                 deviceGroup.devices.splice(groupedDeviceIndex, 1, deviceInfo);
-                // //console.log('alert');
               } else {
                 const remainingDevices = [];
                 const deviceInfo = {
@@ -531,7 +442,6 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   editTrigger(index: number): void {
-    // console.log(this.siteDeviceGroups);
     this.closeEdit();
     const editDeviceGroupIndex = this.editDeviceGroup.indexOf(index);
     if (editDeviceGroupIndex >= 0) {
@@ -566,7 +476,6 @@ export class DeviceGroupsComponent implements OnInit {
 
   deleteDevicesInGroups(groupIndex: number, deviceIndex: number): void {
     this.siteDeviceGroups[0][groupIndex].devices.splice(deviceIndex, 1);
-    // console.log(this.siteDeviceGroups);
   }
 
   changeSelectionAddDevices(
@@ -603,10 +512,8 @@ export class DeviceGroupsComponent implements OnInit {
   onEdit(deviceGroupIndex: number): void {
     this.editDeviceGroupError = false;
     if (this.deviceGroupEditForm.invalid) {
-      // console.log('if');
       this.editDeviceGroupError = true;
     } else {
-      // console.log('else');
       const deviceGroup = this.siteDeviceGroups[0][deviceGroupIndex];
       const editForm = this.siteDeviceGroups[0][deviceGroupIndex].form.value;
       deviceGroup['display-name'] = editForm.newDeviceGroup;
@@ -623,6 +530,7 @@ export class DeviceGroupsComponent implements OnInit {
           inventoryIndex < this.deviceInventory.length;
           inventoryIndex++
         ) {
+          /* istanbul ignore else */
           if (
             this.deviceInventory[inventoryIndex]['serial-number'] ==
             this.selectedAddDevices[selectedIndex]['serial-number']
@@ -647,6 +555,7 @@ export class DeviceGroupsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      /* istanbul ignore else */
       if (result == 'true') {
         this.deleteDeviceGroup(deviceGroupIndex);
       }
@@ -654,18 +563,5 @@ export class DeviceGroupsComponent implements OnInit {
     });
   }
 
-  // testing
-  // test1(): any {
-  //   this.siteDevices.forEach((device, deviceIndex) => {
-  //     console.log(device, deviceIndex);
-  //   });
-  // }
-
-  /*acc form */
   isLinear = false;
-  // firstFormGroup: FormGroup;
-  // secondFormGroup: FormGroup;
 }
-// function newFormCOntrol(arg0: null): any {
-//   throw new Error('Function not implemented.');
-// }

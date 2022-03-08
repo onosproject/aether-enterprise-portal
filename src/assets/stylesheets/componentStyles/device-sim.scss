@@ -7,8 +7,8 @@
   .add-active {
     height: 48px;
     width: 240px;
-    color: #ffffff !important;
-    background: #0063f7 !important;
+    color: $SecondaryColor !important;
+    background: $primaryColor !important;
     margin-top: -3.9px;
     margin-left: auto;
     margin-right: auto;
@@ -36,12 +36,12 @@
 
 .device-details {
   text-align: center;
-  color: #0063f7;
+  color: $primaryColor;
   cursor: pointer;
   &.close {
     max-width: 9%;
     text-align: center;
-    color: #ef233c;
+    color: $AlertCritical;
   }
 }
 
@@ -81,7 +81,7 @@
       .title-tab {
         margin-top: -4px;
         .title-block {
-          color: #97c1ff;
+          color: $Shade_2;
           font-family: Inter;
           font-style: normal;
           font-weight: normal;
@@ -89,7 +89,7 @@
           line-height: 36px;
           cursor: pointer;
           &.active {
-            color: #0063f7;
+            color: $primaryColor;
             font-weight: 600;
           }
           &.device-sim-tab {
@@ -113,14 +113,14 @@
           .sims-btn {
             border-top-left-radius: 8px;
             border-bottom-left-radius: 8px;
-            background: #97c1ff;
-            color: #fff;
+            background: $Shade_2;
+            color: $SecondaryColor;
           }
           // .device-btn {
           //   border-top-right-radius: 8px;
           //   border-bottom-right-radius: 8px;
-          //   // background: #97c1ff;
-          //   // color: #fff;
+          //   // background: $Shade_2;
+          //   // color: $SecondaryColor;
           // }
         }
         &.in-active {
@@ -143,12 +143,12 @@
         .vector-bg {
           height: 56px;
           width: 56px;
-          background: #edf4ff;
+          background: $Shade_0;
           border-radius: 50%;
           position: relative;
           &:after {
             content: "";
-            background: #97c1ff;
+            background: $Shade_2;
             height: 58px;
             width: 2px;
             position: absolute;
@@ -173,7 +173,7 @@
           line-height: 16px;
         }
         .desc {
-          color: #3c4257;
+          color: $Shade_11;
           font-family: Inter;
           font-weight: 500;
           font-style: normal;
@@ -185,21 +185,21 @@
       .device-details-view-edit {
         text-align: left;
         max-width: 5%;
-        color: #0063f7;
+        color: $primaryColor;
         margin-left: auto;
         cursor: pointer;
         &-close {
           text-align: left;
           max-width: 5%;
-          color: #ef233c;
+          color: $AlertCritical;
         }
       }
       // .device-progress-bar {
       //   height: 6px;
       // }
       .connected {
-        color: #ffffff !important;
-        background: #06d6a0 !important;
+        color: $SecondaryColor !important;
+        background: $AlertSuccess !important;
         border-radius: 15px !important;
         margin-top: 6px;
         margin-left: auto;
@@ -207,7 +207,7 @@
         padding: 5px 10px 5px 10px;
         font-size: 14px;
         &.offline {
-          background: #ef233c !important;
+          background: $AlertCritical !important;
         }
         &.cancelled {
           margin-left: auto !important;
@@ -259,13 +259,12 @@
 
 .forms-block {
   .form-content {
-    // border: 1px dashed #97c1f0;
     border-radius: 5px;
-    background: #eff1f3;
+    background: $Shade_0;
     padding: 32px 0px 60px 32px;
   }
   .activate-title {
-    color: #3c4257;
+    color: $Shade_11;
     font-family: Inter;
     font-style: normal;
     font-weight: normal;
@@ -282,7 +281,7 @@
     font-size: 14px;
     line-height: 150%;
     letter-spacing: 0.00625em;
-    color: #000;
+    color: $Shade_10;
   }
   .activate-sim-subtitle1 {
     font-family: Inter;
@@ -291,11 +290,11 @@
     font-size: 12px;
     line-height: 16px;
     letter-spacing: 0.02em;
-    color: #3c4257;
+    color: $Shade_11;
     display: block;
   }
   .cancel-sim {
-    color: #0063f7;
+    color: $primaryColor;
     cursor: pointer;
     padding: 40px 0px 0 15px;
   }
@@ -307,12 +306,12 @@
     font-size: 12px;
     line-height: 16px;
     letter-spacing: 0.02em;
-    color: #000;
+    color: $Shade_10;
   }
   .browse {
-    border: 1px solid #0063f7;
+    border: 1px solid $primaryColor;
     border-radius: 4px;
-    color: #0063f7;
+    color: $primaryColor;
     padding: 12px;
   }
   .browse-searchIcon {
@@ -328,7 +327,7 @@
     font-size: 14px;
     line-height: 150%;
     letter-spacing: 0.00625em;
-    color: #000;
+    color: $Shade_10;
   }
   .form-field-title {
     font-family: Inter;
@@ -337,7 +336,7 @@
     font-size: 12px;
     line-height: 16px;
     letter-spacing: 0.02em;
-    color: #3c4257;
+    color: $Shade_11;
   }
 
   .activate-device-subtitle2 {
@@ -347,13 +346,13 @@
     font-size: 12px;
     line-height: 16px;
     letter-spacing: 0.02em;
-    color: #000;
+    color: $Shade_10;
   }
   .activate-device-subtitle2-button {
     width: 10rem;
-    border: 1px solid #0063f7;
+    border: 1px solid $primaryColor;
     border-radius: 4px;
-    color: #0063f7;
+    color: $primaryColor;
     padding: 14px;
 
     &-searchIcon {
@@ -373,7 +372,7 @@
         position: absolute;
         right: 40px;
         bottom: 10px;
-        color: #0063f7;
+        color: $primaryColor;
       }
     }
   }
@@ -381,36 +380,36 @@
     margin-bottom: 0;
     align-items: center;
     .add {
-      color: #fff;
+      color: $SecondaryColor;
       float: right;
       height: 49px;
       width: 108px;
       text-align: start;
       margin-right: 1rem;
-      // border: 1px solid #0063f7;
+      // border: 1px solid $primaryColor;
       border-radius: 4px;
-      background: #0063f7;
+      background: $primaryColor;
     }
     .cancel {
-      color: #0063f7;
+      color: $primaryColor;
       float: right;
       height: 49px;
       width: 108px;
       text-align: start;
       margin-right: 2rem;
-      border: 1px solid #0063f7;
+      border: 1px solid $primaryColor;
       border-radius: 4px;
-      background: #fff;
+      background: $SecondaryColor;
     }
     .button-sec {
       margin-left: auto;
       padding-right: 10px;
       .add-button-gray {
-        background-color: #a3a3a3;
+        background-color: $Shade_12;
       }
     }
     .device-sim-item-delete {
-      color: #ef233c;
+      color: $AlertCritical;
       align-items: center;
       cursor: pointer;
       padding-left: 15px;
@@ -425,7 +424,7 @@
       .upload-bulk {
         cursor: pointer;
         padding-right: 20px;
-        color: #0063f7;
+        color: $primaryColor;
         font-family: Inter;
         font-style: normal;
         font-weight: 500;
@@ -455,7 +454,7 @@
         font-family: Inter;
         font-style: normal;
         font-weight: 500;
-        color: #0063f7;
+        color: $primaryColor;
         line-height: 21px;
       }
     }
@@ -465,7 +464,7 @@
       margin-bottom: 15px;
       align-items: center;
       .title {
-        color: #3c4257;
+        color: $Shade_11;
         font-family: Inter;
         font-style: normal;
         font-weight: 500;
@@ -486,14 +485,14 @@
           padding: 0 8px 0 8px;
           cursor: pointer;
           &.active {
-            color: #0063f7;
-            border-bottom: 3px solid #0063f7;
+            color: $primaryColor;
+            border-bottom: 3px solid $primaryColor;
             font-weight: 600;
           }
         }
       }
       .legends {
-        color: #3c4257;
+        color: $Shade_11;
         font-family: Inter;
         font-style: normal;
         font-weight: 600;
@@ -505,7 +504,7 @@
       .connected-event,
       .bad-event,
       .in-session {
-        color: #3c4257;
+        color: $Shade_11;
         font-family: Inter;
         font-style: normal;
         font-weight: normal;
@@ -521,26 +520,26 @@
       .last-Week-dates {
         justify-content: space-between;
         span {
-          color: #418cff;
+          color: $Shade_4;
           p {
             margin: 0px;
           }
         }
         .selected-date {
-          border-bottom: 1px solid #0063f7;
+          border-bottom: 1px solid $primaryColor;
           width: 40px;
         }
       }
     }
     .button-sec {
       .ping-device {
-        color: #0063f7;
+        color: $primaryColor;
         height: 45px;
         width: 136px;
         padding-left: 12px;
         text-align: start;
         margin-right: 1rem;
-        border: 1px solid #0063f7;
+        border: 1px solid $primaryColor;
         border-radius: 4px;
         margin-left: auto;
         font-family: Inter;
@@ -552,7 +551,7 @@
     }
     .ping-failed {
       .failed-link {
-        color: #ef233c;
+        color: $AlertCritical;
         font-family: Inter;
         font-style: normal;
         font-weight: normal;
@@ -564,13 +563,13 @@
       }
       .zoom-filed {
         .toggle-less {
-          border: 1px solid #0063f7;
+          border: 1px solid $primaryColor;
           border-bottom-left-radius: 4px;
           border-top-left-radius: 4px;
           width: 30px;
         }
         .toggle-more {
-          border: 1px solid #0063f7;
+          border: 1px solid $primaryColor;
           border-bottom-right-radius: 4px;
           border-top-right-radius: 4px;
           width: 30px;
@@ -585,7 +584,7 @@
     .content {
       margin: 5px 30px 5px 5px;
       .label {
-        color: #a3a3a3;
+        color: $Shade_12;
         font-family: Inter;
         font-style: normal;
         font-weight: normal;
@@ -594,7 +593,7 @@
         letter-spacing: 0.02em;
       }
       .details {
-        color: #3c4257;
+        color: $Shade_11;
         font-family: Inter;
         font-style: normal;
         font-weight: 500;
@@ -608,7 +607,7 @@
   }
   &.device-sims-detail-view-edit-form,
   &.device-sims-detail-view-details-form {
-    border-top: 1px solid #97c1ff;
+    border-top: 1px solid $Shade_2;
     margin-top: -4px;
     border-top-right-radius: 0px !important;
     border-top-left-radius: 0 !important;
@@ -616,7 +615,7 @@
   }
   input.form-control {
     border-radius: 0;
-    // border-bottom: 0.5px solid #3c4257;
+    // border-bottom: 0.5px solid $Shade_11;
   }
   &-deviceSim-edit-form-spacings {
     padding: 8px 32px 24px 32px;
@@ -629,12 +628,12 @@
 // temp classes
 
 .add-new-device-form {
-  background: #eff1f3;
+  background: $Shade_0;
 }
 
 .progress {
   height: 1rem;
-  background-color: #fff;
+  background-color: $SecondaryColor;
   border-radius: 22px;
   &-hours {
     &-title1 {
@@ -666,13 +665,13 @@
 
 .success {
   &-dot {
-    background-color: #06d6a0 !important;
+    background-color: $AlertSuccess !important;
     width: 16px;
     border-radius: 1rem;
     height: 1rem;
     &-abs {
       position: absolute;
-      background-color: #06d6a0 !important;
+      background-color: $AlertSuccess !important;
       width: 16px;
       border-radius: 1rem;
       height: 1rem;
@@ -680,20 +679,20 @@
   }
 
   &-bar {
-    background-color: #06d6a0 !important;
+    background-color: $AlertSuccess !important;
     width: 30%;
     border-radius: 1rem;
   }
 }
 
 .white-dot {
-  background-color: #fff !important;
+  background-color: $SecondaryColor !important;
   width: 16px;
   height: 1rem !important;
   border-radius: 1rem;
   &-abs {
     position: absolute;
-    background-color: #fff !important;
+    background-color: $SecondaryColor !important;
     width: 16px;
     height: 1rem !important;
     border-radius: 1rem;
@@ -702,13 +701,13 @@
 }
 
 .danger-dot {
-  background-color: #ef233c !important;
+  background-color: $AlertCritical !important;
   width: 16px;
   border-radius: 1rem;
   height: 1rem;
   &-abs {
     position: absolute;
-    background-color: #ef233c !important;
+    background-color: $AlertCritical !important;
     width: 16px;
     border-radius: 1rem;
     height: 1rem;
@@ -717,7 +716,7 @@
 }
 
 .dayChart {
-  // background-color: #0063f7 !important;
+  // background-color: $primaryColor !important;
   margin-top: -2rem;
   rect {
     rx: 10;
@@ -742,10 +741,10 @@
     height: 48px;
   }
   .mat-form-field-flex {
-    background: #eff1f3;
+    background: $Shade_0;
   }
   .mat-form-field-infix {
-    background: #ffffff;
+    background: $SecondaryColor;
     // width: 160px;
     height: 48px;
     // border-bottom: 1px solid;
@@ -765,13 +764,13 @@
 .highlight {
   // border-top-right-radius: 8px;
   // border-bottom-right-radius: 8px;
-  color: #fff;
-  background: #0063f7;
+  color: $SecondaryColor;
+  background: $primaryColor;
   border: none;
 }
 .normal {
-  color: #6ea6ff;
-  background: #fff;
+  color: $Shade_3;
+  background: $SecondaryColor;
   // background: red;
   border: none;
 }

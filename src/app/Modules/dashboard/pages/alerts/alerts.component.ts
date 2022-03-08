@@ -47,8 +47,6 @@ export class AlertsComponent implements OnInit {
     this.activatedRoute.params.subscribe((data) => {
       this.isNotification = JSON.parse(data.isNotification);
     });
-
-    // console.log('||||||||||||||', this.smallCells[0].alerts);
   }
 
   ngOnInit(): void {
@@ -91,9 +89,7 @@ export class AlertsComponent implements OnInit {
   }
 
   selectedTabValue(event: MatTabChangeEvent): void {
-    // alert();
     this.TabIndex = event.index;
-    // //console.log(event);
     this.parent = 0;
     this.child = null;
   }
@@ -115,7 +111,6 @@ export class AlertsComponent implements OnInit {
 
   setResponedStatus(status: string, index: number): void {
     this.respondIndex = index;
-    // this.ResponedTab = title;
     if (this.TabIndex === 0) {
       if (status === 'Resolved') {
         this.smallCells[index].status = status;
@@ -147,7 +142,6 @@ export class AlertsComponent implements OnInit {
         this.tickets[index].status = status;
       }
     }
-    // //console.log('-------------', this.smallCells[0].alerts[index]);
   }
 
   sortData(priorty: string): void {
