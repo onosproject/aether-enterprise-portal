@@ -6,7 +6,7 @@
 
 export interface SmallCell {
   'display-name': string;
-  position: {
+  position?: {
     'position-x': number;
     'position-y': number;
     'site-plan': string;

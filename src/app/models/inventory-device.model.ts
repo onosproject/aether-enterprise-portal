@@ -6,7 +6,7 @@
 
 export interface InventoryDevice {
   'display-name': string;
-  imei?: string;
+  imei: string;
   location: string;
   // position: {
   //   'position-x': number;
@@ -14,8 +14,8 @@ export interface InventoryDevice {
   //   'site-plan': string;
   // };
   'serial-number': string;
-  sim?: string;
+  sim: string;
   type: string;
-  selected?: number;
+  selected: number;
   // isExpanded?: boolean;
 }

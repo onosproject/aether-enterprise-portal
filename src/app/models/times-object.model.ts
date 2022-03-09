@@ -5,8 +5,7 @@
  */
 
 export interface TimesObject {
-  starting_time?: string | number;
+  starting_time: string;
   ending_time?: string;
   display: string;
-  msg?: string;
 }

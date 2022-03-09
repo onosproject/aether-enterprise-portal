@@ -28,57 +28,7 @@ export class SelectSimsComponent implements OnInit {
 
   inventorySims = [];
 
-  sims = [
-    // {
-    //   id: 1,
-    //   simNumber: "72348723473240",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473241",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473242",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473243",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473244",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473245",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473246",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473247",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473248",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473249",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473250",
-    //   isSelected: false,
-    // },
-    // {
-    //   simNumber: "72348723473251",
-    //   isSelected: false,
-    // },
-  ];
+  sims = [];
 
   constructor(
     public deviceService: DeviceSimService,
@@ -111,6 +61,7 @@ export class SelectSimsComponent implements OnInit {
         //console.log(item.sites);
         sitesConfig.map((site) => {
           //console.log(site['display-name']);
+          /* istanbul ignore else */
           if (site['display-name'] === this.selectedSite) {
             //console.log(site.sims);
             this.sims.push(site.sims);
@@ -136,7 +87,7 @@ export class SelectSimsComponent implements OnInit {
   }
 
   selectSimFinal(): void {
-    //console.log(this.selectedSim);
+    // alert(this.selectedSim);
     this.deviceService.mySim(this.selectedSim);
     this.dialogRef.close();
   }

@@ -16,7 +16,7 @@
   h5 {
     font-size: 28px;
     line-height: 1.2;
-    color: #3c4257;
+    color: $Shade_11;
   }
   .btn-close {
     opacity: 1;
@@ -32,19 +32,19 @@
   box-shadow: none;
 }
 .ctm-btn-red {
-  background-color: #ef233c;
-  color: #fff;
+  background-color: $AlertCritical;
+  color: $SecondaryColor;
   &:hover {
-    color: #ffffff;
+    color: $SecondaryColor;
   }
 }
 .ctm-btn-blue {
-  background: #0063f7;
-  color: #ffffff;
+  background: $primaryColor;
+  color: $SecondaryColor;
   &:hover {
-    color: #ffffff;
+    color: $SecondaryColor;
   }
 }
 .ctm-btn-transparent {
-  color: #0063f7;
+  color: $primaryColor;
 }

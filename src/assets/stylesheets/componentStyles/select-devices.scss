@@ -11,7 +11,7 @@
     font-size: 14px;
     line-height: 18px;
     letter-spacing: 0.0375em;
-    color: #000000;
+    color: $Shade_10;
   }
 
   &-close {
@@ -22,7 +22,7 @@
     font-size: 14px;
     line-height: 150%;
     text-align: right;
-    color: #ef233c;
+    color: $AlertCritical;
     margin-left: -1rem;
   }
 
@@ -31,7 +31,7 @@
     border-radius: 6px;
     flex-wrap: wrap;
     width: 51rem;
-    background: #f0f3fa;
+    background: $Shade_0;
 
     &-spacings {
       padding: 10px;
@@ -41,7 +41,7 @@
       cursor: pointer;
       border: 1px solid transparent;
       border-radius: 4px;
-      background-color: #ffffff;
+      background-color: $SecondaryColor;
       padding: 10px 30px 10px 10px;
     }
   }
@@ -52,18 +52,18 @@
 
     &-cancel {
       padding: 12px 60px 12px 12px;
-      border: 1px solid #0063f7;
+      border: 1px solid $primaryColor;
       border-radius: 4px;
-      color: #0063f7;
-      background: #ffffff;
+      color: $primaryColor;
+      background: $SecondaryColor;
     }
 
     &-select {
-      color: #ffffff;
+      color: $SecondaryColor;
       border: transparent;
       border-radius: 4px;
       padding: 13px 60px 13px 12px;
-      background: #0063f7;
+      background: $primaryColor;
     }
   }
 }

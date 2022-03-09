@@ -601,7 +601,7 @@
         class="mat-acc px-0 my-2"
         *ngFor="let slices of siteSlices; let slicesIndex = index"
       >
-        <div class="slices-cards-acc-cards">
+        <div class="slices-cards-acc-cards px-2">
           <div class="">
             <!--Header part-->
             <svg:svg
@@ -610,24 +610,24 @@
                 editSlices.indexOf(slicesIndex) < 0
               "
               height="135"
-              class="slices__joiner"
+              class="slices__joiner w-100"
             >
               <svg:g
                 aep-joiner
                 [dash]="'4 5'"
                 [title]="''"
-                [startX]="250"
+                [startX]="385"
                 [startY]="60"
-                [endX]="225"
+                [endX]="250"
                 [endY]="60"
               ></svg:g>
               <svg:g
                 aep-joiner
                 [dash]="'4 5'"
                 [title]="''"
-                [startX]="655"
+                [startX]="950"
                 [startY]="60"
-                [endX]="685"
+                [endX]="785"
                 [endY]="60"
               ></svg:g>
             </svg:svg>
@@ -658,92 +658,99 @@
               </div>
 
               <div class="col-12">
-                <div class="device-group-items-acc d-flex flex-wrap">
-                  <div class="connected-devices">
-                    <div
-                      class="label"
-                      *ngIf="
-                        !slices['device-groups'] ||
-                        slices['device-groups'].length === 0
-                      "
-                    >
-                      0 device groups 0 devices
-                    </div>
-                    <div
-                      class="label"
-                      *ngIf="
-                        slices['device-groups'] &&
-                        slices['device-groups'].length > 0
-                      "
-                    >
-                      {{ slices["device-groups"].length }} device groups |
-                      {{ getTotalDevices(slices["device-groups"]) }} devices
-                    </div>
-                    <div class="label-view d-flex slices__device-group">
-                      <!-- <span class="img file1"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span>
-                                       <span class="desc">Conneted Devices </span>
-                                       <span class="img dot"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span> -->
-                      <button mat-raised-button class="conected-devices-bx">
-                        <div class="card-icon">
-                          <img src="assets/AdminPanel/connected.svg" />
-                        </div>
-                        <div class="desc slices__name">Connected Devices</div>
-
-                        <div class="red-ellipse">
-                          <img src="assets/deviceSim/success-dot.svg" />
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="center-block d-flex col-5">
-                    <div class="card-icon">
-                      <img
-                        src="assets/CommonAssets/stack-blue.svg"
-                        class="ng-tns-c138-2"
-                      />
-                    </div>
-                    <div class="desc">{{ slices["display-name"] }}</div>
-                    <div class="img edit">
+                <div class="device-group-items-acc row">
+                  <div class="col-lg-3">
+                    <div class="connected-devices">
                       <div
-                        class="col-1 card-list-item text-center edit d-flex"
-                        (click)="editTrigger(slicesIndex)"
+                        class="label"
+                        *ngIf="
+                          !slices['device-groups'] ||
+                          slices['device-groups'].length === 0
+                        "
                       >
-                        <img
-                          src="../../assets/services/pencil-white.svg"
-                          class="edit-img"
-                        />
-                        Edit
+                        0 device groups 0 devices
+                      </div>
+                      <div
+                        class="label"
+                        *ngIf="
+                          slices['device-groups'] &&
+                          slices['device-groups'].length > 0
+                        "
+                      >
+                        {{ slices["device-groups"].length }} device groups |
+                        {{ getTotalDevices(slices["device-groups"]) }} devices
+                      </div>
+                      <div class="label-view d-flex slices__device-group">
+                        <!-- <span class="img file1"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span>
+                                         <span class="desc">Conneted Devices </span>
+                                         <span class="img dot"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span> -->
+                        <button mat-raised-button class="conected-devices-bx">
+                          <div class="card-icon">
+                            <img src="assets/AdminPanel/connected.svg" />
+                          </div>
+                          <div class="desc slices__name">Connected Devices</div>
+
+                          <div class="red-ellipse">
+                            <img src="assets/deviceSim/success-dot.svg" />
+                          </div>
+                        </button>
                       </div>
                     </div>
                   </div>
-                  <div class="connected-services">
-                    <div
-                      class="label"
-                      *ngIf="
-                        !slices.applications || slices.applications.length === 0
-                      "
-                    >
-                      0 Services
-                    </div>
-                    <div
-                      class="label"
-                      *ngIf="
-                        slices.applications && slices.applications.length > 0
-                      "
-                    >
-                      {{ slices.applications.length }} Services
-                    </div>
-                    <div class="label-view d-flex slices__services">
-                      <button mat-raised-button class="conected-devices-bx">
-                        <div class="card-icon">
-                          <img src="assets/AdminPanel/service.svg" />
+                  <div class="col-lg-6">
+                    <div class="center-block d-flex">
+                      <div class="card-icon">
+                        <img
+                          src="assets/CommonAssets/stack-blue.svg"
+                          class="ng-tns-c138-2"
+                        />
+                      </div>
+                      <div class="desc">{{ slices["display-name"] }}</div>
+                      <div class="img edit">
+                        <div
+                          class="col-1 card-list-item text-center edit d-flex"
+                          (click)="editTrigger(slicesIndex)"
+                        >
+                          <img
+                            src="../../assets/services/pencil-white.svg"
+                            class="edit-img"
+                          />
+                          Edit
                         </div>
-                        <div class="desc">Services</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="connected-services">
+                      <div
+                        class="label"
+                        *ngIf="
+                          !slices.applications ||
+                          slices.applications.length === 0
+                        "
+                      >
+                        0 Services
+                      </div>
+                      <div
+                        class="label"
+                        *ngIf="
+                          slices.applications && slices.applications.length > 0
+                        "
+                      >
+                        {{ slices.applications.length }} Services
+                      </div>
+                      <div class="label-view d-flex slices__services">
+                        <button mat-raised-button class="conected-devices-bx">
+                          <div class="card-icon">
+                            <img src="assets/AdminPanel/service.svg" />
+                          </div>
+                          <div class="desc">Services</div>
 
-                        <div class="red-ellipse">
-                          <img src="assets/deviceSim/success-dot.svg" />
-                        </div>
-                      </button>
+                          <div class="red-ellipse">
+                            <img src="assets/deviceSim/success-dot.svg" />
+                          </div>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -800,99 +807,107 @@
                 *ngIf="listViewSlices.indexOf(slicesIndex) < 0"
               >
                 <div class="align-items-start d-flex flex-wrap">
-                  <svg:svg
-                    [attr.height]="calculateSVGHeight(slices)"
-                    class="slices__joiner slices__joiner--expanded"
-                  >
-                    <svg:g
-                      aep-joiner
-                      [title]="''"
-                      [startX]="255"
-                      [startY]="60"
-                      [endX]="225"
-                      [endY]="calculateVerticalPosition(deviceGroupIndex)"
-                      *ngFor="
-                        let deviceGroup of slices['device-groups'];
-                        let deviceGroupIndex = index
-                      "
-                    ></svg:g>
-                    <svg:g
-                      aep-joiner
-                      [title]="''"
-                      [startX]="655"
-                      [startY]="60"
-                      [endX]="685"
-                      [endY]="calculateVerticalPosition(serviceIndex)"
-                      *ngFor="
-                        let services of slices.applications;
-                        let serviceIndex = index
-                      "
-                    ></svg:g>
-                  </svg:svg>
-                  <div class="connected-devices">
-                    <div class="label">
-                      {{ slices["device-groups"].length }} device groups |
-                      {{ getTotalDevices(slices["device-groups"]) }} devices
-                    </div>
-                    <div
-                      class="label-view d-flex slices__device-group"
-                      *ngFor="let deviceGroup of slices['device-groups']"
+                  <div class="row" style="width: 100%">
+                    <svg:svg
+                      [attr.height]="calculateSVGHeight(slices)"
+                      class="slices__joiner slices__joiner--expanded"
                     >
-                      <button mat-raised-button class="conected-devices-bx">
-                        <div class="card-icon">
-                          <img src="assets/AdminPanel/connected.svg" />
+                      <svg:g
+                        aep-joiner
+                        [title]="''"
+                        [startX]="375"
+                        [startY]="60"
+                        [endX]="250"
+                        [endY]="calculateVerticalPosition(deviceGroupIndex)"
+                        *ngFor="
+                          let deviceGroup of slices['device-groups'];
+                          let deviceGroupIndex = index
+                        "
+                      ></svg:g>
+                      <svg:g
+                        aep-joiner
+                        [title]="''"
+                        [startX]="775"
+                        [startY]="60"
+                        [endX]="905"
+                        [endY]="calculateVerticalPosition(serviceIndex)"
+                        *ngFor="
+                          let services of slices.applications;
+                          let serviceIndex = index
+                        "
+                      ></svg:g>
+                    </svg:svg>
+                    <div class="col-lg-3">
+                      <div class="connected-devices">
+                        <div class="label">
+                          {{ slices["device-groups"].length }} device groups |
+                          {{ getTotalDevices(slices["device-groups"]) }} devices
                         </div>
-                        <div class="desc slices__name">
-                          {{ deviceGroup["display-name"] }}
-                        </div>
+                        <div
+                          class="label-view d-flex slices__device-group"
+                          *ngFor="let deviceGroup of slices['device-groups']"
+                        >
+                          <button mat-raised-button class="conected-devices-bx">
+                            <div class="card-icon">
+                              <img src="assets/AdminPanel/connected.svg" />
+                            </div>
+                            <div class="desc slices__name">
+                              {{ deviceGroup["display-name"] }}
+                            </div>
 
-                        <div class="red-ellipse">
-                          <img src="assets/deviceSim/success-dot.svg" />
+                            <div class="red-ellipse">
+                              <img src="assets/deviceSim/success-dot.svg" />
+                            </div>
+                          </button>
                         </div>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="center-block d-flex col-5">
-                    <div class="card-icon">
-                      <img
-                        src="assets/CommonAssets/stack-blue.svg"
-                        class="ng-tns-c138-2"
-                      />
-                    </div>
-                    <div class="desc">{{ slices["display-name"] }}</div>
-                    <div class="img edit">
-                      <div
-                        class="col-1 card-list-item text-center edit d-flex"
-                        (click)="editTrigger(slicesIndex)"
-                      >
-                        <img
-                          src="../../assets/services/pencil-white.svg"
-                          class="edit-img"
-                        />
-                        Edit
                       </div>
                     </div>
-                  </div>
-                  <div class="connected-services">
-                    <div class="label">
-                      {{ slices.applications.length }} Services
-                    </div>
-                    <div
-                      class="label-view d-flex slices__device-group"
-                      *ngFor="let services of slices.applications"
-                    >
-                      <button mat-raised-button class="conected-devices-bx">
+                    <div class="col-lg-6">
+                      <div class="center-block d-flex">
                         <div class="card-icon">
-                          <img src="assets/AdminPanel/service.svg" />
+                          <img
+                            src="assets/CommonAssets/stack-blue.svg"
+                            class="ng-tns-c138-2"
+                          />
                         </div>
-                        <div class="desc slices__name">
-                          {{ services["display-name"] }}
+                        <div class="desc">{{ slices["display-name"] }}</div>
+                        <div class="img edit">
+                          <div
+                            class="col-1 card-list-item text-center edit d-flex"
+                            (click)="editTrigger(slicesIndex)"
+                          >
+                            <img
+                              src="../../assets/services/pencil-white.svg"
+                              class="edit-img"
+                            />
+                            Edit
+                          </div>
                         </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="connected-services">
+                        <div class="label">
+                          {{ slices.applications.length }} Services
+                        </div>
+                        <div
+                          class="label-view d-flex slices__device-group"
+                          *ngFor="let services of slices.applications"
+                        >
+                          <button mat-raised-button class="conected-devices-bx">
+                            <div class="card-icon">
+                              <img src="assets/AdminPanel/service.svg" />
+                            </div>
+                            <div class="desc slices__name">
+                              {{ services["display-name"] }}
+                            </div>
 
-                        <div class="red-ellipse">
-                          <img src="assets/deviceSim/success-dot.svg" />
+                            <div class="red-ellipse">
+                              <img src="assets/deviceSim/success-dot.svg" />
+                            </div>
+                          </button>
                         </div>
-                      </button>
+                      </div>
                     </div>
                   </div>
                 </div>
