@@ -45,7 +45,6 @@ describe('DeviceSimComponent', () => {
         { provide: DeviceSimService, useClass: DeviceSimStub },
         { provide: Meta, useClass: MetaStub },
       ],
-      // providers: [DeviceSimService],
     }).compileComponents();
   });
 
@@ -87,15 +86,21 @@ describe('DeviceSimComponent', () => {
   });
 
   it('should run #configDeviceSim()', () => {
-    spyOn(component, 'configDeviceSim').and.callThrough();
     component.configDeviceSim();
-    expect(component.configDeviceSim).toHaveBeenCalled();
+    const newForm = component.deviceSimForm;
+    expect(newForm.get('newSim')).toBeTruthy();
+    expect(newForm.get('deviceName')).toBeTruthy();
+    expect(newForm.get('deviceLocation')).toBeTruthy();
+    expect(newForm.get('deviceSerialNum')).toBeTruthy();
   });
 
   it('should run #configInventoryDevice()', () => {
-    spyOn(component, 'configInventoryDevice').and.callThrough();
     component.configInventoryDevice();
-    expect(component.configInventoryDevice).toHaveBeenCalled();
+    const newInventoryForm = component.inventoryDeviceSimForm;
+    expect(newInventoryForm.get('inventoryDeviceName')).toBeTruthy();
+    expect(newInventoryForm.get('inventoryDeviceLocation')).toBeTruthy();
+    expect(newInventoryForm.get('inventoryDeviceSerialNum')).toBeTruthy();
+    expect(newInventoryForm.get('inventoryDeviceType')).toBeTruthy();
   });
 
   // new test by ngentest
@@ -615,16 +620,13 @@ describe('DeviceSimComponent', () => {
       type: 'Pixel 5 Phone',
     };
     component.simInventory = [];
-    const addedSim = { simIccid: '123-456-789' };
+    const addedSim = { iccid: '123-456-789' };
     component.deleteDevice(index);
     expect(component.simInventory.length).toBeGreaterThan(0);
     expect(component.simInventory[0]).toEqual(addedSim);
     expect(component.deviceInventory.length).toBeGreaterThan(0);
     expect(component.deviceInventory).toContain(disassociatedDevice);
     expect(component.siteConfig[0][index]).toBeUndefined();
-    // expect(component.simInventory.push).toHaveBeenCalled;
-    // expect(component.deviceInventory.push).toHaveBeenCalled;
-    // expect(component.siteConfig[0].splice(index, 1)).toHaveBeenCalled;
   });
 
   it('should run #cancelSim()', () => {
@@ -649,7 +651,7 @@ describe('DeviceSimComponent', () => {
       'serial-number': '752365A',
       type: 'Pixel 5 Phone',
     };
-    const addedSim = { simIccid: '123-456-789' };
+    const addedSim = { iccid: '123-456-789' };
     component.cancelledSimsStorage = [];
     component.cancelSim(index);
     expect(component.cancelledSimsStorage.length).toBeGreaterThan(0);
@@ -675,7 +677,12 @@ describe('DeviceSimComponent', () => {
     spyOn(component.deviceService, 'getSim1').and.returnValue(
       of('123-456-789')
     );
-    component.configDeviceSim();
+    component.deviceSimForm = new FormGroup({
+      newSim: new FormControl('', Validators.required),
+      deviceName: new FormControl('', Validators.required),
+      deviceLocation: new FormControl('', Validators.required),
+      deviceSerialNum: new FormControl('', Validators.required),
+    });
     const deviceSimForm = component.deviceSimForm;
     spyOn(component, 'assignSelectedSim').and.callThrough();
     component.assignSelectedSim();
@@ -684,7 +691,12 @@ describe('DeviceSimComponent', () => {
   });
 
   it('should run #addNewDevice1() --> invalid', () => {
-    component.configDeviceSim();
+    component.deviceSimForm = new FormGroup({
+      newSim: new FormControl('', Validators.required),
+      deviceName: new FormControl('', Validators.required),
+      deviceLocation: new FormControl('', Validators.required),
+      deviceSerialNum: new FormControl('', Validators.required),
+    });
     const deviceSimForm = component.deviceSimForm;
     spyOn(component, 'addNewDevice1').and.callThrough();
     deviceSimForm.value.newSim = '';
@@ -699,7 +711,12 @@ describe('DeviceSimComponent', () => {
 
   it('should run #addNewDevice1()', () => {
     component.activeNewDevice = true;
-    component.configDeviceSim();
+    component.deviceSimForm = new FormGroup({
+      newSim: new FormControl('', Validators.required),
+      deviceName: new FormControl('', Validators.required),
+      deviceLocation: new FormControl('', Validators.required),
+      deviceSerialNum: new FormControl('', Validators.required),
+    });
     const deviceSimForm = component.deviceSimForm;
     const deviceSimControls = deviceSimForm.controls;
     deviceSimControls.newSim.setValue('123-456-789');
@@ -801,19 +818,25 @@ describe('DeviceSimComponent', () => {
     const param1 = 'deviceName';
     const param2 = 'deviceLocation';
     const param3 = 'deviceSerialNum';
-    // component.siteApplications = [
-    //   {
-    //     address: 'address-1',
-    //     'application-id': 'nvr-application',
-    //     deviceName: 'device-1',
-    //     'display-name': 'Network Video Recorder',
-    //     mbr: 15,
-    //     portEnd: 8201,
-    //     portStart: 4201,
-    //     protocol: 'protocol-1',
-    //   },
-    // ];
-    component.editTrigger(index);
+    component.siteConfig[0][index].form = new FormGroup({
+      newSim: new FormControl(
+        component.siteConfig[0][index].sim,
+        Validators.required
+      ),
+      deviceName: new FormControl(
+        component.siteConfig[0][index]['display-name'],
+        Validators.required
+      ),
+      deviceLocation: new FormControl(
+        component.siteConfig[0][index].location,
+        Validators.required
+      ),
+      deviceSerialNum: new FormControl(
+        component.siteConfig[0][index]['serial-number'],
+        Validators.required
+      ),
+    });
+    component.deviceSimEditForm = component.siteConfig[0][index].form;
     const editForm = (component.deviceSimEditForm =
       component.deviceSimEditForm);
     component.getEditControl(editForm, param);
@@ -829,43 +852,9 @@ describe('DeviceSimComponent', () => {
     expect(component.getEditControl(editForm, param1)).toEqual(gotControl1);
     expect(component.getEditControl(editForm, param2)).toEqual(gotControl2);
     expect(component.getEditControl(editForm, param3)).toEqual(gotControl3);
-    // expect(editForm.get('appName')).toEqual(editFormControls.appName);
-    // expect(editForm.get('newProtocol')).toEqual(editFormControls.newProtocol);
-    // expect(editForm.get('newPortStart')).toEqual(editFormControls.newPortStart);
-    // expect(editForm.get('newAddress')).toEqual(editFormControls.newAddress);
-    // expect(editForm.get('newMbr')).toEqual(editFormControls.newMbr);
-    // expect(editForm.get('newPortEnd')).toEqual(editFormControls.newPortEnd);
-  });
-
-  it('should run #openDialog()', () => {
-    component.openDialog();
-  });
-
-  it('should run #openDialog1()', () => {
-    component.openDialog1();
   });
 
   it('should run #openDeleteDialog()', () => {
-    // component.siteConfig = [
-    //   [
-    //     {
-    //       'display-name': 'Phone 1',
-    //       imei: '123-456-7891',
-    //       location: 'Somewhere',
-    //       'serial-number': '752365A',
-    //       sim: '123-456-789',
-    //       type: 'Pixel 5 Phone',
-    //     },
-    //     {
-    //       'display-name': 'Phone 2',
-    //       imei: '123-456-7892',
-    //       location: 'Somewhere',
-    //       'serial-number': '752365B',
-    //       sim: '123-456-780',
-    //       type: 'Pixel 6 Phone',
-    //     },
-    //   ],
-    // ];
     const deviceIndex = 0;
     spyOn(component, 'deleteDevice').withArgs(deviceIndex);
     spyOn(component, 'closeEdit');
@@ -877,7 +866,8 @@ describe('DeviceSimComponent', () => {
     expect(component.closeEdit).toHaveBeenCalled();
   });
 
-  it('should run #actualEdit()', () => {
+  it('should run #actualEdit() --> valid', () => {
+    spyOn(component, 'closeEdit');
     component.siteConfig = [
       [
         {
@@ -887,14 +877,6 @@ describe('DeviceSimComponent', () => {
           'serial-number': '752365A',
           sim: '123-456-789',
           type: 'Pixel 5 Phone',
-          form: {
-            value: {
-              deviceLocation: 'Somewhere',
-              deviceName: 'Phone 1',
-              deviceSerialNum: '752365A',
-              newSim: '123-456-789',
-            },
-          },
         },
         {
           'display-name': 'Phone 2',
@@ -908,47 +890,107 @@ describe('DeviceSimComponent', () => {
     ];
     const index = 0;
     component.editDeviceSimError = true || false;
-    // component.deviceSimEditForm.patchValue({
-    //   newSim: '123-456-932',
-    //   deviceName: 'Phone 56',
-    //   deviceLocation: 'upper-floor',
-    //   deviceSerialNum: '253273A',
-    // });
-    // expect(component.deviceSimEditForm.valid).toEqual(true);
+    component.siteConfig[0][index].form = new FormGroup({
+      newSim: new FormControl(
+        component.siteConfig[0][index].sim,
+        Validators.required
+      ),
+      deviceName: new FormControl(
+        component.siteConfig[0][index]['display-name'],
+        Validators.required
+      ),
+      deviceLocation: new FormControl(
+        component.siteConfig[0][index].location,
+        Validators.required
+      ),
+      deviceSerialNum: new FormControl(
+        component.siteConfig[0][index]['serial-number'],
+        Validators.required
+      ),
+    });
+    component.deviceSimEditForm = component.siteConfig[0][index].form;
+    const editForm = (component.deviceSimEditForm =
+      component.deviceSimEditForm);
+    // const editFormControls = editForm.controls;
+    const selectedObj = component.siteConfig[0][index];
+    editForm.patchValue({
+      newSim: '123-456-793',
+      deviceName: 'New Device',
+      deviceLocation: 'New Floor',
+      deviceSerialNum: '792356C',
+    });
     component.actualEdit(index);
+    expect(editForm.valid).toEqual(true);
+    expect(selectedObj.sim).toEqual('123-456-793');
+    expect(selectedObj['display-name']).toEqual('New Device');
+    expect(selectedObj.location).toEqual('New Floor');
+    expect(selectedObj['serial-number']).toEqual('792356C');
+    expect(component.closeEdit).toHaveBeenCalled();
   });
 
   it('should run #actualEdit()', () => {
-    component.deviceSimEditForm = new FormGroup({
-      newSim: new FormControl('', Validators.required),
-      deviceName: new FormControl('', Validators.required),
-      deviceLocation: new FormControl('', Validators.required),
-      deviceSerialNum: new FormControl('', Validators.required),
-    });
     const index = 0;
     component.editDeviceSimError = true || false;
-    // component.deviceSimEditForm.patchValue({
-    //   newSim: '123-456-932',
-    //   deviceName: 'Phone 56',
-    //   deviceLocation: 'upper-floor',
-    //   deviceSerialNum: '253273A',
-    // });
-    // expect(component.deviceSimEditForm.valid).toEqual(true);
+    component.siteConfig[0][index].form = new FormGroup({
+      newSim: new FormControl(
+        component.siteConfig[0][index].sim,
+        Validators.required
+      ),
+      deviceName: new FormControl(
+        component.siteConfig[0][index]['display-name'],
+        Validators.required
+      ),
+      deviceLocation: new FormControl(
+        component.siteConfig[0][index].location,
+        Validators.required
+      ),
+      deviceSerialNum: new FormControl(
+        component.siteConfig[0][index]['serial-number'],
+        Validators.required
+      ),
+    });
+    component.deviceSimEditForm = component.siteConfig[0][index].form;
+    const editForm = (component.deviceSimEditForm =
+      component.deviceSimEditForm);
+    const editFormControls = editForm.controls;
+    editFormControls.newSim.setValue('');
+    editFormControls.deviceName.setValue('');
+    editFormControls.deviceLocation.setValue('');
+    editFormControls.deviceSerialNum.setValue('');
     component.actualEdit(index);
+    expect(editForm.invalid).toBeTrue();
+    expect(component.editDeviceSimError).toBeTrue();
   });
 
-  it('should run #addNewDeviceInventory()', () => {
+  it('should run #addNewDeviceInventory() --> invalid case', () => {
     component.inventoryDeviceSimForm = new FormGroup({
       inventoryDeviceName: new FormControl('', Validators.required),
       inventoryDeviceLocation: new FormControl('', Validators.required),
       inventoryDeviceSerialNum: new FormControl('', Validators.required),
       inventoryDeviceType: new FormControl('', Validators.required),
     });
-    component.addNewInventoryDeviceError = true || false;
+    const addInventoryDeviceForm = (component.inventoryDeviceSimForm =
+      component.inventoryDeviceSimForm);
+    const addInventoryFormControls = addInventoryDeviceForm.controls;
+    addInventoryFormControls.inventoryDeviceName.setValue('');
+    addInventoryFormControls.inventoryDeviceLocation.setValue('');
+    addInventoryFormControls.inventoryDeviceSerialNum.setValue('');
+    addInventoryFormControls.inventoryDeviceType.setValue('');
     component.addNewDeviceInventory();
+    expect(addInventoryDeviceForm.invalid).toBeTrue();
+    expect(component.addNewInventoryDeviceError).toBeTrue();
   });
 
-  it('should run #addNewDeviceInventory()', () => {
+  it('should run #addNewDeviceInventory() --> valid case', () => {
+    component.inventoryDeviceSimForm = new FormGroup({
+      inventoryDeviceName: new FormControl('', Validators.required),
+      inventoryDeviceLocation: new FormControl('', Validators.required),
+      inventoryDeviceSerialNum: new FormControl('', Validators.required),
+      inventoryDeviceType: new FormControl('', Validators.required),
+    });
+    const addInventoryDeviceForm = (component.inventoryDeviceSimForm =
+      component.inventoryDeviceSimForm);
+    const addInventoryFormControls = addInventoryDeviceForm.controls;
     component.deviceInventory = [
       {
         'display-name': 'Camera 8',
@@ -958,49 +1000,116 @@ describe('DeviceSimComponent', () => {
         type: 'Camera',
       },
     ];
-    component.addNewInventoryDeviceError = true || false;
+    addInventoryFormControls.inventoryDeviceName.setValue('Camera 9');
+    addInventoryFormControls.inventoryDeviceLocation.setValue('Floor 23');
+    addInventoryFormControls.inventoryDeviceSerialNum.setValue('7568129');
+    addInventoryFormControls.inventoryDeviceType.setValue('New Camera');
+    // component.addNewInventoryDeviceError = true || false;
     component.addNewDeviceInventory();
+    expect(addInventoryDeviceForm.valid).toBeTrue();
+    expect(component.deviceInventory.length).toBeGreaterThan(1);
   });
 
-  it('should run #inventoryEditTrigger()', () => {
-    component.deviceInventory = [
-      {
-        'display-name': 'Camera 8',
-        imei: '',
-        location: 'Corridor 3',
-        'serial-number': '7568118',
-        type: 'Camera',
-      },
-    ];
-    // component.inventoryEditForm = new FormGroup({});
+  it('should run #inventoryEditTrigger() --> else case', () => {
+    spyOn(component, 'closeEditInventory');
     const index = 0;
-    component.addNewDevice = true || false;
+    component.deviceInventory = [
+      {
+        'display-name': 'Camera 8',
+        imei: '',
+        location: 'Corridor 3',
+        'serial-number': '7568118',
+        type: 'Camera',
+      },
+    ];
     component.inventoryEditTrigger(index);
+    const editInventoryForm = (component.inventoryEditForm =
+      component.inventoryEditForm);
+    const editInventoryFormControls = editInventoryForm.controls;
+    const indexDevice = component.deviceInventory[index];
+    expect(component.addNewDevice).toBeFalse();
+    expect(component.closeEditInventory).toHaveBeenCalled();
+    expect(editInventoryFormControls.inventoryDeviceName.value).toEqual(
+      indexDevice['display-name']
+    );
+    expect(editInventoryFormControls.inventoryDeviceLocation.value).toEqual(
+      indexDevice.location
+    );
+    expect(editInventoryFormControls.inventoryDeviceSerialNum.value).toEqual(
+      indexDevice['serial-number']
+    );
+    expect(editInventoryFormControls.inventoryDeviceType.value).toEqual(
+      indexDevice.type
+    );
+    expect(component.editInventory.length).toBeGreaterThan(0);
+    expect(editInventoryForm).toEqual(component.deviceInventory[index].form);
   });
 
-  it('should run #inventoryEditTrigger()', () => {
+  it('should run #inventoryEditTrigger() --> if case', () => {
+    spyOn(component, 'closeEditInventory');
     component.editInventory = [0, 0];
-    component.deviceInventory = [
-      {
-        'display-name': 'Camera 8',
-        imei: '',
-        location: 'Corridor 3',
-        'serial-number': '7568118',
-        type: 'Camera',
-      },
-    ];
-    // component.inventoryEditForm = new FormGroup({});
     const index = 0;
-    component.addNewDevice = true || false;
+    component.inventoryEditForm = new FormGroup({});
     component.inventoryEditTrigger(index);
+    expect(component.addNewDevice).toBeFalse();
+    expect(component.closeEditInventory).toHaveBeenCalled();
+    expect(component.editInventory.length).toBeLessThan(2);
   });
 
   it('should run #getEditInventoryControl()', () => {
-    const param = '0';
-    component.getEditInventoryControl(component.inventoryEditForm, param);
+    const index = 0;
+    const param = 'inventoryDeviceName';
+    const param1 = 'inventoryDeviceLocation';
+    const param2 = 'inventoryDeviceSerialNum';
+    const param3 = 'inventoryDeviceType';
+    component.deviceInventory[index].form = new FormGroup({
+      inventoryDeviceName: new FormControl(
+        component.deviceInventory[index]['display-name'],
+        Validators.required
+      ),
+      inventoryDeviceLocation: new FormControl(
+        component.deviceInventory[index]['location'],
+        Validators.required
+      ),
+      inventoryDeviceSerialNum: new FormControl(
+        component.deviceInventory[index]['serial-number'],
+        Validators.required
+      ),
+      inventoryDeviceType: new FormControl(
+        component.deviceInventory[index]['type'],
+        Validators.required
+      ),
+    });
+    component.inventoryEditForm = component.deviceInventory[index].form;
+    const inventoryEditForm = (component.inventoryEditForm =
+      component.inventoryEditForm);
+    component.getEditControl(inventoryEditForm, param);
+    component.getEditControl(inventoryEditForm, param1);
+    component.getEditControl(inventoryEditForm, param2);
+    component.getEditControl(inventoryEditForm, param3);
+    const editForm = inventoryEditForm;
+    const gotControl = editForm.get(param) as FormControl;
+    const gotControl1 = editForm.get(param1) as FormControl;
+    const gotControl2 = editForm.get(param2) as FormControl;
+    const gotControl3 = editForm.get(param3) as FormControl;
+    // const editFormControls = inventoryEditForm.controls;
+    expect(component.getEditControl(inventoryEditForm, param)).toEqual(
+      gotControl
+    );
+    expect(component.getEditControl(inventoryEditForm, param1)).toEqual(
+      gotControl1
+    );
+    expect(component.getEditControl(inventoryEditForm, param2)).toEqual(
+      gotControl2
+    );
+    expect(component.getEditControl(inventoryEditForm, param3)).toEqual(
+      gotControl3
+    );
   });
 
-  it('should run #actualInventoryEdit()', () => {
+  it('should run #actualInventoryEdit() --> valid case', () => {
+    spyOn(component, 'closeEditInventory');
+    const inventoryDeviceIndex = 0;
     component.deviceInventory = [
       {
         'display-name': 'Camera 8',
@@ -1009,78 +1118,149 @@ describe('DeviceSimComponent', () => {
         'serial-number': '7568118',
         type: 'Camera',
         sim: '123-456-780',
-        form: {
-          value: {
-            inventoryDeviceLocation: 'Corridor 3',
-            inventoryDeviceName: 'Camera 8',
-            inventoryDeviceSerialNum: '7568118',
-            inventoryDeviceType: 'Camera',
-          },
-        },
       },
     ];
-    const inventoryDeviceIndex = 0;
     component.editInventoryDeviceError = true || false;
+    component.deviceInventory[inventoryDeviceIndex].form = new FormGroup({
+      inventoryDeviceName: new FormControl(
+        component.deviceInventory[inventoryDeviceIndex]['display-name'],
+        Validators.required
+      ),
+      inventoryDeviceLocation: new FormControl(
+        component.deviceInventory[inventoryDeviceIndex]['location'],
+        Validators.required
+      ),
+      inventoryDeviceSerialNum: new FormControl(
+        component.deviceInventory[inventoryDeviceIndex]['serial-number'],
+        Validators.required
+      ),
+      inventoryDeviceType: new FormControl(
+        component.deviceInventory[inventoryDeviceIndex]['type'],
+        Validators.required
+      ),
+    });
+    component.inventoryEditForm =
+      component.deviceInventory[inventoryDeviceIndex].form;
+    const inventoryEditForm = (component.inventoryEditForm =
+      component.inventoryEditForm);
+    const inventoryEditFormControls = inventoryEditForm.controls;
+    const indexDevice = component.deviceInventory[0];
+    inventoryEditFormControls.inventoryDeviceName.setValue('Camera 10');
+    inventoryEditFormControls.inventoryDeviceLocation.setValue('New Location');
+    inventoryEditFormControls.inventoryDeviceSerialNum.setValue('7568129');
+    inventoryEditFormControls.inventoryDeviceType.setValue('Camera');
     component.actualInventoryEdit(inventoryDeviceIndex);
+    expect(inventoryEditForm.valid).toBeTrue();
+    expect(indexDevice['display-name']).toEqual('Camera 10');
+    expect(indexDevice.location).toEqual('New Location');
+    expect(indexDevice['serial-number']).toEqual('7568129');
+    expect(indexDevice.type).toEqual('Camera');
+    expect(component.closeEditInventory).toHaveBeenCalled();
   });
 
-  it('should run #actualInventoryEdit()', () => {
-    component.inventoryEditForm = new FormGroup({
-      inventoryDeviceName: new FormControl('', Validators.required),
-      inventoryDeviceLocation: new FormControl('', Validators.required),
-      inventoryDeviceSerialNum: new FormControl('', Validators.required),
-      inventoryDeviceType: new FormControl('', Validators.required),
-    });
+  it('should run #actualInventoryEdit() --> invalid case', () => {
     const inventoryDeviceIndex = 0;
     component.editInventoryDeviceError = true || false;
+    component.deviceInventory[inventoryDeviceIndex].form = new FormGroup({
+      inventoryDeviceName: new FormControl(
+        component.deviceInventory[inventoryDeviceIndex]['display-name'],
+        Validators.required
+      ),
+      inventoryDeviceLocation: new FormControl(
+        component.deviceInventory[inventoryDeviceIndex]['location'],
+        Validators.required
+      ),
+      inventoryDeviceSerialNum: new FormControl(
+        component.deviceInventory[inventoryDeviceIndex]['serial-number'],
+        Validators.required
+      ),
+      inventoryDeviceType: new FormControl(
+        component.deviceInventory[inventoryDeviceIndex]['type'],
+        Validators.required
+      ),
+    });
+    component.inventoryEditForm =
+      component.deviceInventory[inventoryDeviceIndex].form;
+    const inventoryEditForm = (component.inventoryEditForm =
+      component.inventoryEditForm);
+    const inventoryEditFormControls = inventoryEditForm.controls;
+    inventoryEditFormControls.inventoryDeviceName.setValue('');
+    inventoryEditFormControls.inventoryDeviceLocation.setValue('');
+    inventoryEditFormControls.inventoryDeviceSerialNum.setValue('');
+    inventoryEditFormControls.inventoryDeviceType.setValue('');
     component.actualInventoryEdit(inventoryDeviceIndex);
+    expect(inventoryEditForm.invalid).toBeTrue();
+    expect(component.editInventoryDeviceError).toBeTrue();
   });
 
   it('should run #deleteInventoryDevice()', () => {
     const inventoryDeviceIndex = 0;
+    component.deviceInventory = [
+      {
+        'display-name': 'Camera 8',
+        imei: '',
+        location: 'Corridor 3',
+        'serial-number': '7568118',
+        type: 'Camera',
+        sim: '123-456-780',
+      },
+    ];
     component.deleteInventoryDevice(inventoryDeviceIndex);
+    expect(component.deviceInventory.length).toBeLessThan(1);
   });
 
   it('should run #openDeleteInventoryDialog()', () => {
+    spyOn(component, 'deleteInventoryDevice');
+    spyOn(component, 'closeEditInventory');
     const inventoryDeviceIndex = 0;
     spyOn(component.dialog, 'open').and.returnValue({
       afterClosed: () => of('true'),
     } as MatDialogRef<typeof DeleteInventoryComponent>);
     component.openDeleteInventoryDialog(inventoryDeviceIndex);
+    expect(component.deleteInventoryDevice).toHaveBeenCalled();
+    expect(component.closeEditInventory).toHaveBeenCalled();
   });
 
-  it('should run #detailsTrigger()', () => {
+  it('should run #detailsTrigger() --> else case', () => {
+    spyOn(component, 'closeDetails');
+    spyOn(component, 'closeEdit');
+    spyOn(component, 'fetchProm');
     const index = 0;
     const sim = '123-456-789';
-    // component.selectedDate = -1;
-    // component.zoomIn = 0;
-    // component.isZoomIn = true || false;
-    // component.deviceSimsDetailsProgressToggleDay = true || false;
-    // component.deviceSimsDetailsProgressToggleWeek = true || false;
-    // component.selectedSimDetails = sim;
-    // component.selectedIndexDetails = index;
     component.detailsTrigger(index, sim);
+    expect(component.selectedDate).toEqual(-1);
+    expect(component.zoomIn).toEqual(0);
+    expect(component.isZoomIn).toBeFalse();
+    expect(component.deviceSimsDetailsProgressToggleDay).toBeTrue();
+    expect(component.deviceSimsDetailsProgressToggleWeek).toBeFalse();
+    expect(component.selectedSimDetails).toEqual(sim);
+    expect(component.selectedIndexDetails).toEqual(index);
+    expect(component.closeDetails).toHaveBeenCalled();
+    expect(component.closeEdit).toHaveBeenCalled();
+    expect(component.deviceDetails.length).toBeGreaterThan(0);
+    expect(component.fetchProm).toHaveBeenCalled();
   });
 
-  it('should run #detailsTrigger()', () => {
+  it('should run #detailsTrigger() --> if case', () => {
+    spyOn(component, 'closeDetails');
+    spyOn(component, 'closeEdit');
+    spyOn(component, 'fetchProm');
     component.deviceDetails = [0, 0];
     const index = 0;
     const sim = '123-456-789';
-    // component.selectedDate = -1;
-    // component.zoomIn = 0;
-    // component.isZoomIn = true || false;
-    // component.deviceSimsDetailsProgressToggleDay = true || false;
-    // component.deviceSimsDetailsProgressToggleWeek = true || false;
-    // component.selectedSimDetails = sim;
-    // component.selectedIndexDetails = index;
     component.detailsTrigger(index, sim);
+    expect(component.selectedDate).toEqual(-1);
+    expect(component.zoomIn).toEqual(0);
+    expect(component.isZoomIn).toBeFalse();
+    expect(component.deviceSimsDetailsProgressToggleDay).toBeTrue();
+    expect(component.deviceSimsDetailsProgressToggleWeek).toBeFalse();
+    expect(component.selectedSimDetails).toEqual(sim);
+    expect(component.selectedIndexDetails).toEqual(index);
+    expect(component.closeDetails).toHaveBeenCalled();
+    expect(component.closeEdit).toHaveBeenCalled();
+    expect(component.deviceDetails.length).toBeLessThan(2);
+    expect(component.fetchProm).toHaveBeenCalled();
   });
-
-  // it('should run #fetchPromApiWeek()', () => {
-  //   const site = 'fremont';
-  //   const iccid = '123-456-789';
-  //   // component.fetchPromApiWeek(site, iccid);
-  // });
 
   it('should run #fetchPromWeek()', () => {
     spyOn(component, 'fetchPromApiWeek').and.returnValue(
@@ -1191,6 +1371,8 @@ describe('DeviceSimComponent', () => {
     const iccid = '123-456-789';
     const index = 0;
     component.fetchPromWeek(site, iccid, index);
+    expect(component.fetchPromApiWeek).toHaveBeenCalled();
+    expect(component.fetchDotsApiWeek).toHaveBeenCalled();
   });
 
   it('should run #fetchProm()', () => {
@@ -1303,49 +1485,8 @@ describe('DeviceSimComponent', () => {
     const index = 0;
     // component.valuesArrayFinal[0].times = [];
     component.fetchProm(site, iccid, index);
-  });
-
-  it('should run #fetchDotsApi()', () => {
-    const site = 'fremont';
-    const iccid = '123-456-789';
-    component.fetchDotsApi(site, iccid);
-  });
-
-  it('should run #fetchDotsApiWeek()', () => {
-    const site = 'fremont';
-    const iccid = '123-456-789';
-    component.fetchDotsApiWeek(site, iccid);
-  });
-
-  // it('should run #displayChart()', () => {
-  //   const index = 0;
-  //   const chartData = [
-  //     {
-  //       activeStatus: '1',
-  //       times: [
-  //         {
-  //           display: 'rect',
-  //           ending_time: 1640960880000,
-  //           starting_time: 1640874480000,
-  //         },
-  //         {
-  //           display: 'circle',
-  //           starting_time: 1540874480000,
-  //         },
-  //       ],
-  //     },
-  //   ];
-  //   component.displayChart(chartData, index);
-  //   document
-  //     .getElementById('#device_timeline' + index)
-  //     .dispatchEvent(new MouseEvent('mouseover'));
-  // });
-
-  it('should run #displaySmallChart()', () => {
-    const index = 0;
-    const chartData = [];
-
-    component.displaySmallChart(chartData, index);
+    expect(component.fetchPromApi).toHaveBeenCalled();
+    expect(component.fetchDotsApi).toHaveBeenCalled();
   });
 
   it('should run #fetchProm2()', () => {
@@ -1457,36 +1598,113 @@ describe('DeviceSimComponent', () => {
     const iccid = '123-456-789';
     const index = 0;
     component.fetchProm2(site, iccid, index);
+    expect(component.fetchPromApi).toHaveBeenCalled();
+    expect(component.fetchDotsApi).toHaveBeenCalled();
   });
 
   it('should run #deviceSimsDetailsProgressToggleDayFun()', () => {
+    spyOn(component, 'formatDate');
+    spyOn(component, 'fetchProm');
     component.deviceSimsDetailsProgressToggleDayFun();
+    expect(component.selectedDate).toEqual(-1);
+    expect(component.zoomIn).toEqual(0);
+    expect(component.isZoomIn).toBeFalse();
+    expect(component.deviceSimsDetailsProgressToggleDay).toBeTrue();
+    expect(component.deviceSimsDetailsProgressToggleWeek).toBeFalse();
+    expect(component.formatDate).toHaveBeenCalled();
+    expect(component.fetchProm).toHaveBeenCalled();
   });
 
   it('should run #deviceSimsDetailsProgressToggleWeekFun()', () => {
+    spyOn(component, 'fetchPromWeek');
     const index = 0;
     const sim = '123-456-789';
     component.detailsTrigger(index, sim);
     component.deviceSimsDetailsProgressToggleWeekFun();
+    expect(component.deviceSimsDetailsProgressToggleWeek).toBeTrue();
+    expect(component.deviceSimsDetailsProgressToggleDay).toBeFalse();
+    expect(component.fetchPromWeek).toHaveBeenCalled();
   });
 
   it('should run #activeNewDeviceForm()', () => {
+    spyOn(component, 'closeEdit');
+    spyOn(component, 'closeDetails');
+    spyOn(component, 'configDeviceSim');
+    component.activeNewDevice = false;
     component.activeNewDeviceForm();
+    expect(component.closeEdit).toHaveBeenCalled();
+    expect(component.closeDetails).toHaveBeenCalled();
+    expect(component.activeNewDevice).toBeTrue();
+    expect(component.configDeviceSim).toHaveBeenCalled();
   });
 
   it('should run #simsView()', () => {
+    spyOn(component, 'fetchData');
     component.simsView();
+    expect(component.inventorySimsTabStyle).toEqual('false');
+    expect(component.inventoryDeviceTabStyle).toEqual('false');
+    expect(component.deviceSimView).toEqual('true');
+    expect(component.inventoryViewStyle).toEqual('false');
+    expect(component.cancelledSimsStyle).toEqual('false');
+    expect(component.inventorySimsToggle).toBeFalse();
+    expect(component.cancelledSimsToggle).toBeFalse();
+    expect(component.simsViewToggle).toBeTrue();
+    expect(component.deviceViewToggle).toBeFalse();
+    expect(component.cancelledSimsStyle).toEqual('false');
+    expect(component.activeNewDevice).toBeFalse();
+    expect(component.addNewDevice).toBeFalse();
+    expect(component.inventoryDeviceEditForm).toBeFalse();
   });
 
   it('should run #inventoryDeviceTab()', () => {
     component.inventoryDeviceTab();
+    expect(component.deviceSimView).toEqual('false');
+    expect(component.inventoryDeviceTabStyle).toEqual('true');
+    expect(component.inventorySimsTabStyle).toEqual('false');
+    expect(component.inventoryViewStyle).toEqual('true');
+    expect(component.cancelledSimsStyle).toEqual('false');
+    expect(component.inventorySimsToggle).toBeFalse();
+    expect(component.cancelledSimsToggle).toBeFalse();
+    expect(component.deviceViewToggle).toBeTrue();
+    expect(component.simsViewToggle).toBeFalse();
+    expect(component.activeNewDevice).toBeFalse();
+    expect(component.addNewDevice).toBeFalse();
+    expect(component.inventoryDeviceEditForm).toBeFalse();
+    expect(component.deviceSimsDetailViewEditForm).toBeFalse();
+    expect(component.deviceSimsDetailItemDetailsPopUp).toBeFalse();
   });
 
   it('should run #inventorySimsTab()', () => {
     component.inventorySimsTab();
+    expect(component.inventorySimsTabStyle).toEqual('true');
+    expect(component.inventoryDeviceTabStyle).toEqual('false');
+    expect(component.inventorySimsToggle).toBeTrue();
+    expect(component.deviceViewToggle).toBeFalse();
+    expect(component.cancelledSimsToggle).toBeFalse();
+    expect(component.simsViewToggle).toBeFalse();
+    expect(component.cancelledSimsStyle).toEqual('false');
+    expect(component.activeNewDevice).toBeFalse();
+    expect(component.addNewDevice).toBeFalse();
+    expect(component.inventoryDeviceEditForm).toBeFalse();
   });
 
   it('should run #cancelledSims()', () => {
     component.cancelledSims();
+    expect(component.cancelledSimsStyle).toEqual('true');
+    expect(component.inventorySimsTabStyle).toEqual('false');
+    expect(component.inventoryDeviceTabStyle).toEqual('false');
+    expect(component.inventorySimsTabStyle).toEqual('false');
+    expect(component.inventoryDeviceTabStyle).toEqual('false');
+    expect(component.deviceSimView).toEqual('false');
+    expect(component.inventoryViewStyle).toEqual('false');
+    expect(component.inventorySimsToggle).toBeFalse();
+    expect(component.simsViewToggle).toBeFalse();
+    expect(component.deviceViewToggle).toBeFalse();
+    expect(component.cancelledSimsToggle).toBeTrue();
+    expect(component.activeNewDevice).toBeFalse();
+    expect(component.addNewDevice).toBeFalse();
+    expect(component.inventoryDeviceEditForm).toBeFalse();
+    expect(component.deviceSimsDetailViewEditForm).toBeFalse();
+    expect(component.deviceSimsDetailItemDetailsPopUp).toBeFalse();
   });
 });

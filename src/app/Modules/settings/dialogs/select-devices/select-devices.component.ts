@@ -12,12 +12,6 @@ import { DeviceSimService } from 'src/app/services/device-sim.service';
   selector: 'aep-select-devices',
   templateUrl: './select-devices.component.html',
   styles: [],
-  // providers: [
-  //   {
-  //     provide: MatDialogRef,
-  //     useValue: {},
-  //   },
-  // ],
 })
 export class SelectDevicesComponent implements OnInit {
   selectedDevice = [];
@@ -158,12 +152,9 @@ export class SelectDevicesComponent implements OnInit {
         this.selectedDevice = device;
       }
     });
-    // this.dialogRef.close();
-    // this.getSelectedSims()
   }
 
   selectDeviceFinal(): void {
-    //console.log(this.selectedSim);
     this.deviceService.setDevice(this.selectedDevice);
     this.dialogRef.close();
   }
@@ -172,6 +163,5 @@ export class SelectDevicesComponent implements OnInit {
     this.deviceService.getDevice().subscribe((data) => {
       this.inventoryDevices = data;
     });
-    // console.log(this.inventoryDevices);
   }
 }

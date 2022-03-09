@@ -20,19 +20,17 @@
         >
           <div
             class="select-sim-container-simHolder"
-            (click)="changeSelection(sim.simIccid)"
+            (click)="changeSelection(sim.iccid)"
           >
             <div class="mx-1 d-flex">
-              <!-- <mat-checkbox type=checkbox [checked]="selectedSim === sim.simNumber"  class="mx-2"></mat-checkbox>
-             -->
               <img
                 [src]="
-                  selectedSim === sim.simIccid
+                  selectedSim === sim.iccid
                     ? 'assets/deviceSim/selected-card.svg'
                     : 'assets/deviceSim/select.svg'
                 "
               />
-              <span class="mx-1">{{ sim.simIccid }}</span>
+              <span class="mx-1">{{ sim.iccid }}</span>
             </div>
           </div>
         </div>

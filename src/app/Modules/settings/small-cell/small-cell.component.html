@@ -5,7 +5,6 @@
 -->
 <!-- <p>services works!</p> -->
 <div class="row container-fluid small-cells">
-  <!-- <div class="row"> -->
   <!--left side section-->
   <div class="small-cells-col-2 ml-6">
     <aep-side-navbar></aep-side-navbar>
@@ -394,8 +393,6 @@
       </div>
     </div>
     <div *ngIf="viewType === 'Physical'" class="small-cells__physical-view">
-      <!-- <svg></svg> -->
-      <!-- <div *ngFor="let sites of config?.sites"> -->
       <img
         *ngIf="sitePlanPresent"
         class="small-cells__physical-view__image"
@@ -407,9 +404,6 @@
         "
         #physicalViewImage
       />
-      <!-- <div *ngIf="!sitePlanPresent" class="pt-5">
-        There are no site-plans at the moment for this site.
-      </div> -->
       <ng-container *ngFor="let device of devices">
         <div
           class="small-cells__physical-view__device"
@@ -497,8 +491,6 @@
           </mat-menu>
         </div>
       </ng-container>
-      <!-- </div> -->
     </div>
   </div>
-  <!-- </div> -->
 </div>

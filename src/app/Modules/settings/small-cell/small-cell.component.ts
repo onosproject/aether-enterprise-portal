@@ -186,11 +186,8 @@ export class SmallCellComponent implements OnInit {
   }
 
   assignSelectedSite(): void {
-    //console.log(this.deviceService.mySite1);
     this.siteSubscription = this.deviceService.getSite().subscribe((data) => {
-      // //console.log(data);
       this.selectedSite = data;
-      // console.log(this.selectedSite);
       this.fetchConfig();
     });
   }
@@ -198,7 +195,6 @@ export class SmallCellComponent implements OnInit {
   fetchConfig(): void {
     this.siteService.GetAllConfig().subscribe((response) => {
       this.config = response;
-      // console.log(this.config);
       this.checkSitePlans();
     });
   }
@@ -208,11 +204,7 @@ export class SmallCellComponent implements OnInit {
       this.config?.sites.forEach((site) => {
         if (this.selectedSite === site['site-id']) {
           if (site['site-plans']) {
-            // if (this.viewType !== 'List') {
-            //   this.viewType = 'Physical';
-            // }
             this.sitePlanPresent = true;
-            // console.log(this.config?.sites.indexOf(site));
             this.sitePlanPresentIndex = this.config?.sites.indexOf(site);
           } else {
             if (this.viewType === 'List') {

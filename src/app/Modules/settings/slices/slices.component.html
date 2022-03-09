@@ -4,7 +4,6 @@
 ~ SPDX-License-Identifier: Apache-2.0
 -->
 <div class="row container-fluid confi-slices-view">
-  <!-- <div class="row"> -->
   <!--left side section-->
   <div class="confi-slices-view-col-2 ml-6">
     <aep-side-navbar></aep-side-navbar>
@@ -17,7 +16,6 @@
       </div>
     </div>
     <div class="slices-view-cards">
-      <!-- <div class=""> -->
       <mat-card
         class="create-new-slices add-button col-12 d-flex my-4"
         *ngIf="!createNewSlices"
@@ -324,7 +322,6 @@
           <mat-step [stepControl]="secondFormGroup" label="Add Device Groups">
             <form [formGroup]="secondFormGroup">
               <div class="my-4 p-3 form-body">
-                <!-- <div class="select-devices">Add Device Groups</div> -->
                 <div class="col-12 d-flex">
                   <div class="device-group-items d-flex flex-wrap">
                     <div
@@ -398,7 +395,6 @@
           <mat-step [stepControl]="thirdFormGroup" label="Add Services">
             <form [formGroup]="thirdFormGroup">
               <div class="my-4 p-3 form-body">
-                <!-- <div class="select-devices">Add serives</div> -->
                 <div class="col-12 d-flex">
                   <div class="serive-items d-flex flex-wrap">
                     <div
@@ -520,18 +516,6 @@
                           >
                             Slice name is required
                           </div>
-                          <!-- <mat-label class="form-label"
-                                >Slices Name
-                              </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="devicegroupname"
-                                id="devicegroupname"
-                                placeholder="device group name"
-                                [value]="summaryArray[0].summarySliceName"
-                              /> -->
                         </div>
                         <div class="mat-select-box my-1 mx-1">
                           <h4 class="my-1">Select slice type</h4>
@@ -577,18 +561,6 @@
                           >
                             Slice Type is required
                           </div>
-                          <!-- <mat-label class="form-label"
-                                >Select Slices Type
-                              </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="devicegroupname"
-                                id="devicegroupname"
-                                placeholder="device group name"
-                                [value]="summaryArray[0].summarySliceType"
-                              /> -->
                         </div>
                         <div class="mat-select-box my-1 mx-1">
                           <h4 class="my-1">MBR</h4>
@@ -629,16 +601,6 @@
                           >
                             MBR is required
                           </div>
-                          <!-- <mat-label class="form-label">MBR </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="devicegroupname"
-                                id="devicegroupname"
-                                placeholder="device group name"
-                                [value]="summaryArray[0].summarymbr"
-                              /> -->
                         </div>
                         <div class="mat-select-box my-1 mx-1">
                           <h4 class="my-1">Selct slice type</h4>
@@ -679,16 +641,6 @@
                           >
                             GBR is required
                           </div>
-                          <!-- <mat-label class="form-label">GBR </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="devicegroupname"
-                                id="devicegroupname"
-                                placeholder="device group name"
-                                [value]="summaryArray[0].summarygbr"
-                              /> -->
                         </div>
                         <div class="mat-select-box my-1 mx-1">
                           <h4 class="my-1">traffic class</h4>
@@ -734,18 +686,6 @@
                           >
                             Traffic Class is required
                           </div>
-                          <!-- <mat-label class="form-label"
-                                >Traffic Class
-                              </mat-label>
-                              <input
-                                *ngIf="summaryBool"
-                                class="form-control form-field-big"
-                                type="text"
-                                name="devicegroupname"
-                                id="devicegroupname"
-                                placeholder="device group name"
-                                [value]="summaryArray[0].summaryTrafficClass"
-                              /> -->
                         </div>
                       </div>
                       <div class="row selected-device-groups">
@@ -846,8 +786,6 @@
         </mat-stepper>
       </div>
       <!--END CREATE NEW SLICES FORM- FORM-->
-      <!-- </div> -->
-      <!-- </div> -->
       <!--START Slices CARDS-->
       <div
         class="mat-acc px-0 my-2"
@@ -942,9 +880,6 @@
                       devices
                     </div>
                     <div class="label-view d-flex slices__device-group">
-                      <!-- <span class="img file1"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span>
-                                       <span class="desc">Conneted Devices </span>
-                                       <span class="img dot"><img src="../../assets/services/pencil.svg" class="ng-tns-c138-2"></span> -->
                       <button mat-raised-button class="conected-devices-bx">
                         <div class="card-icon">
                           <img src="assets/AdminPanel/connected.svg" />
@@ -1677,5 +1612,4 @@
       <!--END Slices CARDS-->
     </div>
   </div>
-  <!-- </div> -->
 </div>

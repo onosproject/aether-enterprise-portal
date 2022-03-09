@@ -148,9 +148,6 @@ describe('AdminComponent', () => {
   });
 
   it('should run #ngOnInit()', async () => {
-    // userService = userService || {};
-    // userService.usersSubject = observableOf({});
-    // userService.citiesSubject = observableOf({});
     spyOn(component, 'addNewForm');
     spyOn(component, 'assignUsersCities');
     spyOn(component, 'assignCitiesUsers');
@@ -187,14 +184,6 @@ describe('AdminComponent', () => {
     expect(component.isCitiesValid(noCities)).toBeTruthy();
     expect(component.isCitiesValid(cities)).toBeFalsy();
   });
-
-  // it('should run #fileTrigger()', () => {
-  //   const event = {
-  //     "isTrusted": true,
-  //     target: input.ng-tns-c132-3
-  // }
-  //   component.fileTrigger(event);
-  // });
 
   it('should run #toggleEdit() --> else case', () => {
     component.editUsers = [];
@@ -283,20 +272,6 @@ describe('AdminComponent', () => {
     spyOn(component, 'closeSiteViewEdit').and.callThrough();
     component.closeSiteViewEdit();
     expect(component.editUsers.length).toBeLessThan(2);
-  });
-
-  it('should run #getEditControl()', () => {
-    const param = 'name';
-    component.getEditControl(component.editForm, param);
-  });
-
-  it('should run #getCitiesControl()', () => {
-    const cityIndex = 1;
-    component.getCitiesControl(cityIndex, component.userForm);
-  });
-
-  it('should run #setUpCities()', () => {
-    component.setUpCities();
   });
 
   it('should run #addNewUser()', () => {
@@ -471,8 +446,4 @@ describe('AdminComponent', () => {
     component.openDeleteUserDialog(userIndex);
     expect(component.confirmDelete).toHaveBeenCalled();
   });
-
-  // it('should run #openAuditUser()', () => {
-  //   component.openAuditUser();
-  // });
 });
