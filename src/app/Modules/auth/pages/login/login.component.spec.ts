@@ -41,13 +41,18 @@ describe('LoginComponent', () => {
   });
 
   it('should run #getErrorMessage()', () => {
-    component.email = component.email;
-    spyOn(component.email, 'hasError');
-    component.password = component.password;
-    spyOn(component.password, 'hasError');
-    component.getErrorMessage();
-    expect(component.email.hasError).toHaveBeenCalled();
-    expect(component.password.hasError).toHaveBeenCalled();
+    spyOn(component.email, 'hasError').and.callThrough();
+    spyOn(component.password, 'hasError').and.callThrough();
+
+    component.email.setValue('foobar');
+    component.password.setValue('testpassword');
+
+    const res = component.getErrorMessage();
+
+    expect(component.email.hasError).toHaveBeenCalledWith('required');
+    expect(component.email.hasError).toHaveBeenCalledWith('email');
+    expect(component.password.hasError).toHaveBeenCalledWith('required');
+    expect(res).toEqual('Not a valid email');
   });
 
   it('should run #goToForgotPassword()', () => {

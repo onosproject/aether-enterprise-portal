@@ -11,7 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './dashboard.module';
-
+import { smallCell } from '../../shared/classes/dashboard-data';
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
@@ -43,17 +43,74 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  // it('should run #parentWillTakeAction()', () => {
+  //   spyOn(component, 'hideAcknowledgedView');
+  //   spyOn(component, 'getSlices').and.callThrough();
+  //   component.slices = component.slices;
+  //   component.isAcknowledged = 8;
+  //   component.isExpand = false;
+  //   spyOn(component.slices, 'expandAllCard');
+  //   spyOn(component.slices, 'collapseAllCard');
+  //   component.slices.viewType = 'viewType';
+  //   spyOn(component.slices, 'onSelectCard');
+
+  //   component.parentWillTakeAction({
+  //     siteId: 'fremont',
+  //     siteData: [
+  //       {
+  //         applications: [],
+  //         'device-groups': [],
+  //         'display-name': 'Phones Slice',
+  //         'slice-id': 'fremont-slice-phones',
+  //         devices: [
+  //           {
+  //             'display-name': 'Cameras group',
+  //             devices: [],
+  //             isExpanded: true,
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //     siteIndex: 0,
+  //     alerts: 4,
+  //     sitePlans: { isometric: true, layers: [], origin: 'ORIGIN_TOP_LEFT' },
+  //   });
+
+  //   component.isExpand = true;
+  //   component.parentWillTakeAction({
+  //     siteId: 'fremont',
+  //     siteData: [
+  //       {
+  //         applications: [],
+  //         'device-groups': [],
+  //         'display-name': 'Phones Slice',
+  //         'slice-id': 'fremont-slice-phones',
+  //         devices: [
+  //           {
+  //             'display-name': 'Cameras group',
+  //             devices: [],
+  //             isExpanded: true,
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //     siteIndex: 0,
+  //     alerts: 4,
+  //     sitePlans: null,
+  //   });
+  //   expect(component.slices.onSelectCard).toHaveBeenCalled();
+  //   expect(component.hideAcknowledgedView).not.toHaveBeenCalled();
+  //   jasmine.clock().tick(101);
+  //   expect(component.hideAcknowledgedView).toHaveBeenCalled();
+  //   expect(component.slices.expandAllCard).toHaveBeenCalled();
+  //   expect(component.slices.collapseAllCard).toHaveBeenCalled();
+  // });
+
   it('should run #parentWillTakeAction()', () => {
-    spyOn(component, 'hideAcknowledgedView');
-    spyOn(component, 'getSlices').and.callThrough();
-    component.slices = component.slices;
     component.isAcknowledged = 8;
     component.isExpand = false;
-    spyOn(component.slices, 'expandAllCard');
-    spyOn(component.slices, 'collapseAllCard');
-    component.slices.viewType = 'viewType';
+    spyOn(component, 'hideAcknowledgedView');
     spyOn(component.slices, 'onSelectCard');
-
     component.parentWillTakeAction({
       siteId: 'fremont',
       siteData: [
@@ -75,8 +132,25 @@ describe('DashboardComponent', () => {
       alerts: 4,
       sitePlans: { isometric: true, layers: [], origin: 'ORIGIN_TOP_LEFT' },
     });
+    expect(component.hideAcknowledgedView).not.toHaveBeenCalled();
+    jasmine.clock().tick(101);
+    expect(component.hideAcknowledgedView).toHaveBeenCalled();
+    expect(component.siteId).toEqual(4);
+    expect(component.config).toEqual({
+      isometric: true,
+      layers: [],
+      origin: 'ORIGIN_TOP_LEFT',
+    });
+    expect(component.slices.viewType).toEqual('Logical');
+    expect(component.slices.onSelectCard).toHaveBeenCalled();
+  });
 
-    component.isExpand = true;
+  it('should run #parentWillTakeAction()', () => {
+    component.isAcknowledged = 8;
+    component.isExpand = false;
+    spyOn(component, 'hideAcknowledgedView');
+    spyOn(component.slices, 'onSelectCard');
+    spyOn(component, 'getSlices');
     component.parentWillTakeAction({
       siteId: 'fremont',
       siteData: [
@@ -98,24 +172,69 @@ describe('DashboardComponent', () => {
       alerts: 4,
       sitePlans: null,
     });
-
+    expect(component.getSlices).not.toHaveBeenCalled();
+    jasmine.clock().tick(11);
+    expect(component.getSlices).toHaveBeenCalled();
+    expect(component.siteId).toEqual(4);
+    expect(component.config).toEqual(null);
+    expect(component.viewType).toEqual('Logical');
+    expect(component.isExpand).toBeTrue();
+    expect(component.slices.viewType).toEqual('Logical');
     expect(component.slices.onSelectCard).toHaveBeenCalled();
-    expect(component.hideAcknowledgedView).not.toHaveBeenCalled();
-    jasmine.clock().tick(101);
-    expect(component.hideAcknowledgedView).toHaveBeenCalled();
-    expect(component.slices.expandAllCard).toHaveBeenCalled();
-    expect(component.slices.collapseAllCard).toHaveBeenCalled();
+  });
+
+  it('should run #parentWillTakeAction()', () => {
+    component.isAcknowledged = 8;
+    component.isExpand = true;
+    spyOn(component, 'hideAcknowledgedView');
+    spyOn(component.slices, 'onSelectCard');
+    spyOn(component, 'getSlices');
+    component.parentWillTakeAction({
+      siteId: 'fremont',
+      siteData: [
+        {
+          applications: [],
+          'device-groups': [],
+          'display-name': 'Phones Slice',
+          'slice-id': 'fremont-slice-phones',
+          devices: [
+            {
+              'display-name': 'Cameras group',
+              devices: [],
+              isExpanded: true,
+            },
+          ],
+        },
+      ],
+      siteIndex: 0,
+      alerts: 4,
+      sitePlans: null,
+    });
+    expect(component.getSlices).not.toHaveBeenCalled();
+    jasmine.clock().tick(11);
+    expect(component.getSlices).toHaveBeenCalled();
+    expect(component.siteId).toEqual(4);
+    expect(component.config).toEqual(null);
+    expect(component.isExpand).toBeTrue();
+    expect(component.viewType).toEqual('Logical');
+    expect(component.slices.viewType).toEqual('Logical');
+    expect(component.slices.onSelectCard).toHaveBeenCalled();
   });
 
   it('should run #parentWillTakeForExpand()', () => {
     component.isExpand = true;
     spyOn(component.slices, 'expandAllCard');
-    spyOn(component.slices, 'collapseAllCard');
-    component.parentWillTakeForExpand();
-    component.isExpand = false;
     component.parentWillTakeForExpand();
     expect(component.slices.expandAllCard).toHaveBeenCalled();
+    expect(component.isExpand).toBeFalse();
+  });
+
+  it('should run #parentWillTakeForExpand()', () => {
+    component.isExpand = false;
+    spyOn(component.slices, 'collapseAllCard');
+    component.parentWillTakeForExpand();
     expect(component.slices.collapseAllCard).toHaveBeenCalled();
+    expect(component.isExpand).toBeTrue();
   });
 
   it('should run #parentWillTakeActionSlice()', () => {
@@ -123,22 +242,35 @@ describe('DashboardComponent', () => {
       viewType: true,
       isalert: true,
     });
+    expect(component.viewType).toEqual('Physical');
+    expect(component.isAcknowledged).toEqual(8);
+  });
+
+  it('should run #parentWillTakeActionSlice()', () => {
     component.parentWillTakeActionSlice({
       viewType: false,
       isalert: true,
     });
+    expect(component.isExpand).toBeTrue;
+    expect(component.isAcknowledged).toEqual(8);
   });
 
   it('should run #showAcknowledgedView()', () => {
     spyOn(component.slices, 'expandAllCard');
     component.showAcknowledgedView(0);
     expect(component.slices.expandAllCard).toHaveBeenCalled();
+    expect(component.isAcknowledged).toEqual(8);
+    expect(component.sitesService.numberOfAlerts).toEqual(0);
+    expect(smallCell[0][0].alerts).toEqual(
+      component.sitesService.allSmallCellsData
+    );
   });
 
   it('should run #hideAcknowledgedView()', () => {
     spyOn(component.slices, 'hideAcknowledgedView');
     component.hideAcknowledgedView();
     expect(component.slices.hideAcknowledgedView).toHaveBeenCalled();
+    expect(component.isAcknowledged).toEqual(12);
   });
 
   it('should run #openDialog()', () => {
@@ -166,7 +298,7 @@ describe('DashboardComponent', () => {
       layers: [],
       origin: 'ORIGIN_TOP_LEFT',
     };
-    spyOn(component.slices, 'onSelectCard').and.callThrough();
+    spyOn(component.slices, 'onSelectCard');
 
     component.getSlices();
     expect(component.slices.onSelectCard).toHaveBeenCalled();

@@ -345,9 +345,8 @@ export class SlicesComponent {
   onEdit(sliceId: number, index: number): void {
     this.sliceId = sliceId;
     this.siteIndex = index;
-    if (this.isEditable) {
-      this.isEditable = true;
-    } else {
+    /* istanbul ignore else */
+    if (!this.isEditable) {
       this.isEditable = !this.isEditable;
     }
     for (let i = 0; i < this.sliceData[index].devices.length; i++) {

@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { of } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '../modals/delete-card/modal.component';
+import { smallCell } from '../../../../shared/classes/dashboard-data';
 
 describe('SlicesComponent', () => {
   let component: SlicesComponent;
@@ -53,18 +54,20 @@ describe('SlicesComponent', () => {
 
   it('should run #expandSlice()', () => {
     component.expandSlice();
+    expect(component.isEditable).toBeFalse();
   });
 
   it('should run #collapseSlice()', () => {
-    component.isExpand = true || false;
+    component.isExpand = true;
     component.informParent = component.informParent;
     spyOn(component.informParent, 'emit').and.callThrough();
     component.collapseSlice();
     expect(component.informParent.emit).toHaveBeenCalled();
+    expect(component.isExpand).toBeFalse();
   });
 
   it('should run #cancelEdit()', () => {
-    component.isEditable = true || false;
+    component.isEditable = true;
     component.sliceData = [
       {
         alerts: 0,
@@ -76,21 +79,24 @@ describe('SlicesComponent', () => {
           },
         ],
         services: [
-          { 'display-name': 'Services', service: [], isExpanded: false },
+          { 'display-name': 'Services', service: [], isExpanded: true },
         ],
       },
     ];
-
     component.cancelEdit(0);
+    expect(component.isEditable).toBeFalse();
+    expect(component.sliceData[0].devices[0].isExpanded).toEqual(false);
+    expect(component.sliceData[0].services[0].isExpanded).toEqual(false);
   });
 
   it('should run #collapseAllCard()', () => {
     component.collapseAllCard();
+    expect(component.isExpand).toBeFalse();
+    expect(component.panelIndex).toEqual(undefined);
   });
 
   it('should run #onSelectCard()', () => {
     component.TabValue = [];
-    // component.sliceData = [];
     spyOn(component, 'logicforAlertData');
     component.onSelectCard({
       siteId: '',
@@ -115,6 +121,17 @@ describe('SlicesComponent', () => {
     expect(component.logicforAlertData).not.toHaveBeenCalled();
     jasmine.clock().tick(11);
     expect(component.logicforAlertData).toHaveBeenCalled();
+    expect(component.siteIndex).toEqual(0);
+    expect(component.sitePlans).toEqual({
+      isometric: true,
+      layers: [],
+      origin: 'ORIGIN_TOP_LEFT',
+    });
+    expect(component.config).toEqual({
+      isometric: true,
+      layers: [],
+      origin: 'ORIGIN_TOP_LEFT',
+    });
   });
 
   it('should run #logicforAlertData()', () => {
@@ -140,10 +157,11 @@ describe('SlicesComponent', () => {
         ],
       },
     ];
-
-    component.sitesService = component.sitesService;
-    component.sitesService.allSmallCellsData = 'allSmallCellsData';
     component.logicforAlertData();
+    expect(smallCell[0][0].alerts.length).toBeGreaterThan(0);
+    expect(component.sitesService.allSmallCellsData).toEqual(
+      smallCell[0][0].alerts
+    );
   });
 
   it('should run #getTotalDevices()', () => {
@@ -151,15 +169,21 @@ describe('SlicesComponent', () => {
       {
         'display-name': '',
         devices: [],
-        isExpanded: true || false,
+        isExpanded: true,
       },
     ]);
+
+    const value = component.getTotalDevices([
+      {
+        'display-name': '',
+        devices: [],
+        isExpanded: true,
+      },
+    ]);
+    expect(value).toEqual(0);
   });
 
   it('should run #expandAllCard()', () => {
-    component.isExpand = true;
-    component.panelIndex = undefined;
-    component.siteIndex = 0;
     component.sliceData = [
       {
         alerts: 0,
@@ -171,13 +195,18 @@ describe('SlicesComponent', () => {
           },
         ],
         services: [
-          { 'display-name': 'Services', service: [], isExpanded: false },
+          { 'display-name': 'Services', service: [], isExpanded: true },
         ],
       },
     ];
     component.expandAllCard(true);
     jasmine.clock().tick(11);
     fixture.detectChanges();
+    expect(component.sliceData[0].devices[0].isExpanded).toEqual(false);
+    expect(component.sliceData[0].services[0].isExpanded).toEqual(false);
+    expect(component.isExpand).toBeTrue();
+    expect(component.isEditable).toBeFalse();
+    expect(component.isAcknowledged).toEqual(8);
   });
 
   it('should run #openAlerts()', () => {
@@ -192,6 +221,10 @@ describe('SlicesComponent', () => {
     spyOn(component.informParent, 'emit');
     component.openAlerts(0, '');
     expect(component.informParent.emit).toHaveBeenCalled();
+    expect(component.sitesService.numberOfAlerts).toEqual(0);
+    expect(component.isExpand).toBeTrue();
+    expect(component.isEditable).toBeFalse();
+    expect(component.isAcknowledged).toEqual(8);
   });
 
   it('should run #onEdit()', () => {
@@ -207,13 +240,15 @@ describe('SlicesComponent', () => {
           },
         ],
         services: [
-          { 'display-name': 'Services', service: [], isExpanded: false },
+          { 'display-name': 'Services', service: [], isExpanded: true },
         ],
       },
     ];
     component.onEdit(0, 0);
-    component.isEditable = false;
-    component.onEdit(0, 0);
+    expect(component.sliceId).toEqual(0);
+    expect(component.siteIndex).toEqual(0);
+    expect(component.sliceData[0].devices[0].isExpanded).toEqual(true);
+    expect(component.sliceData[0].services[0].isExpanded).toEqual(true);
   });
 
   it('should run #setAccordion()', () => {
@@ -229,39 +264,182 @@ describe('SlicesComponent', () => {
         ],
       },
     ];
-
     component.setAccordion(0, 0);
+    jasmine.clock().tick(11);
+    expect(component.sliceData[0].devices[0].isExpanded).toBeFalse();
   });
 
   it('should run #removeDevice()', () => {
     component.myTimeout = null;
-    component.removeDevice(1, 0, 7568112);
+    component.sliceData = [
+      {
+        alerts: 0,
+        devices: [
+          {
+            'display-name': 'Cameras group',
+            devices: [{ isExpanded: true }, { isExpanded: true }],
+            isExpanded: true,
+          },
+        ],
+      },
+    ];
+    component.removeDevice(0, 0, 7568112);
+    expect(component.removedCameraId).toEqual(7568112);
+    expect(component.removedDeviceId).toEqual(0);
+    jasmine.clock().tick(3000);
+    expect(component.sliceData).toEqual([
+      {
+        alerts: 0,
+        devices: [
+          {
+            'display-name': 'Cameras group',
+            devices: [{ isExpanded: true }],
+            isExpanded: true,
+          },
+        ],
+      },
+    ]);
   });
 
   it('should run #removeServiceGroup()', () => {
+    component.myTimeout = null;
+    component.sliceData = [
+      {
+        alerts: 0,
+        devices: [
+          {
+            'display-name': 'Cameras group',
+            devices: [],
+            isExpanded: true,
+          },
+        ],
+        services: [
+          {
+            'display-name': 'Services',
+            service: [{ isExpanded: true }, { isExpanded: true }],
+            isExpanded: true,
+          },
+        ],
+      },
+    ];
     component.removeServiceGroup(0, 0, 0);
+    jasmine.clock().tick(3000);
+    expect(component.sliceData).toEqual([
+      {
+        alerts: 0,
+        devices: [
+          {
+            'display-name': 'Cameras group',
+            devices: [],
+            isExpanded: true,
+          },
+        ],
+        services: [
+          {
+            'display-name': 'Services',
+            service: [{ isExpanded: true }],
+            isExpanded: true,
+          },
+        ],
+      },
+    ]);
   });
 
   it('should run #undoDevice()', () => {
     component.undoDevice();
+    expect(component.removedCameraId).toBeNull();
+    expect(component.removedServiceGroupId).toBeNull();
+    expect(component.removedServiceId).toBeNull();
+    expect(component.removedDeviceId).toBeNull();
+    expect(component.myTimeout).toBeNull();
   });
 
   it('should run #openDialog()', () => {
-    component.dialog = component.dialog;
+    component.sliceData = [
+      {
+        alerts: 0,
+        devices: [
+          {
+            'display-name': 'Cameras group',
+            devices: [{ isExpanded: true }],
+            isExpanded: true,
+          },
+          {
+            'display-name': 'Phone group',
+            devices: [{ isExpanded: true }],
+            isExpanded: true,
+          },
+        ],
+      },
+    ];
     spyOn(component.dialog, 'open').and.returnValue({
       afterClosed: () => of('true'),
     } as MatDialogRef<typeof ModalComponent>);
     component.openDialog(11, true);
     expect(component.dialog.open).toHaveBeenCalled();
+    expect(component.sliceData).toEqual([
+      {
+        alerts: 0,
+        devices: [
+          {
+            'display-name': 'Phone group',
+            devices: [{ isExpanded: true }],
+            isExpanded: true,
+          },
+        ],
+      },
+    ]);
   });
 
   it('should run #openDialog()', () => {
-    component.dialog = component.dialog;
+    component.sliceData = [
+      {
+        alerts: 0,
+        devices: [
+          {
+            'display-name': 'Cameras group',
+            devices: [{ isExpanded: true }],
+            isExpanded: true,
+          },
+        ],
+        services: [
+          {
+            'display-name': 'Services',
+            service: [{ isExpanded: true }],
+            isExpanded: true,
+          },
+          {
+            'display-name': 'Services',
+            service: [{ isExpanded: true }],
+            isExpanded: true,
+          },
+        ],
+      },
+    ];
     spyOn(component.dialog, 'open').and.returnValue({
       afterClosed: () => of('true'),
     } as MatDialogRef<typeof ModalComponent>);
     component.openDialog(0, false);
     expect(component.dialog.open).toHaveBeenCalled();
+    expect(component.sliceData).toEqual([
+      {
+        alerts: 0,
+        devices: [
+          {
+            'display-name': 'Cameras group',
+            devices: [{ isExpanded: true }],
+            isExpanded: true,
+          },
+        ],
+        services: [
+          {
+            'display-name': 'Services',
+            service: [{ isExpanded: true }],
+            isExpanded: true,
+          },
+        ],
+      },
+    ]);
   });
 
   it('should run #hideAcknowledgedView()', () => {
@@ -285,6 +463,13 @@ describe('SlicesComponent', () => {
       },
     ];
     component.hideAcknowledgedView();
+    expect(component.isAcknowledged).toEqual(12);
+    expect(component.isExpand).toBeFalse();
+    expect(component.panelIndex).toBeUndefined();
+    expect(component.group).toEqual('');
+    expect(component.serialNumber).toEqual('');
+    expect(component.sliceData[0].devices[0].isExpanded).toEqual(false);
+    expect(component.sliceData[0].services[0].isExpanded).toEqual(false);
   });
 
   it('should run #selectedDevice()', () => {
@@ -292,6 +477,8 @@ describe('SlicesComponent', () => {
       group: '',
       serialNumber: 0,
     });
+    expect(component.group).toEqual('');
+    expect(component.serialNumber).toEqual(0);
   });
 
   it('should run #calculateDeviceTop()', () => {
@@ -302,6 +489,14 @@ describe('SlicesComponent', () => {
         isExpanded: true,
       },
     ]);
+    const value = component.calculateDeviceTop(0, [
+      {
+        'display-name': 'Cameras group',
+        devices: [],
+        isExpanded: true,
+      },
+    ]);
+    expect(value).toEqual(20);
   });
   it('should run #calculateDeviceTop()', () => {
     component.calculateDeviceTop(1, [
@@ -313,6 +508,16 @@ describe('SlicesComponent', () => {
         selected: 1,
       },
     ]);
+    const value = component.calculateDeviceTop(1, [
+      {
+        'display-name': 'Cameras group',
+        devices: [],
+        isExpanded: true,
+        'device-group-id': '',
+        selected: 1,
+      },
+    ]);
+    expect(value).toEqual(270);
   });
 
   it('should run #calculateJointVerticalPosition()', () => {
@@ -320,6 +525,11 @@ describe('SlicesComponent', () => {
       [{ 'display-name': 'string', devices: [], isExpanded: true }],
       0
     );
+    const value = component.calculateJointVerticalPosition(
+      [{ 'display-name': 'string', devices: [], isExpanded: true }],
+      0
+    );
+    expect(value).toEqual(140);
   });
 
   it('should run #goToPhysicalView()', () => {
@@ -350,5 +560,9 @@ describe('SlicesComponent', () => {
     component.calculateSVGHeight([
       { 'display-name': 'Cameras group', devices: [], isExpanded: true },
     ]);
+    const value = component.calculateSVGHeight([
+      { 'display-name': 'Cameras group', devices: [], isExpanded: true },
+    ]);
+    expect(value).toEqual(450);
   });
 });

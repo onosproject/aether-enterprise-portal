@@ -14,6 +14,8 @@ import {
   BrowserAnimationsModule,
   NoopAnimationsModule,
 } from '@angular/platform-browser/animations';
+import { smallCell } from '../../../../shared/classes/dashboard-data';
+
 describe('SmallCellsComponent', () => {
   let component: AlertsComponent;
   let fixture: ComponentFixture<AlertsComponent>;
@@ -44,14 +46,19 @@ describe('SmallCellsComponent', () => {
 
   it('should run #ngOnInit()', () => {
     component.ngOnInit();
+    expect(component.smallCells).toEqual(smallCell[0][0].alerts);
   });
 
   it('should run #setparent()', () => {
     component.setparent(0);
+    expect(component.parent).toEqual(0);
+    expect(component.isRaiseTicket).toBeFalse();
+    expect(component.chatView).toBeFalse();
   });
 
   it('should run #setchild()', () => {
     component.setchild(0);
+    expect(component.child).toEqual(0);
   });
 
   it('should run #selectFilter()', () => {
@@ -66,19 +73,7 @@ describe('SmallCellsComponent', () => {
     ];
     component.TabIndex = 0;
     component.selectFilter('All');
-  });
-  it('should run #selectFilter()', () => {
-    component.smallCells = [
-      {
-        id: 1,
-        title: 'Alert Causing Entity Camera 2(CG)',
-        priorty: 'Low',
-        status: 'Ignore',
-        group: 'Cameras group',
-      },
-    ];
-    component.TabIndex = 0;
-    component.selectFilter('Ignore');
+    expect(component.smallCells).toEqual(smallCell[0][0].alerts);
   });
 
   it('should run #selectFilter()', () => {
@@ -93,24 +88,15 @@ describe('SmallCellsComponent', () => {
     ];
     component.TabIndex = 1;
     component.selectFilter('All');
-  });
-  it('should run #selectFilter()', () => {
-    component.smallCells = [
-      {
-        id: 1,
-        title: 'Alert Causing Entity Camera 2(CG)',
-        priorty: 'Low',
-        status: 'Ignore',
-        group: 'Cameras group',
-      },
-    ];
-    component.TabIndex = 1;
-    component.selectFilter('Ignore');
+    expect(component.tickets).toEqual(smallCell[0][0].tickets);
   });
 
-  // it('should run #selectedTabValue()', () => {
-  //    component.selectedTabValue(<MatTabChangeEvent>);
-  // });
+  it('should run #selectedTabValue()', () => {
+    component.selectedTabValue({ index: 0, tab: null });
+    expect(component.TabIndex).toEqual(0);
+    expect(component.parent).toEqual(0);
+    expect(component.child).toEqual(null);
+  });
 
   it('should run #selectedDevice()', () => {
     component.informParent = component.informParent;
@@ -121,10 +107,14 @@ describe('SmallCellsComponent', () => {
 
   it('should run #raiseTicket()', () => {
     component.raiseTicket();
+    expect(component.chatView).toBeFalse();
+    expect(component.isRaiseTicket).toBeTrue();
   });
 
   it('should run #openChatView()', () => {
     component.openChatView();
+    expect(component.chatView).toBeTrue();
+    expect(component.isRaiseTicket).toBeFalse();
   });
 
   it('should run #setResponedStatus()', () => {
@@ -143,6 +133,7 @@ describe('SmallCellsComponent', () => {
     component.snackBar = component.snackBar;
     spyOn(component.snackBar, 'openFromComponent');
     component.setResponedStatus('Resolved', 0);
+    expect(component.respondIndex).toEqual(0);
     expect(component.tickets.splice).toHaveBeenCalled();
     expect(component.snackBar.openFromComponent).toHaveBeenCalled();
   });
@@ -159,41 +150,211 @@ describe('SmallCellsComponent', () => {
         status: null,
       },
     ];
-    component.snackBar = component.snackBar;
-    component.setResponedStatus('ignor', 0);
+    component.setResponedStatus('Ignor', 0);
+    expect(component.TabIndex).toEqual(1);
+    expect(component.tickets[0].status).toEqual('Ignor');
   });
 
-  it('should run #sortData()', () => {
+  it('should run #setResponedStatus()', () => {
+    component.TabIndex = 0;
+
     component.smallCells = [
       {
         status: null,
       },
     ];
-    spyOn(component.smallCells, 'sort').and.returnValue([
-      {
-        priorty: {},
-      },
-    ]);
-    component.TabIndex = 1;
+    spyOn(component.smallCells, 'splice').and.callThrough();
+    spyOn(component.snackBar, 'openFromComponent');
+    component.setResponedStatus('Resolved', 0);
+    expect(component.TabIndex).toEqual(0);
+    expect(component.respondIndex).toEqual(0);
+    expect(component.smallCells.splice).toHaveBeenCalled();
+    expect(component.snackBar.openFromComponent).toHaveBeenCalled();
+  });
 
-    component.tickets = component.tickets;
-    spyOn(component.tickets, 'sort').and.returnValue([
+  it('should run #setResponedStatus()', () => {
+    component.TabIndex = 0;
+    component.tickets = [
       {
-        priorty: {},
+        status: null,
       },
-    ]);
-    component.sortData('high');
-    component.tickets = component.tickets;
-    component.sortData('low');
+    ];
+    component.smallCells = [
+      {
+        status: null,
+      },
+    ];
+    component.setResponedStatus('Ignor', 0);
+    expect(component.TabIndex).toEqual(0);
+    expect(component.smallCells[0].status).toEqual('Ignor');
+  });
+
+  it('should run #sortData()', () => {
+    component.smallCells = [
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 1(CG)',
+        priorty: 'High',
+        status: 'Critical',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+      {
+        id: 2,
+        title: 'Alert Causing Entity Camera 4(CG)',
+        priorty: 'Low',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568112,
+      },
+    ];
     component.TabIndex = 0;
     component.sortData('high');
+    expect(component.smallCells).toEqual([
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 1(CG)',
+        priorty: 'High',
+        status: 'Critical',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+      {
+        id: 2,
+        title: 'Alert Causing Entity Camera 4(CG)',
+        priorty: 'Low',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568112,
+      },
+    ]);
+  });
+
+  it('should run #sortData()', () => {
+    component.smallCells = [
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 1(CG)',
+        priorty: 'High',
+        status: 'Critical',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+      {
+        id: 2,
+        title: 'Alert Causing Entity Camera 4(CG)',
+        priorty: 'Low',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568112,
+      },
+    ];
+
+    component.TabIndex = 0;
     component.sortData('low');
-    expect(component.smallCells.sort).toHaveBeenCalled();
-    expect(component.tickets.sort).toHaveBeenCalled();
+    expect(component.smallCells).toEqual([
+      {
+        id: 2,
+        title: 'Alert Causing Entity Camera 4(CG)',
+        priorty: 'Low',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568112,
+      },
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 1(CG)',
+        priorty: 'High',
+        status: 'Critical',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+    ]);
+  });
+
+  it('should run #sortData()', () => {
+    component.TabIndex = 1;
+    component.tickets = [
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 1(CG)',
+        priorty: 'High',
+        status: 'Critical',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+      {
+        id: 2,
+        title: 'Alert Causing Entity Camera 4(CG)',
+        priorty: 'Low',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568112,
+      },
+    ];
+    component.sortData('high');
+    expect(component.tickets).toEqual([
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 1(CG)',
+        priorty: 'High',
+        status: 'Critical',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+      {
+        id: 2,
+        title: 'Alert Causing Entity Camera 4(CG)',
+        priorty: 'Low',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568112,
+      },
+    ]);
+  });
+
+  it('should run #sortData()', () => {
+    component.TabIndex = 1;
+    component.tickets = [
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 1(CG)',
+        priorty: 'High',
+        status: 'Critical',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+      {
+        id: 2,
+        title: 'Alert Causing Entity Camera 4(CG)',
+        priorty: 'Low',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568112,
+      },
+    ];
+    component.sortData('low');
+    expect(component.tickets).toEqual([
+      {
+        id: 2,
+        title: 'Alert Causing Entity Camera 4(CG)',
+        priorty: 'Low',
+        status: 'null',
+        group: 'Cameras group',
+        serialNumber: 7568112,
+      },
+      {
+        id: 1,
+        title: 'Alert Causing Entity Camera 1(CG)',
+        priorty: 'High',
+        status: 'Critical',
+        group: 'Cameras group',
+        serialNumber: 7568111,
+      },
+    ]);
   });
 
   it('should run #goToDashboard()', () => {
-    component.route = component.route;
     spyOn(component.route, 'navigate');
     component.goToDashboard();
     expect(component.route.navigate).toHaveBeenCalled();
