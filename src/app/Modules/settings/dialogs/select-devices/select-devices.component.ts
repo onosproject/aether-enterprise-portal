@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 
@@ -19,19 +19,13 @@ import { DeviceSimService } from 'src/app/services/device-sim.service';
   //   },
   // ],
 })
-export class SelectDevicesComponent implements OnInit {
-  selectedDevice = [];
-
-  inventoryDevices = [];
+export class SelectDevicesComponent {
+  selectedDevice: number = 0;
 
   constructor(
     public deviceService: DeviceSimService,
     public dialogRef: MatDialogRef<SelectDevicesComponent> // @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-
-  ngOnInit(): void {
-    this.getInventory();
-  }
 
   sims = [
     {
@@ -153,11 +147,7 @@ export class SelectDevicesComponent implements OnInit {
   }
 
   changeSelection(id: number): void {
-    this.inventoryDevices.forEach((device) => {
-      if (device['serial-number'] === id) {
-        this.selectedDevice = device;
-      }
-    });
+    this.selectedDevice = id;
     // this.dialogRef.close();
     // this.getSelectedSims()
   }
@@ -166,12 +156,5 @@ export class SelectDevicesComponent implements OnInit {
     //console.log(this.selectedSim);
     this.deviceService.setDevice(this.selectedDevice);
     this.dialogRef.close();
-  }
-
-  getInventory(): void {
-    this.deviceService.getDevice().subscribe((data) => {
-      this.inventoryDevices = data;
-    });
-    // console.log(this.inventoryDevices);
   }
 }

@@ -261,26 +261,12 @@ export class UserService {
       const userIndex = this.cities[i].users.findIndex(
         (user) => user.userId === id
       );
+      /* istanbul ignore else */
+
       if (userIndex >= 0) {
         this.cities[i].users.splice(userIndex);
       }
     }
     this.usersSubject.next(this.users.slice());
-  }
-
-  deleteCity(index: number): void {
-    //console.log('hi');
-
-    this.cities.forEach((city) => {
-      //console.log('loop1');
-      city.users.forEach((cuser) => {
-        //console.log('loop2');
-        const cuserId = cuser.userId;
-        if (cuserId == index) {
-          //console.log(index);
-          //console.log(city.users.splice(0, 1));
-        }
-      });
-    });
   }
 }

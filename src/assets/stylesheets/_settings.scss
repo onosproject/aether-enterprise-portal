@@ -12,8 +12,13 @@ $general-bg: #edf4ff;
 // Alert Colors
 
 $AlertMedium: #fb8500;
+$AlertMediumLight: #ffbd72;
 $AlertCritical: #ef233c;
 $AlertSuccess: #06d6a0;
+
+// button Colors
+
+$buttonMedium: #859cbe;
 
 // Shades from $SecondaryColor to $PrimaryColor (Order: Light to Dark)
 
@@ -28,6 +33,10 @@ $Shade_7: #0530ad;
 $Shade_8: #061f80;
 $Shade_9: #051243;
 $Shade_10: #000000;
+$Shade_11: #3c4257;
+$Shade_12: #a3a3a3;
+$Shade_13: #d8d8d8;
+$Shade_14: #dba5f9;
 
 //Text-Colors
 
@@ -42,13 +51,13 @@ $uploadTextColor: #004fc4;
 
 .form-field-big {
   height: 48px;
-  border-bottom: 1px solid #3c4257;
+  border-bottom: 1px solid $Shade_11;
   margin-top: 8px;
 }
 
 .dashboard {
   &__device-icon {
-    color: white;
+    color: $SecondaryColor;
   }
   &__cell-icon {
     // color: white;
@@ -68,25 +77,25 @@ $uploadTextColor: #004fc4;
       text-align: center;
     }
     &__details {
-      color: #0063f7;
+      color: $primaryColor;
       margin-top: auto;
     }
     &__site {
-      color: #3c4257;
+      color: $Shade_11;
       font-weight: 600;
       &--big {
         font-size: 16px;
       }
     }
     &__small-cell {
-      color: white;
+      color: $SecondaryColor;
       display: flex;
       align-items: center;
       justify-content: center;
       min-width: 86px;
       min-height: 28px;
       border-radius: 27px;
-      background: #06d6a0;
+      background: $AlertSuccess;
       gap: 5px;
       font-size: 600;
       align-self: center;
@@ -95,7 +104,7 @@ $uploadTextColor: #004fc4;
     &__device {
       font-weight: 600;
       font-size: 16px;
-      color: #0063f7;
+      color: $primaryColor;
     }
   }
 }
@@ -119,7 +128,7 @@ $uploadTextColor: #004fc4;
 }
 
 .error-field {
-  color: #ef233c;
+  color: $AlertCritical;
 }
 
 // * mixins for device-groups and slices stepper label styling
@@ -127,7 +136,7 @@ $uploadTextColor: #004fc4;
 @mixin styleEditedStepIcon($index) {
   .mat-horizontal-stepper-header:nth-child(#{$index}) {
     .mat-step-icon:not(.mat-step-icon-selected) {
-      background-color: #06d6a0;
+      background-color: $AlertSuccess;
       height: 8px;
       width: 8px;
     }
@@ -137,7 +146,7 @@ $uploadTextColor: #004fc4;
 @mixin styleEditedSteplabel($index) {
   .mat-horizontal-stepper-header:nth-child(#{$index}) {
     .mat-step-label:not(.mat-step-icon-selected) {
-      color: #3c4257;
+      color: $Shade_11;
       font-family: "Inter";
       font-weight: 400;
       font-size: 28px;
@@ -151,7 +160,7 @@ $uploadTextColor: #004fc4;
     & + .mat-stepper-horizontal-line:nth-child(#{$index}) {
       // height: 2px;
       // background-image: linear-gradient(to right, #00b495, #00aeea);
-      background-color: #3c4257;
+      background-color: $Shade_11;
     }
   }
 }

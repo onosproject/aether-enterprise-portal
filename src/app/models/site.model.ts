@@ -18,7 +18,7 @@ export interface Site {
   image: string;
   sims: Sim[];
   'site-id': string;
-  'site-plans': SitePlan[];
+  'site-plans'?: SitePlan[];
   slices: Slice[];
   'small-cells': SmallCell[];
 }
