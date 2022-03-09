@@ -22,17 +22,17 @@
     //   height: 0;
     //   border-style: solid;
     //   border-width: 0 13px 20px 13px;
-    //   border-color: transparent transparent #ffffff transparent;
+    //   border-color: transparent transparent $SecondaryColorfff transparent;
     //   z-index: 9998;
     // }
 
     &_siteSelector {
-      color: #0063f7;
+      color: $primaryColor;
       font-family: "Inter", sans-serif;
       font-size: 12px !important;
       font-weight: 700;
       margin-left: -10px;
-      border: 1px solid #0063f7;
+      border: 1px solid $primaryColor;
       border-radius: 4px;
     }
 
@@ -52,9 +52,9 @@
   &_optionStyling {
     &_active {
       cursor: pointer;
-      border: 1px solid #edf4ff;
+      border: 1px solid $general-bg;
       border-radius: 4px;
-      background: #edf4ff;
+      background: $general-bg;
       padding: 10px;
     }
     &_inactive {
@@ -71,14 +71,14 @@
   }
   &_text {
     &_active {
-      color: #0063f7;
+      color: $primaryColor;
       font-family: Inter;
       font-style: normal;
       font-weight: 600;
       font-size: 16px;
     }
     &_inactive {
-      color: #3c4257;
+      color: $Shade_11;
       font-family: Inter;
       font-style: normal;
       font-weight: 500;
@@ -95,7 +95,7 @@
 .mat-option:after {
   content: "";
   width: 100%;
-  border-bottom: solid 1px #c9deff;
+  border-bottom: solid 1px $Shade_1;
   position: absolute;
   left: 0;
   z-index: 1;
@@ -112,7 +112,7 @@
       .mat-select {
         padding-left: 20px;
         .mat-select-value {
-          color: #000 !important;
+          color: $Shade_10 !important;
           padding-left: 15px !important;
         }
         .mat-select-arrow-wrapper {
@@ -133,15 +133,15 @@
           line-height: 18px;
           align-items: center;
           letter-spacing: 0.0375em;
-          color: #0063f7;
+          color: $primaryColor;
           transform: none !important;
           margin-top: -18px;
         }
       }
     }
     .mat-form-field-flex {
-      border: 2px solid #0063f7 !important;
-      background: #fff;
+      border: 2px solid $primaryColor !important;
+      background: $SecondaryColor;
       border-radius: 4px;
       padding-top: 5px;
     }
@@ -159,7 +159,7 @@
     padding: 10px;
     .img-bg {
       margin-right: 5px;
-      background: #edf4ff;
+      background: $general-bg;
       border-radius: 50%;
       width: 26px;
       height: 26px;
@@ -198,7 +198,7 @@
         }
       }
       .label {
-        color: #3c4257;
+        color: $Shade_11;
         font-family: "Inter", sans-serif;
         font-size: 14px !important;
         font-weight: 500;
@@ -209,7 +209,7 @@
     &.inActive {
       .img-bg {
         margin-right: 5px;
-        background: #edf4ff;
+        background: $general-bg;
         border-radius: 50%;
         width: 26px;
         height: 26px;
@@ -252,9 +252,9 @@
 
     &:hover {
       border-radius: 4px;
-      background: #edf4ff;
+      background: $general-bg;
       .img-bg {
-        background: #0063f7;
+        background: $primaryColor;
         .icon {
           &.admin-link {
             background-image: url(/assets/SideCol-Navbar/admin-active.svg);
@@ -282,16 +282,16 @@
 
       .label {
         font-family: Inter;
-        color: #0063f7;
+        color: $primaryColor;
         font-weight: 600;
         font-size: 16px;
       }
     }
     &.active {
       border-radius: 4px;
-      background: #edf4ff;
+      background: $general-bg;
       .img-bg {
-        background: #0063f7;
+        background: $primaryColor;
         .icon {
           &.admin-link {
             background-image: url(/assets/SideCol-Navbar/admin-active.svg);
@@ -319,7 +319,7 @@
 
       .label {
         font-family: Inter;
-        color: #0063f7;
+        color: $primaryColor;
         font-weight: 600;
         font-size: 16px;
       }
@@ -332,7 +332,7 @@
 //     background: none;
 //     .img-bg {
 //       margin-right: 5px;
-//       background: #edf4ff;
+//       background: $general-bg;
 //       border-radius: 50%;
 //       width: 26px;
 //       height: 26px;

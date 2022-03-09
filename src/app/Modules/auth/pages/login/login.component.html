@@ -23,7 +23,7 @@
             Login
             <span>Access all your 5G dashboard</span>
           </h4>
-          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <form [formGroup]="form">
             <div class="form-field-area-login">
               <mat-label class="label-txt">Email ID</mat-label>
               <mat-form-field appearance="fill" class="form-input-bx">
@@ -53,7 +53,7 @@
               </mat-form-field>
               <div class="form_link_control">
                 <section class="example-section">
-                  <mat-checkbox class="example-margin">Check me!</mat-checkbox>
+                  <!-- <mat-checkbox class="example-margin">Check me!</mat-checkbox> -->
                 </section>
                 <div class="forgot-password">
                   <a (click)="goToForgotPassword()">Forgot Password?</a>

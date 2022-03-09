@@ -25,15 +25,10 @@ import { Observable, Subscription } from 'rxjs';
 import * as d3Time from 'd3-timelines';
 import * as d3 from 'd3';
 
-// Dialog Imports
 import { DeleteDevicesComponent } from '../dialogs/delete-devices/delete-devices.component';
 import { DeleteInventoryComponent } from '../dialogs/delete-inventory/delete-inventory.component';
-
-// Service Imports
 import { DeviceSimHelperService } from './device-sim-helper.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
-
-// Model Imports
 import { Config } from 'src/app/models/config.model';
 import { TimesObject } from 'src/app/models/times-object.model';
 import { TimelineTimes } from 'src/app/models/timeline-times.model';
@@ -147,11 +142,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   valuesArrayFinal = [
     { activeStatus: '1', times: [] },
-    { activeStatus: '2', times: [] },
-    { activeStatus: '3', times: [] },
-    { activeStatus: '4', times: [] },
-    { activeStatus: '5', times: [] },
-    { activeStatus: '6', times: [] },
+    { activeStatus: '0', times: [] },
   ];
 
   simpleData = [
@@ -578,7 +569,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
         type: this.inventoryDeviceSimForm.value.inventoryDeviceType,
         selected: 0,
       });
-      this.addNewDeviceFun();
+      this.activeNewDeviceForm();
     }
   }
 
@@ -959,8 +950,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
         // eventObject.starting_time = eventData.data.result[0].values[0][0];
         eventObject.display = 'circle';
-        // eventArray.push({ ...eventObject });
-        // console.log(eventArray1);
+        // console.log(eventArray);
         // mainObject.times = eventArray;
 
         this.valuesArrayFinal[0].times = timesArray;
@@ -1041,16 +1031,8 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
     const colorScale = d3
       .scaleOrdinal()
-      .range([
-        '#06D6A0',
-        '#EF233C',
-        '#FFA500',
-        '#FFFF00',
-        '#0000FF',
-        '#06D6A0',
-        '#ffffff',
-      ])
-      .domain(['1', '2', '3', '4', '5', '6', '']);
+      .range(['#06D6A0', '#EF233C', '#ffffff'])
+      .domain(['1', '0', '']);
 
     const chart = d3Time
       .timelines()
@@ -1148,27 +1130,18 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
 
   displaySmallChart(chartData: TimelineTimes[], index: number): void {
     // alert("test");
-    const width = 500;
+    const width = 100;
     const height = 50;
 
     const colorScale = d3
       .scaleOrdinal()
-      .range([
-        '#06D6A0',
-        '#EF233C',
-        '#FFA500',
-        '#FFFF00',
-        '#0000FF',
-        '#06D6A0',
-        '#ffffff',
-      ])
-      .domain(['1', '2', '3', '4', '5', '6', '']);
+      .range(['#06D6A0', '#EF233C', '#ffffff'])
+      .domain(['1', '0', '']);
 
     const chart = d3Time
       .timelines()
       .colors(colorScale)
-      .colorProperty('activeStatus')
-      .margin({ left: 0, right: 0, top: 30, bottom: 0 });
+      .colorProperty('activeStatus');
 
     d3.select('#small_device_timeline' + index)
       .append('svg')
@@ -1386,7 +1359,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
   activeNewDeviceForm(): void {
     this.closeEdit();
     this.closeDetails();
-    this.activeNewDevice = !this.activeNewDevice;
+    this.activeNewDevice = true;
     this.configDeviceSim();
   }
   addNewDeviceFun(): void {

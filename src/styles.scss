@@ -70,3 +70,18 @@ body {
     margin: 0;
   }
 }
+.form-field-area-login,
+.form-field-area-forgot {
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    background: #f0f3fa;
+    border-bottom: 0.5px solid #3c4257;
+  }
+}
+
+.graph-modal-container {
+  [class~="mat-dialog-container"] {
+    border-radius: 12px;
+    border: none;
+    padding: 0;
+  }
+}

@@ -1139,11 +1139,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- [ngClass]="
-                slice.services[0].isExpanded
-                  ? 'slice__applications_smallcells_expand'
-                  : 'slice__applications_smallcells'
-              " -->
                 <div
                   *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
                   [ngClass]="
@@ -1348,17 +1343,6 @@
                     [endY]="215"
                     *ngIf="isAcknowledged !== 8 && slice.services.length !== 0"
                   ></svg:g>
-
-                  <!-- <svg:g
-                    aep-joiner
-                    [dash]="'4 5'"
-                    [title]="''"
-                    [startX]="innerWidth / 2.15"
-                    [startY]="335"
-                    [endX]="innerWidth / 2.15"
-                    [endY]="200"
-                    *ngIf="isAcknowledged === 8 && slice.services.length !== 0"
-                  ></svg:g> -->
                 </svg:svg>
               </div>
             </div>
@@ -1468,9 +1452,7 @@
       class="nomarLR mt-1 float-left col-4 small-cell"
       *ngIf="isAcknowledged === 8"
     >
-      <aep-small-cells
-        (informParent)="selectedDevice($event)"
-      ></aep-small-cells>
+      <aep-alerts (informParent)="selectedDevice($event)"></aep-alerts>
     </div>
   </div>
 </div>

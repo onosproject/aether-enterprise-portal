@@ -259,6 +259,8 @@ export class UserService {
       const userIndex = this.cities[i].users.findIndex(
         (user) => user.userId === id
       );
+      /* istanbul ignore else */
+
       if (userIndex >= 0) {
         this.cities[i].users.splice(userIndex);
       }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 
@@ -13,7 +13,7 @@ import { DeviceSimService } from 'src/app/services/device-sim.service';
   templateUrl: './select-devices.component.html',
   styles: [],
 })
-export class SelectDevicesComponent implements OnInit {
+export class SelectDevicesComponent {
   selectedDevice = [];
 
   inventoryDevices = [];
@@ -22,10 +22,6 @@ export class SelectDevicesComponent implements OnInit {
     public deviceService: DeviceSimService,
     public dialogRef: MatDialogRef<SelectDevicesComponent> // @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
-
-  ngOnInit(): void {
-    this.getInventory();
-  }
 
   sims = [
     {

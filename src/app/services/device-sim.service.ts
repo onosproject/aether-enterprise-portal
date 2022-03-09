@@ -27,13 +27,13 @@ export class DeviceSimService {
   selectedSims = [];
 
   mySite1: Observable<string>;
-  private mySiteSubject = new BehaviorSubject<string>('');
+  public mySiteSubject = new BehaviorSubject<string>('');
 
   mySims1: Observable<SimInventory[]>;
-  private mySimsSubject = new BehaviorSubject<SimInventory[]>([]);
+  public mySimsSubject = new BehaviorSubject<SimInventory[]>([]);
 
   mySim1: Observable<string>;
-  private mySimSubject = new Subject<string>();
+  public mySimSubject = new Subject<string>();
 
   myDevice: Observable<InventoryDevice[]>;
   private myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);

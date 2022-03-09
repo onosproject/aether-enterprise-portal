@@ -33,57 +33,41 @@ export class SitesComponent {
     public deviceService: DeviceSimService,
     public globalService: GlobalDataService
   ) {
-    // this.sites = sites[0];
-    // //console.log(sites);
-    sitesService.GetAllConfig().subscribe(
-      (response) => {
-        // console.log('Site Response', response);
+    this.getConfigData();
+  }
 
-        this.sitesResponse = response;
-        this.sites = this.sitesResponse.sites;
-        this.sites.forEach((site) => {
-          site.unprovisionedDevices = [];
-          site.devices.forEach((device) => {
-            // console.log(device);
-            if (!('sim' in device)) {
-              site.unprovisionedDevices.push(device);
-            }
-          });
-        });
-        // console.log(this.sites);
-        // logic for alerts start
-        let valueOfAlerts = 2;
-        for (let i = 0; i < this.sites.length; i++) {
-          if (i % 2 !== 1 || i === 0) {
-            valueOfAlerts += 2;
-            if (valueOfAlerts <= 6) {
-              this.sites[i]['alerts'] = valueOfAlerts;
-            } else {
-              valueOfAlerts = 2;
-              this.sites[i]['alerts'] = valueOfAlerts;
-            }
+  getConfigData(): void {
+    this.sitesService.GetAllConfig().subscribe((response) => {
+      this.sitesResponse = response;
+      this.sites = this.sitesResponse.sites;
+
+      // logic for alerts start
+      let valueOfAlerts = 2;
+
+      for (let i = 0; i < this.sites.length; i++) {
+        if (i % 2 !== 1 || i === 0) {
+          valueOfAlerts += 2;
+          if (valueOfAlerts <= 6) {
+            this.sites[i]['alerts'] = valueOfAlerts;
           } else {
-            this.sites[i]['alerts'] = 0;
+            valueOfAlerts = 2;
+            this.sites[i]['alerts'] = valueOfAlerts;
           }
+        } else {
+          this.sites[i]['alerts'] = 0;
         }
-
-        // logic for alerts end
-
-        // console.log('Site Response', this.sites);
-
-        this.onSelectCard(
-          this.sitesResponse.sites[0]['site-id'],
-          this.sitesResponse.sites[0],
-          this.sitesResponse.sites[0]['device-groups'],
-          this.sitesResponse.sites[0].devices,
-          0
-        );
-        // //console.log('Site Response', this.sitesResponse);
-      },
-      () => {
-        // //console.log('Site Error', error);
       }
-    );
+
+      // logic for alerts end
+
+      this.onSelectCard(
+        this.sitesResponse.sites[0]['site-id'],
+        this.sitesResponse.sites[0],
+        this.sitesResponse.sites[0]['device-groups'],
+        this.sitesResponse.sites[0].devices,
+        0
+      );
+    });
   }
 
   onSelectCard(
@@ -98,20 +82,11 @@ export class SitesComponent {
     this.sitesService.siteData = null;
     this.sitesService.sitePlanes = null;
 
-    this.deviceService.mySite(value);
-    // setTimeout(() => {
-    //   this.globalService.mySite(value);
-    // }, 10);
     this.selected = value;
     for (let i = 0; i < siteData.slices.length; i++) {
       const selecteddevice = [];
       for (let j = 0; j < siteData.slices[i]['device-groups'].length; j++) {
-        // console.log(
-        //   '||||||||||||||||||||',
-        //   siteData.slices[i]['device-groups'][j]
-        // );
         for (let k = 0; k < deviceGroup.length; k++) {
-          // console.log('+++++++++++++++++', deviceGroup[k]['device-group-id']);
           if (
             siteData.slices[i]['device-groups'][j] ===
             deviceGroup[k]['device-group-id']
@@ -151,7 +126,6 @@ export class SitesComponent {
           this.sites[siteIndex].slices[i]['alerts'] = 0;
         }
       }
-      // console.log('+++++', this.sites[siteIndex].slices[i]);
     }
 
     if (this.sites[siteIndex].slices.length === 2) {
@@ -162,8 +136,7 @@ export class SitesComponent {
     this.getServices(siteData, value, siteIndex);
 
     // logic for alerts end
-
-    // console.log('+++++', siteData.slices);
+    this.deviceService.mySite(value);
   }
   getServices(siteData: Site, value: string, siteIndex: number): void {
     for (let i = 0; i < siteData.slices.length; i++) {
@@ -175,7 +148,6 @@ export class SitesComponent {
             siteData.slices[i].applications[j] ===
             this.sitesResponse.applications[k]['application-id']
           ) {
-            // //console.log('|||||||||', this.sitesResponse.applications[k]);
             service.push(this.sitesResponse.applications[k]);
           }
         }
@@ -187,16 +159,13 @@ export class SitesComponent {
       });
       siteData.slices[i]['services'] = selectedService;
     }
-    // console.log('+++++', siteData);
     this.sitesService.siteIndex = siteIndex;
     this.sitesService.siteId = value;
     this.sitesService.siteData = siteData.slices;
 
-    // this.configResponse.siteData.push(siteData.slices)
     let plans = null;
     if (siteData['site-plans']) {
       plans = siteData['site-plans'];
-      // console.log('-++-+-+-+-+-+-+-++', siteData);
     }
     this.sitesService.sitePlanes = plans;
 

@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { SitesService } from 'src/app/services/sites/sites.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../src/environments/environment';
 import { DecomissionComponent } from '../dialogs/decomission/decomission.component';
 import { RecomissionComponent } from '../dialogs/recomission/recomission.component';
 
@@ -36,7 +36,6 @@ import { Router } from '@angular/router';
   ],
 })
 export class PizzaPartyComponent {}
-
 @Component({
   selector: 'aep-small-cell',
   templateUrl: './small-cell.component.html',
@@ -232,6 +231,7 @@ export class SmallCellComponent implements OnInit {
     const detailsIndex = this.displayDetails.findIndex(
       (index: number) => index === smallCellIndex
     );
+
     if (detailsIndex >= 0) {
       this.displayDetails.splice(detailsIndex, 1);
     } else {

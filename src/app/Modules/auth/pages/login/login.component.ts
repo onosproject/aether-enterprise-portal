@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required]);
 
-  constructor(private formBuilder: FormBuilder, public route: Router) {}
+  constructor(public formBuilder: FormBuilder, public route: Router) {}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -39,13 +39,6 @@ export class LoginComponent implements OnInit {
     }
 
     return this.email.hasError('email') ? 'Not a valid email' : '';
-  }
-
-  onSubmit(): void {
-    // this.submitted = true;
-    if (this.form.valid) {
-      //console.log(JSON.stringify(this.form.value));
-    }
   }
 
   goToForgotPassword(): void {

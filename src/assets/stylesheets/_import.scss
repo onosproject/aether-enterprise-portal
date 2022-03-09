@@ -17,8 +17,8 @@
 @import "../stylesheets/componentStyles/dashboardStyle/dashboard.scss";
 @import "../stylesheets/componentStyles/dashboardStyle/sites.scss";
 @import "../stylesheets/componentStyles/dashboardStyle/slice.scss";
-@import "../stylesheets/componentStyles/dashboardStyle/small-cells";
+@import "../stylesheets/componentStyles/dashboardStyle/alerts";
 @import "./componentStyles/small-cell";
 @import "./componentStyles/dialog";
 
-@import "../../app/Modules/dashboard/pages/modals/delet-card/modal.component.scss";
+@import "../../app/Modules/dashboard/pages/modals/delete-card/modal.component.scss";
