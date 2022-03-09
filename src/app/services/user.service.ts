@@ -223,12 +223,10 @@ export class UserService {
   }
 
   getUser(index: number): User {
-    //console.log(this.users[index]);
     return this.users[index];
   }
 
   getCity(index: number): City {
-    //console.log(this.cities[index]);
     return this.cities[index];
   }
 
@@ -267,20 +265,4 @@ export class UserService {
     }
     this.usersSubject.next(this.users.slice());
   }
-
-  // deleteCity(index: number): void {
-  //   //console.log('hi');
-
-  //   this.cities.forEach((city) => {
-  //     //console.log('loop1');
-  //     city.users.forEach((cuser) => {
-  //       //console.log('loop2');
-  //       const cuserId = cuser.userId;
-  //       if (cuserId == index) {
-  //         //console.log(index);
-  //         //console.log(city.users.splice(0, 1));
-  //       }
-  //     });
-  //   });
-  // }
 }

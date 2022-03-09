@@ -29,18 +29,7 @@ interface Permission {
 @Component({
   selector: 'aep-admin',
   templateUrl: './admin.component.html',
-  animations: [
-    // trigger('inOutAnimation', [
-    //   transition(':enter', [
-    //     style({ height: 0, opacity: 0 }),
-    //     animate('0.1s ease-out', style({ height: 500, opacity: 1 })),
-    //   ]),
-    //   transition(':leave', [
-    //     style({ height: 500, opacity: 1 }),
-    //     animate('0.1s ease-in', style({ height: 0, opacity: 0 })),
-    //   ]),
-    // ]),
-  ],
+  animations: [],
   styles: [],
 })
 export class AdminComponent implements OnInit {
@@ -145,7 +134,6 @@ export class AdminComponent implements OnInit {
     this.siteViewToggle = false;
     this.userViewStyle = 'true';
     this.siteViewStyle = 'false';
-    // //console.log(a)
   }
 
   siteView(): void {
@@ -153,7 +141,6 @@ export class AdminComponent implements OnInit {
     this.userViewToggle = false;
     this.siteViewStyle = 'true';
     this.userViewStyle = 'false';
-    // //console.log(a)
   }
 
   isCitiesValid(cities: number[]): boolean {
@@ -178,15 +165,11 @@ export class AdminComponent implements OnInit {
       });
       user.cities = cities1;
       user.form = new FormGroup({});
-      //console.log(user, user.cities);
       return user;
     });
-    console.log(this.users);
   }
 
   fileTrigger(event: Event): void {
-    console.log(event);
-    // console.log(event.target.files);
     const file = (<HTMLInputElement>event.target).files[0];
     const reader = new FileReader();
     reader.onload = () => {
@@ -209,19 +192,15 @@ export class AdminComponent implements OnInit {
       });
       return city;
     });
-    //console.log(this.cities);
   }
 
   // for userView edit
   toggleEdit(id: number, index: number): void {
     this.AddNew = false;
-    //console.log(id, index);
     const editIndex = this.editUsers.indexOf(id);
     if (editIndex >= 0) {
-      //console.log('if');
       this.editUsers.splice(editIndex, 1);
     } else {
-      //console.log('else');
       const cities = new FormArray([]);
       for (let i = 0; i < this.cities.length; i++) {
         const cityIndex = this.users[index].cities.findIndex(
@@ -233,7 +212,6 @@ export class AdminComponent implements OnInit {
           )
         );
       }
-      //console.log(this.users[index]);
       this.users[index].form = new FormGroup({
         ppic: new FormControl(this.users[index].ppic),
         name: new FormControl(this.users[index].name, Validators.required),
@@ -256,7 +234,6 @@ export class AdminComponent implements OnInit {
       // console.log(this.users[index].form);
       this.editUsers.push(id);
     }
-    //console.log(this.editUsers);
   }
 
   closeUserViewEdit(): void {
@@ -309,10 +286,6 @@ export class AdminComponent implements OnInit {
       profilePic: new FormControl(null, [Validators.required]),
     });
     this.setUpCities();
-    // const cities = this.userForm.get('cities') as FormArray;
-    // for (let i = 0; i < this.cities.length; i++) {
-    //   cities.push(new FormControl(0));
-    // }
     this.userControls = this.userForm.controls;
   }
 
@@ -365,19 +338,9 @@ export class AdminComponent implements OnInit {
       // this.userForm.reset();
       this.fileUrl = '';
       this.imageLoaded = false;
-      // console.log(this.cities, this.users);
       this.AddNew = !this.AddNew;
     }
-    // else {
-    //   return;
-    // }
   }
-
-  // getControlEdit(cityIndex):FormControl {
-  //   const cities = this.editForm.get('cities') as FormArray;
-  //   const control = cities.controls[cityIndex] as FormControl;
-  //   return control;
-  // }
 
   setUpEditedCities(): void {
     const cities = this.editForm.get('cities') as FormArray;
@@ -388,7 +351,6 @@ export class AdminComponent implements OnInit {
     console.log(this.users);
   }
   onEdit(index: number): void {
-    //console.log(this.userService.getUser(index));
     const id = this.users[index].id;
     const form = this.users[index].form.value;
     const user = this.users[index];
@@ -444,27 +406,14 @@ export class AdminComponent implements OnInit {
     this.assignUsersCities();
     this.assignCitiesUsers();
     this.toggleEdit(id, index);
-    //console.log(this.cities, this.users);
   }
 
   editSubmit(userIndex: number): void {
-    //console.log(userIndex, 'yes');
     this.userService.updateUser(userIndex, this.userForm.value);
-    //console.log(userIndex);
   }
 
   confirmDelete(userIndex: number): void {
     this.editObject = this.userService.deleteUser(userIndex);
-    // const id = this.users[userIndex].id;
-    // this.users.splice(userIndex, 1);
-    // for (let i = 0; i < this.cities.length; i++) {
-    //   const userIndex = this.cities[i].users.findIndex(
-    //     (user) => user.userId === id
-    //   );
-    //   if (userIndex >= 0) {
-    //     this.cities[i].users.splice(userIndex);
-    //   }
-    // }
   }
 
   confirmDelCity(cityIndex: number, userIndex: number): void {

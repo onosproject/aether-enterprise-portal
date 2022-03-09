@@ -6,9 +6,6 @@
 <!-- <p>device-groups works!</p> -->
 
 <div class="row container-fluid device-groups-view">
-  <!-- <div class="row"> -->
-  <!--left side section-->
-  <!-- <div class="device-groups-view-col-2 ml-6"> -->
   <div class="device-groups-view-col-2 ml-6">
     <aep-side-navbar></aep-side-navbar>
   </div>
@@ -299,11 +296,6 @@
                       <div class="label">Description</div>
                       <div class="content">
                         {{ summaryArray[0].summaryDescription }}
-                        <!-- It is a long established fact that a reader will be
-                            distracted by the readable content of a page when
-                            looking at its layout. The point of using Lorem
-                            Ipsum is that it has a more-or-less normal
-                            distribution of letters, as opposed -->
                       </div>
                     </div>
                   </div>
@@ -369,12 +361,6 @@
                   hideToggle="true"
                   class="mat-expansion-panel-header1 d-flex"
                 >
-                  <!-- <div
-                        class="plush-min"
-                        *ngIf="editDeviceGroup.indexOf(groupIndex) >= 0"
-                      > -->
-
-                  <!-- <mat-panel-title class="card-titles align-items-center col-12" (click)="$event.stopPropagation()"> -->
                   <div class="con">
                     <div class="card-titles align-items-center col-12 d-flex">
                       <div class="device-group card-title-item">
@@ -425,17 +411,6 @@
                         <img src="assets/AdminPanel/negative.svg" />
                       </div>
                     </div>
-
-                    <!-- <mat-panel-description
-                      id="special"
-                      class="col"
-                      (click)="$event.stopPropagation()"
-                      *ngFor="
-                        let devices of group.devices;
-                        let deviceIndex = index
-                      "
-                    > -->
-
                     <div
                       class="items d-flex flex-wrap t1t1"
                       *ngIf="
@@ -626,14 +601,6 @@
                               >
                             </mat-select>
                           </mat-form-field>
-                          <!-- <input
-                                class="form-control"
-                                type="text"
-                                formControlName="newIpDomain"
-                                name="newIpDomain"
-                                id="newIpDomain"
-                                placeholder="Select IP Domain"
-                              /> -->
                           <div
                             *ngIf="
                               (editDeviceGroupError ||
@@ -872,8 +839,6 @@
         </div>
       </div>
       <!--END DEVICE GROUP CARDS-->
-      <!-- </div> -->
     </div>
   </div>
-  <!-- </div> -->
 </div>

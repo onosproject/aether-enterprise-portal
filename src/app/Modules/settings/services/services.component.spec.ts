@@ -6,7 +6,12 @@
 
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
@@ -113,7 +118,14 @@ describe('ServicesComponent', () => {
   });
 
   it('should run #addNewService() --> invalid case', () => {
-    component.newServiceFormGroup();
+    component.addServiceFormGroup = new FormGroup({
+      appName: new FormControl('', Validators.required),
+      newProtocol: new FormControl('', Validators.required),
+      newPortStart: new FormControl('', Validators.required),
+      newAddress: new FormControl('', Validators.required),
+      newMbr: new FormControl('', Validators.required),
+      newPortEnd: new FormControl('', Validators.required),
+    });
     const addServiceForm = component.addServiceFormGroup;
     spyOn(component, 'addNewService').and.callThrough();
     addServiceForm.controls.appName.setValue('');
@@ -129,7 +141,14 @@ describe('ServicesComponent', () => {
 
   it('should run #addNewService() --> valid case', () => {
     component.addNewServiceForm = true;
-    component.newServiceFormGroup();
+    component.addServiceFormGroup = new FormGroup({
+      appName: new FormControl('', Validators.required),
+      newProtocol: new FormControl('', Validators.required),
+      newPortStart: new FormControl('', Validators.required),
+      newAddress: new FormControl('', Validators.required),
+      newMbr: new FormControl('', Validators.required),
+      newPortEnd: new FormControl('', Validators.required),
+    });
     const addServiceForm = component.addServiceFormGroup;
     const addServiceFormControls = component.addServiceFormGroup.controls;
     component.siteApplications = [];
@@ -200,19 +219,33 @@ describe('ServicesComponent', () => {
     const param3 = 'newAddress';
     const param4 = 'newMbr';
     const param5 = 'newPortEnd';
-    // component.siteApplications = [
-    //   {
-    //     address: 'address-1',
-    //     'application-id': 'nvr-application',
-    //     deviceName: 'device-1',
-    //     'display-name': 'Network Video Recorder',
-    //     mbr: 15,
-    //     portEnd: 8201,
-    //     portStart: 4201,
-    //     protocol: 'protocol-1',
-    //   },
-    // ];
-    component.editTrigger(index);
+    component.siteApplications[index].form = new FormGroup({
+      appName: new FormControl(
+        component.siteApplications[index]['display-name'],
+        Validators.required
+      ),
+      newProtocol: new FormControl(
+        component.siteApplications[index].protocol,
+        Validators.required
+      ),
+      newPortStart: new FormControl(
+        component.siteApplications[index].portStart,
+        Validators.required
+      ),
+      newAddress: new FormControl(
+        component.siteApplications[index].address,
+        Validators.required
+      ),
+      newMbr: new FormControl(
+        component.siteApplications[index].mbr,
+        Validators.required
+      ),
+      newPortEnd: new FormControl(
+        component.siteApplications[index].portEnd,
+        Validators.required
+      ),
+    });
+    component.editServiceFormGroup = component.siteApplications[index].form;
     component.editServiceFormGroup = component.editServiceFormGroup;
     component.getEditControl(component.editServiceFormGroup, param);
     component.getEditControl(component.editServiceFormGroup, param1);
@@ -246,12 +279,6 @@ describe('ServicesComponent', () => {
     expect(
       component.getEditControl(component.editServiceFormGroup, param5)
     ).toEqual(gotControl5);
-    // expect(editForm.get('appName')).toEqual(editFormControls.appName);
-    // expect(editForm.get('newProtocol')).toEqual(editFormControls.newProtocol);
-    // expect(editForm.get('newPortStart')).toEqual(editFormControls.newPortStart);
-    // expect(editForm.get('newAddress')).toEqual(editFormControls.newAddress);
-    // expect(editForm.get('newMbr')).toEqual(editFormControls.newMbr);
-    // expect(editForm.get('newPortEnd')).toEqual(editFormControls.newPortEnd);
   });
 
   it('should run #closeEdit()', () => {
@@ -297,7 +324,7 @@ describe('ServicesComponent', () => {
     expect(siteService['mbr']).toEqual(defData.mbr);
   });
 
-  it('should run #onEdit()', () => {
+  it('should run #onEdit() --> valid case', () => {
     spyOn(component, 'closeEdit');
     const index = 0;
     component.siteApplications = [
@@ -313,7 +340,33 @@ describe('ServicesComponent', () => {
       },
     ];
     component.editServiceFormError = true || false;
-    component.editTrigger(index);
+    component.siteApplications[index].form = new FormGroup({
+      appName: new FormControl(
+        component.siteApplications[index]['display-name'],
+        Validators.required
+      ),
+      newProtocol: new FormControl(
+        component.siteApplications[index].protocol,
+        Validators.required
+      ),
+      newPortStart: new FormControl(
+        component.siteApplications[index].portStart,
+        Validators.required
+      ),
+      newAddress: new FormControl(
+        component.siteApplications[index].address,
+        Validators.required
+      ),
+      newMbr: new FormControl(
+        component.siteApplications[index].mbr,
+        Validators.required
+      ),
+      newPortEnd: new FormControl(
+        component.siteApplications[index].portEnd,
+        Validators.required
+      ),
+    });
+    component.editServiceFormGroup = component.siteApplications[index].form;
     component.editServiceFormGroup = component.editServiceFormGroup;
     const editServiceForm = component.editServiceFormGroup;
     const editServiceFormControls = editServiceForm.controls;
@@ -336,9 +389,35 @@ describe('ServicesComponent', () => {
     expect(component.closeEdit).toHaveBeenCalled();
   });
 
-  it('should run #onEdit()', () => {
+  it('should run #onEdit() --> invalid case', () => {
     const index = 0;
-    component.editTrigger(index);
+    component.siteApplications[index].form = new FormGroup({
+      appName: new FormControl(
+        component.siteApplications[index]['display-name'],
+        Validators.required
+      ),
+      newProtocol: new FormControl(
+        component.siteApplications[index].protocol,
+        Validators.required
+      ),
+      newPortStart: new FormControl(
+        component.siteApplications[index].portStart,
+        Validators.required
+      ),
+      newAddress: new FormControl(
+        component.siteApplications[index].address,
+        Validators.required
+      ),
+      newMbr: new FormControl(
+        component.siteApplications[index].mbr,
+        Validators.required
+      ),
+      newPortEnd: new FormControl(
+        component.siteApplications[index].portEnd,
+        Validators.required
+      ),
+    });
+    component.editServiceFormGroup = component.siteApplications[index].form;
     component.editServiceFormGroup = component.editServiceFormGroup;
     const editServiceForm = component.editServiceFormGroup;
     const editServiceFormControls = editServiceForm.controls;

@@ -7,7 +7,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SlicesComponent } from './slices.component';
-import { FormControl, ReactiveFormsModule } from '@angular/forms/';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms/';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -218,7 +223,31 @@ describe('Slices1Component', () => {
     const param4 = 'trafficClass';
     const param5 = 'uplink';
     const param6 = 'downlink';
-    component.summaryTrigger();
+    component.summaryArray[0].form = new FormGroup({
+      sliceName: new FormControl(component.summaryArray[0].summarySliceName, [
+        Validators.required,
+      ]),
+      sliceType: new FormControl(component.summaryArray[0].summarySliceType, [
+        Validators.required,
+      ]),
+      mbr: new FormControl(component.summaryArray[0].summarymbr, [
+        Validators.required,
+      ]),
+      gbr: new FormControl(component.summaryArray[0].summarygbr, [
+        Validators.required,
+      ]),
+      trafficClass: new FormControl(
+        component.summaryArray[0].summaryTrafficClass,
+        [Validators.required]
+      ),
+      uplink: new FormControl(component.summaryArray[0].summaryUplink, [
+        Validators.required,
+      ]),
+      downlink: new FormControl(component.summaryArray[0].summaryDownlink, [
+        Validators.required,
+      ]),
+    });
+    component.summarySliceEditFormGroup = component.summaryArray[0].form;
     component.summarySliceEditFormGroup = component.summarySliceEditFormGroup;
     const getControl = component.getSummaryControl(
       component.summarySliceEditFormGroup,
@@ -424,11 +453,74 @@ describe('Slices1Component', () => {
           value: {
             sliceName: 'sensors',
             sliceType: 'sensors',
+            mbr: 5,
+            gbr: 5,
+            trafficClass: 'Sensitive',
+            uplink: '14-14.5 GHz',
+            downlink: '3-4 GHz',
           },
         },
       },
     ];
+    component.firstFormGroup = new FormGroup({
+      sliceName: new FormControl('', Validators.required),
+      sliceType: new FormControl('', Validators.required),
+      mbr: new FormControl('', Validators.required),
+      gbr: new FormControl('', Validators.required),
+      trafficClass: new FormControl('', Validators.required),
+      uplink: new FormControl('', Validators.required),
+      downlink: new FormControl('', Validators.required),
+    });
+    component.firstFormGroup = component.firstFormGroup;
+    const firstForm = (component.firstFormGroup = component.firstFormGroup);
+    firstForm.patchValue({
+      sliceName: 'sensors',
+      sliceType: 'sensors',
+      mbr: 5,
+      gbr: 5,
+      trafficClass: 'Sensitive',
+      uplink: '14-14.5 GHz',
+      downlink: '3-4 GHz',
+    });
+    component.summaryArray[0].form = new FormGroup({
+      sliceName: new FormControl(component.summaryArray[0].summarySliceName, [
+        Validators.required,
+      ]),
+      sliceType: new FormControl(component.summaryArray[0].summarySliceType, [
+        Validators.required,
+      ]),
+      mbr: new FormControl(component.summaryArray[0].summarymbr, [
+        Validators.required,
+      ]),
+      gbr: new FormControl(component.summaryArray[0].summarygbr, [
+        Validators.required,
+      ]),
+      trafficClass: new FormControl(
+        component.summaryArray[0].summaryTrafficClass,
+        [Validators.required]
+      ),
+      uplink: new FormControl(component.summaryArray[0].summaryUplink, [
+        Validators.required,
+      ]),
+      downlink: new FormControl(component.summaryArray[0].summaryDownlink, [
+        Validators.required,
+      ]),
+    });
+    component.summarySliceEditFormGroup = component.summaryArray[0].form;
+    const sliceSummaryForm = (component.summarySliceEditFormGroup =
+      component.summarySliceEditFormGroup);
+    sliceSummaryForm.patchValue({
+      sliceName: 'sensors',
+      sliceType: 'sensors',
+      mbr: 5,
+      gbr: 5,
+      trafficClass: 'Sensitive',
+      uplink: '14-14.5 GHz',
+      downlink: '3-4 GHz',
+    });
     component.onSubmit();
+    expect(firstForm.valid).toBeTrue();
+    expect(sliceSummaryForm.valid).toBeTrue();
     expect(siteSlices.length).toBeGreaterThan(0);
     expect(deviceGroupsInventory.length).toBeLessThan(1);
     expect(selectedDeviceGroups.length).toEqual(0);
@@ -440,7 +532,31 @@ describe('Slices1Component', () => {
 
   it('should run #onSubmit() --> invalid case', () => {
     // component.summaryArray = [];
-    component.summaryTrigger();
+    component.summaryArray[0].form = new FormGroup({
+      sliceName: new FormControl(component.summaryArray[0].summarySliceName, [
+        Validators.required,
+      ]),
+      sliceType: new FormControl(component.summaryArray[0].summarySliceType, [
+        Validators.required,
+      ]),
+      mbr: new FormControl(component.summaryArray[0].summarymbr, [
+        Validators.required,
+      ]),
+      gbr: new FormControl(component.summaryArray[0].summarygbr, [
+        Validators.required,
+      ]),
+      trafficClass: new FormControl(
+        component.summaryArray[0].summaryTrafficClass,
+        [Validators.required]
+      ),
+      uplink: new FormControl(component.summaryArray[0].summaryUplink, [
+        Validators.required,
+      ]),
+      downlink: new FormControl(component.summaryArray[0].summaryDownlink, [
+        Validators.required,
+      ]),
+    });
+    component.summarySliceEditFormGroup = component.summaryArray[0].form;
     const sliceSummaryForm = (component.summarySliceEditFormGroup =
       component.summarySliceEditFormGroup);
     const sliceSummaryControls = sliceSummaryForm.controls;
@@ -524,6 +640,170 @@ describe('Slices1Component', () => {
     );
   });
 
+  it('should run #fetchData()', () => {
+    spyOn(component, 'closeExpand');
+    spyOn(component, 'closeListView');
+    spyOn(component, 'dataConvert');
+    spyOn(component.deviceService, 'getData').and.returnValue(
+      of({
+        applications: [
+          {
+            'application-id': 'nvr-application',
+            'display-name': 'Network Video Recorder',
+          },
+        ],
+        enterprise: [
+          {
+            'display-name': 'Tesla',
+            'enterprise-id': 'tesla',
+            image: '/chronos-exporter/images/tesla-logo.png',
+          },
+        ],
+        sites: [
+          {
+            'device-groups': [
+              {
+                'device-group-id': 'phones',
+                devices: ['752365A', '752908B'],
+                'display-name': 'Phones group',
+              },
+              {
+                'device-group-id': 'cameras',
+                devices: ['7568112'],
+                'display-name': 'Cameras group',
+              },
+              {
+                'device-group-id': 'cameras',
+                devices: ['7568118'],
+                'display-name': 'Cameras group',
+              },
+            ],
+            devices: [
+              {
+                'device-group-id-in': 'phones',
+                'display-name': 'Phone 1',
+                imei: '123-456-7891',
+                location: 'Somewhere',
+                position: {
+                  'position-x': 110,
+                  'position-y': 50,
+                  'site-plan': 'floor-0',
+                },
+                'serial-number': '752365A',
+                sim: '123-456-789',
+                type: 'Pixel 5 Phone',
+              },
+              {
+                'device-group-id-in': 'cameras',
+                'display-name': 'Camera 2',
+                imei: '123-456-7894',
+                location: 'South Gate',
+                'serial-number': '7568112',
+                sim: '123-456-786',
+                type: 'Camera',
+              },
+              {
+                'device-group-id-in': 'cameras',
+                'display-name': 'Camera 8',
+                imei: '',
+                location: 'Corridor 3',
+                'serial-number': '7568118',
+                type: 'Camera',
+              },
+            ],
+            'display-name': 'Fremont, CA',
+            image: '/chronos-exporter/images/los-angeles-us.png',
+            sims: [
+              {
+                'display-name': 'Sim 11',
+                iccid: '123-456-791',
+              },
+            ],
+            'site-id': 'fremont',
+            'site-plans': [
+              {
+                isometric: true,
+                layers: [
+                  {
+                    'layer-id': 'Structure',
+                  },
+                  {
+                    'layer-id': 'Text',
+                  },
+                ],
+                origin: 'ORIGIN_TOP_LEFT',
+                'site-plan-list': [
+                  {
+                    id: 'floor-0',
+                    offsets: {
+                      'x-offset': 0,
+                      'y-offset': 0,
+                      'z-offset': 0,
+                    },
+                    'svg-file':
+                      '/chronos-exporter/site-plans/fremont/floor-0.svg',
+                  },
+                  {
+                    id: 'floor-1',
+                    offsets: {
+                      'x-offset': 0,
+                      'y-offset': 0,
+                      'z-offset': 100,
+                    },
+                    'svg-file':
+                      '/chronos-exporter/site-plans/fremont/floor-1.svg',
+                  },
+                  {
+                    id: 'floor-2',
+                    offsets: {
+                      'x-offset': 0,
+                      'y-offset': 0,
+                      'z-offset': 200,
+                    },
+                    'svg-file':
+                      '/chronos-exporter/site-plans/fremont/floor-2.svg',
+                  },
+                  {
+                    id: 'floor-3',
+                    offsets: {
+                      'x-offset': 0,
+                      'y-offset': 0,
+                      'z-offset': 300,
+                    },
+                    'svg-file':
+                      '/chronos-exporter/site-plans/fremont/floor-3.svg',
+                  },
+                ],
+              },
+            ],
+            slices: [
+              {
+                applications: ['nvr-application', 'occupant-counter'],
+                'device-groups': ['cameras'],
+                'display-name': 'Cameras Slice',
+                'slice-id': 'freemont-slice-cameras',
+              },
+            ],
+            'small-cells': [
+              {
+                'display-name': 'North Cell',
+                'small-cell-id': 'freemont-sc-north',
+              },
+            ],
+          },
+        ],
+      })
+    );
+    component.selectedSite = 'fremont';
+    component.fetchData();
+    expect(component.closeExpand).toHaveBeenCalled();
+    expect(component.closeListView).toHaveBeenCalled();
+    expect(component.dataConvert).toHaveBeenCalled();
+    expect(component.siteSlices.length).toBeGreaterThan(0);
+    expect(component.siteServices.length).toBeGreaterThan(0);
+    expect(component.siteDeviceGroups.length).toBeGreaterThan(0);
+  });
+
   it('should run #createNewSlicesFun()', () => {
     spyOn(component, 'closeExpand');
     spyOn(component, 'closeEditView');
@@ -588,23 +868,30 @@ describe('Slices1Component', () => {
   });
 
   it('should run #listViewTrigger()', () => {
+    spyOn(component, 'closeListView');
     component.listViewSlices = [];
     const index = 0;
     component.listViewTrigger(index);
+    expect(component.closeListView).toHaveBeenCalled();
+    expect(component.listViewSlices.length).toBeGreaterThan(0);
   });
 
   it('should run #listViewTrigger()', () => {
+    spyOn(component, 'closeListView');
     component.listViewSlices = [0, 0];
     const index = 0;
     component.listViewTrigger(index);
+    expect(component.closeListView).toHaveBeenCalled();
+    expect(component.listViewSlices.length).toBeLessThan(2);
   });
 
   it('should run #closeListView()', () => {
+    component.listViewSlices = [0, 0];
     component.closeListView();
+    expect(component.listViewSlices.length).toBeLessThan(2);
   });
 
   it('should run #editTrigger() --> else case', () => {
-    // TODO component.editTrigger();
     const editSlices = (component.editSlices = component.editSlices);
     const index = 0;
     const siteSlices = (component.siteSlices = [
@@ -674,15 +961,9 @@ describe('Slices1Component', () => {
   });
 
   it('should run #closeEditView()', () => {
+    component.editSlices = [0, 0];
     component.closeEditView();
-  });
-
-  it('should run #getEditControl()', () => {
-    // TODO component.getEditControl();
-  });
-
-  it('should run #onEdit()', () => {
-    // TODO component.onEdit();
+    expect(component.editSlices.length).toBeLessThan(2);
   });
 
   it('should run #deleteDeviceGroups()', () => {
@@ -713,6 +994,7 @@ describe('Slices1Component', () => {
               '7568119',
             ],
             'display-name': 'Cameras group',
+            selected: 1,
           },
         ],
         'display-name': 'Cameras Slice',
@@ -727,7 +1009,10 @@ describe('Slices1Component', () => {
     ];
     const sliceIndex = 0;
     const deviceGroupIndex = 0;
+    component.deviceGroupsInventory = [];
     component.deleteDeviceGroups(sliceIndex, deviceGroupIndex);
+    expect(component.siteSlices[sliceIndex]['device-groups'].length).toEqual(0);
+    expect(component.deviceGroupsInventory.length).toBeGreaterThan(0);
   });
 
   it('should run #deleteServices()', () => {
@@ -737,10 +1022,12 @@ describe('Slices1Component', () => {
           {
             'application-id': 'nvr-application',
             'display-name': 'Network Video Recorder',
+            selected: 1,
           },
           {
             'application-id': 'occupant-counter',
             'display-name': 'Occupant Counting Application',
+            selected: 1,
           },
         ],
         'device-groups': [
@@ -773,9 +1060,11 @@ describe('Slices1Component', () => {
     const sliceIndex = 0;
     const serviceIndex = 0;
     component.deleteServices(sliceIndex, serviceIndex);
+    expect(component.siteSlices[sliceIndex].applications.length).toEqual(1);
+    expect(component.servicesInventory.length).toBeGreaterThan(0);
   });
 
-  it('should run #deleteServices()', () => {
+  it('should run #deleteSlice()', () => {
     component.siteSlices = [
       {
         applications: [
@@ -816,7 +1105,13 @@ describe('Slices1Component', () => {
       },
     ];
     const sliceIndex = 0;
+    component.remainingDeviceGroups = [];
+    component.remainingServices = [];
     component.deleteSlice(sliceIndex);
+    spyOn(component, 'deleteSlice').and.callThrough();
+    expect(component.remainingDeviceGroups.length).toBeGreaterThan(0);
+    expect(component.remainingServices.length).toBeGreaterThan(0);
+    expect(component.siteSlices.length).toBeLessThan(1);
   });
 
   it('should run #changeSelectionAddDeviceGroups()', () => {
@@ -831,6 +1126,7 @@ describe('Slices1Component', () => {
       devices,
       deviceGroupIndex
     );
+    expect(component.selectedAddDeviceGroups.length).toBeGreaterThan(0);
   });
 
   it('should run #changeSelectionAddDeviceGroups()', () => {
@@ -860,6 +1156,7 @@ describe('Slices1Component', () => {
       devices,
       deviceGroupIndex
     );
+    expect(component.selectedAddDeviceGroups.length).toBeLessThan(1);
   });
 
   it('should run #changeSelectionAddServices()', () => {
@@ -868,6 +1165,7 @@ describe('Slices1Component', () => {
     const name = 'Voice Control';
     const serviceIndex = 0;
     component.changeSelectionAddServices(id, name, serviceIndex);
+    expect(component.selectedAddServices.length).toBeGreaterThan(0);
   });
 
   it('should run #changeSelectionAddServices()', () => {
@@ -889,17 +1187,61 @@ describe('Slices1Component', () => {
     const name = 'Voice Control';
     const serviceIndex = 0;
     component.changeSelectionAddServices(id, name, serviceIndex);
+    expect(component.selectedAddServices.length).toBeLessThan(1);
   });
 
   it('should run #openDeleteDialog()', () => {
+    component.siteSlices = [
+      {
+        applications: [
+          {
+            'application-id': 'nvr-application',
+            'display-name': 'Network Video Recorder',
+          },
+          {
+            'application-id': 'occupant-counter',
+            'display-name': 'Occupant Counting Application',
+          },
+        ],
+        'device-groups': [
+          {
+            'device-group-id': 'cameras',
+            devices: [
+              '7568111',
+              '7568112',
+              '7568113',
+              '7568114',
+              '7568115',
+              '7568116',
+              '7568117',
+              '7568118',
+              '7568119',
+            ],
+            'display-name': 'Cameras group',
+          },
+        ],
+        'display-name': 'Cameras Slice',
+        downlink: '11-12 GHz',
+        gbr: 10,
+        mbr: 5,
+        'slice-id': 'fremont-slice-cameras',
+        'slice-type': 'cameras',
+        'traffic-class': 'Sensitive',
+        uplink: '5-6 GHz',
+      },
+    ];
     const sliceIndex = 0;
+    spyOn(component, 'deleteSlice').withArgs(sliceIndex);
+    spyOn(component, 'closeEditView');
     spyOn(component.dialog, 'open').and.returnValue({
       afterClosed: () => of('true'),
     } as MatDialogRef<typeof DeleteSlicesComponent>);
     component.openDeleteDialog(sliceIndex);
+    expect(component.deleteSlice).toHaveBeenCalled();
+    expect(component.closeEditView).toHaveBeenCalled();
   });
 
-  it('should run #calculateSVGHeight()', () => {
+  it('should run #calculateSVGHeight() --> else case', () => {
     const slices = {
       applications: [
         {
@@ -953,9 +1295,11 @@ describe('Slices1Component', () => {
       uplink: '5-6 GHz',
     };
     component.calculateSVGHeight(slices);
+    const returnValue = component.calculateSVGHeight(slices);
+    expect(returnValue).toEqual(169);
   });
 
-  it('should run #calculateSVGHeight()', () => {
+  it('should run #calculateSVGHeight() --> second if case', () => {
     const slices = {
       applications: [
         {
@@ -1024,9 +1368,11 @@ describe('Slices1Component', () => {
       uplink: '5-6 GHz',
     };
     component.calculateSVGHeight(slices);
+    const returnValue = component.calculateSVGHeight(slices);
+    expect(returnValue).toEqual(241);
   });
 
-  it('should run #calculateSVGHeight()', () => {
+  it('should run #calculateSVGHeight() --> first if case', () => {
     const slices = {
       applications: [
         {
@@ -1061,10 +1407,14 @@ describe('Slices1Component', () => {
       uplink: '5-6 GHz',
     };
     component.calculateSVGHeight(slices);
+    const returnValue = component.calculateSVGHeight(slices);
+    expect(returnValue).toEqual(135);
   });
 
   it('should run #calculateVerticalPosition()', () => {
     const index = 0;
     component.calculateVerticalPosition(index);
+    const returnValue = component.calculateVerticalPosition(index);
+    expect(returnValue).toEqual(60);
   });
 });
