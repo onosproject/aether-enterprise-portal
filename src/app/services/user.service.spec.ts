@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { UserService } from './user.service';
+import { User } from '../models/user.model';
+import { BehaviorSubject } from 'rxjs';
+import { City } from '../models/city.model';
 
 describe('UserService', () => {
   let service;
@@ -12,75 +15,968 @@ describe('UserService', () => {
     service = new UserService();
   });
 
-  it('should run #getUsers()', async () => {
-    service.usersSubject = service.usersSubject || {};
-    spyOn(service.usersSubject, 'asObservable');
-    service.getUsers();
-    expect(service.usersSubject.asObservable).toHaveBeenCalled();
-  });
-
-  it('should run #getCities()', async () => {
-    service.citiesSubject = service.citiesSubject || {};
-    spyOn(service.citiesSubject, 'asObservable');
-    service.getCities();
-    expect(service.citiesSubject.asObservable).toHaveBeenCalled();
-  });
-
-  it('should run #getUser()', async () => {
-    service.users = service.users || {};
-    service.users.index = 'index';
-    service.getUser({});
-  });
-
-  it('should run #getCity()', async () => {
-    service.cities = service.cities || {};
-    service.cities.index = 'index';
-    service.getCity({});
-  });
-
-  it('should run #addUser()', async () => {
-    service.users = service.users;
-    service.users.id = 'id';
-    spyOn(service.users, 'push').and.callThrough();
-    service.users = ['users'];
-    service.usersSubject = service.usersSubject;
-    spyOn(service.usersSubject, 'next').and.callThrough();
-    service.addUser({
-      id: {},
+  it('should run #getUsers()', () => {
+    service.users = [
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 1,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Guy Gooey',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 2,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/mary-jane.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Mary Jane',
+        email: 'MaryJane@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 3,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'test',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 4,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 5,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 6,
+        cities: [],
+      },
+    ];
+    service.getUsers().subscribe((res) => {
+      expect(res).toEqual([
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 1,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/guy-gooey.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'Guy Gooey',
+          email: 'GuyGooey@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 2,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/mary-jane.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Mary Jane',
+          email: 'MaryJane@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 3,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/guy-gooey.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'test',
+          email: 'GuyGooey@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 4,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 5,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 6,
+          cities: [],
+        },
+      ]);
     });
-    expect(service.usersSubject.next).toHaveBeenCalled();
   });
 
-  it('should run #updateUser()', async () => {
-    service.users = service.users;
-    service.users.index = 'index';
-    service.users = ['users'];
-    service.usersSubject = service.usersSubject;
-    spyOn(service.usersSubject, 'next');
-    service.updateUser({}, {});
-    expect(service.usersSubject.next).toHaveBeenCalled();
+  it('should run #getCities()', () => {
+    service.cities = [
+      {
+        id: 1,
+        name: 'Fremont, CA',
+        users: [
+          {
+            accessLevel: 1,
+            userId: 1,
+          },
+          {
+            accessLevel: 2,
+            userId: 2,
+          },
+          {
+            accessLevel: 3,
+            userId: 3,
+          },
+          {
+            accessLevel: 2,
+            userId: 4,
+          },
+          {
+            accessLevel: 3,
+            userId: 5,
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: 'Berlin, DE',
+        users: [
+          {
+            accessLevel: 1,
+            userId: 5,
+          },
+        ],
+      },
+    ];
+    service.getCities().subscribe((res) => {
+      expect(res).toEqual([
+        {
+          id: 1,
+          name: 'Fremont, CA',
+          users: [
+            {
+              accessLevel: 1,
+              userId: 1,
+            },
+            {
+              accessLevel: 2,
+              userId: 2,
+            },
+            {
+              accessLevel: 3,
+              userId: 3,
+            },
+            {
+              accessLevel: 2,
+              userId: 4,
+            },
+            {
+              accessLevel: 3,
+              userId: 5,
+            },
+          ],
+        },
+        {
+          id: 2,
+          name: 'Berlin, DE',
+          users: [
+            {
+              accessLevel: 1,
+              userId: 5,
+            },
+          ],
+        },
+      ]);
+    });
   });
 
-  it('should run #updateCity()', async () => {
-    service.cities = service.cities;
-    service.cities.index = 'index';
-    service.cities = ['cities'];
-    service.citiesSubject = service.citiesSubject;
-    spyOn(service.citiesSubject, 'next');
-    service.updateCity({}, {});
-    expect(service.citiesSubject.next).toHaveBeenCalled();
+  it('should run #getUser()', () => {
+    service.users = [
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 1,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Guy Gooey',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 2,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/mary-jane.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Mary Jane',
+        email: 'MaryJane@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 3,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'test',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 4,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 5,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 6,
+        cities: [],
+      },
+    ];
+    const value = service.getUser(0);
+    expect(value).toEqual({
+      ppic: '../../assets/CommonAssets/john-fivegee.svg',
+      active: '../../assets/CommonAssets/active-dot.svg',
+      name: 'Don Fivegee',
+      email: 'DonFivegee@ttesla.com',
+      emailAlert: true,
+      deviceAlert: true,
+      centralAlert: true,
+      siteEquipmentAlert: false,
+      securityAlert: true,
+      id: 1,
+      cities: [],
+    });
   });
 
-  it('should run #updateCities()', async () => {
-    service.citiesSubject = service.citiesSubject;
-    spyOn(service.citiesSubject, 'next');
-    service.updateCities('cities');
-    expect(service.citiesSubject.next).toHaveBeenCalled();
+  it('should run #getCity()', () => {
+    service.cities = [
+      {
+        id: 1,
+        name: 'Fremont, CA',
+        users: [
+          {
+            accessLevel: 1,
+            userId: 1,
+          },
+          {
+            accessLevel: 2,
+            userId: 2,
+          },
+          {
+            accessLevel: 3,
+            userId: 3,
+          },
+          {
+            accessLevel: 2,
+            userId: 4,
+          },
+          {
+            accessLevel: 3,
+            userId: 5,
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: 'Berlin, DE',
+        users: [
+          {
+            accessLevel: 1,
+            userId: 5,
+          },
+        ],
+      },
+    ];
+    const value = service.getCity(0);
+    expect(value).toEqual({
+      id: 1,
+      name: 'Fremont, CA',
+      users: [
+        {
+          accessLevel: 1,
+          userId: 1,
+        },
+        {
+          accessLevel: 2,
+          userId: 2,
+        },
+        {
+          accessLevel: 3,
+          userId: 3,
+        },
+        {
+          accessLevel: 2,
+          userId: 4,
+        },
+        {
+          accessLevel: 3,
+          userId: 5,
+        },
+      ],
+    });
   });
 
-  it('should run #deleteUser()', async () => {
-    service.users = [{ id: 1 }];
-    spyOn(service.users, 'splice');
+  it('should run #addUser()', () => {
+    service.addUser({
+      ppic: '../../assets/CommonAssets/john-fivegee.svg',
+      active: '../../assets/CommonAssets/active-dot.svg',
+      name: 'Don Fivegee',
+      email: 'DonFivegee@ttesla.com',
+      emailAlert: true,
+      deviceAlert: true,
+      centralAlert: true,
+      siteEquipmentAlert: false,
+      securityAlert: true,
+      id: 1,
+      cities: [],
+    });
+    expect(service.users).toEqual([
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 1,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Guy Gooey',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 2,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/mary-jane.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Mary Jane',
+        email: 'MaryJane@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 3,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'test',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 4,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 5,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 6,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 7,
+        cities: [],
+      },
+    ]);
+    expect(service.usersSubject).toEqual(
+      new BehaviorSubject<User[]>([
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 1,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/guy-gooey.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'Guy Gooey',
+          email: 'GuyGooey@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 2,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/mary-jane.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Mary Jane',
+          email: 'MaryJane@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 3,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/guy-gooey.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'test',
+          email: 'GuyGooey@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 4,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 5,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 6,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 7,
+          cities: [],
+        },
+      ])
+    );
+  });
+
+  it('should run #updateUser()', () => {
+    service.updateUser(0, {
+      ppic: '../../assets/CommonAssets/john-fivegee.svg',
+      active: '../../assets/CommonAssets/active-dot.svg',
+      name: 'Don Fivegee',
+      email: 'DonFivegee@ttesla.com',
+      emailAlert: true,
+      deviceAlert: true,
+      centralAlert: true,
+      siteEquipmentAlert: false,
+      securityAlert: true,
+      id: 1,
+      cities: [],
+    });
+    expect(service.users).toEqual([
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 1,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Guy Gooey',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 2,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/mary-jane.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Mary Jane',
+        email: 'MaryJane@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 3,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'test',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 4,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 5,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 6,
+        cities: [],
+      },
+    ]);
+    expect(service.usersSubject).toEqual(
+      new BehaviorSubject<User[]>([
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 1,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/guy-gooey.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'Guy Gooey',
+          email: 'GuyGooey@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 2,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/mary-jane.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Mary Jane',
+          email: 'MaryJane@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 3,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/guy-gooey.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'test',
+          email: 'GuyGooey@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 4,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 5,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 6,
+          cities: [],
+        },
+      ])
+    );
+  });
+
+  it('should run #updateCity()', () => {
+    service.updateCity(0, {
+      id: 1,
+      name: 'Fremont, CA',
+      users: [
+        {
+          accessLevel: 1,
+          userId: 1,
+        },
+        {
+          accessLevel: 2,
+          userId: 2,
+        },
+        {
+          accessLevel: 3,
+          userId: 3,
+        },
+        {
+          accessLevel: 2,
+          userId: 4,
+        },
+        {
+          accessLevel: 3,
+          userId: 5,
+        },
+      ],
+    });
+    expect(service.cities).toEqual([
+      {
+        id: 1,
+        name: 'Fremont, CA',
+        users: [
+          {
+            accessLevel: 1,
+            userId: 1,
+          },
+          {
+            accessLevel: 2,
+            userId: 2,
+          },
+          {
+            accessLevel: 3,
+            userId: 3,
+          },
+          {
+            accessLevel: 2,
+            userId: 4,
+          },
+          {
+            accessLevel: 3,
+            userId: 5,
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: 'Berlin, DE',
+        users: [
+          {
+            accessLevel: 1,
+            userId: 5,
+          },
+        ],
+      },
+    ]);
+    expect(service.citiesSubject).toEqual(
+      new BehaviorSubject<City[]>([
+        {
+          id: 1,
+          name: 'Fremont, CA',
+          users: [
+            {
+              accessLevel: 1,
+              userId: 1,
+            },
+            {
+              accessLevel: 2,
+              userId: 2,
+            },
+            {
+              accessLevel: 3,
+              userId: 3,
+            },
+            {
+              accessLevel: 2,
+              userId: 4,
+            },
+            {
+              accessLevel: 3,
+              userId: 5,
+            },
+          ],
+        },
+        {
+          id: 2,
+          name: 'Berlin, DE',
+          users: [
+            {
+              accessLevel: 1,
+              userId: 5,
+            },
+          ],
+        },
+      ])
+    );
+  });
+
+  it('should run #updateCities()', () => {
+    service.updateCities([
+      {
+        id: 1,
+        name: 'Fremont, CA',
+        users: [
+          {
+            accessLevel: 1,
+            userId: 1,
+          },
+          {
+            accessLevel: 2,
+            userId: 2,
+          },
+          {
+            accessLevel: 3,
+            userId: 3,
+          },
+          {
+            accessLevel: 2,
+            userId: 4,
+          },
+          {
+            accessLevel: 3,
+            userId: 5,
+          },
+        ],
+      },
+    ]);
+    expect(service.citiesSubject).toEqual(
+      new BehaviorSubject<City[]>([
+        {
+          id: 1,
+          name: 'Fremont, CA',
+          users: [
+            {
+              accessLevel: 1,
+              userId: 1,
+            },
+            {
+              accessLevel: 2,
+              userId: 2,
+            },
+            {
+              accessLevel: 3,
+              userId: 3,
+            },
+            {
+              accessLevel: 2,
+              userId: 4,
+            },
+            {
+              accessLevel: 3,
+              userId: 5,
+            },
+          ],
+        },
+      ])
+    );
+  });
+
+  it('should run #deleteUser()', () => {
     service.cities = [
       {
         id: 1,
@@ -93,10 +989,229 @@ describe('UserService', () => {
         ],
       },
     ];
-    service.usersSubject = service.usersSubject;
-    spyOn(service.usersSubject, 'next');
+    service.users = [
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 1,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Guy Gooey',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 2,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/mary-jane.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Mary Jane',
+        email: 'MaryJane@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 3,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'test',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 4,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 5,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 6,
+        cities: [],
+      },
+    ];
     service.deleteUser(0);
-    expect(service.users.splice).toHaveBeenCalled();
-    expect(service.usersSubject.next).toHaveBeenCalled();
+    expect(service.users).toEqual([
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Guy Gooey',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 2,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/mary-jane.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Mary Jane',
+        email: 'MaryJane@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 3,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/guy-gooey.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'test',
+        email: 'GuyGooey@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 4,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 5,
+        cities: [],
+      },
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/inactive-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 6,
+        cities: [],
+      },
+    ]);
+    expect(service.cities).toEqual([
+      {
+        id: 1,
+        name: 'Fremont, CA',
+        users: [],
+      },
+    ]);
+    expect(service.usersSubject).toEqual(
+      new BehaviorSubject<User[]>([
+        {
+          ppic: '../../assets/CommonAssets/guy-gooey.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'Guy Gooey',
+          email: 'GuyGooey@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 2,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/mary-jane.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Mary Jane',
+          email: 'MaryJane@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 3,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/guy-gooey.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'test',
+          email: 'GuyGooey@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 4,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 5,
+          cities: [],
+        },
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/inactive-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 6,
+          cities: [],
+        },
+      ])
+    );
   });
 });

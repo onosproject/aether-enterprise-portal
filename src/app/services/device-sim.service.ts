@@ -40,8 +40,6 @@ export class DeviceSimService {
 
   mySite(data: string): void {
     this.selectedSite = data;
-    //console.log(this.selectedSite)
-    //console.log(data)
     this.mySiteSubject.next(data);
   }
 
@@ -59,8 +57,6 @@ export class DeviceSimService {
   }
 
   mySim(data: string): void {
-    // this.selectedSim = data
-    // //console.log(this.selectedSim)
     this.mySimSubject.next(data);
   }
 
@@ -69,8 +65,6 @@ export class DeviceSimService {
   }
 
   setDevice(data: number): void {
-    // this.selectedSim = data
-    // //console.log(this.selectedSim)
     this.myDeviceSubject.next(data);
   }
 

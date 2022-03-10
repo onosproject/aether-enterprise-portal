@@ -17,26 +17,20 @@ export class ConfigService {
 
   fetchDeviceConfig(): void {
     this.config1.push(this.config);
-    // //console.log(this.config1)
     this.config1.forEach((item) => {
-      // //console.log(item.sites)
       item.sites.forEach((site) => {
-        // //console.log(site['display-name'])
         if (site['display-name'] == 'Freemont, CA') {
           this.fremontData.push(site.devices);
-          // //console.log(this.fremontData);
         }
         /* istanbul ignore else */
         if (site['display-name'] == 'Berlin, DE') {
           this.berlinData.push(site.devices);
-          // //console.log(this.berlinData);
         }
       });
     });
   }
 
   fetchOther(): void {
-    // //console.log(this.fremontData)
     this.fremontData.forEach((device) => {
       device.forEach(() => {
         //console.log(item3.imei);

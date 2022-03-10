@@ -43,80 +43,6 @@ export class UserService {
         },
       ],
     },
-    // {
-    //   id: 2,
-    //   name: 'Bengaluru, IN',
-    //   users: [
-    //     {
-    //       accessLevel: 2,
-    //       userId: 2,
-    //     },
-    //     {
-    //       accessLevel: 2,
-    //       userId: 4,
-    //     },
-    //     {
-    //       accessLevel: 2,
-    //       userId: 3,
-    //     },
-    //     {
-    //       accessLevel: 3,
-    //       userId: 1,
-    //     },
-    //   ],
-    // },
-    // {
-    //   id: 3,
-    //   name: 'NYC, NY',
-    //   users: [
-    //     {
-    //       accessLevel: 3,
-    //       userId: 3,
-    //     },
-    //     {
-    //       accessLevel: 3,
-    //       userId: 1,
-    //     },
-    //     {
-    //       accessLevel: 3,
-    //       userId: 2,
-    //     },
-    //     {
-    //       accessLevel: 3,
-    //       userId: 4,
-    //     },
-    //     {
-    //       accessLevel: 3,
-    //       userId: 5,
-    //     },
-    //     {
-    //       accessLevel: 3,
-    //       userId: 6,
-    //     },
-    //     {
-    //       accessLevel: 2,
-    //       userId: 1,
-    //     },
-    //     {
-    //       accessLevel: 1,
-    //       userId: 2,
-    //     },
-    //     {
-    //       accessLevel: 1,
-    //       userId: 3,
-    //     },
-    //   ],
-    // },
-    // {
-    //   id: 4,
-    //   name: 'Austin, TX',
-    //   users: [
-    //     {
-    //       accessLevel: 1,
-    //       userId: 5,
-    //     },
-    //   ],
-    // },
     {
       id: 2,
       name: 'Berlin, DE',
@@ -223,12 +149,10 @@ export class UserService {
   }
 
   getUser(index: number): User {
-    //console.log(this.users[index]);
     return this.users[index];
   }
 
   getCity(index: number): City {
-    //console.log(this.cities[index]);
     return this.cities[index];
   }
 
@@ -254,7 +178,6 @@ export class UserService {
   }
 
   deleteUser(index: number): void {
-    // console.log(this.users)
     const id = this.users[index].id;
     this.users.splice(index, 1);
     for (let i = 0; i < this.cities.length; i++) {
