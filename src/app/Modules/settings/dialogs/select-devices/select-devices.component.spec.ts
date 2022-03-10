@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MaterialModule } from 'src/app/Modules/material/material.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { SelectDevicesComponent } from './select-devices.component';
 
@@ -15,16 +16,17 @@ describe('SelectDevicesComponent', () => {
   let component: SelectDevicesComponent;
   let fixture: ComponentFixture<SelectDevicesComponent>;
 
+  const dialogMock = {
+    close: () => {
+      return null;
+    },
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MaterialModule, HttpClientModule],
+      imports: [MaterialModule, HttpClientModule, MatDialogModule],
       declarations: [SelectDevicesComponent],
-      providers: [
-        {
-          provide: MatDialogRef,
-          useValue: {},
-        },
-      ],
+      providers: [{ provide: MatDialogRef, useValue: dialogMock }],
     }).compileComponents();
   });
 
