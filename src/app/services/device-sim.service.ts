@@ -90,7 +90,6 @@ export class DeviceSimService {
 
   // * Used to send the data of selectedDevice from select-devices to device-sim component.
   setDevice(data: InventoryDevice[]): void {
-    console.log(data);
     this.myDeviceSubject1.next(data);
   }
 
