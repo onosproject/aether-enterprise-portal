@@ -7,14 +7,14 @@
 import { Component, Output, EventEmitter, HostListener } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalComponent } from '../modals/delet-card/modal.component';
+import { ModalComponent } from '../modals/delete-card/modal.component';
 import { DeviceGroup } from 'src/app/models/device-group.model';
 import { SitesService } from 'src/app/services/sites/sites.service';
 import { smallCell } from '../../../../shared/classes/dashboard-data';
 import { SitePlan } from 'src/app/models/site-plan.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Slice } from 'src/app/models/slice.model';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 @Component({
   selector: 'aep-slices',
@@ -167,8 +167,8 @@ export class SlicesComponent {
   ];
   constructor(
     public dialog: MatDialog,
-    private sitesService: SitesService,
-    private snackBar: MatSnackBar
+    public sitesService: SitesService,
+    public snackBar: MatSnackBar
   ) {}
 
   dragAndDrop(event: CdkDragDrop<string[]>): void {
@@ -180,6 +180,8 @@ export class SlicesComponent {
   }
 
   collapseSlice(): void {
+    /* istanbul ignore else */
+
     if (this.isExpand) {
       this.informParent.emit({ isalert: false, viewType: false });
       this.isExpand = false;
@@ -189,10 +191,12 @@ export class SlicesComponent {
   cancelEdit(index: number): void {
     this.sliceId = null;
     this.siteIndex = 0;
+    /* istanbul ignore else */
     if (this.isEditable) {
       this.isEditable = false;
     }
     for (let i = 0; i < this.sliceData[index].devices.length; i++) {
+      /* istanbul ignore else */
       if (this.sliceData[index].alerts === 0) {
         this.sliceData[index].devices[i].isExpanded = false;
       }
@@ -218,14 +222,9 @@ export class SlicesComponent {
     this.siteIndex = value.siteIndex;
     this.sitePlans = value.sitePlans;
     this.config = value.sitePlans;
-
-    // if (this.sitePlans === null) {
-    //   this.sitePlans = null;
-    // } else {
-    //   this.sitePlans = value.sitePlans;
-    // }
     for (let i = 0; i < value.siteData.length; i++) {
       this.TabValue.push('1h' + i);
+      /* istanbul ignore else */
       if (value.siteData[i].alerts !== 0) {
         value.siteData[i].devices[0].isExpanded = true;
       }
@@ -233,7 +232,7 @@ export class SlicesComponent {
     setTimeout(() => {
       this.sliceData = value.siteData;
       this.logicforAlertData();
-    }, 20);
+    }, 10);
   }
 
   logicforAlertData(): void {
@@ -241,6 +240,7 @@ export class SlicesComponent {
     let priorty = 'High';
     let status = 'Critical';
     for (let i = 0; i < this.sliceData.length; i++) {
+      /* istanbul ignore else */
       if (this.sliceData[i].alerts !== 0) {
         for (let j = 0; j < this.sliceData[i].alerts; j++) {
           let obj = {};
@@ -256,19 +256,21 @@ export class SlicesComponent {
             serialNumber:
               this.sliceData[i].devices[0].devices[j]['serial-number'],
           };
-
+          /* istanbul ignore if */
           if (priorty === 'Low') {
             priorty = 'Medium';
           } else {
+            /* istanbul ignore if */
             if (priorty === 'Medium') {
               priorty = 'High';
             } else {
+              /* istanbul ignore else */
               if (priorty === 'High') {
                 priorty = 'Low';
               }
             }
           }
-
+          /* istanbul ignore else */
           if (status === 'Critical') {
             status = 'null';
           }
@@ -276,7 +278,6 @@ export class SlicesComponent {
           smallCell[0][0].alerts.push(obj);
         }
         this.sitesService.allSmallCellsData = smallCell[0][0].alerts;
-        // console.log('+++++++++++++', smallCell[0][0].alerts);
       }
     }
   }
@@ -291,17 +292,6 @@ export class SlicesComponent {
     return count;
   }
 
-  getDevices(deviceGroup: unknown[]): number {
-    let deviceLenght = 0;
-    for (let i = 0; i < deviceGroup.length; i++) {
-      const result = this.sliceData['device-groups'].filter(
-        (word) => word['device-group-id'] === deviceGroup[i]
-      );
-      deviceLenght = +result[0].devices.length;
-    }
-    return deviceLenght;
-  }
-
   expandAllCard(isAcknowledged: boolean): void {
     this.panelIndex = undefined;
     setTimeout(() => {
@@ -312,6 +302,7 @@ export class SlicesComponent {
         this.openAccordion = [];
         this.openAccordionRight = [];
 
+        /* istanbul ignore else */
         if (this.sliceData[this.siteIndex].alerts === 0) {
           for (
             let i = 0;
@@ -354,9 +345,8 @@ export class SlicesComponent {
   onEdit(sliceId: number, index: number): void {
     this.sliceId = sliceId;
     this.siteIndex = index;
-    if (this.isEditable) {
-      this.isEditable = true;
-    } else {
+    /* istanbul ignore else */
+    if (!this.isEditable) {
       this.isEditable = !this.isEditable;
     }
     for (let i = 0; i < this.sliceData[index].devices.length; i++) {
@@ -368,11 +358,13 @@ export class SlicesComponent {
   }
 
   setAccordion(sliceIndex: number, deviceIndex: number): void {
+    /* istanbul ignore else */
     if (!this.isEditable) {
       this.openAccordion[sliceIndex + deviceIndex] =
         !this.openAccordion[sliceIndex + deviceIndex];
 
       setTimeout(() => {
+        /* istanbul ignore else */
         if (this.sliceData[sliceIndex].alerts === 0) {
           this.sliceData[sliceIndex].devices[deviceIndex].isExpanded =
             !this.sliceData[sliceIndex].devices[deviceIndex].isExpanded;
@@ -386,6 +378,7 @@ export class SlicesComponent {
     cameraIndex: number,
     cameraId: number
   ): void {
+    /* istanbul ignore else */
     if (this.myTimeout === null) {
       this.removedCameraId = cameraId;
       this.removedDeviceId = deviceIndex;
@@ -405,6 +398,7 @@ export class SlicesComponent {
     groupServiceIndex: number,
     serviceId: number
   ): void {
+    /* istanbul ignore else */
     if (this.myTimeout === null) {
       this.removedServiceId = serviceId;
       this.myTimeout = setTimeout(() => {
@@ -434,6 +428,7 @@ export class SlicesComponent {
       if (result === 'true' && isDevice) {
         this.sliceData[this.siteIndex].devices.splice(0, 1);
       }
+      /* istanbul ignore else */
       if (result === 'true' && !isDevice) {
         this.sliceData[this.siteIndex].services.splice(0, 1);
       }
@@ -450,11 +445,9 @@ export class SlicesComponent {
     this.group = '';
     this.serialNumber = '';
     this.panelIndex = undefined;
-    // console.log(this.sliceData[this.siteIndex].devices[i]);
-
+    /* istanbul ignore else */
     if (this.sliceData[this.siteIndex].alerts === 0) {
       for (let i = 0; i < this.sliceData[this.siteIndex].devices.length; i++) {
-        // console.log(this.sliceData[this.siteIndex].devices[i]);
         this.sliceData[this.siteIndex].devices[i].isExpanded = false;
       }
     }
@@ -465,11 +458,10 @@ export class SlicesComponent {
 
   selectedDevice(event: { group: string; serialNumber: number }): void {
     this.group = event.group;
-    // this.serialNumber = JSON.stringify(event.serialNumber);
     this.serialNumber = event.serialNumber;
   }
 
-  calculateDeviceTop(index: number, deviceGroups: DeviceGroup): number {
+  calculateDeviceTop(index: number, deviceGroups: DeviceGroup[]): number {
     if (index === 0) {
       return 20;
     } else {
@@ -509,7 +501,7 @@ export class SlicesComponent {
   }
 
   showSnackBar(): void {
-    this.snackBar.openFromComponent(PizzaPartyComponent, {
+    this.snackBar.openFromComponent(SnackBarComponent, {
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
       duration: 3000,
@@ -525,48 +517,6 @@ export class SlicesComponent {
 
     return totalHeight > 450 ? totalHeight : 450;
   }
-
-  // viewType(value: string): void {
-  //   console.log(value);
-  // }
-
-  // calculateDeviceTop(index: number, deviceGroups: any): number {
-  //   if (index === 0) {
-  //     return 20;
-  //   } else {
-  //     let height = 20;
-  //     for (let i = 0; i < index; i++) {
-  //       height += deviceGroups[i].isExpanded ? 420 : 120;
-  //     }
-  //     // return index * (isExpaned ? 400 : 100) + 20 * (index + 1);
-  //     return height;
-  //   }
-  // }
-
-  // calculateJointVerticalPosition(
-  //   deviceGroups: [
-  //     { 'display-name': string; devices: []; isExpanded: boolean }
-  //   ],
-  //   index: number
-  // ): number {
-  //   let height =
-  //     deviceGroups.length !== index
-  //       ? deviceGroups[index].isExpanded
-  //         ? 140
-  //         : 56
-  //       : 56;
-  //   for (let i = 0; i < index; i++) {
-  //     height += deviceGroups[i].isExpanded ? 250 : 85;
-  //   }
-  //   return height;
-  // }
-  // calculateServiceHeight(deviceGroups: any): number {
-  //   let height = 0;
-  //   for (let i = 0; i < deviceGroups.length; i++) {
-  //     height += deviceGroups[i].isExpanded ? 310 : deviceGroups.length * 150;
-  //   }
-  //   return height;
-  // }
 }
 
 @Component({
@@ -589,4 +539,4 @@ export class SlicesComponent {
     `,
   ],
 })
-export class PizzaPartyComponent {}
+export class SnackBarComponent {}

@@ -11,6 +11,8 @@ import { NavbarComponent } from './components/header/navbar/navbar.component';
 import { MaterialModule } from './Modules/material/material.module';
 
 describe('AppComponent', () => {
+  // let component: AppComponent;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, MaterialModule],

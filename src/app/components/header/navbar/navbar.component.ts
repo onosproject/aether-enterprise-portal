@@ -7,8 +7,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SitesService } from 'src/app/services/sites/sites.service';
-import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { smallCell } from '../../../shared/classes/dashboard-data';
+import { DeviceSimService } from 'src/app/services/device-sim.service';
 @Component({
   selector: 'aep-navbar',
   templateUrl: './navbar.component.html',

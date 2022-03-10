@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { SimInventory } from '../models/sim-inventory.model';
 import { InventoryDevice } from '../models/inventory-device.model';
-import { TimelineData } from '../models/timeline.model';
+// import { TimelineData } from '../models/timeline.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -27,19 +27,19 @@ export class DeviceSimService {
   selectedSims = [];
 
   mySite1: Observable<string>;
-  private mySiteSubject = new BehaviorSubject<string>('');
+  public mySiteSubject = new BehaviorSubject<string>('');
 
   mySims1: Observable<SimInventory[]>;
-  private mySimsSubject = new BehaviorSubject<SimInventory[]>([]);
+  public mySimsSubject = new BehaviorSubject<SimInventory[]>([]);
 
   mySim1: Observable<string>;
-  private mySimSubject = new Subject<string>();
+  public mySimSubject = new Subject<string>();
 
   myDevice: Observable<InventoryDevice[]>;
-  private myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);
+  public myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);
 
   myDevice1: Observable<InventoryDevice>;
-  private myDeviceSubject1 = new BehaviorSubject<InventoryDevice[]>([]);
+  public myDeviceSubject1 = new BehaviorSubject<InventoryDevice[]>([]);
 
   constructor(public http: HttpClient) {}
 
@@ -98,104 +98,5 @@ export class DeviceSimService {
       Accept: 'application/json',
     };
     return this.http.get(this.apiUrl, { headers });
-  }
-
-  promSite: string = '';
-  promIccid: string = '';
-  promPrev: string = '';
-  promCurr: string = '';
-
-  getPromWeekData(
-    site: string,
-    iccid: string,
-    apiCurr: string,
-    apiPrev: string
-  ): Observable<TimelineData> {
-    const headers = {
-      Accept: 'application/json',
-      Authorization:
-        'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
-    };
-    const query: string =
-      '/query_range?query=device_connected_status{site="' +
-      site +
-      '", iccid="' +
-      iccid +
-      '"}&start=' +
-      apiCurr +
-      '&end=' +
-      apiPrev +
-      '&step=60m';
-
-    return this.http.get<TimelineData>(this.promApiUrl + query, {
-      headers,
-    });
-  }
-
-  getPromDayData(
-    site: string,
-    iccid: string,
-    apiPrevDate: string,
-    apiPrevTime: string,
-    apiCurrDate: string,
-    apiCurrTime: string
-  ): Observable<TimelineData> {
-    const headers = {
-      Accept: 'application/json',
-      Authorization:
-        'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
-    };
-    const query: string =
-      '/query_range?query=device_connected_status{site="' +
-      site +
-      '", iccid="' +
-      iccid +
-      '"}&start=' +
-      apiPrevDate +
-      'T' +
-      apiPrevTime +
-      '.000Z&end=' +
-      apiCurrDate +
-      'T' +
-      apiCurrTime +
-      '.000Z&step=60m';
-
-    return this.http.get<TimelineData>(this.promApiUrl + query, {
-      headers,
-    });
-  }
-
-  getPromDotsData(
-    site: string,
-    iccid: string,
-    apiPrevDate: string,
-    apiPrevTime: string,
-    apiCurrDate: string,
-    apiCurrTime: string
-  ): Observable<TimelineData> {
-    const headers = {
-      Accept: 'application/json',
-      // Authorization:
-      //   'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt'),
-    };
-    const query: string =
-      '/query_range?query=device_connection_event_core{site="' +
-      site +
-      '", iccid="' +
-      iccid +
-      '"}&start=' +
-      apiPrevDate +
-      'T' +
-      apiPrevTime +
-      '.000Z&end=' +
-      apiCurrDate +
-      'T' +
-      apiCurrTime +
-      '.000Z&step=1d';
-
-    //console.log(query);
-    return this.http.get<TimelineData>(this.promApiUrl + query, {
-      headers,
-    });
   }
 }

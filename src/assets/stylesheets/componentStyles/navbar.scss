@@ -5,8 +5,8 @@
  */
 // variables
 $navbar-height: 50px;
-// $general-bg: #edf4ff;
-// $white-bg: #ffffff;
+// $general-bg: $general-bg;
+// $white-bg: $SecondaryColor;
 
 .navbar {
   box-shadow: 0px 4px 8px rgba(96, 97, 112, 0.16);
@@ -25,7 +25,7 @@ $navbar-height: 50px;
     font-style: italic;
     font-weight: 700;
     font-size: 1.25rem;
-    color: #0063f7;
+    color: $primaryColor;
     text-decoration: none;
     margin-left: 7rem;
     padding-top: 1.3rem;
@@ -33,7 +33,7 @@ $navbar-height: 50px;
   }
 
   &-bgColor {
-    background: #ffffff !important;
+    background: $SecondaryColor !important;
     max-height: $navbar-height;
   }
 
@@ -102,7 +102,7 @@ $navbar-height: 50px;
     //   height: 0;
     //   border-style: solid;
     //   border-width: 0 13px 20px 13px;
-    //   border-color: transparent transparent #ffffff transparent;
+    //   border-color: transparent transparent $SecondaryColor transparent;
     //   z-index: 9998;
     // }
 
@@ -133,7 +133,7 @@ $navbar-height: 50px;
       height: 0;
       border-style: solid;
       border-width: 0 13px 20px 13px;
-      border-color: transparent transparent #ffffff transparent;
+      border-color: transparent transparent $SecondaryColor transparent;
       z-index: 9998;
     }
     &-ppicHolder {
@@ -144,7 +144,7 @@ $navbar-height: 50px;
         width: 60px;
         &-active {
           position: absolute;
-          border: 3px solid #fff;
+          border: 3px solid $SecondaryColor;
           border-radius: 12 px;
           bottom: 12px;
           right: -5px;
@@ -154,19 +154,19 @@ $navbar-height: 50px;
     }
     &-flName {
       margin-top: 12px;
-      color: #3c4257;
+      color: $Shade_11;
       font-family: Inter;
       font-size: 16px;
       font-weight: 600;
       &-email {
-        color: #000000;
+        color: $Shade_10;
         font-family: Inter;
         font-weight: 400;
         font-size: 12px;
       }
       &-logout {
         justify-content: center;
-        color: #0063f7;
+        color: $primaryColor;
         font-family: Inter;
         font-size: 14px;
         font-weight: 500;
@@ -179,7 +179,7 @@ $navbar-height: 50px;
   padding: 10px;
   .img-bg {
     margin-right: 5px;
-    background: #edf4ff;
+    background: $general-bg;
     border-radius: 50%;
     width: 26px;
     height: 26px;
@@ -218,7 +218,7 @@ $navbar-height: 50px;
       }
     }
     .label {
-      color: #3c4257;
+      color: $Shade_11;
       font-family: "Inter", sans-serif;
       font-size: 14px !important;
       font-weight: 500;
@@ -228,9 +228,9 @@ $navbar-height: 50px;
 
   &:hover {
     border-radius: 4px;
-    background: #edf4ff;
+    background: $general-bg;
     .img-bg {
-      background: #0063f7;
+      background: $primaryColor;
       .icon {
         &.admin-link {
           background-image: url(/assets/SideCol-Navbar/admin-active.svg);
@@ -257,7 +257,7 @@ $navbar-height: 50px;
     }
     .label {
       font-family: Inter;
-      color: #0063f7;
+      color: $primaryColor;
       font-weight: 600;
       font-size: 16px;
     }
@@ -272,7 +272,7 @@ $navbar-height: 50px;
   font-family: "Inter", sans-serif !important;
   font-weight: 400 !important;
   font-size: 12px;
-  color: #97c1ff;
+  color: $Shade_2;
 }
 
 // .aether-dropdown-alignment {
@@ -282,7 +282,7 @@ $navbar-height: 50px;
 // .dialog-arrow {
 //   // border-color: transparent;
 //   border-color: red;
-//   border-bottom-color: #fff;
+//   border-bottom-color: $SecondaryColor;
 //   border-style: dashed dashed solid;
 //   border-width: 0 8.5px 8.5px;
 //   position: absolute;

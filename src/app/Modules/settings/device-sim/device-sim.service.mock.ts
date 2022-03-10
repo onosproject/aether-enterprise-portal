@@ -8,10 +8,6 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { Config } from 'src/app/models/config.model';
 import { InventoryDevice } from 'src/app/models/inventory-device.model';
 import { SimInventory } from 'src/app/models/sim-inventory.model';
-// TODO
-import { TimelineData } from 'src/app/models/timeline.model';
-// TODO
-
 export class DeviceSimStub {
   apiUrl: string = 'https://chronos-dev.onlab.us/chronos-exporter/config';
 
@@ -20,19 +16,19 @@ export class DeviceSimStub {
   selectedSite: string = '';
 
   mySims1: Observable<SimInventory[]>;
-  private mySimsSubject = new BehaviorSubject<SimInventory[]>([]);
+  public mySimsSubject = new BehaviorSubject<SimInventory[]>([]);
 
   mySite1: Observable<string>;
-  private mySiteSubject = new BehaviorSubject<string>('');
+  public mySiteSubject = new BehaviorSubject<string>('');
 
   mySim1: Observable<string>;
-  private mySimSubject = new Subject<string>();
+  public mySimSubject = new Subject<string>();
 
   myDevice: Observable<InventoryDevice[]>;
-  private myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);
+  public myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);
 
   myDevice1: Observable<InventoryDevice>;
-  private myDeviceSubject1 = new BehaviorSubject<InventoryDevice[]>([]);
+  public myDeviceSubject1 = new BehaviorSubject<InventoryDevice[]>([]);
 
   constructor() {
     // this.mySim1 = this.mySimSubject.asObservable();
@@ -227,138 +223,4 @@ export class DeviceSimStub {
       ],
     });
   }
-
-  // TODO
-  getPromWeekData(): Observable<TimelineData> {
-    return of({
-      status: 'success',
-      data: {
-        result: [
-          {
-            metric: {
-              __name__: 'device_connected_status',
-              device_status: 'Active',
-              iccid: '123-456-789',
-              instance: 'chronos-exporter:2112',
-              job: 'chronos-exporter',
-              serial_number: '752365A',
-              site: 'fremont',
-            },
-            values: [
-              [1645249991.788, '1'],
-              [1645491191.788, '0'],
-              [1645249991.788, '1'],
-            ],
-          },
-        ],
-      },
-    });
-  }
-
-  getPromDayData(): Observable<TimelineData> {
-    return of({
-      status: 'success',
-      data: {
-        result: [
-          {
-            metric: {
-              __name__: 'device_connected_status',
-              device_status: 'Active',
-              iccid: '123-456-789',
-              instance: 'chronos-exporter:2112',
-              job: 'chronos-exporter',
-              serial_number: '752365A',
-              site: 'fremont',
-            },
-            values: [
-              [1645249991.788, '1'],
-              [1645491191.788, '0'],
-              [1645791191.788, '1'],
-            ],
-          },
-        ],
-      },
-    });
-  }
-
-  getPromDotsData(): Observable<TimelineData> {
-    return of({
-      status: 'success',
-      data: {
-        result: [
-          {
-            metric: {
-              __name__: 'device_connected_status',
-              iccid: '123-456-789',
-              instance: 'chronos-exporter:2112',
-              job: 'chronos-exporter',
-              msg: '752908B: core event number-10127',
-              serial_number: '752365A',
-              site: 'fremont',
-              time: '2022-02-24T14:42:48.363628138Z',
-            },
-            values: [
-              [1645713852, '1'],
-
-              [1645713852, '4'],
-              [1645713852, '5'],
-            ],
-          },
-          {
-            metric: {
-              __name__: 'device_connection_event_core',
-              iccid: '123-456-789',
-              instance: 'chronos-exporter:2112',
-              job: 'chronos-exporter',
-              msg: '7568111: core event number-10021',
-              serial_number: '752365A',
-              site: 'fremont',
-              time: '2022-02-23T21:13:50.2829109Z',
-            },
-            values: [[1645713852, '2']],
-          },
-          {
-            metric: {
-              __name__: 'device_connection_event_core',
-              iccid: '123-456-789',
-              instance: 'chronos-exporter:2112',
-              job: 'chronos-exporter',
-              msg: '7568111: core event number-10023',
-              serial_number: '752365A',
-              site: 'fremont',
-              time: '2022-02-23T21:22:25.296128912Z',
-            },
-            values: [[1645713852, '3']],
-          },
-          {
-            metric: {
-              __name__: 'device_connection_event_core',
-              iccid: '123-456-789',
-              instance: 'chronos-exporter:2112',
-              job: 'chronos-exporter',
-              msg: '7568111: core event number-10031',
-              serial_number: '752365A',
-              site: 'fremont',
-              time: '2022-02-23T21:42:38.368040384Z',
-            },
-            values: [[1645713852, '4']],
-          },
-          {
-            metric: {
-              __name__: 'device_connection_event_core',
-              iccid: '123-456-789',
-              instance: 'chronos-exporter:2112',
-              job: 'chronos-exporter',
-              msg: '7568111: core event number-10033',
-              serial_number: '752365A',
-              site: 'fremont',
-              time: '2022-02-23T22:06:36.407900416Z',
-            },
-            values: [[1645713852, '5']],
-          },
-        ],
-      },
-    });
-  }
-  // TODO
 }

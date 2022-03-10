@@ -39,12 +39,12 @@
     height: fit-content;
 
     &-siteSelector {
-      color: #0063f7;
+      color: $primaryColor;
       font-family: "Inter", sans-serif;
       font-size: 12px !important;
       font-weight: 700;
       margin-left: -10px;
-      border: 1px solid #0063f7;
+      border: 1px solid $primaryColor;
       border-radius: 4px;
     }
 
@@ -61,14 +61,14 @@
     }
 
     &-subIcon {
-      color: #004fc4;
+      color: $uploadTextColor;
       // background-image: url(../../SideCol-Navbar/icon-bg.svg);
       border: 1px solid transparent;
       border-radius: 12px;
     }
 
     &-subHeading {
-      color: #3c4257;
+      color: $Shade_11;
       font-family: "Inter", sans-serif;
       font-size: 14px !important;
       font-weight: 500;
@@ -101,40 +101,40 @@
     &-siteActive {
       border-top-right-radius: 8px;
       border-bottom-right-radius: 8px;
-      color: #fff;
-      background: #0063f7;
+      color: $SecondaryColor;
+      background: $primaryColor;
       border: none;
     }
     &-userActive {
       border-top-left-radius: 8px;
       border-bottom-left-radius: 8px;
-      color: #fff;
-      background: #0063f7;
+      color: $SecondaryColor;
+      background: $primaryColor;
       border: none;
     }
     .highlight {
       border-top-right-radius: 8px;
       border-bottom-right-radius: 8px;
-      color: #fff;
-      background: #0063f7;
+      color: $SecondaryColor;
+      background: $primaryColor;
       border: none;
     }
     .normal {
       border-top-left-radius: 8px;
       border-bottom-left-radius: 8px;
-      color: #fff;
-      background: #0063f7;
+      color: $SecondaryColor;
+      background: $primaryColor;
       border: none;
     }
     &-siteNormal {
-      color: #6ea6ff;
-      background: #fff;
+      color: $Shade_3;
+      background: $SecondaryColor;
       // background: red;
       border: none;
     }
     &-userNormal {
-      color: #6ea6ff;
-      background: #fff;
+      color: $Shade_3;
+      background: $SecondaryColor;
       // background: red;
       border: none;
     }
@@ -143,7 +143,7 @@
     }
 
     &-switch-text {
-      color: #3c4257;
+      color: $Shade_11;
       font-family: "Inter", sans-serif;
       font-size: 14px;
       font-weight: normal;
@@ -152,7 +152,7 @@
     }
 
     &-title {
-      color: #3c4257 !important;
+      color: $Shade_11 !important;
       font-family: Inter;
       font-weight: normal;
       font-size: 2rem;
@@ -178,8 +178,8 @@
     &-btnCenter {
       height: 48px;
       width: 197px;
-      color: #ffffff !important;
-      background: #0063f7 !important;
+      color: $SecondaryColor !important;
+      background: $primaryColor !important;
       margin-top: -3.9px;
       margin-left: auto;
       margin-right: auto;
@@ -222,15 +222,15 @@
       &-active {
         height: 15px;
         margin-left: -16px;
-        border: 1px solid white;
+        border: 1px solid $SecondaryColor;
         border-radius: 48px;
         margin-top: 4px;
-        background: white;
+        background: $SecondaryColor;
       }
 
       &-username {
         padding-top: 10px;
-        color: #3c4257;
+        color: $Shade_11;
         font-family: Inter;
         font-weight: 600;
         font-style: normal;
@@ -239,7 +239,7 @@
 
       &-email {
         padding-top: 10px;
-        color: #000000;
+        color: $Shade_10;
         font-family: Inter;
         font-style: normal;
         font-weight: normal;
@@ -274,10 +274,10 @@
         // font-weight: 400;
         // font-size: 12px;
         // line-height:16px;
-        color: #fff;
+        color: $SecondaryColor;
         text-align: center !important;
         position: absolute;
-        background: #0063f7;
+        background: $primaryColor;
         top: -12px;
         left: 0px;
         width: 99px;
@@ -289,10 +289,10 @@
         // font-weight: 400;
         // font-size: 12px;
         // line-height:16px;
-        color: #fff;
+        color: $SecondaryColor;
         text-align: center !important;
         position: absolute;
-        background: #0063f7;
+        background: $primaryColor;
         top: -1px;
         left: 0px;
         width: 99px;
@@ -305,7 +305,7 @@
         position: absolute;
         left: 3px;
         top: 16px;
-        color: white;
+        color: $SecondaryColor;
         font-size: 12px;
         font-weight: 600;
         letter-spacing: 0.5px;
@@ -316,7 +316,7 @@
         position: absolute;
         left: 7px;
         top: 28px;
-        color: white;
+        color: $SecondaryColor;
         font-size: 12px;
         font-weight: 600;
         letter-spacing: 0.5px;
@@ -324,13 +324,13 @@
 
       &-editOption {
         cursor: pointer;
-        color: #0063f7;
+        color: $primaryColor;
         padding-top: 10px;
       }
 
       &-editOption-close {
         cursor: pointer;
-        color: #ef233c;
+        color: $AlertCritical;
         padding-top: 10px;
       }
     }
@@ -343,7 +343,7 @@
     }
 
     &-title {
-      color: #3c4257 !important;
+      color: $Shade_11 !important;
       font-family: Inter;
       font-style: normal;
       font-weight: normal;
@@ -352,12 +352,11 @@
     }
 
     &-form {
-      // border: 1px dashed #97c1f0;
       border-radius: 5px;
-      background: #eff1f3;
+      background: $Shade_0;
 
       &-label {
-        color: #3c4257;
+        color: $Shade_11;
         font-family: "Inter", sans-serif;
         font-style: normal;
         font-size: 12px;
@@ -366,12 +365,11 @@
       &-field {
         width: auto;
         padding-top: 0 px !important;
-        // background: #fff;
         border-radius: 8 px !important;
       }
 
       &-permissionsMainTitle {
-        color: #3c4257;
+        color: $Shade_11;
         font-family: "Inter", sans-serif;
         font-style: normal;
         font-weight: 500;
@@ -384,7 +382,7 @@
       }
 
       &-permissionsSelect {
-        color: white !important;
+        color: $SecondaryColor !important;
         text-align: left;
       }
 
@@ -403,12 +401,9 @@
       }
 
       &-upload {
-        // padding: 6px 23px 6px 23px;
-        color: #0063f7;
+        color: $primaryColor;
         border: none;
         margin-left: 4rem !important;
-        // border: 0.5px solid #005eec;
-        // background: #fff;
       }
 
       &-checkBox {
@@ -421,9 +416,7 @@
 
       &-permissions {
         color: blue !important;
-        // border: 2px solid white !important;
-        background: #fff !important;
-        // padding: 0 0 0 6rem !important;
+        background: $SecondaryColor !important;
       }
 
       &-subChecks {
@@ -437,14 +430,14 @@
       }
 
       &-audit {
-        color: #0063f7;
+        color: $primaryColor;
         margin-left: 2rem;
         font-family: Inter;
         font-weight: 500;
       }
 
       &-delete {
-        color: #ef233c;
+        color: $AlertCritical;
         margin-top: 15px;
         margin-left: 3rem;
         font-family: Inter;
@@ -452,27 +445,27 @@
       }
 
       &-addButton {
-        color: #fff;
+        color: $SecondaryColor;
         float: right;
         height: 49px;
         width: 108px;
         text-align: start;
         margin-right: 1rem;
-        border: 1px solid #0063f7;
+        border: 1px solid $primaryColor;
         border-radius: 4px;
-        background: #0063f7;
+        background: $primaryColor;
       }
 
       &-cancelButton {
-        color: #0063f7;
+        color: $primaryColor;
         float: right;
         height: 49px;
         width: 108px;
         text-align: start;
         margin-right: 2rem;
-        border: 1px solid #0063f7;
+        border: 1px solid $primaryColor;
         border-radius: 4px;
-        background: #fff;
+        background: $SecondaryColor;
       }
     }
   }
@@ -483,7 +476,7 @@
     }
 
     &-access-list {
-      background: #0063f7;
+      background: $primaryColor;
       border-radius: 20px;
       height: 18px;
       min-width: 44px;
@@ -492,7 +485,7 @@
       font-weight: 500;
       font-size: 12px;
       line-height: 16px;
-      color: #ffffff;
+      color: $SecondaryColor;
       display: inline-block;
       text-align: center;
       padding: 2px;
@@ -508,7 +501,7 @@
 
     &-card-1 {
       max-width: 250px;
-      background: #edf4ff;
+      background: $general-bg;
       padding: 10px 22px 10px 5px;
       max-height: 65px;
       margin: 0 5px 5px 5px;
@@ -521,9 +514,9 @@
         border-radius: 2rem;
       }
       &-delete {
-        border: 1px solid #ef233c;
+        border: 1px solid $AlertCritical;
         max-width: 250px;
-        background: #edf4ff;
+        background: $general-bg;
         padding: 10px 22px 10px 5px;
         max-height: 65px;
         margin: 0 5px 5px 5px;
@@ -562,10 +555,10 @@
         }
         &-active {
           margin-left: -14px;
-          border: 1px solid white;
+          border: 1px solid $SecondaryColor;
           border-radius: 48px;
           margin-top: 4px;
-          background: white;
+          background: $SecondaryColor;
         }
       }
       &-close-red {
@@ -600,14 +593,14 @@
     }
 
     &-doneButtonInactive {
-      color: #a3a3a3;
+      color: $Shade_12;
       align-self: center;
       text-align: center;
     }
 
     &-closeButton {
       cursor: pointer;
-      color: #ef233c;
+      color: $AlertCritical;
       align-self: center;
     }
   }
@@ -619,7 +612,7 @@
       width: 1rem !important;
     }
     &-title {
-      color: #3c4257 !important;
+      color: $Shade_11 !important;
       font-family: "Inter", sans-serif !important;
       font-weight: 400 !important;
       font-style: normal !important;
@@ -629,28 +622,14 @@
   }
 }
 
-.admin-edit-form {
-  border-top: 1px solid #97c1ff;
-  margin-top: -16px;
-  border-top-right-radius: 0px !important;
-  border-top-left-radius: 0 !important;
-}
-
 #new-form {
   .mat-form-field {
-    //   &-underline {
-    //     display: none;
-    //   }
-
     &-flex {
-      // padding-top: 5px;
-      // padding-bottom: 5px;
-      // background: #ffff !important;
       border-radius: 0.5rem;
     }
 
     &-outline {
-      background: #fff !important;
+      background: $SecondaryColor !important;
     }
   }
 }
@@ -664,10 +643,10 @@
   display: flow-root !important;
   padding-bottom: 20px !important;
   .admin-addNew-form-addButton {
-    background-color: #0063f7;
+    background-color: $primaryColor;
   }
   .add-button-gray {
-    background-color: #a3a3a3;
+    background-color: $Shade_12;
   }
 }
 .select-level {
@@ -707,11 +686,11 @@
 
 .mat-select-value {
   padding-left: 10px;
-  color: #0063f7 !important;
+  color: $primaryColor !important;
 }
 
 .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-  background-color: #0063f7 !important;
+  background-color: $primaryColor !important;
 }
 // .form-control:focus {
 //   border-color: blue;

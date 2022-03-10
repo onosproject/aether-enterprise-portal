@@ -6,7 +6,6 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-// import { trigger, style, animate, transition } from '@angular/animations';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,8 +26,6 @@ import { DeviceGroupSummary as deviceGroupSummary } from 'src/app/models/device-
   styleUrls: [],
 })
 export class DeviceGroupsComponent implements OnInit {
-  //var
-  //anankiFormGroup: FormGroup;
   expandDeviceGroups: number[] = [];
 
   @ViewChild('stepper', { static: false }) stepper: MatStepper;
@@ -287,22 +284,28 @@ export class DeviceGroupsComponent implements OnInit {
 
   firstFormNext(): void {
     this.firstFormError = false;
+    /* istanbul ignore else */
     if (this.firstFormGroup.invalid) {
       this.firstFormError = true;
-    } else if (this.firstFormGroup.valid) {
+    }
+    /* istanbul ignore else */
+    if (this.firstFormGroup.valid) {
       this.firstFormComplete = true;
+
       this.stepper.selectedIndex = 1;
-      console.log(this.stepper);
     }
   }
 
   addNewDeviceG(): void {
     this.addNewDeviceGroupError = false;
+    /* istanbul ignore else */
     if (this.firstFormGroup.invalid) {
       this.addNewDeviceGroupError = true;
-    } else if (this.firstFormGroup.valid) {
-      const selectedDevices = [];
+    }
+    /* istanbul ignore else */
 
+    if (this.firstFormGroup.valid) {
+      const selectedDevices = [];
       this.selectedDevices.forEach((device) => {
         selectedDevices.push(device);
       });
@@ -363,6 +366,7 @@ export class DeviceGroupsComponent implements OnInit {
         const sitesConfig = item.sites;
         const sitesDevices = [];
         sitesConfig.map((site) => {
+          /* istanbul ignore else */
           if (site['site-id'] === this.selectedSite) {
             sitesDevicesGroups.push(site['device-groups']);
             sitesDevicesGroups[0].forEach((deviceGroup) => {
@@ -371,6 +375,7 @@ export class DeviceGroupsComponent implements OnInit {
                 'This is the default description of the current device group.';
             });
           }
+          /* istanbul ignore else */
           if (site['site-id'] === this.selectedSite) {
             sitesDevices.push(site.devices);
             sitesDevices.forEach((siteDevice) => {
@@ -389,7 +394,6 @@ export class DeviceGroupsComponent implements OnInit {
 
   dataConvert(): void {
     this.siteDeviceGroups.forEach((deviceGroups) => {
-      //console.log(deviceGroups);
       deviceGroups.forEach((deviceGroup) => {
         deviceGroup.devices.forEach((groupedDevice, groupedDeviceIndex) => {
           this.siteDevices.forEach((siteDevices) => {
@@ -405,7 +409,6 @@ export class DeviceGroupsComponent implements OnInit {
                     siteDevices[siteDeviceIndex]['serial-number'],
                 };
                 deviceGroup.devices.splice(groupedDeviceIndex, 1, deviceInfo);
-                // //console.log('alert');
               } else {
                 const remainingDevices = [];
                 const deviceInfo = {
@@ -440,7 +443,6 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   editTrigger(index: number): void {
-    // console.log(this.siteDeviceGroups);
     this.closeEdit();
     const editDeviceGroupIndex = this.editDeviceGroup.indexOf(index);
     if (editDeviceGroupIndex >= 0) {
@@ -476,7 +478,6 @@ export class DeviceGroupsComponent implements OnInit {
 
   deleteDevicesInGroups(groupIndex: number, deviceIndex: number): void {
     this.siteDeviceGroups[0][groupIndex].devices.splice(deviceIndex, 1);
-    // console.log(this.siteDeviceGroups);
   }
 
   changeSelectionAddDevices(
@@ -533,7 +534,7 @@ export class DeviceGroupsComponent implements OnInit {
           inventoryIndex < this.deviceInventory.length;
           inventoryIndex++
         ) {
-          /* istanbul ignore else*/
+          /* istanbul ignore else */
           if (
             this.deviceInventory[inventoryIndex]['serial-number'] ==
             this.selectedAddDevices[selectedIndex]['serial-number']
@@ -558,6 +559,7 @@ export class DeviceGroupsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      /* istanbul ignore else */
       if (result == 'true') {
         this.deleteDeviceGroup(deviceGroupIndex);
       }

@@ -18,7 +18,6 @@ import { SelectSimsComponent } from '../dialogs/select-sims/select-sims.componen
 
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 
-import { ConfigService } from 'src/app/services/config.service';
 import { Observable, Subscription } from 'rxjs';
 
 // chart imports
@@ -190,7 +189,6 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     public http: HttpClient,
     public dialog: MatDialog,
     public deviceService: DeviceSimService,
-    public configService: ConfigService,
     public deviceSimHelper: DeviceSimHelperService,
     public globalService: GlobalDataService
   ) {}
@@ -205,8 +203,6 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     this.assignSelectedSim();
     this.assignSelectedDevice();
     this.assignSelectedSite();
-    this.configService.fetchDeviceConfig();
-    this.configService.fetchOther();
     this.getLoginCreds();
     this.getLastWeek();
   }

@@ -72,16 +72,11 @@ describe('DeviceSimComponent', () => {
     spyOn(component, 'assignSelectedSim').and.callThrough();
     spyOn(component, 'assignSelectedDevice').and.callThrough();
     spyOn(component, 'assignSelectedSite').and.callThrough();
-    component.configService = component.configService;
-    spyOn(component.configService, 'fetchDeviceConfig').and.callThrough();
-    spyOn(component.configService, 'fetchOther').and.callThrough();
     spyOn(component, 'getLastWeek').and.callThrough();
     component.ngOnInit();
     expect(component.assignSelectedSim).toHaveBeenCalled();
     expect(component.assignSelectedDevice).toHaveBeenCalled();
     expect(component.assignSelectedSite).toHaveBeenCalled();
-    expect(component.configService.fetchDeviceConfig).toHaveBeenCalled();
-    expect(component.configService.fetchOther).toHaveBeenCalled();
     expect(component.getLastWeek).toHaveBeenCalled();
   });
 
@@ -103,7 +98,6 @@ describe('DeviceSimComponent', () => {
     expect(newInventoryForm.get('inventoryDeviceType')).toBeTruthy();
   });
 
-  // new test by ngentest
   it('should run #getLastWeek()', () => {
     spyOn(component, 'getLastWeek').and.callThrough();
     component.getLastWeek();
