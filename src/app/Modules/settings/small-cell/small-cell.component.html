@@ -5,7 +5,6 @@
 -->
 <!-- <p>services works!</p> -->
 <div class="row container-fluid small-cells">
-  <!-- <div class="row"> -->
   <!--left side section-->
   <div class="small-cells-col-2 ml-6">
     <aep-side-navbar></aep-side-navbar>
@@ -41,7 +40,11 @@
             [(ngModel)]="viewType"
           >
             <mat-button-toggle value="List">List</mat-button-toggle>
-            <mat-button-toggle value="Physical" class="border-none"
+            <mat-button-toggle
+              (click)="checkSitePlans()"
+              class="border-none"
+              value="Physical"
+              [disabled]="!sitePlanPresent"
               >Physical</mat-button-toggle
             >
           </mat-button-toggle-group>
@@ -390,14 +393,14 @@
       </div>
     </div>
     <div *ngIf="viewType === 'Physical'" class="small-cells__physical-view">
-      <!-- <svg></svg> -->
       <img
+        *ngIf="sitePlanPresent"
         class="small-cells__physical-view__image"
         [src]="
           baseUrl +
-          config?.sites[0]['site-plans']['site-plan-list'][selectedPlan][
-            'svg-file'
-          ]
+          config?.sites[sitePlanPresentIndex]['site-plans']['site-plan-list'][
+            selectedPlan
+          ]['svg-file']
         "
         #physicalViewImage
       />
@@ -405,9 +408,11 @@
         <div
           class="small-cells__physical-view__device"
           *ngIf="
+            sitePlanPresent &&
             device['position'] &&
-            config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
-              .id === device['position']['site-plan']
+            config?.sites[sitePlanPresentIndex]['site-plans']['site-plan-list'][
+              selectedPlan
+            ].id === device['position']['site-plan']
           "
           [style]="
             'top: ' +
@@ -435,9 +440,11 @@
         <ng-container *ngFor="let device of devices">
           <svg:line
             *ngIf="
+              sitePlanPresent &&
               device['position'] &&
-              config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
-                .id === device['position']['site-plan']
+              config?.sites[sitePlanPresentIndex]['site-plans'][
+                'site-plan-list'
+              ][selectedPlan].id === device['position']['site-plan']
             "
             [attr.x1]="device['position']['position-x']"
             [attr.y1]="device['position']['position-y'] + 20"
@@ -452,9 +459,11 @@
         <div
           class="small-cells__physical-view__small-cell"
           *ngIf="
+            sitePlanPresent &&
             smallCell['position'] &&
-            config?.sites[0]['site-plans']['site-plan-list'][selectedPlan]
-              .id === smallCell['position']['site-plan']
+            config?.sites[sitePlanPresentIndex]['site-plans']['site-plan-list'][
+              selectedPlan
+            ].id === smallCell['position']['site-plan']
           "
           [style]="
             'top: ' +
@@ -484,5 +493,4 @@
       </ng-container>
     </div>
   </div>
-  <!-- </div> -->
 </div>

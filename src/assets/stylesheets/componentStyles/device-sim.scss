@@ -722,6 +722,9 @@
     rx: 10;
     ry: 10;
   }
+  circle {
+    min-width: 1px !important;
+  }
 }
 
 .randClass {
@@ -773,4 +776,24 @@
   background: $SecondaryColor;
   // background: red;
   border: none;
+}
+
+.oneDtooltip {
+  background-color: red !important;
+  padding: 10px;
+}
+
+.tooltip_display {
+  position: absolute;
+  z-index: 10;
+  visibility: hidden;
+  background: #ffffff;
+  box-shadow: 1px 2px 4px rgba(41, 44, 52, 0.3);
+  color: #ef233c;
+  padding: 8px;
+  font-family: Inter;
+  font-style: normal;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.02em;
 }

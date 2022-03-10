@@ -24,7 +24,7 @@
                   <img
                     src="../../assets/AdminPanel/Rectangle 966.svg"
                     alt="profile-pic-outline"
-                    *ngIf="imageLoaded === false"
+                    *ngIf="imageLoaded === false || fileUrl === null"
                     [ngClass]="{
                       'is-invalid':
                         userForm.get('profilePic').invalid && addUserError
@@ -240,7 +240,7 @@
               <button
                 mat-button
                 class="admin-addNew-form-cancelButton"
-                (click)="AddNew = !AddNew; addUserError = false"
+                (click)="AddNew = !AddNew; addUserError = false; fileUrl = null"
               >
                 Cancel
               </button>
@@ -414,7 +414,7 @@
           <!-- Edit form panel (User-View) -->
           <form [formGroup]="editForm">
             <div *ngIf="editUsers.indexOf(user.id) >= 0">
-              <mat-card class="col">
+              <mat-card class="col admin-edit-form">
                 <mat-card-content>
                   <div class="admin-addNew-form my-4 mx-2 d-flex">
                     <div class="admin-addNew-form-ppicHolder col-2 mx-3">

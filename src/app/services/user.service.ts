@@ -223,12 +223,10 @@ export class UserService {
   }
 
   getUser(index: number): User {
-    //console.log(this.users[index]);
     return this.users[index];
   }
 
   getCity(index: number): City {
-    //console.log(this.cities[index]);
     return this.cities[index];
   }
 

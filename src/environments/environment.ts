@@ -11,6 +11,8 @@
 export const environment = {
   production: false,
   baseUrl: 'https://chronos-dev.onlab.us/',
+  configUrl: 'https://chronos-dev.onlab.us/chronos-exporter/config',
+  promUrl: 'https://chronos-dev.onlab.us/prometheus/api/v1',
 };
 
 /*

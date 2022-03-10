@@ -8,15 +8,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { SimInventory } from '../models/sim-inventory.model';
+import { InventoryDevice } from '../models/inventory-device.model';
+// import { TimelineData } from '../models/timeline.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeviceSimService {
-  apiUrl: string = environment.baseUrl + 'chronos-exporter/config';
+  apiUrl: string = environment.configUrl;
 
-  promApiUrl: string = environment.baseUrl + 'prometheus/api/v1';
+  promApiUrl: string = environment.promUrl;
 
   siteIds: string[] = [];
 
@@ -32,16 +34,17 @@ export class DeviceSimService {
 
   mySim1: Observable<string>;
   public mySimSubject = new Subject<string>();
-  public myDeviceSubject = new BehaviorSubject<number>(0);
 
-  constructor(public http: HttpClient) {
-    this.mySim1 = this.mySimSubject.asObservable();
-  }
+  myDevice: Observable<InventoryDevice[]>;
+  public myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);
+
+  myDevice1: Observable<InventoryDevice>;
+  public myDeviceSubject1 = new BehaviorSubject<InventoryDevice[]>([]);
+
+  constructor(public http: HttpClient) {}
 
   mySite(data: string): void {
     this.selectedSite = data;
-    //console.log(this.selectedSite)
-    //console.log(data)
     this.mySiteSubject.next(data);
   }
 
@@ -49,36 +52,50 @@ export class DeviceSimService {
     return this.mySiteSubject.asObservable();
   }
 
+  // * Used to get the selectedSim data from select-sims to device-sim component
+  getSim1(): Observable<string> {
+    return this.mySimSubject.asObservable();
+  }
+
+  // * Used to get the selectedDevice data from select-device to device-sim component.
+  getDevice1(): Observable<InventoryDevice[]> {
+    return this.myDeviceSubject1.asObservable();
+  }
+
+  // * Used to send data to the subject from device-sim to select-sims component.
   mySims(data: SimInventory[]): void {
     this.selectedSims = data;
     this.mySimsSubject.next(data);
   }
 
+  // * Used to get the sims inventory data from device-sim to select-sims component.
   getSims(): Observable<SimInventory[]> {
     return this.mySimsSubject.asObservable();
   }
 
+  // * Used to send the data of selectedSim from select-sims to device-sim component.
   mySim(data: string): void {
-    // this.selectedSim = data
-    // //console.log(this.selectedSim)
     this.mySimSubject.next(data);
   }
 
-  getDevice(): Observable<number> {
+  // * Used to get the devices from device-sim to select-devices compoenent.
+  getDevice(): Observable<InventoryDevice[]> {
     return this.myDeviceSubject.asObservable();
   }
 
-  setDevice(data: number): void {
-    // this.selectedSim = data
-    // //console.log(this.selectedSim)
+  // * Used to send data to the subject from device-sim to select-devices component.
+  myDevices(data: InventoryDevice[]): void {
     this.myDeviceSubject.next(data);
+  }
+
+  // * Used to send the data of selectedDevice from select-devices to device-sim component.
+  setDevice(data: InventoryDevice[]): void {
+    this.myDeviceSubject1.next(data);
   }
 
   getData(): Observable<unknown> {
     const headers = {
       Accept: 'application/json',
-      // 'Authorization': 'Basic ' + btoa('onfstaff:k7yestD8Kbdo7LEd6FkHXGE3yrz8cLTCksMknFyoJTt')
-      // Authorization: "Basic b25mc3RhZmY6azd5ZXN0RDhLYmRvN0xFZDZGa0hYR0UzeXJ6OGNMVENrc01rbkZ5b0pUdA=="
     };
     return this.http.get(this.apiUrl, { headers });
   }
