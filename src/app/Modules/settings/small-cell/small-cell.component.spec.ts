@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of as observableOf } from 'rxjs';
+
 import { SmallCellComponent } from './small-cell.component';
 import { DecomissionComponent } from '../dialogs/decomission/decomission.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,18 +22,14 @@ describe('SmallCellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        SmallCellComponent,
-        DecomissionComponent,
-        RecomissionComponent,
-      ],
+      declarations: [SmallCellComponent],
       imports: [
         HttpClientModule,
-        MatDialogModule,
-        BrowserAnimationsModule,
         RouterModule,
-        MatSnackBarModule,
         RouterTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        BrowserAnimationsModule,
       ],
     }).compileComponents();
   });
