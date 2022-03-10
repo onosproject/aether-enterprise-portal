@@ -5,5 +5,7 @@
  */
 
 export interface SimInventory {
-  simIccid: string;
+  'display-name'?: string;
+  iccid: string;
+  simIccid?: string;
 }
