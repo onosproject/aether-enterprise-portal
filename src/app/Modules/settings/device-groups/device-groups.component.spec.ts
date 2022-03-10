@@ -818,7 +818,6 @@ describe('DeviceGroupsComponent', () => {
   it('should run #editTrigger() --> if case', () => {
     spyOn(component, 'closeEdit');
     const editDeviceGroup = (component.editDeviceGroup = [0, 0]);
-    const index = 0;
     component.siteDeviceGroups = [
       [
         {
@@ -973,7 +972,6 @@ describe('DeviceGroupsComponent', () => {
       type,
       deviceIndex
     );
-    const deviceInventory = component.deviceInventory;
     const selectedAddDevices = component.selectedAddDevices;
     expect(selectedAddDevices.length).toBeLessThan(1);
   });

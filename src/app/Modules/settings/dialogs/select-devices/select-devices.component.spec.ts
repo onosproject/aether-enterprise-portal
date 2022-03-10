@@ -39,24 +39,70 @@ describe('SelectDevicesComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  // new test by ngentest
+
   it('should run #onNoClick()', async () => {
-    // component.dialogRef = component.dialogRef;
     spyOn(component.dialogRef, 'close').and.callThrough();
     component.onNoClick();
     expect(component.dialogRef.close).toHaveBeenCalled();
   });
 
-  // new test by ngentest
   it('should run #changeSelection()', () => {
-    component.changeSelection(1);
+    component.inventoryDevices = [
+      {
+        'display-name': 'Device 1',
+        location: 'floor 1',
+        'serial-number': '12345',
+        type: 'device',
+      },
+    ];
+    component.changeSelection('12345');
+    expect(component.selectedDevice).toEqual({
+      'display-name': 'Device 1',
+      location: 'floor 1',
+      'serial-number': '12345',
+      type: 'device',
+    });
   });
 
-  // new test by ngentest
   it('should run #selectDeviceFinal()', async () => {
-    component.deviceService = component.deviceService;
+    component.selectedDevice = {
+      'display-name': 'Device 1',
+      location: 'floor 1',
+      'serial-number': '12345',
+      type: 'device',
+    };
     spyOn(component.dialogRef, 'close').and.callThrough();
     component.selectDeviceFinal();
+    let device = [];
+    component.deviceService.getDevice1().subscribe((value) => (device = value));
+    expect(device).toEqual([
+      {
+        'display-name': 'Device 1',
+        location: 'floor 1',
+        'serial-number': '12345',
+        type: 'device',
+      },
+    ]);
     expect(component.dialogRef.close).toHaveBeenCalled();
+  });
+
+  it('should run #getInventory()', async () => {
+    component.deviceService.myDevices([
+      {
+        'display-name': 'Device 1',
+        location: 'floor 1',
+        'serial-number': '12345',
+        type: 'device',
+      },
+    ]);
+    component.getInventory();
+    expect(component.inventoryDevices).toEqual([
+      {
+        'display-name': 'Device 1',
+        location: 'floor 1',
+        'serial-number': '12345',
+        type: 'device',
+      },
+    ]);
   });
 });

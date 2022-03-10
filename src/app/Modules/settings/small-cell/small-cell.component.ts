@@ -12,6 +12,29 @@ import { environment } from '../../../../../src/environments/environment';
 import { DecomissionComponent } from '../dialogs/decomission/decomission.component';
 import { RecomissionComponent } from '../dialogs/recomission/recomission.component';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+@Component({
+  selector: 'aep-snack-bar-component-example-snack',
+  template:
+    '<div class="snack-div"><p>No SitePlans available for this site.</p> <img src="assets/AdminPanel/close-snack.svg" /></div>',
+  styles: [
+    `
+      .snack-div {
+        justify-content: space-between;
+        display: flex;
+        height: 10px;
+        img {
+          margin: 5px 6px;
+          position: absolute;
+          right: 8px;
+          width: 11px;
+        }
+      }
+    `,
+  ],
+})
+export class PizzaPartyComponent {}
 @Component({
   selector: 'aep-small-cell',
   templateUrl: './small-cell.component.html',
@@ -28,6 +51,8 @@ export class SmallCellComponent implements OnInit {
   );
   selectedPlan: number = 0;
   displayDetails: number[] = [];
+  sitePlanPresent: boolean = false;
+  sitePlanPresentIndex: number = 0;
 
   /* Static Data start */
   smallCells = [
@@ -149,7 +174,8 @@ export class SmallCellComponent implements OnInit {
   constructor(
     public deviceService: DeviceSimService,
     public siteService: SitesService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -166,6 +192,34 @@ export class SmallCellComponent implements OnInit {
   fetchConfig(): void {
     this.siteService.GetAllConfig().subscribe((response) => {
       this.config = response;
+      this.checkSitePlans();
+    });
+  }
+
+  checkSitePlans(): void {
+    this.config?.sites.forEach((site) => {
+      if (this.selectedSite === site['site-id']) {
+        if (site['site-plans']) {
+          this.sitePlanPresent = true;
+          this.sitePlanPresentIndex = this.config?.sites.indexOf(site);
+        } else {
+          if (this.viewType === 'List') {
+            this.sitePlanPresent = false;
+          } else {
+            this.viewType = 'List';
+            this.sitePlanPresent = false;
+            this.showSnackBar();
+          }
+        }
+      }
+    });
+  }
+
+  showSnackBar(): void {
+    this.snackBar.openFromComponent(PizzaPartyComponent, {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      duration: 3000,
     });
   }
 

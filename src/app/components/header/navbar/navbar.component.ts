@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SitesService } from 'src/app/services/sites/sites.service';
 import { smallCell } from '../../../shared/classes/dashboard-data';
+import { DeviceSimService } from 'src/app/services/device-sim.service';
 @Component({
   selector: 'aep-navbar',
   templateUrl: './navbar.component.html',
@@ -56,19 +57,26 @@ export class NavbarComponent {
     },
   };
 
-  constructor(public router: Router, private sitesService: SitesService) {}
+  constructor(
+    public router: Router,
+    private sitesService: SitesService,
+    public deviceService: DeviceSimService
+  ) {}
   // Boolean Triggers
   trigger: boolean = false;
   controlMenuTrigger: boolean = false;
   alert: string;
 
   // Static Values
-  devices: number = 1040;
-  unprovisionedDevices: number = 10;
-  Slices: number = 15;
-  Layers: number = 30;
-  Sites: number = 5;
-  SmallCells: number = 234;
+  devices: number = 0;
+  unprovisionedDevices: number = 0;
+  Slices: number = 0;
+  Layers: number = 0;
+  Sites: number = 0;
+  SmallCells: number = 0;
+
+  data;
+  services: number = 0;
 
   goToSmallCells(): void {
     smallCell[0][0].alerts = this.sitesService.allSmallCellsData;
@@ -78,5 +86,40 @@ export class NavbarComponent {
   getDataFromDashboard(siteId: string): void {
     this.alert = siteId;
     // alert();
+  }
+
+  getConfig(): void {
+    this.deviceService.getData().subscribe((response) => {
+      this.data = response;
+      this.getEnterpriseMenuData();
+    });
+  }
+
+  getEnterpriseMenuData(): void {
+    this.Layers = this.data.applications.length;
+    this.Sites = this.data.sites.length;
+    const devicesArr = [];
+    const slicesArr = [];
+    const smallCellsArr = [];
+    const unprovisionedArr = [];
+    this.data.sites.forEach((site) => {
+      devicesArr.push(...site.devices);
+      // console.log(devicesArr);
+      slicesArr.push(...site.slices);
+      // console.log(slicesArr);
+      smallCellsArr.push(...site['small-cells']);
+      // console.log(smallCellsArr);
+    });
+    devicesArr.forEach((device) => {
+      if (!device.sim) {
+        unprovisionedArr.push(device);
+      }
+    });
+    this.devices = devicesArr.length;
+    this.Slices = slicesArr.length;
+    this.SmallCells = smallCellsArr.length;
+    this.unprovisionedDevices = unprovisionedArr.length;
+    // console.log(this.services);
+    // console.log(response);
   }
 }

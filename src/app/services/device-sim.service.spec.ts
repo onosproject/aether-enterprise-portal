@@ -7,11 +7,12 @@
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { DeviceSimService } from './device-sim.service';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { InventoryDevice } from '../models/inventory-device.model';
 
 const mockData = {
   applications: [
@@ -1001,33 +1002,65 @@ describe('DeviceSimService', () => {
 
   it('should run #mySims()', () => {
     spyOn(service.mySimsSubject, 'next');
-    service.mySims([{ simIccid: '987-654-341' }]);
+    service.mySims([{ iccid: '987-654-341' }]);
     expect(service.mySimsSubject.next).toHaveBeenCalled();
-    expect(service.selectedSims).toEqual([{ simIccid: '987-654-341' }]);
+    expect(service.selectedSims).toEqual([{ iccid: '987-654-341' }]);
   });
 
   it('should run #getSims()', async () => {
-    service.mySimsSubject.next([{ simIccid: '987-654-341' }]);
+    service.mySimsSubject.next([{ iccid: '987-654-341' }]);
     service.getSims().subscribe((res) => {
-      expect(res).toEqual([{ simIccid: '987-654-341' }]);
+      expect(res).toEqual([{ iccid: '987-654-341' }]);
     });
   });
 
   it('should run #mySim()', () => {
     service.mySim('fremont');
-    expect(service.mySimSubject).toEqual(new Subject<'fremont'>());
+    expect(service.mySimSubject).toEqual(
+      new BehaviorSubject<string>('fremont')
+    );
   });
 
   it('should run #getDevice()', async () => {
-    service.myDeviceSubject.next(1);
+    service.myDeviceSubject.next([
+      {
+        'display-name': 'Device 1',
+        location: 'floor 1',
+        'serial-number': '12345',
+        type: 'device',
+      },
+    ]);
     service.getDevice().subscribe((res) => {
-      expect(res).toEqual(1);
+      expect(res).toEqual([
+        {
+          'display-name': 'Device 1',
+          location: 'floor 1',
+          'serial-number': '12345',
+          type: 'device',
+        },
+      ]);
     });
   });
 
   it('should run #setDevice()', () => {
-    service.setDevice(0);
-    expect(service.myDeviceSubject).toEqual(new BehaviorSubject<number>(0));
+    service.setDevice([
+      {
+        'display-name': 'Device 1',
+        location: 'floor 1',
+        'serial-number': '12345',
+        type: 'device',
+      },
+    ]);
+    expect(service.myDeviceSubject1).toEqual(
+      new BehaviorSubject<InventoryDevice[]>([
+        {
+          'display-name': 'Device 1',
+          location: 'floor 1',
+          'serial-number': '12345',
+          type: 'device',
+        },
+      ])
+    );
   });
 
   it('should run #getData()', async () => {

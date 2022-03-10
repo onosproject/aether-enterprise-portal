@@ -722,6 +722,9 @@
     rx: 10;
     ry: 10;
   }
+  circle {
+    min-width: 1px !important;
+  }
 }
 
 .randClass {

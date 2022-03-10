@@ -62,7 +62,7 @@ test: deps lint license_check # @HELP perform a license check on the code and th
 
 license_check: # @HELP examine and ensure license headers exist
 	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
-	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR} --boilerplate SPDX-Apache-2.0
+	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR} --skipped-dir=coverage --boilerplate SPDX-Apache-2.0
 
 jenkins-test: # @HELP target used in Jenkins to run validation (these tests run in a docker container, only use on VM executors)
 jenkins-test: license_check

@@ -6,7 +6,9 @@
 <!-- <p>select-devices works!</p> -->
 <div class="row">
   <div class="col-12 d-flex">
-    <div class="col-11 select-device-title mx-2">Select SIM from inventory</div>
+    <div class="col-11 select-device-title mx-2">
+      Select Device from inventory
+    </div>
     <div class="col-1 select-device-close" (click)="onNoClick()">close</div>
   </div>
 </div>
@@ -16,18 +18,17 @@
       <div class="select-device-container d-flex">
         <div
           class="select-device-container-spacings"
-          *ngFor="let device of devices"
+          *ngFor="let device of inventoryDevices"
         >
           <div
             class="select-device-container-deviceHolder"
-            (click)="changeSelection(device.id)"
+            (click)="changeSelection(device['serial-number'])"
           >
             <div class="mx-1 d-flex">
-              <!-- <mat-checkbox type=checkbox [checked]="selectedSim === sim.simNumber"  class="mx-2"></mat-checkbox>
-               -->
               <img
                 [src]="
-                  selectedDevice === device.id
+                  selectedDevice &&
+                  selectedDevice['serial-number'] === device['serial-number']
                     ? 'assets/deviceSim/selected-card.svg'
                     : 'assets/deviceSim/select.svg'
                 "
@@ -36,8 +37,8 @@
                 class="mx-2"
                 src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
               />
-              <span class="mx-1">{{ device.deviceName }}</span>
-              <span class="mx-1">{{ device.locationName }}</span>
+              <span class="mx-1">{{ device["display-name"] }}</span>
+              <span class="mx-1">{{ device.location }}</span>
             </div>
           </div>
         </div>

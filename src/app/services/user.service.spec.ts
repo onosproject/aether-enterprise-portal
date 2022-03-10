@@ -630,6 +630,55 @@ describe('UserService', () => {
     );
   });
 
+  it('should run #addUser()', () => {
+    service.users = [];
+    service.addUser({
+      ppic: '../../assets/CommonAssets/john-fivegee.svg',
+      active: '../../assets/CommonAssets/active-dot.svg',
+      name: 'Don Fivegee',
+      email: 'DonFivegee@ttesla.com',
+      emailAlert: true,
+      deviceAlert: true,
+      centralAlert: true,
+      siteEquipmentAlert: false,
+      securityAlert: true,
+      id: 1,
+      cities: [],
+    });
+    expect(service.users).toEqual([
+      {
+        ppic: '../../assets/CommonAssets/john-fivegee.svg',
+        active: '../../assets/CommonAssets/active-dot.svg',
+        name: 'Don Fivegee',
+        email: 'DonFivegee@ttesla.com',
+        emailAlert: true,
+        deviceAlert: true,
+        centralAlert: true,
+        siteEquipmentAlert: false,
+        securityAlert: true,
+        id: 1,
+        cities: [],
+      },
+    ]);
+    expect(service.usersSubject).toEqual(
+      new BehaviorSubject<User[]>([
+        {
+          ppic: '../../assets/CommonAssets/john-fivegee.svg',
+          active: '../../assets/CommonAssets/active-dot.svg',
+          name: 'Don Fivegee',
+          email: 'DonFivegee@ttesla.com',
+          emailAlert: true,
+          deviceAlert: true,
+          centralAlert: true,
+          siteEquipmentAlert: false,
+          securityAlert: true,
+          id: 1,
+          cities: [],
+        },
+      ])
+    );
+  });
+
   it('should run #updateUser()', () => {
     service.updateUser(0, {
       ppic: '../../assets/CommonAssets/john-fivegee.svg',

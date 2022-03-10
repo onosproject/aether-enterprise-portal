@@ -28,4 +28,9 @@ describe('AuditUserComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should run #setIndex()', async () => {
+    component.setIndex(1);
+    expect(component.indexIs).toEqual(1);
+  });
 });

@@ -5,7 +5,6 @@
 -->
 <!-- <p>services works!</p> -->
 <div class="row container-fluid small-cells">
-  <!-- <div class="row"> -->
   <!--left side section-->
   <div class="small-cells-col-2 ml-6">
     <aep-side-navbar></aep-side-navbar>
@@ -41,7 +40,11 @@
             [(ngModel)]="viewType"
           >
             <mat-button-toggle value="List">List</mat-button-toggle>
-            <mat-button-toggle value="Physical" class="border-none"
+            <mat-button-toggle
+              (click)="checkSitePlans()"
+              class="border-none"
+              value="Physical"
+              [disabled]="!sitePlanPresent"
               >Physical</mat-button-toggle
             >
           </mat-button-toggle-group>
@@ -390,7 +393,6 @@
       </div>
     </div>
     <div *ngIf="viewType === 'Physical'" class="small-cells__physical-view">
-      <!-- <svg></svg> -->
       <img
         class="small-cells__physical-view__image"
         [src]="
@@ -484,5 +486,4 @@
       </ng-container>
     </div>
   </div>
-  <!-- </div> -->
 </div>
