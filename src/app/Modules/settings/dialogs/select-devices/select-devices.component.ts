@@ -6,6 +6,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { InventoryDevice } from 'src/app/models/inventory-device.model';
 import { DeviceSimService } from 'src/app/services/device-sim.service';
 
 @Component({
@@ -14,7 +15,7 @@ import { DeviceSimService } from 'src/app/services/device-sim.service';
   styles: [],
 })
 export class SelectDevicesComponent implements OnInit {
-  selectedDevice = [];
+  selectedDevice: InventoryDevice = null;
 
   inventoryDevices = [];
 
@@ -146,7 +147,7 @@ export class SelectDevicesComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  changeSelection(id: number): void {
+  changeSelection(id: string): void {
     this.inventoryDevices.forEach((device) => {
       if (device['serial-number'] === id) {
         this.selectedDevice = device;
@@ -155,7 +156,7 @@ export class SelectDevicesComponent implements OnInit {
   }
 
   selectDeviceFinal(): void {
-    this.deviceService.setDevice(this.selectedDevice);
+    this.deviceService.setDevice([this.selectedDevice]);
     this.dialogRef.close();
   }
 

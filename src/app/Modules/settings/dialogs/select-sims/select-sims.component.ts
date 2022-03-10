@@ -30,31 +30,8 @@ export class SelectSimsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.assignSelectedSite1();
     this.assignSelectedSims();
   }
-
-  // assignSelectedSite1(): void {
-  //   this.deviceService.getSite().subscribe((data) => {
-  //     this.selectedSite = data;
-  //     this.fetchSims();
-  //   });
-  // }
-
-  // fetchSims(): void {
-  //   this.deviceService.getData().subscribe((aetherConfig) => {
-  //     const configArray = [];
-  //     configArray.push(aetherConfig);
-  //     configArray.map((item) => {
-  //       const sitesConfig = item.sites;
-  //       sitesConfig.map((site) => {
-  //         if (site['display-name'] === this.selectedSite) {
-  //           this.sims.push(site.sims);
-  //         }
-  //       });
-  //     });
-  //   });
-  // }
 
   onNoClick(): void {
     this.dialogRef.close();
