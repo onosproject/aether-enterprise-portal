@@ -241,6 +241,7 @@ export class DeviceGroupsComponent implements OnInit {
         selected: 1,
       };
       this.selectedDevices.push(selectedDeviceInfo);
+      console.log(this.selectedDevices);
     } else {
       this.deviceInventory[deviceIndex].selected = 0;
       for (let i = 0; i < this.selectedDevices.length; i++) {
@@ -267,6 +268,7 @@ export class DeviceGroupsComponent implements OnInit {
       summaryIpDomain: this.firstFormGroup.value.newIpDomain,
       summaryDescription: this.firstFormGroup.value.newDescription,
     });
+    console.log(this.summaryArray);
   }
 
   emptySummaryArray(): void {
@@ -385,7 +387,9 @@ export class DeviceGroupsComponent implements OnInit {
         });
 
         this.siteDevices = sitesDevices;
+        console.log(this.siteDevices);
         this.siteDeviceGroups = sitesDevicesGroups;
+        console.log(this.siteDeviceGroups);
         this.dataConvert();
       });
     });
@@ -418,6 +422,7 @@ export class DeviceGroupsComponent implements OnInit {
                 };
                 remainingDevices.push({ deviceInfo });
                 this.remainingDevices = remainingDevices;
+                console.log(this.remainingDevices);
               }
             });
           });
@@ -499,6 +504,7 @@ export class DeviceGroupsComponent implements OnInit {
         selected: 1,
       };
       this.selectedAddDevices.push(selectedAddDeviceInfo);
+      console.log(this.selectedAddDevices);
     } else {
       this.deviceInventory[deviceIndex].selected = 0;
       for (let i = 0; i < this.deviceInventory.length; i++) {
