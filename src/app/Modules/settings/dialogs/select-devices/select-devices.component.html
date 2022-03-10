@@ -18,16 +18,16 @@
       <div class="select-device-container d-flex">
         <div
           class="select-device-container-spacings"
-          *ngFor="let device of devices"
+          *ngFor="let device of inventoryDevices"
         >
           <div
             class="select-device-container-deviceHolder"
-            (click)="changeSelection(device.id)"
+            (click)="changeSelection(device['serial-number'])"
           >
             <div class="mx-1 d-flex">
               <img
                 [src]="
-                  selectedDevice === device.id
+                  selectedDevice['serial-number'] === device['serial-number']
                     ? 'assets/deviceSim/selected-card.svg'
                     : 'assets/deviceSim/select.svg'
                 "
@@ -36,8 +36,8 @@
                 class="mx-2"
                 src="../../../assets/deviceSim/ccCam-deviceDialog.svg"
               />
-              <span class="mx-1">{{ device.deviceName }}</span>
-              <span class="mx-1">{{ device.locationName }}</span>
+              <span class="mx-1">{{ device["display-name"] }}</span>
+              <span class="mx-1">{{ device.location }}</span>
             </div>
           </div>
         </div>

@@ -106,7 +106,6 @@
                             class="form-control form-field-big"
                             type="text"
                             formControlName="newSim"
-                            value="{{ selectedSim }}"
                             name="newSim"
                             id="newSim"
                             placeholder="Enter or Scan the SIM number"
@@ -319,6 +318,7 @@
               my-1
               device-sims-detail-card
             "
+            *ngIf="device.sim"
           >
             <div class="ng-tns-c119-0 vector">
               <div class="vector-bg">
@@ -328,23 +328,37 @@
                 />
               </div>
             </div>
-            <div class="mx-3 device-details-blocks device-name ng-tns-c119-0">
+            <div
+              class="mx-3 col-1 device-details-blocks device-name ng-tns-c119-0"
+            >
               <div class="title">Device Name</div>
               <div class="desc">{{ device["display-name"] }}</div>
             </div>
             <div
-              class="mx-3 device-details-blocks device-location ng-tns-c119-0"
+              class="
+                mx-3
+                col-1
+                device-details-blocks device-location
+                ng-tns-c119-0
+              "
             >
               <div class="title">Device Location</div>
               <div class="desc">{{ device.location }}</div>
             </div>
             <div
-              class="mx-3 device-details-blocks device-serial-no ng-tns-c119-0"
+              class="
+                mx-3
+                col-1
+                device-details-blocks device-serial-no
+                ng-tns-c119-0
+              "
             >
               <div class="title">Device Serial No.</div>
               <div class="desc">{{ device["serial-number"] }}</div>
             </div>
-            <div class="mx-3 device-details-blocks device-type ng-tns-c119-0">
+            <div
+              class="mx-3 col-1 device-details-blocks device-type ng-tns-c119-0"
+            >
               <div class="title">Device Type</div>
               <div class="desc">{{ device.type }}</div>
             </div>
@@ -357,9 +371,7 @@
                 bg-light
               "
               [ngClass]="
-                deviceSimsDetailItemDetailsPopUp === true
-                  ? 'v-hidden'
-                  : 'v-show'
+                deviceDetails.indexOf(deviceIndex) >= 0 ? 'v-hidden' : 'v-show'
               "
             >
               <div
@@ -845,7 +857,7 @@
                       </div>
 
                       <div
-                        id="1D"
+                        id="dayHr"
                         class="
                           progress
                           col
@@ -858,6 +870,14 @@
                             class="dayChart"
                             id="device_timeline{{ deviceIndex }}"
                           ></div>
+                          <div>
+                            <!-- <span id="tooltip_display"></span>
+                            <br />
+                            <span id="tooltip_display1"></span> -->
+                            <br />
+                            <span id="tooltip_display2"></span>
+                            <br />
+                          </div>
                         </div>
                       </div>
                       <div
@@ -878,6 +898,14 @@
                             class="dayChart"
                             id="device_timeline{{ deviceIndex }}"
                           ></div>
+                          <div>
+                            <!-- <span id="tooltip_display"></span>
+                            <br />
+                            <span id="tooltip_display1"></span> -->
+                            <br />
+                            <span id="tooltip_display2"></span>
+                            <br />
+                          </div>
                         </div>
                       </div>
                       <div
@@ -896,6 +924,14 @@
                             class="dayChart"
                             id="device_timeline{{ deviceIndex }}"
                           ></div>
+                          <div>
+                            <!-- <span id="tooltip_display"></span>
+                            <br />
+                            <span id="tooltip_display1"></span> -->
+                            <br />
+                            <span id="tooltip_display2"></span>
+                            <br />
+                          </div>
                         </div>
                       </div>
                       <div
@@ -914,42 +950,14 @@
                             class="dayChart"
                             id="device_timeline{{ deviceIndex }}"
                           ></div>
-                        </div>
-                      </div>
-                      <div
-                        id="1W"
-                        class="
-                          progress
-                          col
-                          device-details-blocks device-progress-bar
-                        "
-                        *ngIf="
-                          deviceSimsDetailsProgressToggleWeek && zoomIn === 2
-                        "
-                      >
-                        <div>
-                          <div
-                            class="dayChart"
-                            id="device_timeline{{ deviceIndex }}"
-                          ></div>
-                        </div>
-                      </div>
-                      <div
-                        id="1W"
-                        class="
-                          progress
-                          col
-                          device-details-blocks device-progress-bar
-                        "
-                        *ngIf="
-                          deviceSimsDetailsProgressToggleWeek && zoomIn === 2
-                        "
-                      >
-                        <div>
-                          <div
-                            class="dayChart"
-                            id="device_timeline{{ deviceIndex }}"
-                          ></div>
+                          <div>
+                            <!-- <span id="tooltip_display"></span>
+                            <br />
+                            <span id="tooltip_display1"></span> -->
+                            <br />
+                            <span id="tooltip_display2"></span>
+                            <br />
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -48,8 +48,6 @@ export class SelectSimsComponent implements OnInit {
       configArray.map((item) => {
         const sitesConfig = item.sites;
         sitesConfig.map((site) => {
-          //console.log(site['display-name']);
-          /* istanbul ignore else */
           if (site['display-name'] === this.selectedSite) {
             this.sims.push(site.sims);
           }

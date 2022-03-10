@@ -15,6 +15,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { DeviceGroupsHelperService } from './device-groups-helper.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 
+// * model imports
 import { SelectedDevice as selectedDeviceModel } from 'src/app/models/selected-device.model';
 import { InventoryDevice as inventoryDevice } from 'src/app/models/inventory-device.model';
 import { DeviceGroupSummary as deviceGroupSummary } from 'src/app/models/device-group-summary.model';
@@ -195,6 +196,7 @@ export class DeviceGroupsComponent implements OnInit {
     this.openContent = true;
   }
 
+  // forms
   firstFormGroup = new FormGroup({});
 
   secondFormGroup = new FormGroup({});

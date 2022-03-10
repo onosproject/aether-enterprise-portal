@@ -41,16 +41,7 @@
               <div class="card-category">
                 <p class="">
                   {{ site.devices.length }} Devices
-                  <span *ngIf="site.unprovisionedDevices.length > 1"
-                    >{{ site.unprovisionedDevices.length }} Devices</span
-                  >
-                  <span
-                    *ngIf="
-                      site.unprovisionedDevices.length > 0 &&
-                      site.unprovisionedDevices.length < 2
-                    "
-                    >{{ site.unprovisionedDevices.length }} Device</span
-                  >
+                  <span>10 Unprovisioned</span>
                 </p>
               </div>
             </div>

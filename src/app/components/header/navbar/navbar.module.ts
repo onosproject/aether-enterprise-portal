@@ -5,6 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar.component';
 import { MaterialModule } from 'src/app/Modules/material/material.module';
 import { RouterModule } from '@angular/router';
@@ -12,7 +13,7 @@ import { MenuDirective } from './menu.directive';
 
 @NgModule({
   declarations: [NavbarComponent, MenuDirective],
-  imports: [MaterialModule, RouterModule],
+  imports: [CommonModule, MaterialModule, RouterModule],
   exports: [NavbarComponent],
 })
 export class NavbarModule {}

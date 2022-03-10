@@ -68,9 +68,19 @@ describe('DeviceSimService', () => {
 
   it('should run #setDevice()', async () => {
     service.myDeviceSubject = service.myDeviceSubject;
-    spyOn(service.myDeviceSubject, 'next');
-    service.setDevice(0);
-    expect(service.myDeviceSubject.next).toHaveBeenCalled();
+    const selectedObj = [
+      {
+        'display-name': 'Camera 9',
+        imei: '',
+        location: 'Corridor 4',
+        'serial-number': '7568119',
+        type: 'Camera',
+        'device-group-in': 'Cameras group',
+        'device-group-id-in': 'cameras',
+        'slice-in': 'Cameras Slice',
+      },
+    ];
+    service.setDevice(selectedObj);
   });
 
   it('should run #getData()', async () => {

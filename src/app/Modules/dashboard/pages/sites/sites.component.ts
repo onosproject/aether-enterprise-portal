@@ -20,7 +20,6 @@ import { Device } from 'src/app/models/device.model';
 })
 export class SitesComponent {
   sites;
-
   selected: string = 'freemont';
   sitesResponse;
   baseUrl: string = environment.baseUrl.slice(0, -1);
