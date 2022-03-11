@@ -88,7 +88,6 @@ export class AdminComponent implements OnInit {
     this.assignCitiesUsers();
     this.setUpCities();
     this.setUpEditedCities();
-    //console.log(this.doneActive);
   }
 
   task: Task = {
@@ -175,7 +174,6 @@ export class AdminComponent implements OnInit {
     reader.onload = () => {
       this.fileUrl = reader.result;
       this.userForm.patchValue({ profilePic: reader.result });
-      // console.log(this.fileUrl);
       this.imageLoaded = true;
     };
     reader.readAsDataURL(file);
@@ -228,10 +226,8 @@ export class AdminComponent implements OnInit {
         securityAlert: new FormControl(this.users[index].securityAlert),
         cities: cities,
       });
-      console.log(this.users[index]);
       const editControls = this.users[index].form.controls;
       this.editControls = editControls;
-      // console.log(this.users[index].form);
       this.editUsers.push(id);
     }
   }
@@ -323,9 +319,7 @@ export class AdminComponent implements OnInit {
         centralAlert: this.userForm.value.centralAlert,
         securityAlert: this.userForm.value.securityAlert,
       });
-      console.log(this.userForm);
       for (let i = 0; i < this.cities.length; i++) {
-        // console.log('forloop');
         if (this.userForm.value.cities[i] > 0) {
           this.cities[i].users.push({
             userId: id,
@@ -347,8 +341,6 @@ export class AdminComponent implements OnInit {
     for (let i = 0; i < this.cities.length; i++) {
       cities.push(new FormControl(0));
     }
-    console.log(this.cities);
-    console.log(this.users);
   }
   onEdit(index: number): void {
     const id = this.users[index].id;
@@ -461,8 +453,6 @@ export class AdminComponent implements OnInit {
       panelClass: 'audit-user-modal-container',
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      // console.log(`Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed().subscribe(() => {});
   }
 }

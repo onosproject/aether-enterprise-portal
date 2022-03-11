@@ -25,7 +25,6 @@ export class DeviceGroupsHelperService {
   //     siteID = sitesConfig['site-id'];
   //     if (this.selectedSite === siteID) {
   //       // sitesConfig['device-groups'].push(connectedDevice);
-  //       // console.log(sitesConfig.devices)
   //     }
   //   });
   // }

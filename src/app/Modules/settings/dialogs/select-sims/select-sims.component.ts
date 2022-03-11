@@ -49,7 +49,6 @@ export class SelectSimsComponent implements OnInit {
   assignSelectedSims(): void {
     this.deviceService.getSims().subscribe((data) => {
       this.inventorySims = data;
-      console.log(this.inventorySims);
     });
   }
 }

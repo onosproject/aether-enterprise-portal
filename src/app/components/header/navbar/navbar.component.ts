@@ -108,11 +108,8 @@ export class NavbarComponent implements OnInit {
     const unprovisionedArr = [];
     this.data.sites.forEach((site) => {
       devicesArr.push(...site.devices);
-      // console.log(devicesArr);
       slicesArr.push(...site.slices);
-      // console.log(slicesArr);
       smallCellsArr.push(...site['small-cells']);
-      // console.log(smallCellsArr);
     });
     devicesArr.forEach((device) => {
       if (!device.sim) {
@@ -123,7 +120,5 @@ export class NavbarComponent implements OnInit {
     this.Slices = slicesArr.length;
     this.SmallCells = smallCellsArr.length;
     this.unprovisionedDevices = unprovisionedArr.length;
-    // console.log(this.services);
-    // console.log(response);
   }
 }

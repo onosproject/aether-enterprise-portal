@@ -243,7 +243,6 @@ export class DeviceGroupsComponent implements OnInit {
         selected: 1,
       };
       this.selectedDevices.push(selectedDeviceInfo);
-      console.log(this.selectedDevices);
     } else {
       this.deviceInventory[deviceIndex].selected = 0;
       for (let i = 0; i < this.selectedDevices.length; i++) {
@@ -464,7 +463,6 @@ export class DeviceGroupsComponent implements OnInit {
       });
       this.editDeviceGroup.push(index);
       this.deviceGroupEditForm = this.siteDeviceGroups[0][index].form;
-      console.log(this.siteDeviceGroups[0][index]);
     }
   }
 
@@ -501,13 +499,11 @@ export class DeviceGroupsComponent implements OnInit {
         selected: 1,
       };
       this.selectedAddDevices.push(selectedAddDeviceInfo);
-      console.log(selectedAddDeviceInfo, this.selectedAddDevices);
     } else {
       this.deviceInventory[deviceIndex].selected = 0;
       for (let i = 0; i < this.selectedAddDevices.length; i++) {
         if (this.selectedAddDevices[i]['serial-number'] == serialNumber) {
           this.selectedAddDevices.splice(i, 1);
-          console.log(this.selectedAddDevices);
         }
       }
     }

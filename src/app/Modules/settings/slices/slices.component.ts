@@ -192,7 +192,6 @@ export class SlicesComponent implements OnInit {
 
   summaryTrigger(): void {
     this.summaryBool = true;
-    console.log(this.summaryArray);
     this.summaryArray.push({
       summarySliceName: this.firstFormGroup.value.sliceName,
       summarySliceType: this.firstFormGroup.value.sliceType,
@@ -202,7 +201,6 @@ export class SlicesComponent implements OnInit {
       summarymbr: this.firstFormGroup.value.mbr,
       summarygbr: this.firstFormGroup.value.gbr,
     });
-    console.log(this.summaryArray);
     this.summaryArray[0].form = new FormGroup({
       sliceName: new FormControl(this.summaryArray[0].summarySliceName, [
         Validators.required,
@@ -252,7 +250,6 @@ export class SlicesComponent implements OnInit {
         'display-name': name,
         selected: 1,
       };
-      console.log(selectedDeviceGroupInfo);
       this.selectedDeviceGroups.push(selectedDeviceGroupInfo);
     } else {
       this.deviceGroupsInventory[deviceGroupIndex].selected = 0;
