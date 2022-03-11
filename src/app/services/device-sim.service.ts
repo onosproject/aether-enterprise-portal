@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { SimInventory } from '../models/sim-inventory.model';
 import { InventoryDevice } from '../models/inventory-device.model';
 // import { TimelineData } from '../models/timeline.model';
@@ -33,7 +33,7 @@ export class DeviceSimService {
   public mySimsSubject = new BehaviorSubject<SimInventory[]>([]);
 
   mySim1: Observable<string>;
-  public mySimSubject = new Subject<string>();
+  public mySimSubject = new BehaviorSubject<string>('');
 
   myDevice: Observable<InventoryDevice[]>;
   public myDeviceSubject = new BehaviorSubject<InventoryDevice[]>([]);

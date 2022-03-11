@@ -13,7 +13,6 @@ import { DecomissionComponent } from '../dialogs/decomission/decomission.compone
 import { RecomissionComponent } from '../dialogs/recomission/recomission.component';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'aep-snack-bar-component-example-snack',
@@ -173,11 +172,10 @@ export class SmallCellComponent implements OnInit {
   /* Static Data end */
 
   constructor(
-    public router: Router,
     public deviceService: DeviceSimService,
     public siteService: SitesService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    public snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -199,24 +197,22 @@ export class SmallCellComponent implements OnInit {
   }
 
   checkSitePlans(): void {
-    if (this.router.url === '/small-cells') {
-      this.config?.sites.forEach((site) => {
-        if (this.selectedSite === site['site-id']) {
-          if (site['site-plans']) {
-            this.sitePlanPresent = true;
-            this.sitePlanPresentIndex = this.config?.sites.indexOf(site);
+    this.config?.sites.forEach((site) => {
+      if (this.selectedSite === site['site-id']) {
+        if (site['site-plans']) {
+          this.sitePlanPresent = true;
+          this.sitePlanPresentIndex = this.config?.sites.indexOf(site);
+        } else {
+          if (this.viewType === 'List') {
+            this.sitePlanPresent = false;
           } else {
-            if (this.viewType === 'List') {
-              this.sitePlanPresent = false;
-            } else {
-              this.viewType = 'List';
-              this.sitePlanPresent = false;
-              this.showSnackBar();
-            }
+            this.viewType = 'List';
+            this.sitePlanPresent = false;
+            this.showSnackBar();
           }
         }
-      });
-    }
+      }
+    });
   }
 
   showSnackBar(): void {

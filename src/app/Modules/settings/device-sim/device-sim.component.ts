@@ -438,9 +438,9 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
       console.log(data);
       this.deviceSimForm.patchValue(
         {
-          deviceName: data['display-name'],
-          deviceLocation: data['location'],
-          deviceSerialNum: data['serial-number'],
+          deviceName: data.length > 0 ? data[0]['display-name'] : '',
+          deviceLocation: data.length > 0 ? data[0]['location'] : '',
+          deviceSerialNum: data.length > 0 ? data[0]['serial-number'] : '',
         },
         { emitEvent: false }
       );

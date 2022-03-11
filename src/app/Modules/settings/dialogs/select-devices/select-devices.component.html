@@ -27,6 +27,7 @@
             <div class="mx-1 d-flex">
               <img
                 [src]="
+                  selectedDevice &&
                   selectedDevice['serial-number'] === device['serial-number']
                     ? 'assets/deviceSim/selected-card.svg'
                     : 'assets/deviceSim/select.svg'
