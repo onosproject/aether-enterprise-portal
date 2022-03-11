@@ -453,6 +453,8 @@ export class AdminComponent implements OnInit {
       panelClass: 'audit-user-modal-container',
     });
 
-    dialogRef.afterClosed().subscribe(() => {});
+    dialogRef.afterClosed().subscribe(() => {
+      // console.log(`Dialog result: ${result}`);
+    });
   }
 }
