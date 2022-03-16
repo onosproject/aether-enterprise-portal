@@ -23,13 +23,11 @@ export class DeviceSimHelperService {
   // }
   // addDeviceSim(connectedDevice: ConnectedDevice): void {
   //   this.getCurrentSite();
-  //   // console.log(this.globalService.totalConfig[0], this.selectedSite);
   //   let siteID: string;
   //   this.globalService.totalConfig[0].sites.forEach((sitesConfig) => {
   //     siteID = sitesConfig['site-id'];
   //     if (this.selectedSite === siteID) {
   //       sitesConfig.devices.push(connectedDevice);
-  //       // console.log(sitesConfig.devices)
   //     }
   //   });
   // }
@@ -44,7 +42,6 @@ export class DeviceSimHelperService {
   //       device['display-name'] = form.deviceName;
   //       device.location = form.deviceLocation;
   //       device['serial-number'] = form.deviceSerialNum;
-  //       // * console.log(sitesConfig.devices)
   //     }
   //   });
   // }
@@ -53,11 +50,8 @@ export class DeviceSimHelperService {
   //   let siteID: string;
   //   this.globalService.totalConfig[0].sites.forEach((sitesConfig) => {
   //     siteID = sitesConfig['site-id'];
-  //     // console.log(siteID, this.selectedSite);
   //     if (this.selectedSite === siteID) {
   //       sitesConfig['device-inventory'].push(inventoryDevice);
-  //       // console.log(sitesConfig['device-inventory']);
-  //       // console.log(sitesConfig['device-inventory']);
   //     }
   //   });
   // }
