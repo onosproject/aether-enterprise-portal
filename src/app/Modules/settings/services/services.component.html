@@ -40,15 +40,12 @@
         class="add-new-service-form my-1 forms-block"
         *ngIf="addNewServiceForm"
       >
-        <mat-card-title class="service-form-title pop-over-title my-3"
+        <mat-card-title class="pop-over-title my-3"
           >Add new service</mat-card-title
         >
-        <form
-          class="services-cards-new-service-form-next"
-          [formGroup]="addServiceFormGroup"
-        >
+        <form [formGroup]="addServiceFormGroup">
           <mat-card-content class="form-field-bg py-2">
-            <div class="form-content service-forms-gen mx-2 my-3">
+            <div class="form-content mx-2 my-3">
               <div class="col-12">
                 <div class="col-12 my-2 d-flex flex-wrap">
                   <div class="my-2 mx-3">
@@ -296,27 +293,27 @@
               />
             </div>
           </div>
-          <div class="mx-1 col-2 card-list-item enter-app-name ng-tns-c119-0">
+          <div class="mx-1 card-list-item enter-app-name ng-tns-c119-0">
             <div class="title">Enter APP name</div>
             <div class="desc">{{ siteApp["display-name"] }}</div>
           </div>
-          <div class="mx-1 col-1 card-list-item protocol ng-tns-c119-0">
+          <div class="mx-1 card-list-item protocol ng-tns-c119-0">
             <div class="title">Protocol</div>
             <div class="desc">{{ siteApp.protocol }}</div>
           </div>
-          <div class="mx-1 col-1 card-list-item port-start ng-tns-c119-0">
+          <div class="mx-1 card-list-item port-start ng-tns-c119-0">
             <div class="title">Port Start</div>
             <div class="desc">{{ siteApp.portStart }}</div>
           </div>
-          <div class="mx-1 col-1 card-list-item enter-address ng-tns-c119-0">
+          <div class="mx-1 card-list-item enter-address ng-tns-c119-0">
             <div class="title">Enter Address</div>
             <div class="desc">{{ siteApp.address }}</div>
           </div>
-          <div class="mx-1 col-1 card-list-item port-end ng-tns-c119-0">
+          <div class="mx-1 card-list-item port-end ng-tns-c119-0">
             <div class="title">Port End</div>
             <div class="desc">{{ siteApp.portEnd }}</div>
           </div>
-          <div class="mx-1 col-1 card-list-item device-name ng-tns-c119-0">
+          <div class="mx-1 card-list-item device-name ng-tns-c119-0">
             <div class="title">Device name</div>
             <div class="desc">{{ siteApp.deviceName }}</div>
           </div>
@@ -345,10 +342,7 @@
           class="services-cards-edit-service-form forms-block"
           *ngIf="editService.indexOf(siteAppIndex) >= 0"
         >
-          <form
-            class="services-cards-edit-service-form-next"
-            [formGroup]="editServiceFormGroup"
-          >
+          <form [formGroup]="editServiceFormGroup">
             <mat-card-content class="form-field-bg py-2">
               <div class="form-content mx-2 my-3">
                 <div class="col-12">

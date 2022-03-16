@@ -15,7 +15,6 @@ import { MatStepper } from '@angular/material/stepper';
 import { DeviceGroupsHelperService } from './device-groups-helper.service';
 import { GlobalDataService } from 'src/app/services/global-data.service';
 
-// * model imports
 import { SelectedDevice as selectedDeviceModel } from 'src/app/models/selected-device.model';
 import { InventoryDevice as inventoryDevice } from 'src/app/models/inventory-device.model';
 import { DeviceGroupSummary as deviceGroupSummary } from 'src/app/models/device-group-summary.model';
@@ -23,6 +22,7 @@ import { DeviceGroupSummary as deviceGroupSummary } from 'src/app/models/device-
 @Component({
   selector: 'aep-device-groups',
   templateUrl: './device-groups.component.html',
+
   styleUrls: [],
 })
 export class DeviceGroupsComponent implements OnInit {
@@ -36,7 +36,6 @@ export class DeviceGroupsComponent implements OnInit {
   panelOpenState = false;
   editDeviceGroupForm: boolean = false;
   editAddDeviceGroup: boolean = false;
-  isLinear = false;
 
   selectedSite: string = '';
 
@@ -196,7 +195,6 @@ export class DeviceGroupsComponent implements OnInit {
     this.openContent = true;
   }
 
-  // forms
   firstFormGroup = new FormGroup({});
 
   secondFormGroup = new FormGroup({});
@@ -254,7 +252,6 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   newFormGroup(): void {
-    this.firstFormError = false;
     this.addNewDeviceGroupError = false;
     this.firstFormGroup = new FormGroup({
       newDeviceGroup: new FormControl('', Validators.required),
@@ -270,6 +267,7 @@ export class DeviceGroupsComponent implements OnInit {
       summaryIpDomain: this.firstFormGroup.value.newIpDomain,
       summaryDescription: this.firstFormGroup.value.newDescription,
     });
+    console.log(this.summaryArray);
   }
 
   emptySummaryArray(): void {
@@ -368,6 +366,7 @@ export class DeviceGroupsComponent implements OnInit {
           /* istanbul ignore else */
           if (site['site-id'] === this.selectedSite) {
             sitesDevicesGroups.push(site['device-groups']);
+
             sitesDevicesGroups[0].forEach((deviceGroup) => {
               deviceGroup.ipDomain = '162.153.31.005';
               deviceGroup.description =
@@ -377,6 +376,7 @@ export class DeviceGroupsComponent implements OnInit {
           /* istanbul ignore else */
           if (site['site-id'] === this.selectedSite) {
             sitesDevices.push(site.devices);
+
             sitesDevices.forEach((siteDevice) => {
               siteDevice.forEach((singleDevice) => {
                 singleDevice.selected = 1;
@@ -384,8 +384,11 @@ export class DeviceGroupsComponent implements OnInit {
             });
           }
         });
+
         this.siteDevices = sitesDevices;
+        console.log(this.siteDevices);
         this.siteDeviceGroups = sitesDevicesGroups;
+        console.log(this.siteDeviceGroups);
         this.dataConvert();
       });
     });
@@ -418,6 +421,7 @@ export class DeviceGroupsComponent implements OnInit {
                 };
                 remainingDevices.push({ deviceInfo });
                 this.remainingDevices = remainingDevices;
+                console.log(this.remainingDevices);
               }
             });
           });
@@ -501,7 +505,7 @@ export class DeviceGroupsComponent implements OnInit {
       this.selectedAddDevices.push(selectedAddDeviceInfo);
     } else {
       this.deviceInventory[deviceIndex].selected = 0;
-      for (let i = 0; i < this.selectedAddDevices.length; i++) {
+      for (let i = 0; i < this.deviceInventory.length; i++) {
         if (this.selectedAddDevices[i]['serial-number'] == serialNumber) {
           this.selectedAddDevices.splice(i, 1);
         }
@@ -562,4 +566,6 @@ export class DeviceGroupsComponent implements OnInit {
       this.closeEdit();
     });
   }
+
+  isLinear = false;
 }
