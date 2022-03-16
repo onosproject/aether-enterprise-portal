@@ -7,4 +7,6 @@
 export const environment = {
   production: true,
   baseUrl: '/',
+  configUrl: '/chronos-exporter/config',
+  promUrl: '/prometheus/api/v1',
 };

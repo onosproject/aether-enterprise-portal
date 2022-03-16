@@ -698,7 +698,7 @@ export class DeviceSimComponent implements OnInit, OnDestroy {
     // console.log('meta info', getMeta.content);
     const headers = {
       Accept: 'application/json',
-      Authorization: 'Basic ' + btoa(this.loginCreds),
+      Authorization: `Basic ${this.loginCreds}`,
     };
     const query: string = `/query_range?query=device_connected_status{site="${site}",iccid="${iccid}"}&start=${this.apiPreviousDate}&end=${this.apiCurrentDate}&step=60m`;
 
