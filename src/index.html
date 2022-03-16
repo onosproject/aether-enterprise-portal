@@ -31,6 +31,15 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <!-- onflogin below should be base64 encoded
+         Presently it is used only when accessing the prometheus API for the Device-Sim details
+         When deploying through Helm with chronos-umbrella add:
+         --set aether-enterprise-portal.prometheus.credentials.username=<the user name>
+         --set aether-enterprise-portal.prometheus.credentials.password=<the password>
+
+         When developing locally replace the $ONFLOGIN here with the base64 hash of
+         <the user name>:<the password>
+    -->
     <meta name="onflogin" content="$ONFLOGIN" />
   </head>
   <body class="mat-typography">
