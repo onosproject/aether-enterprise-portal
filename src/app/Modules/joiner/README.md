@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Joiner Component
 
 Joiner component is created to draw lines between `Slices` and `Device Groups`, `Slices` and `Services`, `Small Cells` and `Devices`.
