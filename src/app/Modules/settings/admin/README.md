@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Admin Component
 
 Admin Component is used to handle the users in the Organization. The default view of the Admin panel is as shown below:

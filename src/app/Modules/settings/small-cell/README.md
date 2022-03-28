@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Small Cell Component
 
 - Small Cells is used to access the information of the small cells and the devices connected to the respective small cell.

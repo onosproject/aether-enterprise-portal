@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Device Groups Component
 
 Device Groups Component is used to grouping multiple devices of the organization in a particular site into one.

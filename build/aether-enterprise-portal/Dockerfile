@@ -24,6 +24,7 @@ RUN apk add --update ca-certificates curl bash \
     && chmod +x /usr/local/bin/kubectl \
     && rm /var/cache/apk/*
 
+COPY src/chatbot.html /usr/share/nginx/html
 COPY --from=builder ${CODE}/dist/aether /usr/share/nginx/html
 COPY --from=builder ${CODE}/build/aether-enterprise-portal/startup.sh /usr/local/bin
 COPY --from=builder ${CODE}/build/aether-enterprise-portal/docker-entrypoint.sh /usr/local/bin

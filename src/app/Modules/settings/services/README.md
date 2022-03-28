@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Services Component
 
 Services Component is used to handle the Services(Applications) supported by the Organization. The default view of the Services panel is as shown below:

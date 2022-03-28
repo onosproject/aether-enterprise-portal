@@ -1,0 +1,43 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Aether RASA demo</title>
+  </head>
+  <body>
+    <h1 style="font-family: Arial">Aether Chatbot test page</h1>
+    <p style="font-family: Arial">
+      Please tryout a chat session with the bot in the bottom right corner
+    </p>
+
+    <p style="font-family: Arial">
+      For more information see the
+      <a href="https://github.com/onosproject/chronos-exporter"
+        >Chronos Exporter</a
+      >
+      repo.
+    </p>
+    <p>
+      Note: this is completely separate from the Aether Enterprise Portal for
+      the moment ...
+    </p>
+    <div id="rasa-chat-widget"></div>
+    <script>
+      document
+        .getElementById("rasa-chat-widget")
+        .setAttribute(
+          "data-websocket-url",
+          `${window.location.protocol}//${window.location.host}/rasa/socket.io`
+        );
+    </script>
+    <script
+      src="https://unpkg.com/@rasahq/rasa-chat"
+      type="application/javascript"
+    ></script>
+  </body>
+</html>
