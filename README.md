@@ -12,7 +12,7 @@ This is new/future Aether Enterprise Portal.
 
 ## Licensing
 
-Please add the ONF Member Only license to all files
+Please add the Apache 2 license to all files
 
 For typescript and CSS like:
 
@@ -38,7 +38,7 @@ For html like
 
 This repo uses Jenkins for CI. A new version is published to Docker Hub when the file
 `VERSION` is changed from `<n.n.n>-dev` to just `<n.n.n>`. After publishing
-Jenkins will change the VERSION file to `<n.n.n+1>`.
+Jenkins will change the VERSION file to `<n.n.n+1>-dev`.
 
 ## Other
 

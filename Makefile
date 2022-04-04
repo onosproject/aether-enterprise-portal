@@ -5,6 +5,9 @@
 # set default shell
 SHELL = bash -e -o pipefail
 
+build-tools:=$(shell if [ ! -d "./build/build-tools" ]; then cd build && git clone https://github.com/onosproject/build-tools.git; fi)
+include ./build/build-tools/make/onf-common.mk
+
 # Variables
 VERSION                  ?= $(shell cat ./VERSION)
 
@@ -23,8 +26,6 @@ DOCKER_LABEL_VCS_URL     ?= $(shell git remote get-url $(shell git remote | head
 DOCKER_LABEL_BUILD_DATE  ?= $(shell date -u "+%Y-%m-%dT%H:%M:%SZ")
 DOCKER_LABEL_COMMIT_DATE = $(shell git show -s --format=%cd --date=iso-strict HEAD)
 
-NODE                = docker run --rm --user $$(id -u):$$(id -g) -v ${CURDIR}:/app $(shell test -t 0 && echo "-it") weboaks/node-karma-protractor-chrome:debian-node14
-
 .PHONY: build
 
 ifeq ($(shell git ls-files --others --modified --exclude-standard 2>/dev/null | wc -l | sed -e 's/ //g'),0)
@@ -33,43 +34,24 @@ else
   DOCKER_LABEL_VCS_REF = $(shell git rev-parse HEAD)+dirty
 endif
 
-help:
-	@grep -E '^.*: .* *# *@HELP' $(MAKEFILE_LIST) \
-    | sort \
-    | awk ' \
-        BEGIN {FS = ": .* *# *@HELP"}; \
-        {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}; \
-	'
-
 build: # @HELP build the Web GUI and run all validations (on the host machine)
 build:
 	npm run build:prod
 
-build-tools: # @HELP install the build tools if needed
-	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
-
-coverage: # @HELP generate unit test coverage data
-coverage: deps build license_check test
-
-deps: # @HELP ensure that the required dependencies are in place
+npmdeps: # @HELP ensure that the required dependencies are in place
 	NG_CLI_ANALYTICS=false npm install
 
-lint: deps # @HELP calls "npm run lint" to perform static code analysis
+lint: npmdeps # @HELP calls "npm run lint" to perform static code analysis
 	npm run lint
 
-test: deps lint license_check # @HELP perform a license check on the code and then invokes "npm run test"
+test: npmdeps lint license # @HELP perform a license check on the code and then invokes "npm run test"
 	npm run test
 
-license_check: # @HELP examine and ensure license headers exist
-	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
-	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR} --skipped-dir=coverage --boilerplate SPDX-Apache-2.0
-
 jenkins-test: # @HELP target used in Jenkins to run validation (these tests run in a docker container, only use on VM executors)
-jenkins-test: license_check
-	${NODE} bash -c "cd /app && NG_CLI_ANALYTICS=false npm install --cache /tmp/empty-cache && npm run lint && npm test"
+jenkins-test: test
 
-jenkins-publish: build-tools docker-build docker-push # @HELP target used in Jenkins to publish docker images
-	../build-tools/release-merge-commit
+jenkins-publish: docker-build docker-push # @HELP target used in Jenkins to publish docker images
+	./build/build-tools/release-merge-commit
 
 aether-enterprise-portal-docker: # @HELP build aether-enterprise-portal Docker image
 	docker build . -f build/aether-enterprise-portal/Dockerfile \
@@ -105,7 +87,7 @@ kind: images
 all: images
 
 publish:
-	./../build-tools/publish-version ${VERSION} onosproject/aether-enterprise-portal
+	./build/build-tools/publish-version ${VERSION} onosproject/aether-enterprise-portal
 
-clean: # @HELP remove all the build artifacts
+clean:: # @HELP remove all the build artifacts
 	rm -rf ./dist ./node-modules
